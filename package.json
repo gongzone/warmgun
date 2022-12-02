@@ -6,7 +6,8 @@
     "dev": "concurrently \"next dev\" \"tailwindcss --input ./styles/globals.css --output ./styles/output.css --watch\"",
     "build": "tailwindcss ./styles/globals.css --output ./styles/output.css && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "transform:svg": "npx @svgr/cli --typescript --out-dir components/vectors assets/vectors"
   },
   "dependencies": {
     "@types/node": "18.11.10",
