@@ -1,5 +1,7 @@
 'use client'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import shallow from 'zustand/shallow'
 
 import useMobileNavStore from '../stores/mobile-nav'
 
@@ -18,7 +20,11 @@ const navItems = [
 ]
 
 export default function MobileNav() {
-  const isOpen = useMobileNavStore((state) => state.isOpen)
+  const router = useRouter()
+  const [isOpen, toggleMobileNav] = useMobileNavStore(
+    (state) => [state.isOpen, state.toggleMobileNav],
+    shallow,
+  )
 
   return (
     <div className="relative">
@@ -29,14 +35,22 @@ export default function MobileNav() {
       >
         <ul>
           {navItems.map((item) => (
-            <Link href={item.to} key={item.name}>
-              <li className="px-6 py-8 flex items-center gap-4 border-b border-b-stone-700">
+            <li className="flex items-center gap-4 border-b border-b-stone-700" key={item.name}>
+              <Link
+                className="w-full h-full px-6 py-8 "
+                onClick={(e) => {
+                  e.preventDefault()
+                  toggleMobileNav()
+                  router.push(item.to)
+                }}
+                href={item.to}
+              >
                 <div className="flex flex-col">
                   <span>{item.name}</span>
                   <span className="text-sm text-zinc-400">{item.description}</span>
                 </div>
-              </li>
-            </Link>
+              </Link>
+            </li>
           ))}
         </ul>
       </nav>
