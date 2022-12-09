@@ -7,7 +7,6 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverFooter,
-  Link,
   Text,
   Button,
   Box,
@@ -16,7 +15,7 @@ import shallow from 'zustand/shallow'
 
 import useMobileNavStore from '~/stores/mobile-nav'
 
-import { Link as RemixLink } from '@remix-run/react'
+import Link from '~/components/@custom/Link'
 
 export default function AvartarPopover() {
   const [isMobileNavOpen, toggleMobileNav] = useMobileNavStore(
@@ -61,7 +60,7 @@ export default function AvartarPopover() {
                 </Box>
               </PopoverBody>
               <PopoverFooter display="flex" justifyContent="center" border="0">
-                <Link as={RemixLink} to="/auth">
+                <Link to="/auth">
                   <Button onClick={onClose} colorScheme="teal">
                     로그인 / 회원가입
                   </Button>

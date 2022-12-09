@@ -1,8 +1,10 @@
-import { Box, Link, List, ListItem, ListIcon, Text, Flex } from '@chakra-ui/react'
+import { Box, List, ListItem, ListIcon, Text, Flex } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import { Link as RemixLink } from '@remix-run/react'
 import shallow from 'zustand/shallow'
+
 import useMobileNavStore from '~/stores/mobile-nav'
+
+import Link from '~/components/@custom/Link'
 
 const navItems = [
   { name: '홈으로', description: '', to: '/' },
@@ -49,14 +51,7 @@ export default function MobileNav() {
               borderColor="gray.300"
               key={item.name}
             >
-              <Link
-                as={RemixLink}
-                to={item.to}
-                display="flex"
-                alignItems="center"
-                px="20px"
-                py="28px"
-              >
+              <Link to={item.to} display="flex" alignItems="center" px="20px" py="28px">
                 <ListIcon as={ChevronRightIcon} />
                 <Flex flexDirection="column">
                   <Text fontWeight="bold">{item.name}</Text>

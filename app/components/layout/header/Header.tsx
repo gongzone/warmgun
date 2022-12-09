@@ -1,6 +1,6 @@
 import { Box, Flex, HStack } from '@chakra-ui/react'
-import { Link } from '@remix-run/react'
 
+import Link from '~/components/@custom/Link'
 import MainLogo from '~/components/@svg/MainLogo'
 import MobileNav from './mobile-nav/MobileNav'
 import Hamburger from './hamburger/Hamburger'
@@ -11,7 +11,7 @@ export default function Header() {
     <>
       <Box as="header" h="132px" p="20px">
         <Flex w="full" h="full" justify="space-between" align="center">
-          <Link to="/">
+          <Link to="/" py="16px">
             <MainLogo width={200} />
           </Link>
 
