@@ -2,9 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@babel/core': ^7
-  '@chakra-ui/icons': ^2.0.13
   '@chakra-ui/react': ^2.4.3
-  '@chakra-ui/system': ^2.3.4
   '@emotion/cache': ^11.10.5
   '@emotion/react': ^11
   '@emotion/server': ^11
@@ -23,14 +21,13 @@ specifiers:
   isbot: ^3.6.5
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-icons: ^4.7.1
   typescript: ^4.8.4
   zustand: ^4.1.5
 
 dependencies:
   '@babel/core': 7.20.5
-  '@chakra-ui/icons': 2.0.13_xivvz2l3eyrkvszadds3phcwaq
   '@chakra-ui/react': 2.4.3_uibis2bm44wz3hkzfktj2mle4y
-  '@chakra-ui/system': 2.3.4_dovxhg2tvkkxkdnqyoum6wzcxm
   '@emotion/cache': 11.10.5
   '@emotion/react': 11.10.5_xl5my4wapvq2ctl7qwehtbgorq
   '@emotion/server': 11.10.0
@@ -44,6 +41,7 @@ dependencies:
   isbot: 3.6.5
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-icons: 4.7.1_react@18.2.0
   zustand: 4.1.5_react@18.2.0
 
 devDependencies:
@@ -1601,17 +1599,6 @@ packages:
       react: '>=18'
     dependencies:
       '@chakra-ui/shared-utils': 2.0.3
-      '@chakra-ui/system': 2.3.4_dovxhg2tvkkxkdnqyoum6wzcxm
-      react: 18.2.0
-    dev: false
-
-  /@chakra-ui/icons/2.0.13_xivvz2l3eyrkvszadds3phcwaq:
-    resolution: {integrity: sha512-86X+NXAr2N/whkp8vNt0Qf5udqSPVc3lAe4U4w7SkSa/+PnDggfAM6Sc5HwLp8Er0h/RF97DuwFi9YZ/ZRJCDA==}
-    peerDependencies:
-      '@chakra-ui/system': '>=2.0.0'
-      react: '>=18'
-    dependencies:
-      '@chakra-ui/icon': 3.0.13_xivvz2l3eyrkvszadds3phcwaq
       '@chakra-ui/system': 2.3.4_dovxhg2tvkkxkdnqyoum6wzcxm
       react: 18.2.0
     dev: false
@@ -7766,6 +7753,14 @@ packages:
       react-clientside-effect: 1.2.6_react@18.2.0
       use-callback-ref: 1.3.0_kzbn2opkn2327fwg5yzwzya5o4
       use-sidecar: 1.1.2_kzbn2opkn2327fwg5yzwzya5o4
+    dev: false
+
+  /react-icons/4.7.1_react@18.2.0:
+    resolution: {integrity: sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-is/16.13.1:

@@ -9,9 +9,7 @@
   },
   "dependencies": {
     "@babel/core": "^7",
-    "@chakra-ui/icons": "^2.0.13",
     "@chakra-ui/react": "^2.4.3",
-    "@chakra-ui/system": "^2.3.4",
     "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11",
     "@emotion/server": "^11",
@@ -25,6 +23,7 @@
     "isbot": "^3.6.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "zustand": "^4.1.5"
   },
   "devDependencies": {

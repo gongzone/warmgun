@@ -1,6 +1,6 @@
 import { Box, List, ListItem, ListIcon, Text, Flex } from '@chakra-ui/react'
-import { ChevronRightIcon } from '@chakra-ui/icons'
 import shallow from 'zustand/shallow'
+import { FiChevronRight } from 'react-icons/fi'
 
 import useMobileNavStore from '~/stores/mobile-nav'
 
@@ -52,7 +52,7 @@ export default function MobileNav() {
               key={item.name}
             >
               <Link to={item.to} display="flex" alignItems="center" px="20px" py="28px">
-                <ListIcon as={ChevronRightIcon} />
+                <ListIcon boxSize="14px" as={FiChevronRight} />
                 <Flex flexDirection="column">
                   <Text fontWeight="bold">{item.name}</Text>
                   {item.description && (
