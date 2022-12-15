@@ -1,13 +1,29 @@
 import NotoSansKR from '@fontsource/noto-sans-kr/index.css'
-import Kenia from '@fontsource/kenia/index.css'
+import FredokaOne from '@fontsource/fredoka-one/index.css'
 
 import React, { useContext, useEffect } from 'react'
 import { withEmotionCache } from '@emotion/react'
 import { extendTheme, ChakraProvider, defineStyleConfig } from '@chakra-ui/react'
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
-import type { MetaFunction, LinksFunction } from '@remix-run/node'
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+} from '@remix-run/react'
+import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node'
 
 import { ServerStyleContext, ClientStyleContext } from './context'
+import { setClientCookie } from './libs/client'
+import { getMe, type GetMeResult } from './libs/api/user'
+
+const styles = {
+  global: {
+    'html, body': {},
+  },
+}
 
 const fonts = {
   body: `'Noto Sans KR', sans-serif`,
@@ -45,6 +61,7 @@ const Link = defineStyleConfig({
 })
 
 const theme = extendTheme({
+  styles,
   fonts,
   colors,
   components: {
@@ -54,6 +71,8 @@ const theme = extendTheme({
 })
 
 export default function App() {
+  const data = useLoaderData<GetMeResult | null>()
+
   return (
     <Document>
       <ChakraProvider theme={theme} resetCSS={true}>
@@ -61,6 +80,21 @@ export default function App() {
       </ChakraProvider>
     </Document>
   )
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const cookie = request.headers.get('Cookie')
+
+  if (!cookie) return null
+
+  setClientCookie(cookie)
+
+  try {
+    const me = await getMe()
+    return me
+  } catch (err) {
+    return null
+  }
 }
 
 export const meta: MetaFunction = () => ({
@@ -79,7 +113,7 @@ export let links: LinksFunction = () => {
     },
     {
       rel: 'stylesheet',
-      href: Kenia,
+      href: FredokaOne,
     },
     {
       rel: 'stylesheet',

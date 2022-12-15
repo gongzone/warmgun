@@ -50,19 +50,20 @@ export default function AvartarPopover() {
                 border="0"
               >
                 <Avatar size="lg" />
-                <Box textAlign="center">
-                  <Text fontFamily="Kenia" fontSize="2xl">
-                    Hello DevWarrior!
-                  </Text>
-                  <Text fontFamily="Kenia" fontSize="2xl">
-                    Join us?
-                  </Text>
+                <Box textAlign="center" fontFamily="Fredoka One" fontSize="2xl">
+                  <Text>Hello DevWarrior!</Text>
+                  <Text>Join us?</Text>
                 </Box>
               </PopoverBody>
-              <PopoverFooter display="flex" justifyContent="center" border="0">
-                <Link to="/auth">
-                  <Button onClick={onClose} colorScheme="teal">
-                    로그인 / 회원가입
+              <PopoverFooter display="flex" justifyContent="center" gap="12px" border="0">
+                <Link to="/login">
+                  <Button variant="outline" onClick={onClose} colorScheme="teal">
+                    로그인
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button variant="outline" onClick={onClose} colorScheme="facebook">
+                    회원가입
                   </Button>
                 </Link>
               </PopoverFooter>

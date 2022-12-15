@@ -4,6 +4,7 @@ import {
   InputLeftElement,
   InputRightElement,
   type InputProps,
+  forwardRef,
 } from '@chakra-ui/react'
 
 interface FormInputProps extends InputProps {
@@ -11,15 +12,15 @@ interface FormInputProps extends InputProps {
   rightElement?: React.ReactNode
 }
 
-export default function FormInput(props: FormInputProps) {
+const FormInput = forwardRef<FormInputProps, 'input'>((props, ref) => {
   const {
     leftElement = '',
     rightElement = '',
     size = 'lg',
     border = '2px',
     borderColor = 'gray.500',
-    _hover = { borderColor: 'none' },
     focusBorderColor = 'gray.600',
+    _hover = { borderColor: 'none' },
     ...rest
   } = props
 
@@ -29,11 +30,43 @@ export default function FormInput(props: FormInputProps) {
       <Input
         border={border}
         borderColor={borderColor}
-        _hover={_hover}
         focusBorderColor={focusBorderColor}
+        _hover={_hover}
+        _placeholder={{ fontSize: 'sm' }}
+        ref={ref}
         {...rest}
       />
-      <InputRightElement children={rightElement} />
+      {rightElement && <InputRightElement children={rightElement} />}
     </InputGroup>
   )
-}
+})
+
+export default FormInput
+
+// export default function FormInput(props: FormInputProps) {
+//   const {
+//     leftElement = '',
+//     rightElement = '',
+//     size = 'lg',
+//     border = '2px',
+//     borderColor = 'gray.500',
+//     focusBorderColor = 'gray.600',
+//     _hover = { borderColor: 'none' },
+//     ...rest
+//   } = props
+
+//   return (
+//     <InputGroup size={size}>
+//       <InputLeftElement pointerEvents="none" children={leftElement} />
+//       <Input
+//         border={border}
+//         borderColor={borderColor}
+//         focusBorderColor={focusBorderColor}
+//         _hover={_hover}
+//         _placeholder={{ fontSize: 'sm' }}
+//         {...rest}
+//       />
+//       {rightElement && <InputRightElement children={rightElement} />}
+//     </InputGroup>
+//   )
+// }

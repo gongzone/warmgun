@@ -27,6 +27,9 @@ export default function FormButton(props: FormButtonProps) {
       _hover={{
         bg: '',
       }}
+      _active={{
+        bg: '',
+      }}
       borderRadius="full"
       size="lg"
       fontSize="md"
