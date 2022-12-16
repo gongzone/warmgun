@@ -3,6 +3,7 @@ import AuthHeader from '~/components/layout/header/AuthHeader'
 import LoginForm from '~/components/auth/login-form/LoginForm'
 import { type ActionFunction, json } from '@remix-run/node'
 import { login } from '~/libs/api/auth'
+import { extractError } from '~/libs/error'
 
 export default function LoginPage() {
   return (
@@ -21,9 +22,18 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (typeof username !== 'string' || typeof password !== 'string') return
 
-  const { result, headers } = await login({ username, password })
+  try {
+    const { result, headers } = await login({ username, password })
 
-  return json(result, {
-    headers,
-  })
+    return json(
+      { data: result },
+      {
+        headers,
+      },
+    )
+  } catch (err) {
+    const error = extractError(err)
+
+    return json({ error }, { status: error.statusCode })
+  }
 }

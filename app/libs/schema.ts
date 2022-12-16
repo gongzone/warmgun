@@ -7,7 +7,7 @@ export const signupSchema = z.object({
   password: z
     .string()
     .regex(
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/,
+      /^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{8,20}$/,
       '비밀번호 생성 규칙에 따라 작성해주세요.',
     ),
   confirmPassword: z.string().trim().min(1, '비밀번호 확인은 필수 값 입니다.'),
