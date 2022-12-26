@@ -3,98 +3,39 @@ import FredokaOne from '@fontsource/fredoka-one/index.css'
 
 import React, { useContext, useEffect } from 'react'
 import { withEmotionCache } from '@emotion/react'
-import { extendTheme, ChakraProvider, defineStyleConfig } from '@chakra-ui/react'
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useLoaderData,
-} from '@remix-run/react'
-import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node'
+import { ChakraProvider } from '@chakra-ui/react'
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+import { type MetaFunction, type LinksFunction, type LoaderFunction } from '@remix-run/node'
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useDehydratedState } from 'use-dehydrated-state'
 
 import { ServerStyleContext, ClientStyleContext } from './context'
-import { setClientCookie } from './libs/client'
-import { getMe, type GetMeResult } from './libs/api/user'
-
-const styles = {
-  global: {
-    'html, body': {},
-  },
-}
-
-const fonts = {
-  body: `'Noto Sans KR', sans-serif`,
-}
-
-const colors = {
-  gray: {
-    100: '#F5f5f5',
-    200: '#EEEEEE',
-    300: '#E0E0E0',
-    400: '#BDBDBD',
-    500: '#9E9E9E',
-    600: '#757575',
-    700: '#616161',
-    800: '#424242',
-    900: '#212121',
-  },
-}
-
-const Button = defineStyleConfig({
-  variants: {
-    link: {
-      ':focus': {
-        outline: 'none',
-        boxShadow: 'none',
-      },
-    },
-  },
-})
-
-const Link = defineStyleConfig({
-  baseStyle: {
-    '&:hover': { textDecoration: 'none' },
-  },
-})
-
-const theme = extendTheme({
-  styles,
-  fonts,
-  colors,
-  components: {
-    Button,
-    Link,
-  },
-})
+import theme from './libs/theme'
+import { refreshAuth } from './libs/session'
 
 export default function App() {
-  const data = useLoaderData<GetMeResult | null>()
+  const [queryClient] = React.useState(() => new QueryClient())
+  const dehydratedState = useDehydratedState()
 
   return (
     <Document>
-      <ChakraProvider theme={theme} resetCSS={true}>
-        <Outlet />
-      </ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={dehydratedState}>
+          <ChakraProvider theme={theme} resetCSS={true}>
+            <Outlet />
+          </ChakraProvider>
+        </Hydrate>
+      </QueryClientProvider>
     </Document>
   )
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const cookie = request.headers.get('Cookie')
+  console.log('root loader 작동')
 
-  if (!cookie) return null
+  await refreshAuth(request, { requiredAuth: false })
 
-  setClientCookie(cookie)
-
-  try {
-    const me = await getMe()
-    return me
-  } catch (err) {
-    return null
-  }
+  return null
 }
 
 export const meta: MetaFunction = () => ({

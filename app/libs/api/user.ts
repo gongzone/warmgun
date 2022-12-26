@@ -1,11 +1,13 @@
 import { client } from '../client'
 
-export async function getMe() {
-  const response = await client.get<GetMeResult>('http://localhost:4000/api/users/me')
+export async function getMe({ accessToken }: { accessToken: string }) {
+  const response = await client.get<GetMeResult>('http://localhost:4000/api/users/me', {
+    headers: {
+      Cookie: accessToken,
+    },
+  })
 
-  const result = response.data
-
-  return result
+  return response.data
 }
 
 export interface GetMeResult {

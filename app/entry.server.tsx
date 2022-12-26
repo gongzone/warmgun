@@ -2,7 +2,7 @@ import { renderToString } from 'react-dom/server'
 import { CacheProvider } from '@emotion/react'
 import createEmotionServer from '@emotion/server/create-instance'
 import { RemixServer } from '@remix-run/react'
-import type { EntryContext } from '@remix-run/node' // Depends on the runtime you choose
+import type { EntryContext, HandleDataRequestFunction } from '@remix-run/node' // Depends on the runtime you choose
 
 import { ServerStyleContext } from './context'
 import createEmotionCache from './createEmotionCache'
@@ -40,4 +40,12 @@ export default function handleRequest(
     status: responseStatusCode,
     headers: responseHeaders,
   })
+}
+
+export const handleDataRequest: HandleDataRequestFunction = async (
+  response: Response,
+  // same args that get passed to the action or loader that was called
+  { request, params, context },
+) => {
+  return response
 }

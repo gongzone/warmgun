@@ -1,39 +1,21 @@
 import { client } from '../client'
-import { Headers } from '@remix-run/node'
 
 export async function signup(params: SignupBody) {
-  const response = await client.post<AuthResult>('http://localhost:4000/api/auth/signup', params)
+  const response = await client.post<AuthResult>('/api/auth/signup', params)
 
-  const result = response.data
-  const cookieHeader = response.headers['set-cookie']
-
-  const headers = createCookieHeaders(cookieHeader)
-
-  return { result, headers }
+  return response.data
 }
 
 export async function login(params: LoginBody) {
-  const response = await client.post<AuthResult>('http://localhost:4000/api/auth/login', params)
+  const response = await client.post<AuthResult>('/api/auth/login', params)
 
-  const result = response.data
-  const cookieHeader = response.headers['set-cookie']
-
-  const headers = createCookieHeaders(cookieHeader)
-
-  return { result, headers }
+  return response.data
 }
 
-function createCookieHeaders(setCookieHeader: string[] | undefined) {
-  if (!setCookieHeader || setCookieHeader?.length === 0) {
-    throw new Error('No cookie header')
-  }
+export async function refresh(params: RefreshBody) {
+  const response = await client.post<RefreshResult>('/api/auth/refresh', params ?? {})
 
-  const headers = new Headers()
-  setCookieHeader.forEach((cookie) => {
-    headers.append('Set-Cookie', cookie)
-  })
-
-  return headers
+  return response.data
 }
 
 export interface SignupBody {
@@ -53,9 +35,26 @@ export interface AuthResult {
     accessToken: string
     refreshToken: string
   }
+  expiredDate: string
   user: {
     id: number
     username: string
     email: string
   }
+}
+
+interface RefreshBody {
+  refreshToken?: string
+}
+
+export interface RefreshResult {
+  accessToken: string
+  refreshToken: string
+  expiredDate: string
+}
+
+export interface GetMeResult {
+  id: number
+  username: string
+  email: string
 }

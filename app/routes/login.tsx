@@ -1,9 +1,10 @@
 import MainLayout from '~/components/layout/MainLayout'
 import AuthHeader from '~/components/layout/header/AuthHeader'
 import LoginForm from '~/components/auth/login-form/LoginForm'
-import { type ActionFunction, json } from '@remix-run/node'
+import { type ActionFunction, json, type LoaderFunction } from '@remix-run/node'
 import { login } from '~/libs/api/auth'
 import { extractError } from '~/libs/error'
+import { createAuthSession, isAlreadyLogin } from '~/libs/session'
 
 export default function LoginPage() {
   return (
@@ -13,24 +14,28 @@ export default function LoginPage() {
   )
 }
 
+export const loader: LoaderFunction = async ({ request }) => {
+  console.log('login loader 작동')
+
+  return isAlreadyLogin(request, '/')
+}
+
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const username = formData.get('username')
   const password = formData.get('password')
 
-  console.log(username, password)
-
   if (typeof username !== 'string' || typeof password !== 'string') return
 
   try {
-    const { result, headers } = await login({ username, password })
+    const { user, expiredDate, tokens } = await login({ username, password })
 
-    return json(
-      { data: result },
-      {
-        headers,
-      },
-    )
+    return createAuthSession({
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      expiredDate,
+      redirectTo: '/',
+    })
   } catch (err) {
     const error = extractError(err)
 

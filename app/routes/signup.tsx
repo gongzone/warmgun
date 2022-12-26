@@ -1,4 +1,4 @@
-import { json, type ActionFunction } from '@remix-run/node'
+import { json, LoaderFunction, type ActionFunction } from '@remix-run/node'
 
 import { signup } from '~/libs/api/auth'
 
@@ -6,8 +6,7 @@ import MainLayout from '~/components/layout/MainLayout'
 import AuthHeader from '~/components/layout/header/AuthHeader'
 import SignupForm from '~/components/auth/signup-form/SignupForm'
 import { extractError } from '~/libs/error'
-import { formValidator } from '~/libs/validator'
-import { signupSchema } from '~/libs/schema'
+import { createAuthSession, isAlreadyLogin } from '~/libs/session'
 
 export default function SignupPage() {
   return (
@@ -15,6 +14,12 @@ export default function SignupPage() {
       <SignupForm />
     </MainLayout>
   )
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  console.log('signup loader 작동')
+
+  return isAlreadyLogin(request, '/')
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -34,13 +39,19 @@ export const action: ActionFunction = async ({ request }) => {
     return null
 
   try {
-    const { result, headers } = await signup({ username, password, confirmPassword, email })
-    return json(
-      { data: result },
-      {
-        headers,
-      },
-    )
+    const { user, expiredDate, tokens } = await signup({
+      username,
+      password,
+      confirmPassword,
+      email,
+    })
+
+    return createAuthSession({
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      expiredDate,
+      redirectTo: '/',
+    })
   } catch (err) {
     const error = extractError(err)
 

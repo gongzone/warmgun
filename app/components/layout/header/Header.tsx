@@ -1,4 +1,4 @@
-import { Box, Flex, HStack } from '@chakra-ui/react'
+import { Box, Flex, Heading, HStack } from '@chakra-ui/react'
 
 import Link from '~/components/@custom/Link'
 import MainLogo from '~/components/@svg/MainLogo'
@@ -12,7 +12,9 @@ export default function Header() {
       <Box as="header" h="132px" px="28px" py="20px">
         <Flex w="full" h="full" justify="space-between" align="center">
           <Link to="/" py="16px">
-            <MainLogo width={200} />
+            <Heading fontFamily="Fredoka One" fontWeight="normal">
+              DevWarriors
+            </Heading>
           </Link>
 
           <HStack align="center" spacing="14px">
