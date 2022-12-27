@@ -1,4 +1,4 @@
-import { createCookieSessionStorage, redirect } from '@remix-run/node'
+import { createCookieSessionStorage, json, redirect } from '@remix-run/node'
 import { refresh } from './api/auth'
 
 let sessionSecret = process.env.JWT_SECRET_KEY
@@ -30,7 +30,7 @@ async function getAuthSession(request: Request) {
   const refreshToken = session.get('refresh_token')
   const expiredDate = session.get('expired_date')
 
-  return { accessToken, refreshToken, expiredDate }
+  return { accessToken, refreshToken, expiredDate, session }
 }
 
 interface AuthSession {
@@ -70,14 +70,24 @@ export async function isAlreadyLogin(request: Request, redirectTo?: string) {
   return accessToken ? redirect(redirectTo) : null
 }
 
+export async function logoutSession(request: Request) {
+  const { session } = await getAuthSession(request)
+
+  return redirect('/', {
+    headers: {
+      'Set-Cookie': await storage.destroySession(session),
+    },
+  })
+}
+
 interface RefreshAuthConfig {
   headers?: Headers
   requiredAuth?: boolean
 }
 
-export async function refreshAuth(
+export async function authenticate(
   request: Request,
-  config: RefreshAuthConfig = { headers: new Headers(), requiredAuth: true },
+  config: RefreshAuthConfig = { headers: new Headers(), requiredAuth: false },
 ) {
   const { accessToken, refreshToken, expiredDate } = await getAuthSession(request)
   const { headers, requiredAuth } = config

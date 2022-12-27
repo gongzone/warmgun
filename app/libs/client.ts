@@ -5,14 +5,14 @@ export const client = axios.create({
   withCredentials: true,
 })
 
-export function setClientHeaders(accessToken: string, refreshToken: string) {
-  client.defaults.headers['Autorization'] = `Bearer ${accessToken}`
-  client.defaults.headers.common[
-    'Cookie'
-  ] = `access_token=${accessToken}; refresh_token=${refreshToken}`
+export function setClientHeaders(accessToken: string) {
+  client.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+  // client.defaults.headers.common[
+  //   'Cookie'
+  // ] = `access_token=${accessToken}; refresh_token=${refreshToken}`
 }
 
 export function clearClientHeaders() {
-  delete client.defaults.headers['Authorization']
-  delete client.defaults.headers.common['Cookie']
+  delete client.defaults.headers.common['Authorization']
+  // delete client.defaults.headers.common['Cookie']
 }

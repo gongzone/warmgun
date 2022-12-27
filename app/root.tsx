@@ -4,38 +4,38 @@ import FredokaOne from '@fontsource/fredoka-one/index.css'
 import React, { useContext, useEffect } from 'react'
 import { withEmotionCache } from '@emotion/react'
 import { ChakraProvider } from '@chakra-ui/react'
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
-import { type MetaFunction, type LinksFunction, type LoaderFunction } from '@remix-run/node'
-import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useDehydratedState } from 'use-dehydrated-state'
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+} from '@remix-run/react'
+import { type MetaFunction, type LinksFunction, type LoaderFunction, json } from '@remix-run/node'
 
 import { ServerStyleContext, ClientStyleContext } from './context'
 import theme from './libs/theme'
-import { refreshAuth } from './libs/session'
-
-export default function App() {
-  const [queryClient] = React.useState(() => new QueryClient())
-  const dehydratedState = useDehydratedState()
-
-  return (
-    <Document>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={dehydratedState}>
-          <ChakraProvider theme={theme} resetCSS={true}>
-            <Outlet />
-          </ChakraProvider>
-        </Hydrate>
-      </QueryClientProvider>
-    </Document>
-  )
-}
+import { authenticate } from './libs/session'
+import { getMe, type GetMeResult } from './libs/api/user'
+import { clearClientHeaders, setClientHeaders } from './libs/client'
 
 export const loader: LoaderFunction = async ({ request }) => {
   console.log('root loader 작동')
-
-  await refreshAuth(request, { requiredAuth: false })
+  await authenticate(request, { requiredAuth: false })
 
   return null
+}
+
+export default function App() {
+  return (
+    <Document>
+      <ChakraProvider theme={theme} resetCSS={true}>
+        <Outlet />
+      </ChakraProvider>
+    </Document>
+  )
 }
 
 export const meta: MetaFunction = () => ({

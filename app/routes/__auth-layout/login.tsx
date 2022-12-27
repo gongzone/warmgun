@@ -6,18 +6,14 @@ import { login } from '~/libs/api/auth'
 import { extractError } from '~/libs/error'
 import { createAuthSession, isAlreadyLogin } from '~/libs/session'
 
-export default function LoginPage() {
-  return (
-    <MainLayout header={<AuthHeader />} p="24px">
-      <LoginForm />
-    </MainLayout>
-  )
-}
-
 export const loader: LoaderFunction = async ({ request }) => {
   console.log('login loader 작동')
 
   return isAlreadyLogin(request, '/')
+}
+
+export default function LoginPage() {
+  return <LoginForm />
 }
 
 export const action: ActionFunction = async ({ request }) => {

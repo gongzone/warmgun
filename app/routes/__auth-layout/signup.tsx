@@ -2,24 +2,18 @@ import { json, LoaderFunction, type ActionFunction } from '@remix-run/node'
 
 import { signup } from '~/libs/api/auth'
 
-import MainLayout from '~/components/layout/MainLayout'
-import AuthHeader from '~/components/layout/header/AuthHeader'
 import SignupForm from '~/components/auth/signup-form/SignupForm'
 import { extractError } from '~/libs/error'
 import { createAuthSession, isAlreadyLogin } from '~/libs/session'
-
-export default function SignupPage() {
-  return (
-    <MainLayout header={<AuthHeader />} p="24px">
-      <SignupForm />
-    </MainLayout>
-  )
-}
 
 export const loader: LoaderFunction = async ({ request }) => {
   console.log('signup loader 작동')
 
   return isAlreadyLogin(request, '/')
+}
+
+export default function SignupPage() {
+  return <SignupForm />
 }
 
 export const action: ActionFunction = async ({ request }) => {

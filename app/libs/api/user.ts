@@ -1,9 +1,9 @@
 import { client } from '../client'
 
-export async function getMe({ accessToken }: { accessToken: string }) {
+export async function getMe(accessToken: string) {
   const response = await client.get<GetMeResult>('http://localhost:4000/api/users/me', {
     headers: {
-      Cookie: accessToken,
+      Authorization: `Bearer ${accessToken}`,
     },
   })
 

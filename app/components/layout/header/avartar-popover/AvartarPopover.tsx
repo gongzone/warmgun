@@ -16,12 +16,16 @@ import shallow from 'zustand/shallow'
 import useMobileNavStore from '~/stores/mobile-nav'
 
 import Link from '~/components/@custom/Link'
+import Form from '~/components/@custom/Form'
+import { useLoaderData } from '@remix-run/react'
 
 export default function AvartarPopover() {
   const [isMobileNavOpen, toggleMobileNav] = useMobileNavStore(
     (state) => [state.isOpen, state.toggleMobileNav],
     shallow,
   )
+
+  const { user } = useLoaderData()
 
   return (
     <Popover>
@@ -56,16 +60,30 @@ export default function AvartarPopover() {
                 </Box>
               </PopoverBody>
               <PopoverFooter display="flex" justifyContent="center" gap="12px" border="0">
-                <Link to="/login">
-                  <Button variant="outline" onClick={onClose} colorScheme="teal">
-                    로그인
-                  </Button>
-                </Link>
-                <Link to="/signup">
-                  <Button variant="outline" onClick={onClose} colorScheme="facebook">
-                    회원가입
-                  </Button>
-                </Link>
+                {!user && (
+                  <>
+                    <Link to="/login">
+                      <Button variant="outline" onClick={onClose} colorScheme="teal">
+                        로그인
+                      </Button>
+                    </Link>
+                    <Link to="/signup">
+                      <Button variant="outline" onClick={onClose} colorScheme="facebook">
+                        회원가입
+                      </Button>
+                    </Link>
+                  </>
+                )}
+
+                {user && (
+                  <>
+                    <Form method="post" action="/logout">
+                      <Button type="submit" onClick={onClose}>
+                        로그아웃
+                      </Button>
+                    </Form>
+                  </>
+                )}
               </PopoverFooter>
             </Box>
           </PopoverContent>
