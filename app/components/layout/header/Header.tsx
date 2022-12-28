@@ -10,7 +10,7 @@ export default function Header() {
     <>
       <Box
         as="header"
-        h={{ base: '132px', md: '162px' }}
+        h={{ base: '132px', sm: '148px', md: '162px' }}
         px={{ base: '24px', sm: '32px', md: '36px' }}
         py="20px"
       >
