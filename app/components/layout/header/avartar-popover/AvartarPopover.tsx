@@ -26,6 +26,7 @@ export default function AvartarPopover() {
   )
 
   const { user } = useLoaderData()
+  console.log(user)
 
   return (
     <Popover>
@@ -33,6 +34,7 @@ export default function AvartarPopover() {
         <Box zIndex="40">
           <PopoverTrigger>
             <Avatar
+              src={user?.character.image}
               as="button"
               w="40px"
               h="40px"
