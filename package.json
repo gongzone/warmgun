@@ -16,6 +16,7 @@
     "@emotion/styled": "^11",
     "@fontsource/fredoka-one": "^4.5.9",
     "@fontsource/kenia": "^4.5.9",
+    "@fontsource/macondo": "^4.5.9",
     "@fontsource/noto-sans-kr": "^4.5.12",
     "@hookform/resolvers": "^2.9.10",
     "@remix-run/node": "^1.8.2",

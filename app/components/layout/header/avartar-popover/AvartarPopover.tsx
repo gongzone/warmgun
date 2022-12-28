@@ -41,8 +41,8 @@ export default function AvartarPopover() {
               onClick={isMobileNavOpen ? toggleMobileNav : () => {}}
             />
           </PopoverTrigger>
-          <PopoverContent bg="black" borderColor="gray.800">
-            <PopoverArrow bg="black" />
+          <PopoverContent bg="rgb(30 30 30)" borderColor="gray.800">
+            <PopoverArrow bg="rgb(30 30 30)" />
             <PopoverHeader borderColor="gray.800">로그인된 계정이 없습니다.</PopoverHeader>
             <Box p="12px">
               <PopoverBody

@@ -1,4 +1,5 @@
 import { Box, type BoxProps } from '@chakra-ui/react'
+
 import Header from './header/Header'
 
 interface MainLayoutProps extends BoxProps {

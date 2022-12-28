@@ -9,6 +9,7 @@ specifiers:
   '@emotion/styled': ^11
   '@fontsource/fredoka-one': ^4.5.9
   '@fontsource/kenia': ^4.5.9
+  '@fontsource/macondo': ^4.5.9
   '@fontsource/noto-sans-kr': ^4.5.12
   '@hookform/resolvers': ^2.9.10
   '@remix-run/dev': ^1.8.2
@@ -42,6 +43,7 @@ dependencies:
   '@emotion/styled': 11.10.5_3djhvnr4jirfvebjqpipo7gthy
   '@fontsource/fredoka-one': 4.5.9
   '@fontsource/kenia': 4.5.9
+  '@fontsource/macondo': 4.5.9
   '@fontsource/noto-sans-kr': 4.5.12
   '@hookform/resolvers': 2.9.10_react-hook-form@7.40.0
   '@remix-run/node': 1.8.2_biqbaboplfbrettd7655fr4n2y
@@ -2595,6 +2597,10 @@ packages:
 
   /@fontsource/kenia/4.5.9:
     resolution: {integrity: sha512-F0V87exmhOyb11mf9pyOHaRenwVv347yUxVS/WvJ5+4KiACtdU/NYydlHo2PlDJFJ16FHMlJmD066VLOFHUOOA==}
+    dev: false
+
+  /@fontsource/macondo/4.5.9:
+    resolution: {integrity: sha512-WRJiQQe0sWDRJE6a2xYEFvL33MoO0fBEh6RVWZpZFS5NqjGGVwEncxV8AE+VMin0BNFJWO9CF70ek6JAkjeONg==}
     dev: false
 
   /@fontsource/noto-sans-kr/4.5.12:
