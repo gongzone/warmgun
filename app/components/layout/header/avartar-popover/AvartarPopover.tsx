@@ -29,7 +29,7 @@ export default function AvartarPopover() {
   console.log(user)
 
   return (
-    <Popover>
+    <Popover arrowShadowColor="#424242">
       {({ isOpen, onClose }) => (
         <Box zIndex="40">
           <PopoverTrigger>
@@ -39,13 +39,11 @@ export default function AvartarPopover() {
               w="40px"
               h="40px"
               onClick={isMobileNavOpen ? toggleMobileNav : () => {}}
-              ring={isOpen ? '4px' : ''}
-              ringColor={isOpen ? 'gray.200' : ''}
             />
           </PopoverTrigger>
-          <PopoverContent>
-            <PopoverArrow />
-            <PopoverHeader>로그인된 계정이 없습니다.</PopoverHeader>
+          <PopoverContent bg="black" borderColor="gray.800">
+            <PopoverArrow bg="black" />
+            <PopoverHeader borderColor="gray.800">로그인된 계정이 없습니다.</PopoverHeader>
             <Box p="12px">
               <PopoverBody
                 display="flex"
@@ -65,12 +63,12 @@ export default function AvartarPopover() {
                 {!user && (
                   <>
                     <Link to="/login">
-                      <Button variant="outline" onClick={onClose} colorScheme="teal">
+                      <Button onClick={onClose} colorScheme="teal">
                         로그인
                       </Button>
                     </Link>
                     <Link to="/signup">
-                      <Button variant="outline" onClick={onClose} colorScheme="facebook">
+                      <Button onClick={onClose} colorScheme="facebook">
                         회원가입
                       </Button>
                     </Link>

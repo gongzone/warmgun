@@ -27,7 +27,7 @@ function Line(props: LineProps) {
     <Box
       w="55%"
       h="3px"
-      bg="gray.700"
+      bg="gray.800"
       borderRadius="25px"
       pos="absolute"
       top={top}

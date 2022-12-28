@@ -45,10 +45,10 @@ export default function MobileNav() {
           {navItems.map((item, index) => (
             <ListItem
               onClick={toggleMobileNav}
-              bg="white"
+              bg="#111"
               borderTop={index === 0 ? '1px' : ''}
               borderBottom="1px"
-              borderColor="gray.300"
+              borderColor="gray.800"
               key={item.name}
             >
               <Link to={item.to} display="flex" alignItems="center" px="20px" py="28px">

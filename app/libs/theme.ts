@@ -6,7 +6,10 @@ const config: ThemeConfig = {
 
 const styles = {
   global: {
-    'html, body': {},
+    'html, body': {
+      bg: '#111',
+      color: 'whitesmoke',
+    },
   },
 }
 
