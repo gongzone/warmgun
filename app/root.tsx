@@ -1,5 +1,4 @@
 import NotoSansKR from '@fontsource/noto-sans-kr/index.css'
-import FredokaOne from '@fontsource/fredoka-one/index.css'
 import Macondo from '@fontsource/macondo/index.css'
 
 import React, { useContext, useEffect } from 'react'
@@ -52,10 +51,6 @@ export let links: LinksFunction = () => {
     {
       rel: 'stylesheet',
       href: NotoSansKR,
-    },
-    {
-      rel: 'stylesheet',
-      href: FredokaOne,
     },
     {
       rel: 'stylesheet',

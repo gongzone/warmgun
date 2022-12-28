@@ -11,7 +11,7 @@ export default function Header() {
       <Box
         as="header"
         h={{ base: '132px', md: '162px' }}
-        px={{ base: '20px', sm: '32px', md: '36px' }}
+        px={{ base: '24px', sm: '32px', md: '36px' }}
         py="20px"
       >
         <Flex w="full" h="full" justify="space-between" align="center">
