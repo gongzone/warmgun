@@ -4,7 +4,7 @@ import { FiChevronRight } from 'react-icons/fi'
 
 import useMobileNavStore from '~/stores/mobile-nav'
 
-import Link from '~/components/@custom/Link'
+import CustomLink from '~/components/@custom/CustomLink'
 
 const navItems = [
   { name: '홈으로', description: '', to: '/' },
@@ -51,7 +51,7 @@ export default function MobileNav() {
               borderColor="gray.800"
               key={item.name}
             >
-              <Link to={item.to} display="flex" alignItems="center" px="20px" py="28px">
+              <CustomLink to={item.to} display="flex" alignItems="center" px="20px" py="28px">
                 <ListIcon boxSize="14px" as={FiChevronRight} />
                 <Flex flexDirection="column">
                   <Text fontWeight="bold">{item.name}</Text>
@@ -61,7 +61,7 @@ export default function MobileNav() {
                     </Text>
                   )}
                 </Flex>
-              </Link>
+              </CustomLink>
             </ListItem>
           ))}
         </List>

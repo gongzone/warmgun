@@ -1,4 +1,4 @@
-import { Box, Button, type BoxProps } from '@chakra-ui/react'
+import { Box, Button, Circle, type BoxProps } from '@chakra-ui/react'
 import shallow from 'zustand/shallow'
 
 import useMobileNavStore from '~/stores/mobile-nav'
@@ -10,10 +10,18 @@ export default function Hamburger() {
   )
 
   return (
-    <Button onClick={toggleMobileNav} pos="relative">
-      <Line top={isOpen ? '50%' : '30%'} transform={isOpen ? 'rotate(-315deg)' : ''} />
-      <Line top="50%" opacity={isOpen ? '0' : '1'} />
-      <Line top={isOpen ? '50%' : '70%'} transform={isOpen ? 'rotate(-225deg)' : ''} />
+    <Button display="flex" variant="unstyled" role="group" onClick={toggleMobileNav}>
+      <Circle
+        pos="relative"
+        size="46px"
+        borderWidth="2px"
+        borderColor="gray.700"
+        _groupHover={{ borderColor: 'gray.300' }}
+      >
+        <Line top={isOpen ? '50%' : '32.5%'} transform={isOpen ? 'rotate(-315deg)' : ''} />
+        <Line top="50%" opacity={isOpen ? '0' : '1'} />
+        <Line top={isOpen ? '50%' : '67.5%'} transform={isOpen ? 'rotate(-225deg)' : ''} />
+      </Circle>
     </Button>
   )
 }
@@ -25,9 +33,9 @@ function Line(props: LineProps) {
 
   return (
     <Box
-      w="55%"
-      h="3px"
-      bg="gray.800"
+      w="48%"
+      h="2.5px"
+      bg="whitesmoke"
       borderRadius="25px"
       pos="absolute"
       top={top}

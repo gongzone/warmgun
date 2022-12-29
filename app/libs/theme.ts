@@ -42,6 +42,17 @@ const Button = defineStyleConfig({
   },
 })
 
+const Input = defineStyleConfig({
+  baseStyle: {
+    field: {
+      _autofill: {
+        textFillColor: 'whitesmoke',
+        transition: 'background-color 5000s ease-in-out 0s',
+      },
+    },
+  },
+})
+
 const Link = defineStyleConfig({
   baseStyle: {
     '&:hover': { textDecoration: 'none' },
@@ -55,6 +66,7 @@ const theme = extendTheme({
   colors,
   components: {
     Button,
+    Input,
     Link,
   },
 })

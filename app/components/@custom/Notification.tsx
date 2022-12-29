@@ -42,12 +42,12 @@ export default function Notification({
     >
       <AlertDialogOverlay />
 
-      <AlertDialogContent>
+      <AlertDialogContent bg="rgb(30 30 30)">
         <AlertDialogHeader>{title}</AlertDialogHeader>
         <AlertDialogCloseButton />
         <AlertDialogBody>{description}</AlertDialogBody>
         <AlertDialogFooter>
-          <Button ref={ref} onClick={onClose}>
+          <Button colorScheme="teal" ref={ref} onClick={onClose}>
             확인
           </Button>
         </AlertDialogFooter>

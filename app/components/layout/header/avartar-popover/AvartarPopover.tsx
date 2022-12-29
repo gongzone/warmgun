@@ -16,30 +16,29 @@ import { useLoaderData, Form } from '@remix-run/react'
 
 import useMobileNavStore from '~/stores/mobile-nav'
 
-import Link from '~/components/@custom/Link'
+import CustomLink from '~/components/@custom/CustomLink'
 
 export default function AvartarPopover() {
+  const { user } = useLoaderData()
   const [isMobileNavOpen, toggleMobileNav] = useMobileNavStore(
     (state) => [state.isOpen, state.toggleMobileNav],
     shallow,
   )
 
-  const { user } = useLoaderData()
-
   return (
-    <Popover arrowShadowColor="#424242">
+    <Popover placement="bottom" arrowShadowColor="#424242">
       {({ onClose }) => (
         <>
           <PopoverTrigger>
             <Avatar
               src={user?.character.image}
               as="button"
-              w="40px"
-              h="40px"
+              w="46px"
+              h="46px"
               onClick={isMobileNavOpen ? toggleMobileNav : () => {}}
             />
           </PopoverTrigger>
-          <PopoverContent bg="rgb(30 30 30)" borderColor="gray.800" zIndex="40">
+          <PopoverContent bg="rgb(30 30 30)" borderColor="gray.800">
             <PopoverArrow bg="rgb(30 30 30)" />
             <PopoverHeader borderColor="gray.800">로그인된 계정이 없습니다.</PopoverHeader>
             <Box p="16px">
@@ -66,17 +65,17 @@ export default function AvartarPopover() {
               >
                 {!user && (
                   <>
-                    <Link to="/login">
+                    <CustomLink to="/login">
                       <Button variant="link" onClick={onClose} colorScheme="teal">
                         로그인
                       </Button>
-                    </Link>
+                    </CustomLink>
                     <Text fontSize="sm">OR</Text>
-                    <Link to="/signup">
+                    <CustomLink to="/signup">
                       <Button variant="link" onClick={onClose} colorScheme="yellow">
                         회원가입
                       </Button>
-                    </Link>
+                    </CustomLink>
                   </>
                 )}
 

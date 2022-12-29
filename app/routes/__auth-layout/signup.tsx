@@ -2,7 +2,7 @@ import { json, LoaderFunction, type ActionFunction } from '@remix-run/node'
 
 import { signup } from '~/libs/api/auth'
 
-import SignupForm from '~/components/auth/signup-form/SignupForm'
+import SignupForm from '~/components/auth/SignupForm'
 import { extractError } from '~/libs/error'
 import { createAuthSession, isAlreadyLogin } from '~/libs/session'
 

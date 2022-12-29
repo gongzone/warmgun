@@ -20,19 +20,17 @@ export default function FormButton(props: FormButtonProps) {
         />
       }
       w="full"
-      mt="12px"
       color="whitesmoke"
-      borderColor="gray.600"
       bgGradient="linear(to-r, #2b5876, #4e4376)"
+      borderRadius="full"
+      size="lg"
+      fontSize="md"
       _hover={{
         bg: '',
       }}
       _active={{
         bg: '',
       }}
-      borderRadius="full"
-      size="lg"
-      fontSize="md"
       {...rest}
     >
       {children}
