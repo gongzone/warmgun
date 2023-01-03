@@ -3,7 +3,7 @@ import { Box, Heading, HStack } from '@chakra-ui/react'
 import CustomLink from '~/components/@custom/CustomLink'
 import MobileNav from './mobile-nav/MobileNav'
 import Hamburger from './hamburger/Hamburger'
-import AvartarPopover from './avartar-popover/AvartarPopover'
+import AvatarPopover from './avatar-popover/AvatarPopover'
 
 export default function Header() {
   return (
@@ -25,7 +25,7 @@ export default function Header() {
 
         <HStack align="center" spacing="14px">
           <Hamburger />
-          <AvartarPopover />
+          <AvatarPopover />
         </HStack>
       </Box>
       <MobileNav />

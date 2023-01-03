@@ -52,9 +52,3 @@ export interface RefreshResult {
   refreshToken: string
   expiredDate: string
 }
-
-export interface GetMeResult {
-  id: number
-  username: string
-  email: string
-}

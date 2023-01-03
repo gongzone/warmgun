@@ -92,11 +92,9 @@ export async function authenticate(
   const { accessToken, refreshToken, expiredDate } = await getAuthSession(request)
   const { headers, requiredAuth } = config
 
-  console.log('refresh Auth 작동')
-
   if (!accessToken) {
     if (requiredAuth) throw redirect('/login')
-    else return null
+    else return null // or throw json
   }
 
   // 액세스 토큰 유효기간이 경과하지 않았다면 즉시 accessToken return
@@ -115,7 +113,9 @@ export async function authenticate(
   )
 
   // loader의 경우 리다이렉트
-  if (request.method === 'GET') throw redirect(request.url, { headers })
+  if (request.method === 'GET') {
+    throw redirect(request.url, { headers })
+  }
 
   return refreshData.accessToken
 }

@@ -5,6 +5,8 @@ import { extractError } from '~/libs/error'
 import { createAuthSession, isAlreadyLogin } from '~/libs/session'
 
 export const loader: LoaderFunction = async ({ request }) => {
+  console.log('login loader 작동')
+
   return isAlreadyLogin(request, '/')
 }
 

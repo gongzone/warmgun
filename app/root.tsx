@@ -4,27 +4,15 @@ import Macondo from '@fontsource/macondo/index.css'
 import React, { useContext, useEffect } from 'react'
 import { withEmotionCache } from '@emotion/react'
 import { ChakraProvider } from '@chakra-ui/react'
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useLoaderData,
-} from '@remix-run/react'
-import { type MetaFunction, type LinksFunction, type LoaderFunction, json } from '@remix-run/node'
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+import { type MetaFunction, type LinksFunction, type LoaderFunction } from '@remix-run/node'
 
 import { ServerStyleContext, ClientStyleContext } from './context'
 import theme from './libs/theme'
-import { authenticate } from './libs/session'
-import { getMe, type GetMeResult } from './libs/api/user'
-import { clearClientHeaders, setClientHeaders } from './libs/client'
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async (args) => {
   console.log('root loader 작동')
-  await authenticate(request, { requiredAuth: false })
-
+  console.log(args.context)
   return null
 }
 

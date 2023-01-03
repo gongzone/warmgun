@@ -17,9 +17,11 @@ import { useLoaderData, Form } from '@remix-run/react'
 import useMobileNavStore from '~/stores/mobile-nav'
 
 import CustomLink from '~/components/@custom/CustomLink'
+import CustomAvatar from '~/components/@custom/CustomAvatar'
+import { GetMeResult } from '~/libs/api/user'
 
-export default function AvartarPopover() {
-  const { user } = useLoaderData()
+export default function AvatarPopover() {
+  const { user } = useLoaderData<{ user: GetMeResult | null }>()
   const [isMobileNavOpen, toggleMobileNav] = useMobileNavStore(
     (state) => [state.isOpen, state.toggleMobileNav],
     shallow,
@@ -30,17 +32,17 @@ export default function AvartarPopover() {
       {({ onClose }) => (
         <>
           <PopoverTrigger>
-            <Avatar
-              src={user?.character.image}
+            <CustomAvatar
               as="button"
-              w="46px"
-              h="46px"
+              src={user?.character.image}
               onClick={isMobileNavOpen ? toggleMobileNav : () => {}}
             />
           </PopoverTrigger>
           <PopoverContent bg="rgb(30 30 30)" borderColor="gray.800">
             <PopoverArrow bg="rgb(30 30 30)" />
-            <PopoverHeader borderColor="gray.800">로그인된 계정이 없습니다.</PopoverHeader>
+            <PopoverHeader borderColor="gray.800">
+              {user ? `${user.username}님 환영합니다.` : '로그인된 계정이 없습니다.'}
+            </PopoverHeader>
             <Box p="16px">
               <PopoverBody
                 display="flex"
@@ -50,11 +52,16 @@ export default function AvartarPopover() {
                 gap="8px"
                 border="0"
               >
-                <Avatar size="lg" />
-                <Box textAlign="center" fontFamily="Macondo" fontSize="2xl">
-                  <Text>Hello DevWarrior!</Text>
-                  <Text>Join us?</Text>
+                <CustomAvatar src={user?.character.image} size="lg" />
+                <Box>
+                  <CustomLink to="/">내 블로그</CustomLink>
                 </Box>
+                {!user && (
+                  <Box textAlign="center" fontFamily="Macondo" fontSize="2xl">
+                    <Text>Hello DevWarrior!</Text>
+                    <Text>Join us?</Text>
+                  </Box>
+                )}
               </PopoverBody>
               <PopoverFooter
                 display="flex"
@@ -82,7 +89,7 @@ export default function AvartarPopover() {
                 {user && (
                   <>
                     <Form method="post" action="/logout">
-                      <Button type="submit" onClick={onClose}>
+                      <Button variant="link" type="submit" onClick={onClose} colorScheme="teal">
                         로그아웃
                       </Button>
                     </Form>

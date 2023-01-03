@@ -6,7 +6,9 @@ import { getMe } from '~/libs/api/user'
 
 import MainLayout from '~/components/layout/MainLayout'
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
+  console.log('main layout loader 작동')
+  console.log(context)
   const accessToken = await authenticate(request, { requiredAuth: false })
 
   if (!accessToken) {

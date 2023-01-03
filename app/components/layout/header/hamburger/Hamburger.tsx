@@ -13,7 +13,7 @@ export default function Hamburger() {
     <Button display="flex" variant="unstyled" role="group" onClick={toggleMobileNav}>
       <Circle
         pos="relative"
-        size="46px"
+        size="48px"
         borderWidth="2px"
         borderColor="gray.700"
         _groupHover={{ borderColor: 'gray.300' }}

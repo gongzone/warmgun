@@ -14,4 +14,7 @@ export interface GetMeResult {
   id: number
   username: string
   email: string
+  character: {
+    image: string
+  }
 }
