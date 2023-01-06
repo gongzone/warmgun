@@ -1,49 +1,49 @@
 {
-  "private": true,
-  "sideEffects": false,
-  "scripts": {
-    "build": "remix build",
-    "dev": "remix dev",
-    "start": "remix-serve build",
-    "typecheck": "tsc -b"
-  },
-  "dependencies": {
-    "@babel/core": "^7",
-    "@chakra-ui/react": "^2.4.3",
-    "@emotion/cache": "^11.10.5",
-    "@emotion/react": "^11",
-    "@emotion/server": "^11",
-    "@emotion/styled": "^11",
-    "@fontsource/fredoka-one": "^4.5.9",
-    "@fontsource/kenia": "^4.5.9",
-    "@fontsource/macondo": "^4.5.9",
-    "@fontsource/noto-sans-kr": "^4.5.12",
-    "@hookform/resolvers": "^2.9.10",
-    "@remix-run/node": "^1.8.2",
-    "@remix-run/react": "^1.8.2",
-    "@remix-run/serve": "^1.8.2",
-    "@tanstack/react-query": "^4.20.4",
-    "@tanstack/react-query-devtools": "^4.20.4",
-    "axios": "^1.2.1",
-    "framer-motion": "^6",
-    "isbot": "^3.6.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.40.0",
-    "react-icons": "^4.7.1",
-    "use-dehydrated-state": "^0.1.0",
-    "zod": "^3.20.2",
-    "zustand": "^4.1.5"
-  },
-  "devDependencies": {
-    "@remix-run/dev": "^1.8.2",
-    "@remix-run/eslint-config": "^1.8.2",
-    "@types/react": "^18.0.25",
-    "@types/react-dom": "^18.0.8",
-    "eslint": "^8.27.0",
-    "typescript": "^4.8.4"
-  },
-  "engines": {
-    "node": ">=14"
-  }
+	"name": "my-app",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"test": "playwright test",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test:unit": "vitest",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write ."
+	},
+	"dependencies": {
+		"@fontsource/concert-one": "^4.5.9",
+		"@fontsource/macondo": "^4.5.9",
+		"@fontsource/nanum-gothic": "^4.5.7",
+		"@fontsource/noto-sans-kr": "^4.5.12",
+		"add": "^2.0.6",
+		"got": "^12.5.3"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.28.1",
+		"@skeletonlabs/skeleton": "^0.86.9",
+		"@sveltejs/adapter-auto": "^1.0.0",
+		"@sveltejs/kit": "^1.0.0",
+		"@tailwindcss/forms": "^0.5.3",
+		"@tailwindcss/typography": "^0.5.8",
+		"@typescript-eslint/eslint-plugin": "^5.45.0",
+		"@typescript-eslint/parser": "^5.45.0",
+		"autoprefixer": "^10.4.13",
+		"eslint": "^8.28.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"postcss": "^8.4.20",
+		"prettier": "^2.8.0",
+		"prettier-plugin-svelte": "^2.8.1",
+		"svelte": "^3.54.0",
+		"svelte-check": "^2.9.2",
+		"tailwindcss": "^3.2.4",
+		"tslib": "^2.4.1",
+		"typescript": "^4.9.3",
+		"vite": "^4.0.0",
+		"vitest": "^0.25.3"
+	},
+	"type": "module"
 }
