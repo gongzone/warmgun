@@ -20,13 +20,13 @@ export const actions: Actions = {
 			} = await login({ username, password });
 
 			setAuthCookie(cookies, { accessToken, refreshToken });
-
-			console.log('❗ login 완료!');
-			throw redirect(302, '/');
 		} catch (err) {
 			const { statusCode, message } = extractError(err);
 
 			return fail(statusCode, { message });
 		}
+
+		console.log('❗ login 완료!');
+		throw redirect(302, '/');
 	}
 };

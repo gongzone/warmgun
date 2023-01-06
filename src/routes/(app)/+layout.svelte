@@ -24,9 +24,13 @@
 		<div class="relative">
 			<button 
 				use:menu={{ menu: 'example' }} 
-				class="btn-icon btn-ringed w-12 px-0 ring-[1.5px] dark:ring-zinc-500 hover:dark:ring-gray-400"
+				class={`btn-icon w-12 px-0 ${!user ? 'btn-ringed ring-[1.5px] dark:ring-zinc-500 hover:dark:ring-gray-400' : ''}`}
 			>
-				<DefaultAvatar />
+        {#if !user}
+          <DefaultAvatar />
+        {:else}
+          <Avatar src={user.character.image} />
+        {/if}
 			</button>
 
       <nav class="list-nav card p-4 w-64 shadow-xl" data-menu="example">
@@ -35,6 +39,9 @@
             <li><a href="/auth/login">로그인</a></li>
             <li><a href="/auth/signup">회원가입</a></li>
           {:else}
+            <li>
+              <a href="/">내 블로그</a>
+            </li>
             <li>
               <form method="POST" action="/auth/logout">
                 <button class="option w-full">로그아웃</button>

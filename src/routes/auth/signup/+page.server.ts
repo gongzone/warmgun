@@ -28,13 +28,13 @@ export const actions: Actions = {
 			} = await signup({ username, password, confirmPassword, email });
 
 			setAuthCookie(cookies, { accessToken, refreshToken });
-
-			console.log('❗ signup 완료!');
-			throw redirect(302, '/');
 		} catch (err) {
 			const { statusCode, message } = extractError(err);
 
 			return fail(statusCode, { message });
 		}
+
+		console.log('❗ signup 완료!');
+		throw redirect(302, '/');
 	}
 };

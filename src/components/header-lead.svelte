@@ -2,7 +2,7 @@
   import MainLogo from '$svg/main-logo.svelte'
 
   export let title = 'DevWarriors'
-  export let description = '개발 커뮤니티 & 블로그 서비스'
+  export let description = ''
 </script>
 
 <a href="/">
@@ -10,7 +10,9 @@
 		<MainLogo />
     <div>
 			<h2 class="font-logo text-3xl md:text-4xl">{title}</h2>
-      <span class="hidden md:block">{description}</span>
+      {#if description}
+        <span class="hidden md:block">{description}</span>
+      {/if}
     </div>
 	</div>
 </a>
