@@ -76,5 +76,6 @@ export const actions: Actions = {
 		setAuthCookies(cookies, { accessToken, refreshToken });
 
 		// redirect to '/' route
+		throw redirect(302, '/');
 	}
 };

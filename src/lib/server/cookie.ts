@@ -24,3 +24,8 @@ export function setAuthCookies(cookies: Cookies, { accessToken, refreshToken }: 
 		maxAge: tokensDuration[REFRESH_TOKEN_KEY] / 1000
 	});
 }
+
+export function deleteAuthCookies(cookies: Cookies) {
+	cookies.delete(ACCESS_TOKEN_KEY, { path: '/' });
+	cookies.delete(REFRESH_TOKEN_KEY, { path: '/' });
+}

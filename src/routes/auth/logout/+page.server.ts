@@ -1,15 +1,17 @@
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 
-import { deleteAuthCookie } from '$lib/cookie';
+import { deleteAuthCookies } from '$lib/server/cookie';
+
+export const load: PageServerLoad = async () => {
+	throw redirect(302, '/');
+};
 
 export const actions: Actions = {
 	default: async ({ cookies, locals }) => {
-		deleteAuthCookie(cookies);
-		locals.accessToken = null;
+		deleteAuthCookies(cookies);
+		locals.user = null;
 
-		console.log('🎈 로그아웃 성공!');
-
-		throw redirect(302, '/');
+		throw redirect(302, '/auth/login');
 	}
 };
