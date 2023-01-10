@@ -13,7 +13,7 @@
 
 <AppBar padding="px-[5vw] py-9 md:py-12">
 	<svelte:fragment slot="lead">
-    <HeaderLead />
+    <HeaderLead description="개발 커뮤니티 & 블로그 서비스"/>
 	</svelte:fragment>
 
 	<svelte:fragment slot="trail">
@@ -29,7 +29,7 @@
         {#if !user}
           <DefaultAvatar />
         {:else}
-          <Avatar src={user.character.image} />
+          <Avatar />
         {/if}
 			</button>
 
@@ -39,6 +39,11 @@
             <li><a href="/auth/login">로그인</a></li>
             <li><a href="/auth/signup">회원가입</a></li>
           {:else}
+            {#if user.role === 'ADMIN'}
+              <li>
+                <a href="/admin">⚙️ 관리자 페이지</a>
+              </li>
+            {/if}
             <li>
               <a href="/">내 블로그</a>
             </li>

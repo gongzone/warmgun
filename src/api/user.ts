@@ -14,7 +14,9 @@ export interface GetMeResult {
 	id: number;
 	username: string;
 	email: string;
+	role: string;
 	character: {
-		image: string;
+		name: string;
+		levle: number;
 	};
 }
