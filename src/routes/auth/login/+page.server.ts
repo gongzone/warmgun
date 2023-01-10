@@ -1,4 +1,4 @@
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 import * as argon2 from 'argon2';
@@ -6,6 +6,12 @@ import * as argon2 from 'argon2';
 import db from '$lib/server/db';
 import { setAuthCookies } from '$lib/server/cookie';
 import { generateTokens } from '$lib/server/token';
+
+export const load: PageServerLoad = async ({ locals }) => {
+	if (locals.user) {
+		throw redirect(302, '/');
+	}
+};
 
 const loginSchema = z.object({
 	username: z.string({ required_error: '아이디는 필수 값 입니다.' }),
