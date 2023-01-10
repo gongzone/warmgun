@@ -1,17 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { AppBar } from '@skeletonlabs/skeleton';
 
-	import HeaderLead from '$components/header-lead.svelte';
+	import Header from '$lib/components/header.svelte';
 
 	$: isSignupRoute = $page.url.pathname === '/auth/signup';
 </script>
 
-<AppBar padding="px-[5vw] py-9 md:py-12">
-	<svelte:fragment slot="lead">
-		<HeaderLead description={isSignupRoute ? '회원가입 페이지' : '로그인 페이지'} />
-	</svelte:fragment>
-</AppBar>
+<Header />
 
 <main class="px-[5vw] py-4 md:py-8">
 	<div class="max-w-[420px] mx-auto ">

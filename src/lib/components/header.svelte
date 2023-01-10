@@ -1,11 +1,13 @@
-<script>
+<script lang="ts">
 	import { AppBar, Avatar, menu } from '@skeletonlabs/skeleton';
 
-	import MainLogo from '$components/@svg/main-logo.svelte';
-	import Hamburger from '$components/@svg/hamburger.svelte';
-	import DefaultAvatar from '$components/@svg/default-avatar.svelte';
+	import type { CurrentUser } from '$lib/types/current-user';
 
-	let user = false;
+	import MainLogo from '$lib/components/@svg/main-logo.svelte';
+	import Hamburger from '$lib/components/@svg/hamburger.svelte';
+	import DefaultAvatar from '$lib/components/@svg/default-avatar.svelte';
+
+	export let user: CurrentUser = null;
 </script>
 
 <AppBar padding="px-[5vw] py-9 md:py-12">
@@ -48,7 +50,7 @@
 						<li><a href="/auth/login">로그인</a></li>
 						<li><a href="/auth/signup">회원가입</a></li>
 					{:else}
-						{#if user === true}
+						{#if user.role === 'ADMIN'}
 							<li>
 								<a href="/admin">⚙️ 관리자 페이지</a>
 							</li>

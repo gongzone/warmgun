@@ -1,14 +1,12 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
 
-	import Header from '$components/header.svelte';
+	import Header from '$lib/components/header.svelte';
 
-	// export let data: LayoutData;
-
-	// $: user = data.user
+	export let data: LayoutData;
 </script>
 
-<Header />
+<Header user={data.user} />
 
 <main class="px-[5vw] py-4 md:py-8"><slot /></main>
 
