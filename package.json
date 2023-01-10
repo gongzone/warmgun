@@ -11,15 +11,22 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"db:start": "docker compose --env-file .env up",
+		"db:migrate": "npx prisma migrate dev",
+		"db:studio": "npx prisma studio"
 	},
 	"dependencies": {
 		"@fontsource/concert-one": "^4.5.9",
 		"@fontsource/macondo": "^4.5.9",
 		"@fontsource/nanum-gothic": "^4.5.7",
 		"@fontsource/noto-sans-kr": "^4.5.12",
+		"@prisma/client": "^4.8.1",
 		"add": "^2.0.6",
-		"got": "^12.5.3"
+		"argon2": "^0.30.3",
+		"fast-jwt": "^2.1.0",
+		"got": "^12.5.3",
+		"zod": "^3.20.2"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",

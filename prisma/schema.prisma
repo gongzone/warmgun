@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  username  String     @unique
+  password  String
+  email     String     @unique
+  role      Role       @default(USER)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  character Character?
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Character {
+  id        Int        @id @default(autoincrement())
+  name      String
+  level     Int        @default(1)
+  class     Class?
+  inventory Inventory?
+  equipped  Equipped?
+  user      User       @relation(fields: [userId], references: [id])
+  userId    Int        @unique
+}
+
+model Class {
+  id          Int       @id @default(autoincrement())
+  name        String
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int       @unique
+}
+
+model Inventory {
+  id          Int       @id @default(autoincrement())
+  avatars     Avatar[]
+  titles      Title[]
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int       @unique
+}
+
+model Equipped {
+  id          Int       @id @default(autoincrement())
+  avatar      Avatar?
+  title       Title?
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int       @unique
+}
+
+model Avatar {
+  id          Int       @id @default(autoincrement())
+  path        String
+  equipped    Equipped  @relation(fields: [equippedId], references: [id])
+  equippedId  Int       @unique
+  inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  inventoryId Int
+}
+
+model Title {
+  id          Int       @id @default(autoincrement())
+  text        String
+  color       String
+  equipped    Equipped  @relation(fields: [equippedId], references: [id])
+  equippedId  Int       @unique
+  inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  inventoryId Int
+}

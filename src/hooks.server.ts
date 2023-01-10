@@ -1,33 +1,50 @@
 import type { Handle } from '@sveltejs/kit';
 
-import { refreshAuth } from '$lib/auth';
-
-const REFRESH_ROUTES = ['/(app)', '/auth'];
-
-function isRefreshRoute(route: string | null) {
-	if (!route) return false;
-
-	return REFRESH_ROUTES.some((r) => route.startsWith(r));
-}
+import {
+	ACCESS_TOKEN_KEY,
+	REFRESH_TOKEN_KEY,
+	generateTokens,
+	verifyToken,
+	type AccessTokenPayload,
+	type RefreshTokenPayload
+} from '$lib/server/token';
+import { getCurrentUser } from '$lib/server/user';
+import { setAuthCookies } from '$lib/server/cookie';
 
 export const handle = (async ({ event, resolve }) => {
-	if (isRefreshRoute(event.route.id)) {
-		console.log(`😅 해당 URL은 리프레시 라우트입니다: ${event.request.url}`);
-		const accessToken = await refreshAuth(event.cookies);
-		event.locals.accessToken = accessToken;
+	const accessToken = event.cookies.get(ACCESS_TOKEN_KEY);
+	const refreshToken = event.cookies.get(REFRESH_TOKEN_KEY);
+
+	if (accessToken) {
+		const verifiedAccessToken = await verifyToken<AccessTokenPayload>(accessToken);
+		const currentUser = verifiedAccessToken
+			? await getCurrentUser(verifiedAccessToken.userId)
+			: null;
+		event.locals.user = currentUser;
+
+		return await resolve(event);
 	}
 
-	const response = await resolve(event);
+	if (!refreshToken) {
+		event.locals.user = null;
+		return await resolve(event);
+	}
 
-	return response;
+	const verfiedRefreshToken = await verifyToken<RefreshTokenPayload>(refreshToken);
+	const currentUser = verfiedRefreshToken ? await getCurrentUser(verfiedRefreshToken.userId) : null;
+
+	if (!currentUser) {
+		event.locals.user = null;
+		return await resolve(event);
+	}
+
+	const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await generateTokens(
+		currentUser
+	);
+
+	setAuthCookies(event.cookies, { accessToken: newAccessToken, refreshToken: newRefreshToken });
+
+	event.locals.user = currentUser;
+
+	return await resolve(event);
 }) satisfies Handle;
-
-// export const handleFetch = (async ({ event, request, fetch }) => {
-// 	if (request.url.startsWith('https://api.my-domain.com/')) {
-// 		request.headers.set('cookie', event.request.headers.get('cookie'));
-// 	}
-
-// 	console.log('fetch handler 작동');
-
-// 	return fetch(request);
-// }) satisfies HandleFetch;
