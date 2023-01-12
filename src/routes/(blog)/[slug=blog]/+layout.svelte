@@ -1,17 +1,18 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
-	import { AppBar } from '@skeletonlabs/skeleton';
+
+	import BlogHeader from './blog-header.svelte';
+	import BlogHero from './blog-hero.svelte';
 
 	export let data: LayoutData;
 </script>
 
-<AppBar padding="px-[5vw] py-1">
-	<svelte:fragment slot="lead">
-		<div class="flex flex-col gap-1 " />
-	</svelte:fragment>
-</AppBar>
+<BlogHeader />
 
-<div class="p-5">
-	<h2>dnjsqhwo의 블로그</h2>
+<div class="px-[5vw] py-12">
+	<BlogHero />
 </div>
-<slot />
+
+<div>
+	<slot />
+</div>

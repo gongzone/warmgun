@@ -1,8 +1,5 @@
-interface Avatar {
-	name: string;
-	url: string;
-	equipped: boolean;
-}
+import type { AvatarEnums } from '$lib/character/avatar';
+import type { ClassEnums } from '$lib/character/class';
 
 export type CurrentUser = {
 	id: number;
@@ -11,7 +8,9 @@ export type CurrentUser = {
 	role: string;
 	character: {
 		name: string;
-		levle: number;
-		avatars: Avatar[];
+		level: number;
+		class: ClassEnums;
+		mainAvatar: AvatarEnums;
+		avatars: AvatarEnums[];
 	};
 } | null;

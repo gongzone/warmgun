@@ -13,6 +13,7 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"db:start": "docker compose --env-file .env up",
+		"db:push": "npx prisma db push",
 		"db:migrate": "npx prisma migrate dev",
 		"db:studio": "npx prisma studio"
 	},

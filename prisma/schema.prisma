@@ -12,13 +12,24 @@ datasource db {
 
 model User {
   id        Int        @id @default(autoincrement())
-  character Character?
   username  String     @unique
   password  String
   email     String     @unique
   role      Role       @default(USER)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  character Character?
+}
+
+model Character {
+  id         Int      @id @default(autoincrement())
+  name       String
+  level      Int      @default(1)
+  class      Class    @default(VAGABOND)
+  mainAvatar Avatar   @default(LABRADOR)
+  avatars    Avatar[] @default([LABRADOR, MONKEY])
+  userId     Int      @unique
+  user       User     @relation(fields: [userId], references: [id])
 }
 
 enum Role {
@@ -26,20 +37,13 @@ enum Role {
   ADMIN
 }
 
-model Character {
-  id      Int      @id @default(autoincrement())
-  name    String
-  level   Int      @default(1)
-  avatars Avatar[]
-  user    User     @relation(fields: [userId], references: [id])
-  userId  Int      @unique
+enum Class {
+  FRONTEND
+  BACKEND
+  VAGABOND
 }
 
-model Avatar {
-  id          Int       @id @default(autoincrement())
-  name        String
-  url         String
-  equipped    Boolean   @default(false)
-  character   Character @relation(fields: [characterId], references: [id])
-  characterId Int
+enum Avatar {
+  LABRADOR
+  MONKEY
 }

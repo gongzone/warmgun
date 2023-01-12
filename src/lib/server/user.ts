@@ -21,13 +21,9 @@ export async function getCurrentUser(userId: number) {
 				select: {
 					name: true,
 					level: true,
-					avatars: {
-						select: {
-							name: true,
-							url: true,
-							equipped: true
-						}
-					}
+					class: true,
+					mainAvatar: true,
+					avatars: true
 				}
 			}
 		}

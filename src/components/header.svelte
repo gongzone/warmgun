@@ -2,6 +2,7 @@
 	import { AppBar, Avatar, menu } from '@skeletonlabs/skeleton';
 
 	import type { CurrentUser } from '$lib/types/current-user';
+	import { allAvatars } from '$lib/character/avatar';
 
 	import MainLogo from '$components/@svg/main-logo.svelte';
 	import Hamburger from '$components/@svg/hamburger.svelte';
@@ -9,7 +10,8 @@
 
 	export let user: CurrentUser = null;
 
-	$: avatarUrl = user?.character.avatars.find((a) => a.equipped === true)?.url;
+	$: blogUrl = user ? `/@${user.username}` : '';
+	$: avatarUrl = user ? allAvatars[user.character.mainAvatar].url : '';
 </script>
 
 <AppBar padding="px-[5vw] py-9 md:py-12">
@@ -58,7 +60,7 @@
 							</li>
 						{/if}
 						<li>
-							<a href="/">내 블로그</a>
+							<a href={blogUrl}>내 블로그</a>
 						</li>
 						<li>
 							<form method="POST" action="/auth/logout">
