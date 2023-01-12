@@ -1,3 +1,9 @@
+interface Avatar {
+	name: string;
+	url: string;
+	equipped: boolean;
+}
+
 export type CurrentUser = {
 	id: number;
 	username: string;
@@ -6,5 +12,6 @@ export type CurrentUser = {
 	character: {
 		name: string;
 		levle: number;
+		avatars: Avatar[];
 	};
 } | null;

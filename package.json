@@ -18,19 +18,15 @@
 	},
 	"dependencies": {
 		"@fontsource/concert-one": "^4.5.9",
-		"@fontsource/macondo": "^4.5.9",
-		"@fontsource/nanum-gothic": "^4.5.7",
 		"@fontsource/noto-sans-kr": "^4.5.12",
 		"@prisma/client": "^4.8.1",
-		"add": "^2.0.6",
 		"argon2": "^0.30.3",
 		"fast-jwt": "^2.1.0",
-		"got": "^12.5.3",
 		"zod": "^3.20.2"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
-		"@skeletonlabs/skeleton": "^0.86.9",
+		"@skeletonlabs/skeleton": "^0.92.0",
 		"@sveltejs/adapter-auto": "^1.0.0",
 		"@sveltejs/kit": "^1.0.0",
 		"@tailwindcss/forms": "^0.5.3",

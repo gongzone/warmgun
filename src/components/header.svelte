@@ -3,11 +3,13 @@
 
 	import type { CurrentUser } from '$lib/types/current-user';
 
-	import MainLogo from '$lib/components/@svg/main-logo.svelte';
-	import Hamburger from '$lib/components/@svg/hamburger.svelte';
-	import DefaultAvatar from '$lib/components/@svg/default-avatar.svelte';
+	import MainLogo from '$components/@svg/main-logo.svelte';
+	import Hamburger from '$components/@svg/hamburger.svelte';
+	import DefaultAvatar from '$components/@svg/default-avatar.svelte';
 
 	export let user: CurrentUser = null;
+
+	$: avatarUrl = user?.character.avatars.find((a) => a.equipped === true)?.url;
 </script>
 
 <AppBar padding="px-[5vw] py-9 md:py-12">
@@ -40,7 +42,7 @@
 				{#if !user}
 					<DefaultAvatar />
 				{:else}
-					<Avatar />
+					<Avatar src={avatarUrl} />
 				{/if}
 			</button>
 

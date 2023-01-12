@@ -10,10 +10,8 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		alias: {
-			$api: './src/api',
-			$styles: './src/styles',
 			$components: './src/components',
-			$svg: './src/components/@svg'
+			$styles: './src/styles'
 		}
 	}
 };

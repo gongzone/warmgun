@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	import Header from '$lib/components/header.svelte';
+	import Header from '$components/header.svelte';
 
 	$: isSignupRoute = $page.url.pathname === '/auth/signup';
 </script>

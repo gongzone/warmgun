@@ -12,13 +12,13 @@ datasource db {
 
 model User {
   id        Int        @id @default(autoincrement())
+  character Character?
   username  String     @unique
   password  String
   email     String     @unique
   role      Role       @default(USER)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  character Character?
 }
 
 enum Role {
@@ -27,54 +27,19 @@ enum Role {
 }
 
 model Character {
-  id        Int        @id @default(autoincrement())
-  name      String
-  level     Int        @default(1)
-  class     Class?
-  inventory Inventory?
-  equipped  Equipped?
-  user      User       @relation(fields: [userId], references: [id])
-  userId    Int        @unique
-}
-
-model Class {
-  id          Int       @id @default(autoincrement())
-  name        String
-  character   Character @relation(fields: [characterId], references: [id])
-  characterId Int       @unique
-}
-
-model Inventory {
-  id          Int       @id @default(autoincrement())
-  avatars     Avatar[]
-  titles      Title[]
-  character   Character @relation(fields: [characterId], references: [id])
-  characterId Int       @unique
-}
-
-model Equipped {
-  id          Int       @id @default(autoincrement())
-  avatar      Avatar?
-  title       Title?
-  character   Character @relation(fields: [characterId], references: [id])
-  characterId Int       @unique
+  id      Int      @id @default(autoincrement())
+  name    String
+  level   Int      @default(1)
+  avatars Avatar[]
+  user    User     @relation(fields: [userId], references: [id])
+  userId  Int      @unique
 }
 
 model Avatar {
   id          Int       @id @default(autoincrement())
-  path        String
-  equipped    Equipped  @relation(fields: [equippedId], references: [id])
-  equippedId  Int       @unique
-  inventory   Inventory @relation(fields: [inventoryId], references: [id])
-  inventoryId Int
-}
-
-model Title {
-  id          Int       @id @default(autoincrement())
-  text        String
-  color       String
-  equipped    Equipped  @relation(fields: [equippedId], references: [id])
-  equippedId  Int       @unique
-  inventory   Inventory @relation(fields: [inventoryId], references: [id])
-  inventoryId Int
+  name        String
+  url         String
+  equipped    Boolean   @default(false)
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int
 }

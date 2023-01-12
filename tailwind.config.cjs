@@ -19,6 +19,6 @@ module.exports = {
 	plugins: [
 		require('@tailwindcss/typography'),
 		require('@tailwindcss/forms')({ strategy: 'base' }),
-		require('@skeletonlabs/skeleton/tailwind/theme.cjs')
+		require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')
 	]
 };

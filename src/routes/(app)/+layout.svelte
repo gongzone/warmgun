@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
 
-	import Header from '$lib/components/header.svelte';
+	import Header from '$components/header.svelte';
 
 	export let data: LayoutData;
 </script>

@@ -6,6 +6,7 @@ import * as argon2 from 'argon2';
 import db from '$lib/server/db';
 import { generateTokens } from '$lib/server/token';
 import { setAuthCookies } from '$lib/server/cookie';
+import { defaultAvatars } from '$lib/character/avatar';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -70,7 +71,10 @@ export const actions: Actions = {
 				email,
 				character: {
 					create: {
-						name: username
+						name: username,
+						avatars: {
+							create: [{ ...defaultAvatars['labrador'] }]
+						}
 					}
 				}
 			}
