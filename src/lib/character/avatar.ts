@@ -1,5 +1,3 @@
-export type AvatarEnums = 'LABRADOR' | 'MONKEY';
-
 export const defaultAvatars = {
 	LABRADOR: {
 		name: '멍멍이',

@@ -1,5 +1,4 @@
-import type { AvatarEnums } from '$lib/character/avatar';
-import type { ClassEnums } from '$lib/character/class';
+import type { Avatar, Class } from '@prisma/client';
 
 export type CurrentUser = {
 	id: number;
@@ -9,8 +8,8 @@ export type CurrentUser = {
 	character: {
 		name: string;
 		level: number;
-		class: ClassEnums;
-		mainAvatar: AvatarEnums;
-		avatars: AvatarEnums[];
+		class: Class;
+		mainAvatar: Avatar;
+		avatars: Avatar[];
 	};
 } | null;

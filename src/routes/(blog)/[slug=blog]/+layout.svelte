@@ -10,9 +10,9 @@
 <BlogHeader />
 
 <div class="px-[5vw] py-12">
-	<BlogHero />
+	<BlogHero {data} />
 </div>
 
-<div>
+<div class="px-[5vw] py-12">
 	<slot />
 </div>

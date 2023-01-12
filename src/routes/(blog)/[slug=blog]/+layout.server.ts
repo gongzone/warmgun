@@ -1,6 +1,7 @@
 import type { LayoutServerLoad } from './$types';
 
 import db from '$lib/server/db';
+import { error } from '@sveltejs/kit';
 
 export const load = (async ({ params }) => {
 	// 해당 params에 맞는 유저 정보 찾기
@@ -21,9 +22,11 @@ export const load = (async ({ params }) => {
 		}
 	});
 
-	console.log(blogUser);
+	if (!blogUser || !blogUser.character) {
+		throw error(404, { message: 'Not Found' });
+	}
 
 	return {
-		slug: params.slug
+		blogUser: blogUser.character
 	};
 }) satisfies LayoutServerLoad;
