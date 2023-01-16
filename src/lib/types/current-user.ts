@@ -11,5 +11,5 @@ export type CurrentUser = {
 		class: Class;
 		mainAvatar: Avatar;
 		avatars: Avatar[];
-	};
+	} | null;
 } | null;

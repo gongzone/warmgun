@@ -1,17 +1,13 @@
 <script lang="ts">
-	import { AppBar, Avatar, menu } from '@skeletonlabs/skeleton';
+	import { AppBar } from '@skeletonlabs/skeleton';
 
 	import type { CurrentUser } from '$lib/types/current-user';
-	import { allAvatars } from '$lib/character/avatar';
 
 	import MainLogo from '$components/@svg/main-logo.svelte';
 	import Hamburger from '$components/@svg/hamburger.svelte';
-	import DefaultAvatar from '$components/@svg/default-avatar.svelte';
+	import UserAvatar from '$components/user-avatar.svelte';
 
 	export let user: CurrentUser = null;
-
-	$: blogUrl = user ? `/@${user.username}` : '';
-	$: avatarUrl = user ? allAvatars[user.character.mainAvatar].url : '';
 </script>
 
 <AppBar padding="px-[5vw] py-9 md:py-12">
@@ -34,42 +30,6 @@
 			<Hamburger />
 		</button>
 
-		<div class="relative">
-			<button
-				use:menu={{ menu: 'user-menu' }}
-				class={`btn-icon w-12 px-0 ${
-					!user ? 'btn-ringed ring-[1.5px] dark:ring-zinc-500 hover:dark:ring-gray-400' : ''
-				}`}
-			>
-				{#if !user}
-					<DefaultAvatar />
-				{:else}
-					<Avatar src={avatarUrl} />
-				{/if}
-			</button>
-
-			<nav class="list-nav card p-4 w-64 shadow-xl" data-menu="user-menu">
-				<ul>
-					{#if !user}
-						<li><a href="/auth/login">로그인</a></li>
-						<li><a href="/auth/signup">회원가입</a></li>
-					{:else}
-						{#if user.role === 'ADMIN'}
-							<li>
-								<a href="/admin">⚙️ 관리자 페이지</a>
-							</li>
-						{/if}
-						<li>
-							<a href={blogUrl}>내 블로그</a>
-						</li>
-						<li>
-							<form method="POST" action="/auth/logout">
-								<button class="option w-full">로그아웃</button>
-							</form>
-						</li>
-					{/if}
-				</ul>
-			</nav>
-		</div>
+		<UserAvatar {user} />
 	</svelte:fragment>
 </AppBar>

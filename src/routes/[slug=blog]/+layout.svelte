@@ -7,7 +7,7 @@
 	export let data: LayoutData;
 </script>
 
-<BlogHeader />
+<BlogHeader user={data.user} />
 
 <div class="px-[5vw] py-12">
 	<BlogHero {data} />

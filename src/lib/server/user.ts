@@ -11,7 +11,6 @@ export async function getCurrentUser(userId: number) {
 		where: {
 			id: userId
 		},
-		// Todo: character`s class, inventory, equiped
 		select: {
 			id: true,
 			username: true,

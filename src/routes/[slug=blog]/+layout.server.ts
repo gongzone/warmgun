@@ -27,6 +27,7 @@ export const load = (async ({ params }) => {
 	}
 
 	return {
-		blogUser: blogUser.character
+		blogUser: blogUser.character,
+		slug: params.slug
 	};
 }) satisfies LayoutServerLoad;
