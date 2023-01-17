@@ -11,6 +11,7 @@ import {
 import { getCurrentUser } from '$lib/server/user';
 import { setAuthCookies } from '$lib/server/cookie';
 
+// Todo: 가끔 앱 접속 시 로그인 안되는 문제 해결
 export const handle = (async ({ event, resolve }) => {
 	const accessToken = event.cookies.get(ACCESS_TOKEN_KEY);
 	const refreshToken = event.cookies.get(REFRESH_TOKEN_KEY);

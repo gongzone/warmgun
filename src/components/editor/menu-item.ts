@@ -46,12 +46,12 @@ export const getMenuItems = (editor: Editor) => [
 		action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
 		isActive: () => editor.isActive('heading', { level: 2 })
 	},
-	{
-		icon: 'paragraph',
-		title: 'Paragraph',
-		action: () => editor.chain().focus().setParagraph().run(),
-		isActive: () => editor.isActive('paragraph')
-	},
+	// {
+	// 	icon: 'paragraph',
+	// 	title: 'Paragraph',
+	// 	action: () => editor.chain().focus().setParagraph().run(),
+	// 	isActive: () => editor.isActive('paragraph')
+	// },
 	{
 		icon: 'list-unordered',
 		title: 'Bullet List',
@@ -73,7 +73,7 @@ export const getMenuItems = (editor: Editor) => [
 	{
 		icon: 'code-box-line',
 		title: 'Code Block',
-		action: () => editor.chain().focus().toggleCodeBlock().run(),
+		action: () => editor.chain().focus().toggleCodeBlock({ language: 'js' }).run(),
 		isActive: () => editor.isActive('codeBlock')
 	},
 	{

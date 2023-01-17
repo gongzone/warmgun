@@ -7,33 +7,14 @@
 	export let isActive: (() => boolean) | undefined;
 </script>
 
-<button class={`menu-item${isActive && isActive() ? ' is-active' : ''}`} on:click={action} {title}>
-	<svg class="remix">
+<button
+	class={`bg-transparent border-none rounded-md text-gray-300 w-8 h-8 p-1 mr-1 hover:bg-black hover:text-yellow-300 ${
+		isActive && isActive() ? ' is-active bg-black text-yellow-300' : ''
+	}`}
+	on:click={action}
+	{title}
+>
+	<svg class="remix fill-current w-full h-full">
 		<use xlink:href={`${remixiconUrl}#ri-${icon}`} />
 	</svg>
 </button>
-
-<style>
-	.menu-item {
-		background-color: transparent;
-		border: none;
-		border-radius: 0.4rem;
-		color: #e1e1e1;
-		height: 1.75rem;
-		margin-right: 0.25rem;
-		padding: 0.25rem;
-		width: 1.75rem;
-	}
-
-	.menu-item:hover,
-	.menu-item.is-active {
-		background-color: #0d0d0d;
-		color: #fff;
-	}
-
-	svg {
-		fill: currentColor;
-		height: 100%;
-		width: 100%;
-	}
-</style>
