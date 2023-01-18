@@ -1,0 +1,38 @@
+@import 'bytemd/dist/index.css';
+@import 'highlight.js/styles/github-dark.css';
+
+.bytemd {
+	@apply font-sans bg-surface-600 text-surface-50 border-none rounded-md h-[calc(100vh_-_100px)];
+}
+
+.bytemd-body {
+	@apply max-w-full;
+}
+
+.CodeMirror {
+	@apply !bg-surface-800;
+}
+
+.CodeMirror-cursor {
+	@apply border-surface-50;
+}
+
+.CodeMirror pre.CodeMirror-line {
+	@apply !font-sans !bg-transparent;
+}
+
+.bytemd-toolbar {
+	@apply bg-surface-600 rounded-t-md border-none;
+}
+
+.bytemd-preview {
+	@apply !border-none !overflow-x-hidden !overflow-y-auto !bg-surface-700;
+}
+
+.markdown-body {
+	@apply prose dark:prose-invert;
+}
+
+.bytemd-status {
+	@apply border-none;
+}

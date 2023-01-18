@@ -1,1 +1,2 @@
-1. simple design system 구축
+1. ByteMd로 텍스트 에디터 변경
+2. 에디터 설정 완료 후 코드 좀 깔끔하게 만들기

@@ -23,7 +23,7 @@
 		{/if}
 	</button>
 
-	<nav class="list-nav card p-4 w-64 shadow-xl" data-menu="user-menu">
+	<nav class="w-64 p-4 shadow-xl list-nav card" data-menu="user-menu">
 		<ul>
 			{#if !user}
 				<li><a href="/auth/login">로그인</a></li>
@@ -42,7 +42,7 @@
 				</li>
 				<li>
 					<form method="POST" action="/auth/logout">
-						<button class="option w-full">로그아웃</button>
+						<button class="w-full option">로그아웃</button>
 					</form>
 				</li>
 			{/if}

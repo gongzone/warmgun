@@ -30,15 +30,18 @@
 	>
 </div>
 
-<div />
-
-<textarea
-	class="unstyled h-14 text-3xl"
-	placeholder="제목을 입력하세요"
-	bind:this={titleTextarea}
-/>
-<textarea class="unstyled h-8" placeholder="소제목을 입력하세요" bind:this={descriptionTextarea} />
-
+<div class="mb-4">
+	<textarea
+		class="unstyled h-14 text-3xl"
+		placeholder="제목을 입력하세요"
+		bind:this={titleTextarea}
+	/>
+	<textarea
+		class="unstyled h-8"
+		placeholder="소제목을 입력하세요"
+		bind:this={descriptionTextarea}
+	/>
+</div>
 <Editor />
 
 <style lang="postcss">
