@@ -7,7 +7,8 @@
 
 	import { convertBlobToBase64 } from '$lib/utils/base64';
 
-	let value: string;
+	let markdownBody: string;
+
 	let editorConfig = {
 		autofocus: true
 	};
@@ -44,14 +45,14 @@
 	}
 
 	function handleChange(e: any) {
-		value = e.detail.value;
+		markdownBody = e.detail.value;
 	}
 </script>
 
 <Editor
 	mode="auto"
 	uploadImages={handleUploadImages}
-	{value}
+	value={markdownBody}
 	{editorConfig}
 	{plugins}
 	on:change={handleChange}

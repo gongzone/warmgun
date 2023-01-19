@@ -6,6 +6,7 @@
 	import '../styles/themes/theme-polly.postcss';
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../styles/global.postcss';
+	import '../styles/editor.postcss';
 </script>
 
 <slot />
