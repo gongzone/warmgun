@@ -1,23 +1,22 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { Avatar, menu } from '@skeletonlabs/skeleton';
 
 	import type { CurrentUser } from '$lib/types/current-user';
 	import { allAvatars } from '$lib/character/avatar';
 
-	import DefaultAvatar from '$components/@svg/default-avatar.svelte';
+	let user: CurrentUser;
 
-	export let user: CurrentUser = null;
+	$: user = $page.data.user;
 </script>
 
 <div class="relative">
 	<button
 		use:menu={{ menu: 'user-menu' }}
-		class={`btn-icon w-12 px-0 ${
-			!user ? 'btn-ringed ring-[1.5px] dark:ring-zinc-500 hover:dark:ring-gray-400' : ''
-		}`}
+		class={`btn-icon w-12 px-0 ${!user ? 'btn-ringed-tertiary ring-[1.5px]' : ''}`}
 	>
 		{#if !user || !user.character}
-			<DefaultAvatar />
+			<i class="ri-user-line ri-lg" />
 		{:else}
 			<Avatar src={allAvatars[user.character.mainAvatar].url} />
 		{/if}

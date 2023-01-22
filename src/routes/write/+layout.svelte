@@ -1,9 +1,7 @@
-<script lang="ts">
-	import type { LayoutData } from './$types';
-
-	export let data: LayoutData;
+<script>
+	import WriteHeader from '$components/Header/WriteHeader.svelte';
 </script>
 
-<div class="p-5">
-	<slot />
-</div>
+<WriteHeader />
+
+<slot />

@@ -1,10 +1,10 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { writable, type Writable } from 'svelte/store';
 	import { page } from '$app/stores';
 	import type { LayoutData } from './$types';
 	import { AppShell, AppBar, AppRail, AppRailTile } from '@skeletonlabs/skeleton';
 
-	import MainLogo from '$components/@svg/main-logo.svelte';
+	import MainLogo from '$components/@svg/MainLogo.svelte';
 
 	export let data: LayoutData;
 
@@ -59,4 +59,4 @@
 	</svelte:fragment>
 
 	<slot />
-</AppShell>
+</AppShell> -->

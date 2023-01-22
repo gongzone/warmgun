@@ -11,15 +11,26 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  username  String     @unique
-  password  String
-  email     String     @unique
-  role      Role       @default(USER)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  character Character?
-  posts     Post[]
+  id         Int        @id @default(autoincrement())
+  username   String     @unique
+  password   String
+  email      String     @unique
+  role       Role       @default(USER)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  character  Character?
+  blog       Blog?
+  Articles   Article[]
+  followedBy Follows[]  @relation("following")
+  following  Follows[]  @relation("follower")
+}
+
+model Blog {
+  id     Int    @id @default(autoincrement())
+  name   String
+  url    String
+  userId Int    @unique
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Character {
@@ -33,16 +44,28 @@ model Character {
   user       User     @relation(fields: [userId], references: [id])
 }
 
-model Post {
+model Article {
   id          Int      @id @default(autoincrement())
   title       String
   description String
   coverImage  String
   body        String
+  likes       Int      @default(0)
+  views       Int      @default(0)
+  slug        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   author      User     @relation(fields: [authorId], references: [id])
   authorId    Int
+}
+
+model Follows {
+  follower    User @relation("follower", fields: [followerId], references: [id])
+  followerId  Int
+  following   User @relation("following", fields: [followingId], references: [id])
+  followingId Int
+
+  @@id([followerId, followingId])
 }
 
 enum Role {

@@ -1,10 +1,10 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import type { LayoutData } from './$types';
 	import { AppBar } from '@skeletonlabs/skeleton';
 
 	import type { CurrentUser } from '$lib/types/current-user';
 
-	import MainLogo from '$components/@svg/main-logo.svelte';
+	import MainLogo from '$components/@svg/MainLogo.svelte';
 	import UserAvatar from '$components/user-avatar.svelte';
 
 	export let user: CurrentUser;
@@ -22,4 +22,4 @@
 	<svelte:fragment slot="trail">
 		<UserAvatar {user} />
 	</svelte:fragment>
-</AppBar>
+</AppBar> -->

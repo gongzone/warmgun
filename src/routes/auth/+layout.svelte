@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	import Header from '$components/header.svelte';
+	import Header from '$components/Header/Header.svelte';
+	import Footer from '$components/Footer/Footer.svelte';
 
 	$: isSignupRoute = $page.url.pathname === '/auth/signup';
 </script>
@@ -26,6 +27,6 @@
 	</div>
 </main>
 
-<div class="h-40" />
+<div class="h-20" />
 
-<div>Footer</div>
+<Footer />

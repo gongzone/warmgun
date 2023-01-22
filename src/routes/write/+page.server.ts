@@ -5,17 +5,24 @@ import { fail, redirect } from '@sveltejs/kit';
 import db from '$lib/server/db';
 
 export const load: PageServerLoad = async ({ locals }) => {
-	return null;
+	if (!locals.user) {
+		throw redirect(302, '/auth/login');
+	}
 };
 
 const wrtieSchema = z.object({
 	title: z.string({ required_error: '' }),
 	description: z.string({ required_error: '' }),
+	coverImage: z.string({ required_error: '' }),
 	body: z.string({ required_error: '' })
 });
 
 export const actions: Actions = {
-	default: async ({ request, cookies }) => {
+	default: async ({ request, locals }) => {
+		if (!locals.user) {
+			throw redirect(302, '/auth/login');
+		}
+
 		const formData = Object.fromEntries(await request.formData());
 		const validated = wrtieSchema.safeParse(formData);
 
@@ -24,6 +31,19 @@ export const actions: Actions = {
 		}
 
 		console.log(validated.data);
-		const { title, description } = validated.data;
+
+		const { title, description, coverImage, body } = validated.data;
+
+		await db.post.create({
+			data: {
+				title,
+				description,
+				coverImage,
+				body,
+				authorId: locals.user.id
+			}
+		});
+
+		// post page로 리다이렉트
 	}
 };

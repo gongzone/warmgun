@@ -7,6 +7,10 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../styles/global.postcss';
 	import '../styles/editor.postcss';
+
+	import Drawer from '$components/Drawer/Drawer.svelte';
 </script>
+
+<Drawer />
 
 <slot />
