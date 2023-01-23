@@ -2,8 +2,8 @@
 	import { AppBar } from '@skeletonlabs/skeleton';
 
 	import Logo from './Logo/Logo.svelte';
-	import MobileNavMenu from './NavMenu/MobileNavMenu.svelte';
-	import UserMenu from './UserMenu/UserMenu.svelte';
+	import MobileNavMenu from '$components/Menu/MobileNavMenu.svelte';
+	import UserMenu from '$components/Menu/UserMenu.svelte';
 </script>
 
 <AppBar background="bg-transparent" shadow="shadow-none" padding="px-[5vw] py-9 md:py-12">

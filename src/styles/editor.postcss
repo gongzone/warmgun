@@ -2,7 +2,27 @@
 @import 'highlight.js/styles/github-dark.css';
 
 .bytemd {
-	@apply font-sans bg-surface-600 text-surface-50 border-none rounded-md h-[calc(100vh_-_100px)];
+	@apply font-sans bg-surface-900 text-surface-50 border-none rounded-md h-[calc(100vh_-_100px)];
+}
+
+.bytemd-toolbar {
+	@apply flex items-center justify-between bg-surface-900 font-sans rounded-t-md border-b-surface-600 px-0 py-3;
+}
+
+.bytemd-toolbar-tab {
+	@apply text-base font-bold;
+}
+
+.bytemd-toolbar-tab-active {
+	@apply text-primary-500;
+}
+
+.bytemd-toolbar-icon svg {
+	@apply w-[30px] h-[30px];
+}
+
+.bytemd-toolbar-icon:hover {
+	@apply bg-primary-700;
 }
 
 .bytemd-body {
@@ -10,7 +30,7 @@
 }
 
 .CodeMirror {
-	@apply !bg-surface-800;
+	@apply !bg-transparent;
 }
 
 .CodeMirror-cursor {
@@ -21,18 +41,22 @@
 	@apply !font-sans !bg-transparent;
 }
 
-.bytemd-toolbar {
-	@apply bg-surface-600 rounded-t-md border-none;
-}
-
 .bytemd-preview {
-	@apply !border-none !overflow-x-hidden !overflow-y-auto !bg-surface-700;
+	@apply !border-none !overflow-x-hidden !overflow-y-auto !bg-surface-800;
 }
 
 .markdown-body {
-	@apply prose dark:prose-invert;
+	@apply prose dark:prose-invert break-words;
 }
 
 .bytemd-status {
-	@apply border-none;
+	@apply border-surface-600;
+}
+
+.bytemd-status-left {
+	@apply text-base py-4;
+}
+
+.bytemd-status-right {
+	@apply text-base py-4;
 }

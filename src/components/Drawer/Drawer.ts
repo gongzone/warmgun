@@ -12,8 +12,10 @@ const settings: Settings = {
 	write: {
 		id: drawerIds['write'],
 		position: 'left',
-		bgDrawer: 'bg-surface-500',
-		bgBackdrop: 'bg-surface-500/50'
+		bgDrawer: 'bg-surface-900',
+		bgBackdrop: 'bg-surface-500/50',
+		width: 'w-full',
+		duration: 200
 	}
 };
 

@@ -45,26 +45,27 @@
 				>
 			</div> -->
 
-	<div class="px-20 h-full">
+	<div class="mb-4">
 		<textarea
-			class="unstyled h-14 text-5xl"
+			class="unstyled h-14 text-3xl"
 			name="title"
 			placeholder="제목을 입력하세요"
 			bind:this={titleTextarea}
 		/>
 		<textarea
-			class="unstyled h-8 text-2xl"
+			class="unstyled h-8 text-xl py-0"
 			name="description"
 			placeholder="소제목을 입력하세요"
 			bind:this={descriptionTextarea}
 		/>
 	</div>
 
-	<div class="px-20">
+	<div class="">
 		<Editor
 			mode="auto"
 			uploadImages={handleUploadImages}
 			value={markdownBody}
+			placeholder="내용을 입력하세요"
 			{editorConfig}
 			{plugins}
 			on:change={handleChange}
