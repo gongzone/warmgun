@@ -2,12 +2,14 @@ import type { Actions, PageServerLoad } from './$types';
 import { z } from 'zod';
 import { fail, redirect } from '@sveltejs/kit';
 
-import db from '$lib/server/db';
-
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(302, '/auth/login');
 	}
+
+	const recentDraft = locals.user.drafts[0];
+
+	throw redirect(302, `/write/draft/${recentDraft.id}`);
 };
 
 const wrtieSchema = z.object({
@@ -34,15 +36,15 @@ export const actions: Actions = {
 
 		const { title, description, coverImage, body } = validated.data;
 
-		await db.post.create({
-			data: {
-				title,
-				description,
-				coverImage,
-				body,
-				authorId: locals.user.id
-			}
-		});
+		// await db.article.create({
+		// 	data: {
+		// 		title,
+		// 		description,
+		// 		coverImage,
+		// 		body,
+		// 		authorId: locals.user.id
+		// 	}
+		// });
 
 		// post page로 리다이렉트
 	}

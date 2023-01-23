@@ -26,7 +26,7 @@ export async function generateToken(payload: TokenPayload) {
 	return token;
 }
 
-export async function generateTokens(user: User) {
+export async function generateTokens(user: Pick<User, 'id' | 'username' | 'email'>) {
 	const { id: userId, username, email } = user;
 
 	const [accessToken, refreshToken] = await Promise.all([

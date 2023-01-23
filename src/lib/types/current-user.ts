@@ -12,4 +12,10 @@ export type CurrentUser = {
 		mainAvatar: Avatar;
 		avatars: Avatar[];
 	} | null;
+	drafts: {
+		id: number | null;
+		title: string | null;
+		description: string | null;
+		updatedAt: Date;
+	}[];
 } | null;

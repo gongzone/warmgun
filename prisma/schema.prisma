@@ -20,7 +20,8 @@ model User {
   updatedAt  DateTime   @updatedAt
   character  Character?
   blog       Blog?
-  Articles   Article[]
+  drafts     Draft[]
+  articles   Article[]
   followedBy Follows[]  @relation("following")
   following  Follows[]  @relation("follower")
 }
@@ -44,11 +45,22 @@ model Character {
   user       User     @relation(fields: [userId], references: [id])
 }
 
+model Draft {
+  id          Int      @id @default(autoincrement())
+  title       String?
+  description String?
+  body        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    Int
+}
+
 model Article {
   id          Int      @id @default(autoincrement())
   title       String
   description String
-  coverImage  String
+  coverImage  String?
   body        String
   likes       Int      @default(0)
   views       Int      @default(0)

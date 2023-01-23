@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Draft" ALTER COLUMN "title" DROP NOT NULL,
+ALTER COLUMN "description" DROP NOT NULL,
+ALTER COLUMN "body" DROP NOT NULL;

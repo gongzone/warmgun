@@ -34,7 +34,7 @@
 					</li>
 				{/if}
 				<li>
-					<a href={`/write`}>글쓰기</a>
+					<a href={`/write/draft/${user.drafts[0].id}`}>글쓰기</a>
 				</li>
 				<li>
 					<a href={`/@${user.username}`}>내 블로그</a>

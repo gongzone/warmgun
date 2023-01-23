@@ -18,5 +18,8 @@
 			><i class="ri-article-line ri-lg" /></button
 		>
 	</div>
-	<button class="btn btn-filled-primary btn-base">글 등록</button>
+	<div class="flex gap-4">
+		<button class="btn btn-filled-secondary btn-base">저장</button>
+		<button class="btn btn-filled-primary btn-base">글 등록</button>
+	</div>
 </header>

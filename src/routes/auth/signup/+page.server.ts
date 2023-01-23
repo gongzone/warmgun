@@ -72,6 +72,9 @@ export const actions: Actions = {
 					create: {
 						name: username
 					}
+				},
+				drafts: {
+					create: [{}]
 				}
 			}
 		});
