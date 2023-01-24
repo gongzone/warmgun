@@ -73,13 +73,19 @@ export const actions: Actions = {
 						name: username
 					}
 				},
+				blog: {
+					create: {
+						name: `${username}님의 블로그`,
+						url: `/@${username}`
+					}
+				},
 				drafts: {
 					create: [{}]
 				}
 			}
 		});
 		// generate tokens
-		const { accessToken, refreshToken } = await generateTokens(newUser);
+		const { accessToken, refreshToken } = await generateTokens(newUser.id);
 
 		// set the cookies in browser
 		setAuthCookies(cookies, { accessToken, refreshToken });

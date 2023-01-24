@@ -49,7 +49,7 @@ export const actions: Actions = {
 		}
 
 		// generate tokens
-		const { accessToken, refreshToken } = await generateTokens(foundUser);
+		const { accessToken, refreshToken } = await generateTokens(foundUser.id);
 
 		// set the cookies in browser
 		setAuthCookies(cookies, { accessToken, refreshToken });

@@ -1,5 +1,4 @@
 import { JWT_SECRET_KEY } from '$env/static/private';
-import type { User } from '@prisma/client';
 import { createSigner, createVerifier, TokenError } from 'fast-jwt';
 
 const SECRET_KEY = JWT_SECRET_KEY;
@@ -26,15 +25,11 @@ export async function generateToken(payload: TokenPayload) {
 	return token;
 }
 
-export async function generateTokens(user: Pick<User, 'id' | 'username' | 'email'>) {
-	const { id: userId, username, email } = user;
-
+export async function generateTokens(userId: number) {
 	const [accessToken, refreshToken] = await Promise.all([
 		generateToken({
 			type: ACCESS_TOKEN_KEY,
-			userId,
-			username,
-			email
+			userId
 		}),
 		generateToken({
 			type: REFRESH_TOKEN_KEY,
@@ -45,14 +40,14 @@ export async function generateTokens(user: Pick<User, 'id' | 'username' | 'email
 	return { accessToken, refreshToken };
 }
 
-export async function verifyToken<T>(token: string) {
+export async function verifyToken(token: string) {
 	const verifyWithPromise = createVerifier({
 		key: async () => JWT_SECRET_KEY,
 		cache: 1000
 	});
 
 	try {
-		const payload: T = await verifyWithPromise(token);
+		const payload: TokenPayload = await verifyWithPromise(token);
 		return payload;
 	} catch (err) {
 		if (err instanceof TokenError) {
@@ -61,16 +56,7 @@ export async function verifyToken<T>(token: string) {
 	}
 }
 
-export interface AccessTokenPayload {
-	type: typeof ACCESS_TOKEN_KEY;
-	userId: number;
-	username: string;
-	email: string;
-}
-
-export interface RefreshTokenPayload {
-	type: typeof REFRESH_TOKEN_KEY;
+export interface TokenPayload {
+	type: typeof ACCESS_TOKEN_KEY | typeof REFRESH_TOKEN_KEY;
 	userId: number;
 }
-
-export type TokenPayload = AccessTokenPayload | RefreshTokenPayload;

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// import type { LayoutData } from './$types';
 
-	import Header from '$components/Header/Header.svelte';
+	import Header from './_Header/Header.svelte';
 	import Footer from '$components/Footer/Footer.svelte';
 
 	// export let data: LayoutData;

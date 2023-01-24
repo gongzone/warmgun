@@ -5,18 +5,17 @@ import {
 	ACCESS_TOKEN_KEY,
 	REFRESH_TOKEN_KEY,
 	generateTokens,
-	verifyToken,
-	type AccessTokenPayload,
-	type RefreshTokenPayload
+	verifyToken
 } from '$lib/server/token';
 import { setAuthCookies } from '$lib/server/cookie';
+import type { CurrentUser } from '$lib/types/current-user';
 
-// export const userCache = new Map();
+const userCache = new Map<number, CurrentUser>();
 
-export async function getCurrentUser(userId: number) {
-	// if (userCache.has(userId)) {
-	// 	return userCache.get(userId);
-	// }
+async function getCurrentUser(userId: number) {
+	if (userCache.has(userId)) {
+		return userCache.get(userId) as CurrentUser;
+	}
 
 	const currentUser = await db.user.findUnique({
 		where: {
@@ -24,44 +23,21 @@ export async function getCurrentUser(userId: number) {
 		},
 		select: {
 			id: true,
-			username: true,
-			email: true,
-			role: true,
-			character: {
-				select: {
-					name: true,
-					level: true,
-					class: true,
-					mainAvatar: true,
-					avatars: true
-				}
-			},
-			drafts: {
-				select: {
-					id: true,
-					title: true,
-					description: true,
-					updatedAt: true
-				},
-				orderBy: { updatedAt: 'desc' }
-			}
+			role: true
 		}
 	});
 
-	// userCache.set(userId, currentUser);
+	userCache.set(userId, currentUser);
 
 	return currentUser;
 }
 
-// Todo: clear user cache function needed to add
-
-// Todo: 가끔 앱 접속 시 로그인 안되는 문제 해결
 export const handle = (async ({ event, resolve }) => {
 	const accessToken = event.cookies.get(ACCESS_TOKEN_KEY);
 	const refreshToken = event.cookies.get(REFRESH_TOKEN_KEY);
 
 	if (accessToken) {
-		const verifiedAccessToken = await verifyToken<AccessTokenPayload>(accessToken);
+		const verifiedAccessToken = await verifyToken(accessToken);
 		const currentUser = verifiedAccessToken
 			? await getCurrentUser(verifiedAccessToken.userId)
 			: null;
@@ -75,7 +51,7 @@ export const handle = (async ({ event, resolve }) => {
 		return await resolve(event);
 	}
 
-	const verfiedRefreshToken = await verifyToken<RefreshTokenPayload>(refreshToken);
+	const verfiedRefreshToken = await verifyToken(refreshToken);
 	const currentUser = verfiedRefreshToken ? await getCurrentUser(verfiedRefreshToken.userId) : null;
 
 	if (!currentUser) {
@@ -83,11 +59,9 @@ export const handle = (async ({ event, resolve }) => {
 		return await resolve(event);
 	}
 
-	const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await generateTokens({
-		id: currentUser.id,
-		username: currentUser.username,
-		email: currentUser.email
-	});
+	const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await generateTokens(
+		currentUser.id
+	);
 
 	setAuthCookies(event.cookies, { accessToken: newAccessToken, refreshToken: newRefreshToken });
 

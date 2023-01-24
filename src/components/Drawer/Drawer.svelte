@@ -3,12 +3,12 @@
 
 	import { drawerIds } from './Drawer';
 
-	import WriteDrawer from './contents/WriteDrawer.svelte';
+	import WriteSidebar from './Sidebar/WriteSidebar/WriteSidebar.svelte';
 </script>
 
 <Drawer>
 	{#if $drawerStore.id === drawerIds['write']}
-		<WriteDrawer />
+		<WriteSidebar />
 	{:else if $drawerStore.id === 'example-2'}
 		<p>(show 'example-2' contents)</p>
 	{:else}

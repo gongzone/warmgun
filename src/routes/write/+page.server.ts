@@ -2,16 +2,6 @@ import type { Actions, PageServerLoad } from './$types';
 import { z } from 'zod';
 import { fail, redirect } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ locals }) => {
-	if (!locals.user) {
-		throw redirect(302, '/auth/login');
-	}
-
-	const recentDraft = locals.user.drafts[0];
-
-	throw redirect(302, `/write/draft/${recentDraft.id}`);
-};
-
 const wrtieSchema = z.object({
 	title: z.string({ required_error: '' }),
 	description: z.string({ required_error: '' }),

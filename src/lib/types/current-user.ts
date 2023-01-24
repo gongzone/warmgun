@@ -1,21 +1,3 @@
-import type { Avatar, Class } from '@prisma/client';
+import type { User } from '@prisma/client';
 
-export type CurrentUser = {
-	id: number;
-	username: string;
-	email: string;
-	role: string;
-	character: {
-		name: string;
-		level: number;
-		class: Class;
-		mainAvatar: Avatar;
-		avatars: Avatar[];
-	} | null;
-	drafts: {
-		id: number | null;
-		title: string | null;
-		description: string | null;
-		updatedAt: Date;
-	}[];
-} | null;
+export type CurrentUser = Pick<User, 'id' | 'role'> | null;
