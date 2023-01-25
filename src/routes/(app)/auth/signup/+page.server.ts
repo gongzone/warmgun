@@ -9,6 +9,7 @@ import { setAuthCookies } from '$lib/server/cookie';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
+		console.log(locals.user);
 		throw redirect(302, '/');
 	}
 };
@@ -80,7 +81,7 @@ export const actions: Actions = {
 					}
 				},
 				drafts: {
-					create: [{}]
+					create: {}
 				}
 			}
 		});

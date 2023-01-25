@@ -2,15 +2,15 @@
 @import 'highlight.js/styles/github-dark.css';
 
 .bytemd {
-	@apply font-sans bg-surface-900 text-surface-50 border-none rounded-md h-[calc(100vh_-_100px)];
+	@apply font-sans bg-surface-900 text-surface-50 border-none h-[calc(100vh_-_100px)];
 }
 
 .bytemd-toolbar {
-	@apply flex items-center justify-between bg-surface-900 font-sans rounded-t-md border-b-surface-600 px-0 py-3;
+	@apply flex items-center justify-between bg-surface-900 border-b-surface-600 px-0 py-3;
 }
 
 .bytemd-toolbar-tab {
-	@apply text-base font-bold;
+	@apply text-base font-logo;
 }
 
 .bytemd-toolbar-tab-active {
@@ -18,27 +18,11 @@
 }
 
 .bytemd-toolbar-icon svg {
-	@apply w-[30px] h-[30px];
+	@apply w-[28px] h-[28px];
 }
 
 .bytemd-toolbar-icon:hover {
 	@apply bg-primary-700;
-}
-
-.bytemd-body {
-	@apply max-w-full;
-}
-
-.CodeMirror {
-	@apply !bg-transparent;
-}
-
-.CodeMirror-cursor {
-	@apply border-surface-50;
-}
-
-.CodeMirror pre.CodeMirror-line {
-	@apply !font-sans !bg-transparent;
 }
 
 .bytemd-preview {
@@ -50,13 +34,33 @@
 }
 
 .bytemd-status {
-	@apply border-surface-600;
+	@apply border-t-surface-600;
 }
 
 .bytemd-status-left {
-	@apply text-base py-4;
+	@apply text-base font-logo py-3;
 }
 
 .bytemd-status-right {
-	@apply text-base py-4;
+	@apply text-base font-logo py-3;
+}
+
+.CodeMirror {
+	@apply !bg-transparent;
+}
+
+.CodeMirror-cursor {
+	@apply border-surface-50;
+}
+
+.CodeMirror pre.CodeMirror-line {
+	@apply !font-sans !bg-transparent !px-4 !py-0;
+}
+
+.cm-header {
+	@apply !text-xl !text-primary-500;
+}
+
+.cm-comment {
+	@apply !text-secondary-300;
 }

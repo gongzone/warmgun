@@ -47,22 +47,16 @@
 
 <!-- UI 리팩토링 -->
 <form method="POST" use:enhance={submitHandler}>
-	<!-- <div class="flex justify-end p-5">
-				<FileButton bind:files button="btn-icon btn-filled-secondary" title="커버 이미지"
-					><i class="ri-image-add-line ri-lg" /></FileButton
-				>
-			</div> -->
-
 	<div class="mb-4">
 		<textarea
-			class="unstyled h-14 text-3xl"
+			class="unstyled h-14 text-3xl w-full resize-none border-0 bg-transparent font-bold focus:!outline-none focus:ring-0"
 			name="title"
 			placeholder="제목을 입력하세요"
 			value={title}
 			bind:this={titleTextarea}
 		/>
 		<textarea
-			class="unstyled h-8 text-xl py-0"
+			class="unstyled h-8 text-xl py-0 w-full resize-none border-0 bg-transparent font-bold focus:!outline-none focus:ring-0"
 			name="description"
 			placeholder="소제목을 입력하세요"
 			value={description}
@@ -75,21 +69,9 @@
 			mode="auto"
 			uploadImages={handleUploadImages}
 			value={markdownBody}
-			placeholder="내용을 입력하세요"
 			{editorConfig}
 			{plugins}
 			on:change={handleChange}
 		/>
 	</div>
 </form>
-
-<style lang="postcss">
-	textarea {
-		@apply w-full resize-none border-0 bg-transparent font-bold;
-	}
-
-	textarea:focus {
-		outline: none !important;
-		box-shadow: none !important;
-	}
-</style>

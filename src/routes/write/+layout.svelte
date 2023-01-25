@@ -11,6 +11,6 @@
 
 <WriteHeader />
 
-<main class="p-5">
+<main class="p-5 md:p-10">
 	<slot />
 </main>
