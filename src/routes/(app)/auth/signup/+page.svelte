@@ -2,7 +2,8 @@
 	import type { ActionData } from './$types';
 	import { enhance } from '$app/forms';
 
-	import Alert from '$components/@custom/alert.svelte';
+	import Alert from '$components/@custom/Alert.svelte';
+	import FormInput from '$components/@custom/FormInput.svelte';
 
 	export let form: ActionData;
 
@@ -11,31 +12,33 @@
 </script>
 
 <form method="POST" use:enhance>
-	<div class="flex flex-col gap-5 mb-8">
+	<div class="space-y-5 mb-8">
 		<Alert {isVisible} {errorMessage} />
 
-		<label for="username">
-			<span>아이디</span>
-			<input type="text" name="username" id="username" required />
-			<span class="mt-2 mb-0">* 5~20자 사이의 영문 소문자/숫자 입력</span>
-		</label>
+		<FormInput type="text" name="username">
+			<svelte:fragment slot="labelText">아이디</svelte:fragment>
+			<svelte:fragment slot="icon"><i class="ri-user-line" /></svelte:fragment>
+			<svelte:fragment slot="helperText">* 5~20자 사이의 영문 소문자/숫자 입력</svelte:fragment>
+		</FormInput>
 
-		<label for="password">
-			<span>비밀번호</span>
-			<input type="password" name="password" id="password" required />
-			<span class="mt-2 mb-0">* 8~20자 사이, 영문/숫자/특수 문자 중 2가지 이상 포함</span>
-		</label>
+		<FormInput type="password" name="password">
+			<svelte:fragment slot="labelText">비밀번호</svelte:fragment>
+			<svelte:fragment slot="icon"><i class="ri-lock-password-line" /></svelte:fragment>
+			<svelte:fragment slot="helperText"
+				>* 8~20자 사이, 영문/숫자/특수 문자 중 2가지 이상 포함</svelte:fragment
+			>
+		</FormInput>
 
-		<label for="confirm">
-			<span>비밀번호 확인</span>
-			<input type="password" name="confirm" id="confirm" required />
-		</label>
+		<FormInput type="password" name="confirm">
+			<svelte:fragment slot="labelText">비밀번호 확인</svelte:fragment>
+			<svelte:fragment slot="icon"><i class="ri-shield-check-line" /></svelte:fragment>
+		</FormInput>
 
-		<label for="email">
-			<span>이메일</span>
-			<input type="email" name="email" id="email" required />
-		</label>
+		<FormInput type="email" name="email">
+			<svelte:fragment slot="labelText">이메일</svelte:fragment>
+			<svelte:fragment slot="icon"><i class="ri-mail-line" /></svelte:fragment>
+		</FormInput>
 	</div>
 
-	<button class="w-full btn btn-filled-primary btn-base">회원가입</button>
+	<button class="w-full btn variant-filled-primary btn-base">회원가입</button>
 </form>

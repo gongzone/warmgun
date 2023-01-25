@@ -11,7 +11,7 @@
 <div class="relative">
 	<button
 		use:menu={{ menu: 'user-menu' }}
-		class={`btn-icon w-12 px-0 ${!user ? 'btn-ringed-tertiary ring-[1.5px]' : ''}`}
+		class={`btn-icon w-12 px-0 ${!user ? 'variant-ringed-tertiary ring-[1.5px]' : ''}`}
 	>
 		{#if !user}
 			<i class="ri-user-line ri-lg" />
