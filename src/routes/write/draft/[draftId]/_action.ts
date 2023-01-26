@@ -12,6 +12,25 @@ export async function createDraft(authorId: number) {
 	});
 }
 
+interface SaveDraftData {
+	title: string;
+	description: string;
+	body: string;
+}
+
+export async function saveDraft(draftId: number, data: SaveDraftData) {
+	return await db.draft.update({
+		where: {
+			id: draftId
+		},
+		data: {
+			title: data.title,
+			description: data.description,
+			body: data.body
+		}
+	});
+}
+
 export async function deleteDraft(draftId: number) {
 	return await db.draft.delete({
 		where: {

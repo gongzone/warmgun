@@ -5,9 +5,8 @@
 
 	import DraftCard from './DraftCard/DraftCard.svelte';
 
-	let writer: LayoutData['writer'];
+	export let drafts: LayoutData['writer']['drafts'];
 
-	$: writer = $page.data.writer;
 	$: currentDraftId = +$page.params.draftId;
 </script>
 
@@ -18,15 +17,13 @@
 		<span class="text-base font-bold select-none" slot="summary">초고</span>
 
 		<nav slot="content">
-			{#if writer.drafts}
-				<ul class="flex flex-col gap-3">
-					{#each writer.drafts as draft (draft.id)}
-						<li>
-							<DraftCard {draft} {currentDraftId} />
-						</li>
-					{/each}
-				</ul>
-			{/if}
+			<ul class="flex flex-col gap-3">
+				{#each drafts as draft (draft.id)}
+					<li>
+						<DraftCard {draft} {currentDraftId} />
+					</li>
+				{/each}
+			</ul>
 		</nav>
 	</AccordionItem>
 </AccordionGroup>

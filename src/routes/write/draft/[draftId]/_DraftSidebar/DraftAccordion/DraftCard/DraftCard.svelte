@@ -15,8 +15,8 @@
 	export let currentDraftId: number;
 
 	$: id = draft.id;
-	$: title = draft.title ?? '무제';
-	$: description = draft.description ?? '내용 없음';
+	$: title = draft.title || '무제';
+	$: description = draft.description || '내용 없음';
 	$: formattedDate = formatDate(draft.updatedAt);
 </script>
 
@@ -37,12 +37,12 @@
 	</button>
 
 	<div>
-		<form method="POST" action="/write/draft?/delete" use:enhance>
-			<input type="hidden" name="currentDraftId" value={currentDraftId} hidden />
-			<input type="hidden" name="draftId" value={id} hidden />
+		<form method="POST" action="?/delete" use:enhance>
 			<button class="btn-icon w-9 h-9 px-0 variant-ringed-tertiary rounded-lg"
 				><i class="ri-delete-bin-line ri-lg" /></button
 			>
+			<input type="hidden" name="currentDraftId" value={currentDraftId} hidden />
+			<input type="hidden" name="draftId" value={id} hidden />
 		</form>
 	</div>
 </div>

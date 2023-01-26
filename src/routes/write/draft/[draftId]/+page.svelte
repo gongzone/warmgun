@@ -1,77 +1,46 @@
 <script lang="ts">
-	import type { SubmitFunction } from '@sveltejs/kit';
+	import type { PageData, ActionData } from './$types';
+	import { drawerStore } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
-	import type { PageData } from './$types';
-	import { FileButton } from '@skeletonlabs/skeleton';
-	import autosize from 'autosize';
-	import { Editor } from 'bytemd';
 
-	import { plugins, editorConfig } from '$lib/editor/editor';
-	import { uploadImages } from '$lib/client-fetch/image';
+	import BackButton from '$components/@custom/BackButton.svelte';
+	import triggerToast from '$components/@custom/toast';
+	import Editor from '../../_Editor/Editor.svelte';
 
 	export let data: PageData;
+	export let form: ActionData;
 
-	let titleTextarea: Element;
-	let descriptionTextarea: Element;
-	let files: FileList;
+	$: writer = data.writer;
+	$: id = data.draft.id;
+	$: title = data.draft.title;
+	$: description = data.draft.description;
+	$: body = data.draft.body;
 
-	let coverImageUrl: string;
-	let title: string;
-	let description: string;
-	let markdownBody: string;
-
-	$: title = data.draft.title ?? '';
-	$: description = data.draft.description ?? '';
-	$: markdownBody = data.draft.body ?? '';
-	$: titleTextarea ? autosize(titleTextarea) : null;
-	$: descriptionTextarea ? autosize(descriptionTextarea) : null;
-	$: files &&
-		uploadImages(Array.from(files)).then((data) => {
-			coverImageUrl = data[0];
-		});
-
-	function handleChange(e: any) {
-		markdownBody = e.detail.value;
-	}
-
-	async function handleUploadImages(markdownImages: File[]) {
-		const urls = await uploadImages(markdownImages);
-		return urls.map((url) => ({ url }));
-	}
-
-	const submitHandler: SubmitFunction = async ({ form, data, action, cancel }) => {
-		data.append('coverImage', coverImageUrl);
-		data.append('body', markdownBody);
-	};
+	$: form?.success && triggerToast(form.message, 'success');
 </script>
 
-<!-- UI 리팩토링 -->
-<form method="POST" use:enhance={submitHandler}>
-	<div class="mb-4">
-		<textarea
-			class="unstyled h-14 text-3xl w-full resize-none border-0 bg-transparent font-bold focus:!outline-none focus:ring-0"
-			name="title"
-			placeholder="제목을 입력하세요"
-			value={title}
-			bind:this={titleTextarea}
-		/>
-		<textarea
-			class="unstyled h-8 text-xl py-0 w-full resize-none border-0 bg-transparent font-bold focus:!outline-none focus:ring-0"
-			name="description"
-			placeholder="소제목을 입력하세요"
-			value={description}
-			bind:this={descriptionTextarea}
-		/>
+<form
+	method="POST"
+	use:enhance={() =>
+		({ update }) =>
+			update({ reset: false })}
+>
+	<div class="flex justify-between p-5">
+		<div>
+			<BackButton fallback={writer.blogUrl} />
+			<button
+				type="button"
+				class="btn-icon variant-ghost-surface"
+				on:click={() => drawerStore.open()}><i class="ri-article-line ri-lg" /></button
+			>
+		</div>
+
+		<div class="flex gap-4">
+			<button formaction="?/save" class="btn variant-filled-secondary btn-base">저장</button>
+			<button class="btn variant-filled-primary btn-base">글 등록</button>
+		</div>
 	</div>
 
-	<div class="">
-		<Editor
-			mode="auto"
-			uploadImages={handleUploadImages}
-			value={markdownBody}
-			{editorConfig}
-			{plugins}
-			on:change={handleChange}
-		/>
-	</div>
+	<Editor {title} {description} {body} />
+	<input type="hidden" name="draftId" value={id} hidden />
 </form>

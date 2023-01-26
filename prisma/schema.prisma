@@ -47,9 +47,9 @@ model Character {
 
 model Draft {
   id          Int      @id @default(autoincrement())
-  title       String?
-  description String?
-  body        String?
+  title       String   @default("")
+  description String   @default("")
+  body        String   @default("")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   author      User     @relation(fields: [authorId], references: [id])
