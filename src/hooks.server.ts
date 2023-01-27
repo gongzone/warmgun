@@ -1,4 +1,4 @@
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, Cookies } from '@sveltejs/kit';
 
 import db from '$lib/server/db';
 import {
@@ -32,6 +32,27 @@ async function getCurrentUser(userId: number) {
 	return currentUser;
 }
 
+async function refreshAuth(cookies: Cookies, refreshToken: string | undefined) {
+	if (!refreshToken) {
+		return null;
+	}
+
+	const verfiedRefreshToken = await verifyToken(refreshToken);
+	const currentUser = verfiedRefreshToken ? await getCurrentUser(verfiedRefreshToken.userId) : null;
+
+	if (!currentUser) {
+		return null;
+	}
+
+	const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await generateTokens(
+		currentUser.id
+	);
+
+	setAuthCookies(cookies, { accessToken: newAccessToken, refreshToken: newRefreshToken });
+
+	return currentUser;
+}
+
 export const handle = (async ({ event, resolve }) => {
 	const accessToken = event.cookies.get(ACCESS_TOKEN_KEY);
 	const refreshToken = event.cookies.get(REFRESH_TOKEN_KEY);
@@ -40,32 +61,12 @@ export const handle = (async ({ event, resolve }) => {
 		const verifiedAccessToken = await verifyToken(accessToken);
 		const currentUser = verifiedAccessToken
 			? await getCurrentUser(verifiedAccessToken.userId)
-			: null;
+			: await refreshAuth(event.cookies, refreshToken);
+
 		event.locals.user = currentUser;
-
 		return await resolve(event);
 	}
 
-	if (!refreshToken) {
-		event.locals.user = null;
-		return await resolve(event);
-	}
-
-	const verfiedRefreshToken = await verifyToken(refreshToken);
-	const currentUser = verfiedRefreshToken ? await getCurrentUser(verfiedRefreshToken.userId) : null;
-
-	if (!currentUser) {
-		event.locals.user = null;
-		return await resolve(event);
-	}
-
-	const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await generateTokens(
-		currentUser.id
-	);
-
-	setAuthCookies(event.cookies, { accessToken: newAccessToken, refreshToken: newRefreshToken });
-
-	event.locals.user = currentUser;
-
+	event.locals.user = await refreshAuth(event.cookies, refreshToken);
 	return await resolve(event);
 }) satisfies Handle;
