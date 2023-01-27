@@ -39,6 +39,14 @@ export async function deleteDraft(draftId: number) {
 	});
 }
 
+export async function getCountOfDrafts(auhtorId: number) {
+	return await db.draft.count({
+		where: {
+			authorId: auhtorId
+		}
+	});
+}
+
 export async function findLatestDraft(authorId: number) {
 	return await db.draft.findFirst({
 		where: {

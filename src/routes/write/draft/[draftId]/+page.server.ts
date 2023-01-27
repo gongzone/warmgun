@@ -1,9 +1,11 @@
 import type { PageServerLoad, Actions } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
-import { z } from 'zod';
+
+import { validateFormData, extractErrorMessage } from '$lib/server/validation';
 
 import { getDraft } from './_load';
-import { createDraft, saveDraft, deleteDraft, findLatestDraft } from './_action';
+import { createDraft, saveDraft, deleteDraft, getCountOfDrafts, findLatestDraft } from './_action';
+import { saveSchema, deleteSchema, type SaveSchema, type DeleteSchema } from './_schema';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	if (!locals.user) {
@@ -18,18 +20,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
 	return { draft };
 };
-
-const saveSchema = z.object({
-	title: z.string({ required_error: '아이디는 필수 값 입니다.' }),
-	description: z.string({ required_error: '아이디는 필수 값 입니다.' }),
-	body: z.string({ required_error: '아이디는 필수 값 입니다.' }),
-	draftId: z.string({ required_error: '아이디는 필수 값 입니다.' })
-});
-
-const deleteSchema = z.object({
-	currentDraftId: z.string({ required_error: '아이디는 필수 값 입니다.' }),
-	draftId: z.string({ required_error: '아이디는 필수 값 입니다.' })
-});
 
 export const actions: Actions = {
 	create: async ({ locals }) => {
@@ -46,11 +36,11 @@ export const actions: Actions = {
 			throw redirect(302, '/auth/login');
 		}
 
-		const formData = Object.fromEntries(await request.formData());
-		const validated = saveSchema.safeParse(formData);
+		const formData = await request.formData();
+		const validated = validateFormData<SaveSchema>(formData, saveSchema);
 
 		if (!validated.success) {
-			return fail(400, { success: false, message: validated.error.issues[0].message });
+			return fail(400, { success: false, message: extractErrorMessage(validated.error) });
 		}
 
 		const { title, description, body, draftId } = validated.data;
@@ -64,20 +54,25 @@ export const actions: Actions = {
 			throw redirect(302, '/auth/login');
 		}
 
-		const formData = Object.fromEntries(await request.formData());
-		const validated = deleteSchema.safeParse(formData);
+		const formData = await request.formData();
+		const validated = validateFormData<DeleteSchema>(formData, deleteSchema);
 
 		if (!validated.success) {
-			return fail(400, { success: false, message: validated.error.issues[0].message });
+			return fail(400, { success: false, message: extractErrorMessage(validated.error) });
 		}
 
 		const { currentDraftId, draftId } = validated.data;
+
+		const totalCount = await getCountOfDrafts(locals.user.id);
+
+		if (totalCount <= 1) {
+			return fail(400, { success: false, message: '마지막 초고는 삭제하실 수 없습니다 😅' });
+		}
 
 		await deleteDraft(+draftId);
 
 		if (+currentDraftId === +draftId) {
 			const latestDraft = await findLatestDraft(locals.user.id);
-
 			throw redirect(302, `/write/draft/${latestDraft?.id}`);
 		}
 	}

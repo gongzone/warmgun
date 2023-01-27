@@ -16,7 +16,9 @@
 	$: description = data.draft.description;
 	$: body = data.draft.body;
 
-	$: form?.success && triggerToast(form.message, 'success');
+	$: if (form) {
+		form.success ? triggerToast(form.message, 'success') : triggerToast(form.message, 'error');
+	}
 </script>
 
 <form
@@ -41,6 +43,8 @@
 		</div>
 	</div>
 
-	<Editor {title} {description} {body} />
-	<input type="hidden" name="draftId" value={id} hidden />
+	<div class="py-2 px-2 md:px-5 lg:px-[4vw] lg:py-4">
+		<Editor {title} {description} {body} />
+		<input type="hidden" name="draftId" value={id} hidden />
+	</div>
 </form>
