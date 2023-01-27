@@ -5,7 +5,7 @@ import { validateFormData, extractErrorMessage } from '$lib/server/validation';
 
 import { getDraft } from './_load';
 import { createDraft, saveDraft, deleteDraft, getCountOfDrafts, findLatestDraft } from './_action';
-import { saveSchema, deleteSchema, type SaveSchema, type DeleteSchema } from './_schema';
+import { saveSchema, deleteSchema } from './_schema';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	if (!locals.user) {
@@ -37,7 +37,7 @@ export const actions: Actions = {
 		}
 
 		const formData = await request.formData();
-		const validated = validateFormData<SaveSchema>(formData, saveSchema);
+		const validated = validateFormData(formData, saveSchema);
 
 		if (!validated.success) {
 			return fail(400, { success: false, message: extractErrorMessage(validated.error) });
@@ -55,7 +55,7 @@ export const actions: Actions = {
 		}
 
 		const formData = await request.formData();
-		const validated = validateFormData<DeleteSchema>(formData, deleteSchema);
+		const validated = validateFormData(formData, deleteSchema);
 
 		if (!validated.success) {
 			return fail(400, { success: false, message: extractErrorMessage(validated.error) });

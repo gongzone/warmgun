@@ -11,6 +11,3 @@ export const deleteSchema = z.object({
 	currentDraftId: z.string(),
 	draftId: z.string()
 });
-
-export type SaveSchema = z.infer<typeof saveSchema>;
-export type DeleteSchema = z.infer<typeof deleteSchema>;

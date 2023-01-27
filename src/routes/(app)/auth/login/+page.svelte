@@ -7,8 +7,13 @@
 
 	export let form: ActionData;
 
-	$: isVisible = !!form?.message;
-	$: errorMessage = form?.message;
+	let isVisible = false;
+	let errorMessage = '';
+
+	$: if (form) {
+		isVisible = !form.success;
+		errorMessage = form.message;
+	}
 </script>
 
 <form method="POST" use:enhance>
