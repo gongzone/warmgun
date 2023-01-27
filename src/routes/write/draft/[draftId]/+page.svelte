@@ -27,7 +27,7 @@
 >
 	<div class="flex justify-between p-5">
 		<div>
-			<BackButton fallback={writer.blogUrl} />
+			<BackButton href={writer.blogUrl} />
 			<button
 				type="button"
 				class="btn-icon variant-ghost-surface"

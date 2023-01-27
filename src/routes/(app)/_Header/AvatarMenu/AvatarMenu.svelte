@@ -32,10 +32,16 @@
 					</li>
 				{/if}
 				<li>
-					<a href={`/write/draft/${user.recentDraftId}`}>글쓰기</a>
+					<a href={user.blogUrl}
+						><span class="badge-icon py-4"><i class="ri-community-line ri-xl" /></span>
+						<span class="flex-auto">내 블로그</span>
+					</a>
 				</li>
 				<li>
-					<a href={user.blogUrl}>내 블로그</a>
+					<a href={`/write/draft/${user.recentDraftId}`}>
+						<span class="badge-icon py-4"><i class="ri-quill-pen-line ri-xl" /></span>
+						<span class="flex-auto">글쓰기</span>
+					</a>
 				</li>
 				<li>
 					<form method="POST" action="/auth/logout">
