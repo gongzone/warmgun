@@ -12,6 +12,6 @@ export const actions: Actions = {
 		deleteAuthCookies(cookies);
 		locals.user = null;
 
-		throw redirect(302, '/auth/login');
+		throw redirect(303, '/auth/login');
 	}
 };

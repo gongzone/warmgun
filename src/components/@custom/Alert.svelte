@@ -5,7 +5,7 @@
 </script>
 
 {#if isVisible}
-	<aside class="alert">
+	<aside class="alert variant-ghost-warning">
 		<div class="text-4xl">⚠️</div>
 		<div class="alert-message">
 			<h3 class="text-xl font-bold">{errorTitle}</h3>

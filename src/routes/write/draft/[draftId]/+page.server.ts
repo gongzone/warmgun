@@ -24,16 +24,16 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 export const actions: Actions = {
 	create: async ({ locals }) => {
 		if (!locals.user) {
-			throw redirect(302, '/auth/login');
+			throw redirect(303, '/auth/login');
 		}
 
 		const draft = await createDraft(locals.user.id);
 
-		throw redirect(302, `/write/draft/${draft.id}`);
+		throw redirect(303, `/write/draft/${draft.id}`);
 	},
 	save: async ({ request, locals }) => {
 		if (!locals.user) {
-			throw redirect(302, '/auth/login');
+			throw redirect(303, '/auth/login');
 		}
 
 		const formData = await request.formData();
@@ -51,7 +51,7 @@ export const actions: Actions = {
 	},
 	delete: async ({ request, locals }) => {
 		if (!locals.user) {
-			throw redirect(302, '/auth/login');
+			throw redirect(303, '/auth/login');
 		}
 
 		const formData = await request.formData();
@@ -73,7 +73,7 @@ export const actions: Actions = {
 
 		if (+currentDraftId === +draftId) {
 			const latestDraft = await findLatestDraft(locals.user.id);
-			throw redirect(302, `/write/draft/${latestDraft?.id}`);
+			throw redirect(303, `/write/draft/${latestDraft?.id}`);
 		}
 	}
 };

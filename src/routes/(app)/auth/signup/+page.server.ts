@@ -44,6 +44,6 @@ export const actions: Actions = {
 
 		setAuthCookies(cookies, { accessToken, refreshToken });
 
-		throw redirect(302, '/');
+		throw redirect(303, '/');
 	}
 };
