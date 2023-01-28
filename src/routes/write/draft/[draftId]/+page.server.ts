@@ -63,6 +63,8 @@ export const actions: Actions = {
 
 		const { currentDraftId, draftId } = validated.data;
 
+		console.log(currentDraftId, draftId);
+
 		const totalCount = await getCountOfDrafts(locals.user.id);
 
 		if (totalCount <= 1) {

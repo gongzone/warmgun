@@ -4,7 +4,7 @@ import { error } from '@sveltejs/kit';
 import { getAvatar } from '$lib/character/avatar';
 import { getWriterData } from './_load';
 
-export const load: LayoutServerLoad = async ({ locals }) => {
+export const load: LayoutServerLoad = async ({ locals, params }) => {
 	if (!locals.user) {
 		throw error(404);
 	}
@@ -23,5 +23,5 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		drafts: writerData.drafts
 	};
 
-	return { writer };
+	return { writer, currentDraftId: params.draftId };
 };

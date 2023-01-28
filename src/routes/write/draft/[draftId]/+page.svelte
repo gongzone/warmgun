@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
-	import { drawerStore } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
+
+	import { openDrawer } from '../../_WriteDrawer/drawer';
 
 	import BackButton from '$components/@custom/BackButton.svelte';
 	import triggerToast from '$components/@custom/toast';
@@ -33,13 +34,17 @@
 			<button
 				type="button"
 				class="btn-icon variant-ghost-surface"
-				on:click={() => drawerStore.open()}><i class="ri-article-line ri-lg" /></button
+				on:click={() => openDrawer('DRAFT')}><i class="ri-article-line ri-lg" /></button
 			>
 		</div>
 
 		<div class="flex gap-4">
 			<button formaction="?/save" class="btn variant-filled-secondary btn-base">저장</button>
-			<button class="btn variant-filled-primary btn-base">글 등록</button>
+			<button
+				type="button"
+				class="btn variant-filled-primary btn-base"
+				on:click={() => openDrawer('PUBLISH')}>글 등록</button
+			>
 		</div>
 	</div>
 
