@@ -10,7 +10,7 @@ const draftSettings: DrawerSettings = {
 const publishSettings: DrawerSettings = {
 	id: 'PUBLISH',
 	position: 'right',
-	width: 'w-full md:w-[420px]',
+	width: 'w-full sm:w-[420px]',
 	duration: 200
 };
 

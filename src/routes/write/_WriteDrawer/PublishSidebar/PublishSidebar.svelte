@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { FileButton } from '@skeletonlabs/skeleton';
+	import { drawerStore, FileButton } from '@skeletonlabs/skeleton';
 
 	import { uploadImages } from '$lib/client-fetch/image';
 	import CoverImagePreview from './CoverImagePreview/CoverImagePreview.svelte';
@@ -10,27 +10,54 @@
 	const dispatch = createEventDispatcher();
 
 	let files: FileList;
-	let uploadLoading: boolean = false;
+	let isLoading: boolean = false;
 
-	$: files ? uploadCoverImage(files) : null;
+	$: if (files && files.length > 0) {
+		uploadCoverImage(files);
+	}
 
 	async function uploadCoverImage(files: FileList) {
-		uploadLoading = true;
+		isLoading = true;
 		const urls = await uploadImages(Array.from(files));
 		dispatch('uploadSuccess', urls[0]);
 		coverImageUrl = urls[0];
-		uploadLoading = false;
+		isLoading = false;
 	}
 </script>
 
-<div class="p-5">
-	<div class="flex flex-col items-center">
-		{#if uploadLoading}
-			<p>업로드 중...</p>
-		{:else}
-			<CoverImagePreview url={coverImageUrl} />
-		{/if}
+<div class="flex justify-between px-3 sm:px-5 py-4">
+	<button type="button" class="btn btn-ringed-tertiary" on:click={() => drawerStore.close()}>
+		<i class="ri-close-line ri-xl" /> 닫기
+	</button>
+	<button type="button" class="btn variant-filled-primary" on:click={() => drawerStore.close()}>
+		출간하기
+	</button>
+</div>
 
-		<FileButton bind:files button="variant-filled-secondary">커버 이미지 업로드</FileButton>
+<hr />
+
+<div class="flex flex-col gap-12 px-8 sm:px-12 py-8">
+	<div>
+		<div class="flex items-center gap-2 mb-4">
+			<i class="ri-award-line text-surface-300" />
+			<span class="text-base text-surface-300">아티클 대표 이미지</span>
+		</div>
+		<div class="flex flex-col justify-center items-center gap-4">
+			<CoverImagePreview url={coverImageUrl} {isLoading} />
+			<FileButton bind:files button="variant-filled-secondary"
+				>{!coverImageUrl ? '이미지 추가' : '이미지 수정'}</FileButton
+			>
+		</div>
+	</div>
+
+	<div>
+		<div class="flex items-center gap-2 mb-4">
+			<i class="ri-award-line text-surface-300" />
+			<span class="text-base text-surface-300">Slug 설정</span>
+		</div>
+		<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
+			<div class="input-group-shim">/</div>
+			<input type="text" />
+		</div>
 	</div>
 </div>
