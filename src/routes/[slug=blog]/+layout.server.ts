@@ -1,33 +1,28 @@
 import type { LayoutServerLoad } from './$types';
-
-import db from '$lib/server/db';
 import { error } from '@sveltejs/kit';
 
-export const load = (async ({ params }) => {
+import { getAvatar } from '$lib/character/avatar';
+
+import { getAppUserData } from '../_load';
+import { getBlogUser } from './_load';
+
+export const load = (async ({ locals, params }) => {
 	// 해당 params에 맞는 유저 정보 찾기
 
-	const blogUser = await db.user.findUnique({
-		where: {
-			username: params.slug.slice(1)
-		},
-		select: {
-			character: {
-				select: {
-					name: true,
-					level: true,
-					class: true,
-					mainAvatar: true
-				}
-			}
-		}
-	});
+	const blogUser = await getBlogUser(params.slug);
 
-	if (!blogUser || !blogUser.character) {
-		throw error(404, { message: 'Not Found' });
+	if (!blogUser) {
+		throw error(404, { message: '잘못된 요청입니다.' });
 	}
 
+	if (!locals.user) {
+		return { user: null, blogUser };
+	}
+
+	const user = await getAppUserData(locals.user.id);
+
 	return {
-		blogUser: blogUser.character,
-		slug: params.slug
+		user,
+		blogUser
 	};
 }) satisfies LayoutServerLoad;

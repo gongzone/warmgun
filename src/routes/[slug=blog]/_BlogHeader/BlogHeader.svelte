@@ -2,25 +2,31 @@
 	import type { LayoutData } from '../$types';
 	import { AppBar } from '@skeletonlabs/skeleton';
 
-	import Logo from './Logo/Logo.svelte';
-	import MobileNav from './MobileNav/MobileNav.svelte';
+	import MainLogo from '$components/@svg/MainLogo.svelte';
 	import NoLoggedInMenu from '$components/Menu/NoLoggedInMenu.svelte';
 	import AvatarMenu from '$components/Menu/AvatarMenu.svelte';
 
 	export let user: LayoutData['user'];
 </script>
 
-<AppBar background="bg-transparent" shadow="shadow-none" padding="px-[5vw] py-9 md:py-12">
+<AppBar
+	background="bg-surface-800"
+	border="border-b border-surface-500"
+	padding="px-4 md:px-8 py-2"
+>
 	<svelte:fragment slot="lead">
-		<Logo />
+		<a href="/">
+			<MainLogo />
+		</a>
 	</svelte:fragment>
 
+	<input type="search" class="max-w-[200px]" placeholder="검색어를 입력하세요." />
+
 	<svelte:fragment slot="trail">
-		<MobileNav />
 		{#if !user}
 			<NoLoggedInMenu />
 		{:else}
 			<AvatarMenu {user} />
-		{/if}
-	</svelte:fragment>
+		{/if}</svelte:fragment
+	>
 </AppBar>

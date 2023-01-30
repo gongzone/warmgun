@@ -5,6 +5,7 @@ specifiers:
   '@bytemd/plugin-highlight-ssr': ^1.20.0
   '@fontsource/concert-one': ^4.5.9
   '@fontsource/noto-sans-kr': ^4.5.12
+  '@fontsource/noto-serif-kr': ^4.5.13
   '@playwright/test': ^1.28.1
   '@prisma/client': ^4.9.0
   '@skeletonlabs/skeleton': ^0.99.5
@@ -44,6 +45,7 @@ dependencies:
   '@bytemd/plugin-highlight-ssr': 1.20.0_bytemd@1.20.0
   '@fontsource/concert-one': 4.5.9
   '@fontsource/noto-sans-kr': 4.5.12
+  '@fontsource/noto-serif-kr': 4.5.13
   '@prisma/client': 4.9.0
   argon2: 0.30.3
   autosize: 5.0.2
@@ -323,6 +325,10 @@ packages:
 
   /@fontsource/noto-sans-kr/4.5.12:
     resolution: {integrity: sha512-6LBOzXw/V4guB/nATaiUjCcPxwJNGw+ky5DK7/wsgUZvfk8etH9IlKdvjFVidpeCuMVjOdlka2+MEw4hwEHaHA==}
+    dev: false
+
+  /@fontsource/noto-serif-kr/4.5.13:
+    resolution: {integrity: sha512-rH+wVC9XRgODv0uKO2s9DrH4GtBmPzS5y147iaAoV/BMhI/Tk9ATEBfxOgsph/Q6nnK9OUYGAMNRj7qemrcXQg==}
     dev: false
 
   /@humanwhocodes/config-array/0.11.8:

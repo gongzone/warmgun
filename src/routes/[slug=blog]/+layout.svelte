@@ -1,18 +1,15 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
 
-	import BlogHeader from '$components/Header/BlogHeader.svelte';
-	import BlogHero from './blog-hero.svelte';
+	import BlogHeader from './_BlogHeader/BlogHeader.svelte';
 
 	export let data: LayoutData;
+
+	let user = data.user;
 </script>
 
-<BlogHeader blogUser={data.blogUser} />
+<BlogHeader {user} />
 
-<div class="px-[5vw] py-12">
-	<BlogHero {data} />
-</div>
-
-<div class="px-[5vw] py-12">
+<div class="py-16">
 	<slot />
 </div>
