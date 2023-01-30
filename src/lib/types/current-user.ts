@@ -1,3 +1,3 @@
 import type { User } from '@prisma/client';
 
-export type CurrentUser = Pick<User, 'id' | 'role'> | null;
+export type CurrentUser = Pick<User, 'id' | 'username' | 'role'> | null;

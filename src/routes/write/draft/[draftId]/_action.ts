@@ -31,6 +31,31 @@ export async function saveDraft(draftId: number, data: SaveDraftData) {
 	});
 }
 
+interface PublushDraftData {
+	title: string;
+	description: string;
+	body: string;
+	coverImage: string;
+	slug: string;
+}
+
+export async function publishDraft(authorId: number, data: PublushDraftData) {
+	return await db.article.create({
+		data: {
+			title: data.title,
+			description: data.description,
+			body: data.body,
+			coverImage: data.coverImage,
+			slug: data.slug,
+			author: {
+				connect: {
+					id: authorId
+				}
+			}
+		}
+	});
+}
+
 export async function deleteDraft(draftId: number) {
 	return await db.draft.delete({
 		where: {

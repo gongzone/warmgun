@@ -4,8 +4,15 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { validateFormData, extractErrorMessage } from '$lib/server/validation';
 
 import { getDraft } from './_load';
-import { createDraft, saveDraft, deleteDraft, getCountOfDrafts, findLatestDraft } from './_action';
-import { saveSchema, deleteSchema } from './_schema';
+import {
+	createDraft,
+	saveDraft,
+	deleteDraft,
+	getCountOfDrafts,
+	findLatestDraft,
+	publishDraft
+} from './_action';
+import { saveSchema, publishSchema, deleteSchema } from './_schema';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	if (!locals.user) {
@@ -48,6 +55,31 @@ export const actions: Actions = {
 		await saveDraft(+draftId, { title, description, body });
 
 		return { success: true, message: '초고가 성공적으로 저장되었습니다.' };
+	},
+	publish: async ({ request, locals }) => {
+		if (!locals.user) {
+			throw redirect(303, '/auth/login');
+		}
+
+		const formData = await request.formData();
+		const validated = validateFormData(formData, publishSchema);
+
+		if (!validated.success) {
+			return fail(400, { success: false, message: extractErrorMessage(validated.error) });
+		}
+
+		const { title, description, body, coverImage, slug } = validated.data;
+		const prefixSlug = `/@${locals.user.username}/${slug}`;
+
+		const s = await publishDraft(locals.user.id, {
+			title,
+			description,
+			body,
+			coverImage,
+			slug: prefixSlug
+		});
+
+		console.log(s);
 	},
 	delete: async ({ request, locals }) => {
 		if (!locals.user) {

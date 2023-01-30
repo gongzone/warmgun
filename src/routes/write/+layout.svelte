@@ -11,21 +11,25 @@
 	import PublishSidebar from './_WriteDrawer/PublishSidebar/PublishSidebar.svelte';
 
 	let coverImageUrl: string;
+	let slugValue: string;
 
 	$: writer = data.writer;
 	$: currentDraftId = data.currentDraftId;
-
-	function setCoverImageUrl(event: any) {
-		coverImageUrl = event.detail;
-		console.log(coverImageUrl);
-	}
 </script>
 
 <Drawer>
 	{#if $drawerStore.id === drawers['DRAFT'].id && currentDraftId}
 		<DraftSidebar {writer} currentDraftId={+currentDraftId} />
 	{:else if $drawerStore.id === drawers['PUBLISH'].id}
-		<PublishSidebar {coverImageUrl} on:uploadSuccess={setCoverImageUrl} />
+		<PublishSidebar
+			{coverImageUrl}
+			{slugValue}
+			on:close={(e) => {
+				const eventData = e.detail;
+				coverImageUrl = eventData.coverImageUrl;
+				slugValue = eventData.slugValue;
+			}}
+		/>
 	{/if}
 </Drawer>
 

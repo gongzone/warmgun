@@ -18,6 +18,6 @@
 	class={`unstyled w-full resize-none border-0 bg-transparent font-bold focus:!outline-none focus:ring-0 ${textareaSize}`}
 	{name}
 	{placeholder}
-	{value}
+	bind:value
 	bind:this={textarea}
 />

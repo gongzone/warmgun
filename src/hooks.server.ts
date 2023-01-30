@@ -23,6 +23,7 @@ async function getCurrentUser(userId: number) {
 		},
 		select: {
 			id: true,
+			username: true,
 			role: true
 		}
 	});

@@ -11,11 +11,11 @@
 	export let data: PageData;
 	export let form: ActionData;
 
-	$: writer = data.writer;
-	$: id = data.draft.id;
-	$: title = data.draft.title;
-	$: description = data.draft.description;
-	$: body = data.draft.body;
+	let writer = data.writer;
+	let id = data.draft.id;
+	let title = data.draft.title;
+	let description = data.draft.description;
+	let body = data.draft.body;
 
 	$: if (form) {
 		form.success ? triggerToast(form.message, 'success') : triggerToast(form.message, 'error');
@@ -43,13 +43,22 @@
 			<button
 				type="button"
 				class="btn variant-filled-primary btn-base"
-				on:click={() => openDrawer('PUBLISH')}>글 등록</button
+				on:click={() => openDrawer('PUBLISH', { title, description, body })}>글 등록</button
 			>
 		</div>
 	</div>
 
 	<div class="py-2 px-2 md:px-5 lg:px-[4vw] lg:py-4">
-		<Editor {title} {description} {body} />
+		<Editor
+			{title}
+			{description}
+			{body}
+			on:change={(e) => {
+				title = e.detail.title;
+				description = e.detail.description;
+				body = e.detail.body;
+			}}
+		/>
 		<input type="hidden" name="draftId" value={id} hidden />
 	</div>
 </form>

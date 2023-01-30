@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import { Editor as BytemdEditor } from 'bytemd';
 	import gfm from '@bytemd/plugin-gfm';
 	import highlight from '@bytemd/plugin-highlight-ssr';
@@ -11,27 +12,27 @@
 	export let description: string;
 	export let body: string;
 
-	export const plugins = [gfm(), highlight()];
-	export const editorConfig = {
+	const dispatch = createEventDispatcher();
+
+	const plugins = [gfm(), highlight()];
+	const editorConfig = {
 		autofocus: true
 	};
+
+	$: dispatch('change', { title, description, body });
 
 	async function handleUploadImages(markdownImages: File[]) {
 		const urls = await uploadImages(markdownImages);
 		return urls.map((url) => ({ url }));
 	}
-
-	function handleChangeBody(e: any) {
-		body = e.detail.value;
-	}
 </script>
 
 <div class="mb-4">
-	<AutosizedTextarea name="title" placeholder="제목을 입력하세요" value={title} size="lg" />
+	<AutosizedTextarea name="title" placeholder="제목을 입력하세요" bind:value={title} size="lg" />
 	<AutosizedTextarea
 		name="description"
 		placeholder="소제목을 입력하세요"
-		value={description}
+		bind:value={description}
 		size="md"
 	/>
 </div>
@@ -43,7 +44,9 @@
 		{editorConfig}
 		{plugins}
 		uploadImages={handleUploadImages}
-		on:change={handleChangeBody}
+		on:change={(e) => {
+			body = e.detail.value;
+		}}
 	/>
 	<input type="hidden" name="body" value={body} hidden />
 </div>
