@@ -10,7 +10,7 @@
 </script>
 
 <AppBar
-	background="bg-surface-800"
+	background="bg-transparent"
 	border="border-b border-surface-500"
 	padding="px-4 md:px-8 py-2"
 >

@@ -7,5 +7,3 @@
 
 	let blogUser = data.blogUser;
 </script>
-
-<BlogHero {blogUser} />

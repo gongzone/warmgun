@@ -2,12 +2,10 @@ import db from '$lib/server/db';
 
 import { getAvatar } from '$lib/character/avatar';
 
-export async function getBlogUser(paramsSlug: string) {
+export async function getBlogUserByUsername(username: string) {
 	const blogUser = await db.user.findFirst({
 		where: {
-			blog: {
-				url: `/${paramsSlug}`
-			}
+			username: username
 		},
 		select: {
 			character: {

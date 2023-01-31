@@ -1,15 +1,13 @@
 import type { LayoutServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
-import { getAvatar } from '$lib/character/avatar';
-
 import { getAppUserData } from '../_load';
-import { getBlogUser } from './_load';
+import { getBlogUserByUsername } from './_load';
 
 export const load = (async ({ locals, params }) => {
 	// 해당 params에 맞는 유저 정보 찾기
 
-	const blogUser = await getBlogUser(params.slug);
+	const blogUser = await getBlogUserByUsername(params.slug.slice(1));
 
 	if (!blogUser) {
 		throw error(404, { message: '잘못된 요청입니다.' });
