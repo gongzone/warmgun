@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { PageData } from '../$types';
+	import type { LayoutData } from '../$types';
 	import { Avatar } from '@skeletonlabs/skeleton';
 
-	export let blogUser: PageData['blogUser'];
+	export let blogUser: LayoutData['blogUser'];
 </script>
 
 <div class="mb-20 text-center">

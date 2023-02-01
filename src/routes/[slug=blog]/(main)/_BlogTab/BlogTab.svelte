@@ -14,6 +14,7 @@
 
 <TabGroup selected={tabStore}>
 	<Tab tag="a" value={slug} on:click={() => routeToPage(slug)}>전시관</Tab>
-	<Tab tag="a" value={`${slug}/article`} on:click={() => routeToPage(`${slug}/article`)}>아티클</Tab
+	<Tab tag="a" value={`${slug}/articles`} on:click={() => routeToPage(`${slug}/articles`)}
+		>아티클</Tab
 	>
 </TabGroup>

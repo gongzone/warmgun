@@ -5,13 +5,14 @@
 
 	export let data: PageData;
 
+	let blogUsername = data.blogUser.blogUsername;
 	let articles = data.articles;
 </script>
 
 <ul>
 	{#each articles as article, index (index)}
 		<li>
-			<Article {article} />
+			<Article article={{ ...article, slug: `/@${blogUsername}/${article.slug}` }} />
 			<hr />
 		</li>
 	{/each}

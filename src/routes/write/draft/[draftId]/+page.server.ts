@@ -69,14 +69,13 @@ export const actions: Actions = {
 		}
 
 		const { title, description, body, coverImage, slug } = validated.data;
-		const prefixSlug = `/@${locals.user.username}/${slug}`;
 
 		const s = await publishDraft(locals.user.id, {
 			title,
 			description,
 			body,
 			coverImage,
-			slug: prefixSlug
+			slug
 		});
 
 		console.log(s);

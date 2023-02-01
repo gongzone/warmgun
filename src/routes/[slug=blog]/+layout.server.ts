@@ -5,22 +5,23 @@ import { getAppUserData } from '../_load';
 import { getBlogUserByUsername } from './_load';
 
 export const load = (async ({ locals, params }) => {
-	// 해당 params에 맞는 유저 정보 찾기
-
-	const blogUser = await getBlogUserByUsername(params.slug.slice(1));
+	const blogUsername = params.slug.slice(1);
+	const blogUser = await getBlogUserByUsername(blogUsername);
 
 	if (!blogUser) {
-		throw error(404, { message: '잘못된 요청입니다.' });
+		throw error(404, { message: '페이지를 찾을 수 없습니다.' });
 	}
 
+	const enhancedBlogUser = { ...blogUser, blogUsername };
+
 	if (!locals.user) {
-		return { user: null, blogUser };
+		return { user: null, blogUser: enhancedBlogUser };
 	}
 
 	const user = await getAppUserData(locals.user.id);
 
 	return {
 		user,
-		blogUser
+		blogUser: enhancedBlogUser
 	};
 }) satisfies LayoutServerLoad;
