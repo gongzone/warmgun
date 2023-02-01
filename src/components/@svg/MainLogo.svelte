@@ -1,7 +1,7 @@
 <svg
 	xmlns="http://www.w3.org/2000/svg"
 	viewBox="0 0 512 512"
-	class="w-[48px] h-[48px] md:w-[58px] md:h-[58px]"
+	class="w-[48px] h-[48px] md:w-[60px] md:h-[60px]"
 >
 	<path d="M0 0h512v512H0z" fill="#ffffff" fill-opacity="0" />
 	<g class="" transform="translate(0,0)" style="">

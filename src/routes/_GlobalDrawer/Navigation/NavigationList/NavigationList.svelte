@@ -1,0 +1,28 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+
+	const navigationData = [
+		{
+			name: '홈으로',
+			to: '/'
+		},
+		{
+			name: '아티클',
+			to: '/articles'
+		}
+	];
+
+	$: classesActive = (href: string) => (href === $page.url.pathname ? '!bg-primary-500/30' : '');
+</script>
+
+<nav class="list-nav">
+	<ul>
+		{#each navigationData as nav (nav.name)}
+			<li>
+				<a href={nav.to} class={classesActive(nav.to)}>
+					<span class="flex-auto">{nav.name}</span>
+				</a>
+			</li>
+		{/each}
+	</ul>
+</nav>
