@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { drawerStore } from '@skeletonlabs/skeleton';
 
-	import Gun from '$components/@svg/gun.svelte';
+	import Gun from '$components/@svg/Gun.svelte';
 </script>
 
 <header class="flex justify-between items-center border-b border-b-surface-500 px-3 py-3">

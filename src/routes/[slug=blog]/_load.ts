@@ -1,32 +1,38 @@
 import db from '$lib/server/db';
 
-import { getAvatar } from '$lib/character/avatar';
-
-export async function getBlogUserByUsername(username: string) {
-	const blogUser = await db.user.findFirst({
+export async function getBlogerByUsername(username: string) {
+	const bloger = await db.user.findFirst({
 		where: {
 			username: username
 		},
 		select: {
-			character: {
+			_count: {
 				select: {
-					name: true,
-					level: true,
-					class: true,
-					mainAvatar: true
+					articles: true,
+					followedBy: true,
+					following: true
+				}
+			},
+			profile: {
+				select: {
+					nickname: true,
+					description: true,
+					avatar: true
 				}
 			}
 		}
 	});
 
-	if (!blogUser || !blogUser.character) {
+	if (!bloger || !bloger.profile) {
 		return null;
 	}
 
-	return {
-		name: blogUser.character.name,
-		level: blogUser.character.level,
-		class: blogUser.character.class,
-		avatarUrl: getAvatar(blogUser.character.mainAvatar).url
+	const enhancedBloger = {
+		nickname: bloger.profile.nickname,
+		description: bloger.profile.description,
+		avatar: bloger.profile.avatar,
+		_count: bloger._count
 	};
+
+	return enhancedBloger;
 }

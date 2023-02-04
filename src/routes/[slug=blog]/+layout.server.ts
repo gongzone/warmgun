@@ -1,27 +1,18 @@
 import type { LayoutServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
-import { getAppUserData } from '../_load';
-import { getBlogUserByUsername } from './_load';
+import { getBlogerByUsername } from './_load';
 
 export const load = (async ({ locals, params }) => {
-	const blogUsername = params.slug.slice(1);
-	const blogUser = await getBlogUserByUsername(blogUsername);
+	const blogerUsername = params.slug.slice(1);
+	const bloger = await getBlogerByUsername(blogerUsername);
 
-	if (!blogUser) {
+	if (!bloger) {
 		throw error(404, { message: '페이지를 찾을 수 없습니다.' });
 	}
 
-	const enhancedBlogUser = { ...blogUser, blogUsername };
-
-	if (!locals.user) {
-		return { user: null, blogUser: enhancedBlogUser };
-	}
-
-	const user = await getAppUserData(locals.user.id);
-
 	return {
-		user,
-		blogUser: enhancedBlogUser
+		user: locals.user,
+		bloger: { ...bloger, username: blogerUsername }
 	};
 }) satisfies LayoutServerLoad;

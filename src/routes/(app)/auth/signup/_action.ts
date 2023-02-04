@@ -14,15 +14,10 @@ export async function createNewUser(username: string, hashedPassword: string, em
 			username,
 			password: hashedPassword,
 			email,
-			character: {
+			profile: {
 				create: {
-					name: username
-				}
-			},
-			blog: {
-				create: {
-					name: `${username}님의 블로그`,
-					url: `/@${username}`
+					nickname: username,
+					description: `${username}님의 블로그입니다.`
 				}
 			},
 			drafts: {

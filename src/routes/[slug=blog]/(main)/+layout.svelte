@@ -5,18 +5,14 @@
 	import BlogTab from './_BlogTab/BlogTab.svelte';
 
 	export let data: LayoutData;
-
-	let blogUser = data.blogUser;
 </script>
 
-<div class="py-8 max-w-[600px] mx-auto sm:py-12 sm:mb-4">
-	<BlogHero {blogUser} />
+<div class="px-5 py-8 sm:px-16 sm:py-16 max-w-[720px] mx-auto">
+	<BlogHero bloger={data.bloger} />
 </div>
 
-<div class="max-w-[720px] mx-auto">
-	<div class="">
-		<BlogTab />
-	</div>
+<div class="max-w-[878px] mx-auto sm:px-10">
+	<BlogTab />
 	<slot />
 </div>
 

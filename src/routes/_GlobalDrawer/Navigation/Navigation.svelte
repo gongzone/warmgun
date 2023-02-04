@@ -7,8 +7,6 @@
 	<NavigationHeader />
 
 	<div class="px-4 py-6">
-		<div class="space-y-4">
-			<NavigationList />
-		</div>
+		<NavigationList />
 	</div>
 </div>

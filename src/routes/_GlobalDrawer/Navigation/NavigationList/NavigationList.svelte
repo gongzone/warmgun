@@ -4,10 +4,12 @@
 	const navigationData = [
 		{
 			name: '홈으로',
+			icon: 'ri-home-4-line',
 			to: '/'
 		},
 		{
 			name: '아티클',
+			icon: 'ri-newspaper-line',
 			to: '/articles'
 		}
 	];
@@ -20,6 +22,7 @@
 		{#each navigationData as nav (nav.name)}
 			<li>
 				<a href={nav.to} class={classesActive(nav.to)}>
+					<i class={`${nav.icon} ri-lg`} />
 					<span class="flex-auto">{nav.name}</span>
 				</a>
 			</li>

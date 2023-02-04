@@ -2,7 +2,7 @@
 	import type { LayoutData } from '../$types';
 	import { AppBar } from '@skeletonlabs/skeleton';
 
-	import MainLogo from '$components/@svg/MainLogo.svelte';
+	import Gun from '$components/@svg/Gun.svelte';
 	import NoLoggedInMenu from '$components/Menu/NoLoggedInMenu.svelte';
 	import AvatarMenu from '$components/Menu/AvatarMenu.svelte';
 
@@ -16,7 +16,7 @@
 >
 	<svelte:fragment slot="lead">
 		<a href="/">
-			<MainLogo />
+			<Gun />
 		</a>
 	</svelte:fragment>
 
