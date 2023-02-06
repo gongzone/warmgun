@@ -18,7 +18,7 @@
 </div>
 
 <div class="px-2">
-	<WriterDisplay name={writer.name} level={writer.level} avatarUrl={writer.avatarUrl} />
+	<WriterDisplay name={writer.nickname} avatarUrl={writer.avatar ?? '/avatars/monkey.svg'} />
 </div>
 
 <div class="py-8 px-2">

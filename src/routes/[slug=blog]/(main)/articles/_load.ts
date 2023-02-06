@@ -11,7 +11,7 @@ export async function getArticlesByUsername(username: string) {
 		},
 		select: {
 			title: true,
-			description: true,
+			subTitle: true,
 			body: true,
 			coverImage: true,
 			likes: true,

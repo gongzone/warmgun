@@ -6,7 +6,7 @@
 	interface Draft {
 		id: number | null;
 		title: string | null;
-		description: string | null;
+		subTitle: string | null;
 		updatedAt: Date;
 	}
 
@@ -15,7 +15,7 @@
 
 	$: id = draft.id;
 	$: title = draft.title || '무제';
-	$: description = draft.description || '내용 없음';
+	$: subTitle = draft.subTitle || '내용 없음';
 	$: formattedDate = formatDate(draft.updatedAt);
 </script>
 
@@ -31,6 +31,6 @@
 	<div class="flex w-full items-center justify-between">
 		<span>{title}</span>
 	</div>
-	<span class="text-sm">{description}</span>
+	<span class="text-sm">{subTitle}</span>
 	<span class="text-xs self-end">{formattedDate} 저장됨</span>
 </button>

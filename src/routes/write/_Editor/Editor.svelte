@@ -9,7 +9,7 @@
 	import AutosizedTextarea from '$components/@custom/AutosizedTextarea.svelte';
 
 	export let title: string;
-	export let description: string;
+	export let subTitle: string;
 	export let body: string;
 
 	const dispatch = createEventDispatcher();
@@ -19,7 +19,7 @@
 		autofocus: true
 	};
 
-	$: dispatch('change', { title, description, body });
+	$: dispatch('change', { title, subTitle, body });
 
 	async function handleUploadImages(markdownImages: File[]) {
 		const urls = await uploadImages(markdownImages);
@@ -30,9 +30,9 @@
 <div class="mb-4">
 	<AutosizedTextarea name="title" placeholder="제목을 입력하세요" bind:value={title} size="lg" />
 	<AutosizedTextarea
-		name="description"
+		name="subTitle"
 		placeholder="소제목을 입력하세요"
-		bind:value={description}
+		bind:value={subTitle}
 		size="md"
 	/>
 </div>

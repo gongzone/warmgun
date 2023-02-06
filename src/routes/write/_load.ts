@@ -1,34 +1,18 @@
 import db from '$lib/server/db';
 
-export async function getWriterData(userId: number) {
-	return await db.user.findFirst({
+export async function getDraftsByUserId(userId: number) {
+	return await db.draft.findMany({
 		where: {
-			id: userId
+			authorId: userId
 		},
 		select: {
-			character: {
-				select: {
-					name: true,
-					level: true,
-					mainAvatar: true
-				}
-			},
-			blog: {
-				select: {
-					url: true
-				}
-			},
-			drafts: {
-				select: {
-					id: true,
-					title: true,
-					description: true,
-					updatedAt: true
-				},
-				orderBy: {
-					updatedAt: 'desc'
-				}
-			}
+			id: true,
+			title: true,
+			subTitle: true,
+			updatedAt: true
+		},
+		orderBy: {
+			updatedAt: 'desc'
 		}
 	});
 }

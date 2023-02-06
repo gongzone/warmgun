@@ -50,9 +50,9 @@ export const actions: Actions = {
 			return fail(400, { success: false, message: extractErrorMessage(validated.error) });
 		}
 
-		const { title, description, body, draftId } = validated.data;
+		const { title, subTitle, body, draftId } = validated.data;
 
-		await saveDraft(+draftId, { title, description, body });
+		await saveDraft(+draftId, { title, subTitle, body });
 
 		return { success: true, message: '초고가 성공적으로 저장되었습니다.' };
 	},
@@ -68,11 +68,11 @@ export const actions: Actions = {
 			return fail(400, { success: false, message: extractErrorMessage(validated.error) });
 		}
 
-		const { title, description, body, coverImage, slug } = validated.data;
+		const { title, subTitle, body, coverImage, slug } = validated.data;
 
 		const s = await publishDraft(locals.user.id, {
 			title,
-			description,
+			subTitle,
 			body,
 			coverImage,
 			slug

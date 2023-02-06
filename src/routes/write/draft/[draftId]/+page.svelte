@@ -12,9 +12,10 @@
 	export let form: ActionData;
 
 	let writer = data.writer;
+
 	let id = data.draft.id;
 	let title = data.draft.title;
-	let description = data.draft.description;
+	let subTitle = data.draft.subTitle;
 	let body = data.draft.body;
 
 	$: if (form) {
@@ -30,7 +31,7 @@
 >
 	<div class="flex justify-between p-5">
 		<div>
-			<BackButton href={writer.blogUrl} />
+			<BackButton href={`/@${writer.username}`} />
 			<button
 				type="button"
 				class="btn-icon variant-ghost-surface"
@@ -43,7 +44,7 @@
 			<button
 				type="button"
 				class="btn variant-filled-primary btn-base"
-				on:click={() => openDrawer('PUBLISH', { title, description, body })}>글 등록</button
+				on:click={() => openDrawer('PUBLISH', { title, subTitle, body })}>글 등록</button
 			>
 		</div>
 	</div>
@@ -51,11 +52,11 @@
 	<div class="py-2 px-2 md:px-5 lg:px-[4vw] lg:py-4">
 		<Editor
 			{title}
-			{description}
+			{subTitle}
 			{body}
 			on:change={(e) => {
 				title = e.detail.title;
-				description = e.detail.description;
+				subTitle = e.detail.subTitle;
 				body = e.detail.body;
 			}}
 		/>

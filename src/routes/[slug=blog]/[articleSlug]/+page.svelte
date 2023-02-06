@@ -1,20 +1,21 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { Viewer } from 'bytemd';
 	import { Avatar } from '@skeletonlabs/skeleton';
+
+	import Viewer from './_Viewer/_Viewer.svelte';
 
 	export let data: PageData;
 
-	let blogUser = data.blogUser;
+	let bloger = data.bloger;
 	let article = data.article;
 </script>
 
 <div class="flex justify-between mb-6">
 	<div class="flex gap-2">
-		<Avatar src={blogUser.avatarUrl} />
+		<Avatar src={bloger.avatar ?? '/avatars/monkey.svg'} />
 		<div class="flex flex-col gap-1">
-			<span class="!font-serif">{blogUser.name}</span>
-			<span class="!fotn-serif text-xs text-surface-400">{blogUser.class}</span>
+			<span class="!font-serif">{bloger.nickname}</span>
+			<span class="!fotn-serif text-xs text-surface-400">{bloger.description}</span>
 		</div>
 	</div>
 
@@ -31,11 +32,11 @@
 	</div>
 
 	<div class="space-y-4">
-		<h2 class="text-center font-bold">{article?.title}</h2>
-		<p class="text-center text-surface-300 font-serif">{article?.description}</p>
+		<h2 class="unstyled text-center font-bold font-serif text-3xl">{article?.title}</h2>
+		<p class="text-center text-surface-300 font-serif">{article?.subTitle}</p>
 	</div>
 </div>
 
 <div>
-	<Viewer value={article?.body} />
+	<Viewer body={article?.body} />
 </div>

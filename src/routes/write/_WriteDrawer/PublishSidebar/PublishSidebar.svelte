@@ -77,7 +77,7 @@
 	</div>
 
 	<input type="hidden" name="title" value={$drawerStore.meta.title} hidden />
-	<input type="hidden" name="description" value={$drawerStore.meta.description} hidden />
+	<input type="hidden" name="subTitle" value={$drawerStore.meta.subTitle} hidden />
 	<input type="hidden" name="body" value={$drawerStore.meta.body} hidden />
 	<input type="hidden" name="coverImage" value={coverImageUrl} hidden />
 </form>

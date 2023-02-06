@@ -1,7 +1,7 @@
 <script lang="ts">
 	interface Article {
 		title: string;
-		description: string;
+		subTitle: string;
 		body: string;
 		coverImage: string | null;
 		likes: number;
@@ -21,7 +21,7 @@
 
 		<a class="unstyled" href={article.slug}>
 			<p class="max-w-[90%] sm:max-w-[95%] !text-sm line-clamp-2 sm:!text-base !text-surface-300">
-				{article.description}
+				{article.subTitle}
 			</p>
 		</a>
 	</div>

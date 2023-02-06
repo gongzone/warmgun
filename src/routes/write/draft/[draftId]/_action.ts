@@ -14,7 +14,7 @@ export async function createDraft(authorId: number) {
 
 interface SaveDraftData {
 	title: string;
-	description: string;
+	subTitle: string;
 	body: string;
 }
 
@@ -25,7 +25,7 @@ export async function saveDraft(draftId: number, data: SaveDraftData) {
 		},
 		data: {
 			title: data.title,
-			description: data.description,
+			subTitle: data.subTitle,
 			body: data.body
 		}
 	});
@@ -33,7 +33,7 @@ export async function saveDraft(draftId: number, data: SaveDraftData) {
 
 interface PublushDraftData {
 	title: string;
-	description: string;
+	subTitle: string;
 	body: string;
 	coverImage: string;
 	slug: string;
@@ -43,7 +43,7 @@ export async function publishDraft(authorId: number, data: PublushDraftData) {
 	return await db.article.create({
 		data: {
 			title: data.title,
-			description: data.description,
+			subTitle: data.subTitle,
 			body: data.body,
 			coverImage: data.coverImage,
 			slug: data.slug,
