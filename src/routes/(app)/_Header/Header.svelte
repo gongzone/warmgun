@@ -11,10 +11,11 @@
 </script>
 
 <AppBar
+	class="relative"
 	slotLead="space-x-1 md:space-x-4"
 	background="bg-transparent"
 	shadow="shadow-none"
-	padding="px-[5vw] py-9 md:py-12"
+	padding="px-[5vw] py-5 md:py-12"
 >
 	<svelte:fragment slot="lead">
 		<NavigationButton />
