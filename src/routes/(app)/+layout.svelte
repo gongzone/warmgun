@@ -2,7 +2,7 @@
 	import type { LayoutData } from './$types';
 	import { page } from '$app/stores';
 
-	import snow from '$lib/images/Snow.svg';
+	import bgSnow from '$lib/images/bg-snow.svg';
 
 	import Header from './_Header/Header.svelte';
 	import Hero from './_Hero/Hero.svelte';
@@ -14,9 +14,9 @@
 {#if $page.url.pathname === '/'}
 	<div class="relative bg-surface-800">
 		<img
-			src={snow}
+			src={bgSnow}
 			alt="bg-snow"
-			class="absolute top-0 w-screen left-0 h-full opacity-[0.03] object-cover"
+			class="absolute top-0 left-0 w-screen h-full opacity-[0.03] object-cover"
 		/>
 		<Header user={data.user} />
 		<Hero />
