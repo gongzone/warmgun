@@ -8,6 +8,6 @@ declare namespace App {
 	// interface PageData {}
 	// interface Platform {}
 	interface Locals {
-		user: import('$lib/types/user').LoggedInUser;
+		user: import('$lib/types/user').AuthenticatedUser;
 	}
 }

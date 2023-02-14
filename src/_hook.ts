@@ -3,13 +3,13 @@ import db from '$lib/server/db';
 import { generateTokens, verifyToken } from '$lib/server/token';
 
 import { setAuthCookies } from '$lib/server/cookie';
-import type { LoggedInUser } from '$lib/types/user';
+import type { AuthenticatedUser } from '$lib/types/user';
 
-const userCache = new Map<number, LoggedInUser>();
+const userCache = new Map();
 
-export async function getLoggedInUser(userId: number) {
+export async function getAuthenticatedUser(userId: number) {
 	if (userCache.has(userId)) {
-		return userCache.get(userId) as LoggedInUser;
+		return userCache.get(userId);
 	}
 
 	const user = await db.user.findUnique({
@@ -51,7 +51,7 @@ export async function getLoggedInUser(userId: number) {
 		nickname: user.profile.nickname,
 		avatar: user.profile.avatar,
 		latestDraftId: user.drafts[0].id
-	} satisfies LoggedInUser;
+	} satisfies AuthenticatedUser;
 
 	userCache.set(userId, enhancedUser);
 
@@ -63,20 +63,20 @@ export async function refreshAuth(cookies: Cookies, refreshToken: string | undef
 		return null;
 	}
 
-	const verfiedRefreshToken = await verifyToken(refreshToken);
-	const currentUser = verfiedRefreshToken
-		? await getLoggedInUser(verfiedRefreshToken.userId)
+	const verifiedRefreshToken = await verifyToken(refreshToken);
+	const authenticatedUser = verifiedRefreshToken
+		? await getAuthenticatedUser(verifiedRefreshToken.userId)
 		: null;
 
-	if (!currentUser) {
+	if (!authenticatedUser) {
 		return null;
 	}
 
 	const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await generateTokens(
-		currentUser.id
+		authenticatedUser.id
 	);
 
 	setAuthCookies(cookies, { accessToken: newAccessToken, refreshToken: newRefreshToken });
 
-	return currentUser;
+	return authenticatedUser;
 }

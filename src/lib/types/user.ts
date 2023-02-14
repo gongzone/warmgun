@@ -1,6 +1,6 @@
 import type { User, Profile } from '@prisma/client';
 
-export type LoggedInUser = {
+export type AuthenticatedUser = {
 	id: User['id'];
 	username: User['username'];
 	email: User['email'];

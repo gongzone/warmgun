@@ -2,15 +2,15 @@
 @import 'highlight.js/styles/github-dark.css';
 
 .bytemd {
-	@apply font-sans bg-surface-900 text-surface-50 border-none h-[calc(100vh_-_100px)];
+	@apply h-[calc(100vh_-_100px)] border-none bg-surface-900 font-sans text-surface-50;
 }
 
 .bytemd-toolbar {
-	@apply flex items-center justify-between bg-surface-900 border-b-surface-600 px-0 py-3;
+	@apply flex items-center justify-between border-b-surface-600 bg-surface-900 px-0 py-3;
 }
 
 .bytemd-toolbar-tab {
-	@apply text-base font-logo;
+	@apply font-logo text-base;
 }
 
 .bytemd-toolbar-tab-active {
@@ -18,7 +18,7 @@
 }
 
 .bytemd-toolbar-icon svg {
-	@apply w-[28px] h-[28px];
+	@apply h-[28px] w-[28px];
 }
 
 .bytemd-toolbar-icon:hover {
@@ -26,11 +26,11 @@
 }
 
 .bytemd-preview {
-	@apply !border-none !overflow-x-hidden !overflow-y-auto !bg-surface-800;
+	@apply !overflow-y-auto !overflow-x-hidden !border-none !bg-surface-800;
 }
 
 .markdown-body {
-	@apply prose dark:prose-invert break-words !max-w-none;
+	@apply prose !max-w-none break-words dark:prose-invert;
 }
 
 .bytemd-status {
@@ -38,11 +38,11 @@
 }
 
 .bytemd-status-left {
-	@apply text-base font-logo py-3;
+	@apply py-3 font-logo text-base;
 }
 
 .bytemd-status-right {
-	@apply text-base font-logo py-3;
+	@apply py-3 font-logo text-base;
 }
 
 .CodeMirror {
@@ -54,7 +54,7 @@
 }
 
 .CodeMirror pre.CodeMirror-line {
-	@apply !font-sans !bg-transparent !px-4 !py-0;
+	@apply !bg-transparent !px-4 !py-0 !font-sans;
 }
 
 .cm-header {
