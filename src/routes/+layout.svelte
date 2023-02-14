@@ -10,11 +10,10 @@
 	import '../styles/editor.postcss';
 
 	import { Toast } from '@skeletonlabs/skeleton';
-
-	import GlobalDrawer from './_GlobalDrawer/GlobalDrawer.svelte';
+	import GlobalDrawer from '$components/Drawer/GlobalDrawer.svelte';
 </script>
 
-<GlobalDrawer />
 <Toast />
+<GlobalDrawer />
 
 <slot />

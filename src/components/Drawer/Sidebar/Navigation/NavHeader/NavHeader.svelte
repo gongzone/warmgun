@@ -11,9 +11,8 @@
 			<h2 class="unstyled font-logo text-lg">Warmgun</h2>
 		</div>
 	</a>
-	<div>
-		<button class="btn-icon" on:click={() => drawerStore.close()}>
-			<i class="ri-close-line ri-xl" />
-		</button>
-	</div>
+
+	<button class="btn-icon" on:click={() => drawerStore.close()}>
+		<i class="ri-close-line ri-xl" />
+	</button>
 </header>
