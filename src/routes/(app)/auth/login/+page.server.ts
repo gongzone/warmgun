@@ -18,8 +18,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 export const actions: Actions = {
 	default: async ({ request, cookies }) => {
 		const formData = await request.formData();
-		const validated = validateFormData(formData, loginSchema);
 
+		const validated = validateFormData(formData, loginSchema);
 		if (!validated.success) {
 			return fail(400, { success: false, message: extractErrorMessage(validated.error) });
 		}
@@ -27,19 +27,16 @@ export const actions: Actions = {
 		const { username, password } = validated.data;
 
 		const foundUser = await findUserByUsername(username);
-
 		if (!foundUser) {
 			return fail(401, { success: false, message: '아이디가 잘못되었습니다.' });
 		}
 
 		const matched = await argon2.verify(foundUser.password, password);
-
 		if (!matched) {
 			return fail(401, { success: false, message: '비밀번호가 잘못되었습니다.' });
 		}
 
 		const { accessToken, refreshToken } = await generateTokens(foundUser.id);
-
 		setAuthCookies(cookies, { accessToken, refreshToken });
 
 		throw redirect(303, '/');

@@ -8,6 +8,7 @@
 	import AuthenticatedMenu from '$components/Header/@Menu/AuthenticatedMenu.svelte';
 
 	export let user: LayoutData['user'];
+	export let border: string = '';
 </script>
 
 <AppBar
@@ -15,6 +16,7 @@
 	slotLead="space-x-1 md:space-x-4"
 	background="bg-transparent"
 	shadow="shadow-none"
+	{border}
 	padding="px-[5vw] py-5 md:py-12"
 >
 	<svelte:fragment slot="lead">

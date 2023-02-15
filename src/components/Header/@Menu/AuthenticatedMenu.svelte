@@ -3,12 +3,14 @@
 
 	import type { AuthenticatedUser } from '$lib/types/user';
 
+	import UserAvatar from '$components/User/UserAvatar.svelte';
+
 	export let user: AuthenticatedUser;
 </script>
 
 <div class="relative">
 	<button type="button" use:menu={{ menu: 'avatar-menu' }} class="btn-icon md:btn-icon-lg px-0">
-		<Avatar width="md:w-[53px]" src={user?.avatar ?? '/avatars/monkey.svg'} />
+		<UserAvatar width="md:w-[53px]" src={user?.avatar} />
 	</button>
 
 	<nav class="w-64 p-4 shadow-xl list-nav card" data-menu="avatar-menu">

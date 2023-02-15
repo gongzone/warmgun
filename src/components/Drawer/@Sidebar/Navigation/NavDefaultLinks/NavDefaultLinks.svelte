@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { drawerStore } from '@skeletonlabs/skeleton';
 
 	import { defaultLinks } from '$lib/constants/navigation';
 
@@ -11,7 +12,7 @@
 	<ul>
 		{#each defaultLinks as link (link.name)}
 			<li>
-				<a href={link.to} class={classesActive(link.to)}>
+				<a href={link.to} class={classesActive(link.to)} on:click={() => drawerStore.close()}>
 					<i class={`${link.icon} ri-lg`} />
 					<span class="flex-auto">{link.name}</span>
 				</a>

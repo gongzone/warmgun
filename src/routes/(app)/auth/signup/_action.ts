@@ -17,7 +17,7 @@ export async function createNewUser(username: string, hashedPassword: string, em
 			profile: {
 				create: {
 					nickname: username,
-					description: `${username}님의 블로그입니다.`
+					description: `${username}입니다.`
 				}
 			},
 			drafts: {

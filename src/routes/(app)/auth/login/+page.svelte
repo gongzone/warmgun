@@ -2,8 +2,8 @@
 	import type { ActionData } from './$types';
 	import { enhance } from '$app/forms';
 
-	import Alert from '$components/@custom/Alert.svelte';
-	import FormInput from '$components/@custom/FormInput.svelte';
+	import Alert from '$components/Message/Alert.svelte';
+	import LabelInput from '$components/Form/LabelInput.svelte';
 
 	export let form: ActionData;
 
@@ -20,16 +20,16 @@
 	<div class="space-y-5 mb-8">
 		<Alert {isVisible} {errorMessage} />
 
-		<FormInput type="text" name="username">
+		<LabelInput type="text" name="username">
 			<svelte:fragment slot="labelText">아이디</svelte:fragment>
 			<svelte:fragment slot="icon"><i class="ri-user-line" /></svelte:fragment>
-		</FormInput>
+		</LabelInput>
 
-		<FormInput type="password" name="password">
+		<LabelInput type="password" name="password">
 			<svelte:fragment slot="labelText">비밀번호</svelte:fragment>
 			<svelte:fragment slot="icon"><i class="ri-lock-password-line" /></svelte:fragment>
-		</FormInput>
+		</LabelInput>
 	</div>
 
-	<button class="w-full btn variant-filled-primary btn-base">로그인</button>
+	<button class="w-full btn variant-filled-primary">로그인</button>
 </form>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { drawerStore } from '@skeletonlabs/skeleton';
 
 	import { communities } from '$lib/constants/navigation';
 
@@ -11,7 +12,11 @@
 	<ul>
 		{#each communities as community (community.name)}
 			<li>
-				<a href={community.to} class={classesActive(community.to)}>
+				<a
+					href={community.to}
+					class={classesActive(community.to)}
+					on:click={() => drawerStore.close()}
+				>
 					<span class="flex-auto">{community.name}</span>
 				</a>
 			</li>

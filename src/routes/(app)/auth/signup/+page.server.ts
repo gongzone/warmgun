@@ -11,7 +11,6 @@ import { signupSchema } from './_schema';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
-		console.log(locals.user);
 		throw redirect(302, '/');
 	}
 };
@@ -19,8 +18,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 export const actions: Actions = {
 	default: async ({ request, cookies }) => {
 		const formData = await request.formData();
-		const validated = validateFormData(formData, signupSchema);
 
+		const validated = validateFormData(formData, signupSchema);
 		if (!validated.success) {
 			return fail(400, { success: false, message: extractErrorMessage(validated.error) });
 		}
@@ -28,7 +27,6 @@ export const actions: Actions = {
 		const { username, password, email } = validated.data;
 
 		const foundUser = await findUserByUsernameOrEmail(username, email);
-
 		if (foundUser) {
 			return fail(400, {
 				success: false,
@@ -37,11 +35,9 @@ export const actions: Actions = {
 		}
 
 		const hashedPassword = await argon2.hash(password);
-
 		const newUser = await createNewUser(username, hashedPassword, email);
 
 		const { accessToken, refreshToken } = await generateTokens(newUser.id);
-
 		setAuthCookies(cookies, { accessToken, refreshToken });
 
 		throw redirect(303, '/');

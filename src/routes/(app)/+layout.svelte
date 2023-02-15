@@ -5,8 +5,8 @@
 	import bgSnow from '$lib/images/bg-snow.svg';
 
 	import AppHeader from '$components/Header/AppHeader/AppHeader.svelte';
-	import Hero from './_Hero/Hero.svelte';
-	import Footer from './_Footer/Footer.svelte';
+	import HomeHero from '$components/Hero/HomeHero/HomeHero.svelte';
+	import Footer from '$components/Footer/Footer.svelte';
 
 	export let data: LayoutData;
 </script>
@@ -19,13 +19,13 @@
 			class="absolute top-0 left-0 w-screen h-full opacity-[0.03] object-cover"
 		/>
 		<AppHeader user={data.user} />
-		<Hero />
+		<HomeHero />
 	</div>
 {:else}
-	<AppHeader user={data.user} />
+	<AppHeader user={data.user} border="border-b border-b-surface-500" />
 {/if}
 
-<main class="px-[5vw] md:py-14">
+<main>
 	<slot />
 </main>
 
