@@ -4,7 +4,7 @@
 
 	import bgSnow from '$lib/images/bg-snow.svg';
 
-	import Header from './_Header/Header.svelte';
+	import AppHeader from '$components/Header/AppHeader/AppHeader.svelte';
 	import Hero from './_Hero/Hero.svelte';
 	import Footer from './_Footer/Footer.svelte';
 
@@ -18,11 +18,11 @@
 			alt="bg-snow"
 			class="absolute top-0 left-0 w-screen h-full opacity-[0.03] object-cover"
 		/>
-		<Header user={data.user} />
+		<AppHeader user={data.user} />
 		<Hero />
 	</div>
 {:else}
-	<Header user={data.user} />
+	<AppHeader user={data.user} />
 {/if}
 
 <main class="px-[5vw] md:py-14">

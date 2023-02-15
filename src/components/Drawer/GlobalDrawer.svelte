@@ -3,7 +3,7 @@
 
 	import { NAVIGATION_ID } from './drawer';
 
-	import Navigation from './Sidebar/Navigation/Navigation.svelte';
+	import Navigation from './@Sidebar/Navigation/Navigation.svelte';
 </script>
 
 <Drawer>

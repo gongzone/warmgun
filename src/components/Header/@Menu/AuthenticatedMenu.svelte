@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { Avatar, menu } from '@skeletonlabs/skeleton';
 
-	import type { LoggedInUser } from '$lib/types/user';
+	import type { AuthenticatedUser } from '$lib/types/user';
 
-	export let user: LoggedInUser;
+	export let user: AuthenticatedUser;
 </script>
 
 <div class="relative">
-	<button type="button" use:menu={{ menu: 'avatar-menu' }} class="btn-icon w-12 px-0">
-		<Avatar src={user?.avatar ?? '/avatars/monkey.svg'} />
+	<button type="button" use:menu={{ menu: 'avatar-menu' }} class="btn-icon md:btn-icon-lg px-0">
+		<Avatar width="md:w-[53px]" src={user?.avatar ?? '/avatars/monkey.svg'} />
 	</button>
 
 	<nav class="w-64 p-4 shadow-xl list-nav card" data-menu="avatar-menu">
