@@ -1,23 +1,23 @@
 <script lang="ts">
-	import type { LayoutData } from './$types';
+	// import type { LayoutData } from './$types';
 
-	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+	// import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 
-	export let data: LayoutData;
+	// export let data: LayoutData;
 
-	import { drawers } from './_WriteDrawer/drawer';
+	// import { drawers } from './_WriteDrawer/drawer';
 
-	import DraftSidebar from './_WriteDrawer/DraftSidebar/DraftSidebar.svelte';
-	import PublishSidebar from './_WriteDrawer/PublishSidebar/PublishSidebar.svelte';
+	// import DraftSidebar from './_WriteDrawer/DraftSidebar/DraftSidebar.svelte';
+	// import PublishSidebar from './_WriteDrawer/PublishSidebar/PublishSidebar.svelte';
 
-	let coverImageUrl: string;
-	let slugValue: string;
+	// let coverImageUrl: string;
+	// let slugValue: string;
 
-	$: writer = data.writer;
-	$: currentDraftId = data.currentDraftId;
+	// $: writer = data.writer;
+	// $: currentDraftId = data.currentDraftId;
 </script>
 
-<Drawer>
+<!-- <Drawer>
 	{#if $drawerStore.id === drawers['DRAFT'].id && currentDraftId}
 		<DraftSidebar {writer} currentDraftId={+currentDraftId} />
 	{:else if $drawerStore.id === drawers['PUBLISH'].id}
@@ -31,6 +31,6 @@
 			}}
 		/>
 	{/if}
-</Drawer>
+</Drawer> -->
 
 <slot />

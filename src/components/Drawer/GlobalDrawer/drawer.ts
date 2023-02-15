@@ -1,10 +1,10 @@
 import { drawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
 
-export const NAVIGATION_ID = 'NAVIGATION';
+export const NAV_SIDEBAR = 'NAV';
 
-export function openNavigation() {
+export function openNavSidebar() {
 	const settings: DrawerSettings = {
-		id: NAVIGATION_ID,
+		id: NAV_SIDEBAR,
 		position: 'left',
 		width: 'w-[325px]',
 		duration: 200

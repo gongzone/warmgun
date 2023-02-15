@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Avatar, menu } from '@skeletonlabs/skeleton';
+	import { menu } from '@skeletonlabs/skeleton';
 
 	import type { AuthenticatedUser } from '$lib/types/user';
 

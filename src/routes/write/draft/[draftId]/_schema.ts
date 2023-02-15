@@ -16,6 +16,6 @@ export const publishSchema = z.object({
 });
 
 export const deleteSchema = z.object({
-	currentDraftId: z.string(),
-	draftId: z.string()
+	draftId: z.string(),
+	currentDraftId: z.string()
 });

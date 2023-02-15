@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { openNavigation } from '$components/Drawer/drawer';
+	import { openNavSidebar } from '$components/Drawer/GlobalDrawer/drawer';
 </script>
 
 <button
 	class="btn-icon variant-ringed-tertiary ring-[1.5px] md:btn-icon-lg"
-	on:click={openNavigation}
+	on:click={openNavSidebar}
 >
 	<i class="ri-menu-2-line ri-lg" />
 </button>

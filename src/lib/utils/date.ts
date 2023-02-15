@@ -3,5 +3,5 @@ export function formatDate(dateData: Date) {
 	const month = dateData.getMonth() + 1;
 	const date = dateData.getDate();
 
-	return `${year}년 ${month}월 ${date}일`;
+	return `${year}. ${month >= 10 ? month : `0${month}`}. ${date}.`;
 }

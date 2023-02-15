@@ -2,21 +2,20 @@
 	import type { PageData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
 
-	import { openDrawer } from '../../_WriteDrawer/drawer';
+	import { openDraftSidebar, openPublishSidebar } from '$components/Drawer/WriteDrawer/drawer';
+	import { triggerToast } from '$components/Message/toast';
 
 	import BackButton from '$components/@custom/BackButton.svelte';
-	import triggerToast from '$components/@custom/toast';
 	import Editor from '../../_Editor/Editor.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
 
-	let writer = data.writer;
-
-	let id = data.draft.id;
-	let title = data.draft.title;
-	let subTitle = data.draft.subTitle;
-	let body = data.draft.body;
+	$: writer = data.writer;
+	$: id = data.draft.id;
+	$: title = data.draft.title;
+	$: subTitle = data.draft.subTitle;
+	$: body = data.draft.body;
 
 	$: if (form) {
 		form.success ? triggerToast(form.message, 'success') : triggerToast(form.message, 'error');
@@ -32,19 +31,16 @@
 	<div class="flex justify-between p-5">
 		<div>
 			<BackButton href={`/@${writer.username}`} />
-			<button
-				type="button"
-				class="btn-icon variant-ghost-surface"
-				on:click={() => openDrawer('DRAFT')}><i class="ri-article-line ri-lg" /></button
+			<button type="button" class="btn-icon variant-ghost-surface" on:click={openDraftSidebar}
+				><i class="ri-article-line ri-lg" /></button
 			>
 		</div>
-
 		<div class="flex gap-4">
-			<button formaction="?/save" class="btn variant-filled-secondary btn-base">저장</button>
+			<button formaction="?/save" class="btn variant-filled-secondary">저장</button>
 			<button
 				type="button"
-				class="btn variant-filled-primary btn-base"
-				on:click={() => openDrawer('PUBLISH', { title, subTitle, body })}>글 등록</button
+				class="btn variant-filled-primary"
+				on:click={() => openPublishSidebar({ title, subTitle, body })}>글 등록</button
 			>
 		</div>
 	</div>

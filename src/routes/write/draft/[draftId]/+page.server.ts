@@ -44,8 +44,8 @@ export const actions: Actions = {
 		}
 
 		const formData = await request.formData();
-		const validated = validateFormData(formData, saveSchema);
 
+		const validated = validateFormData(formData, saveSchema);
 		if (!validated.success) {
 			return fail(400, { success: false, message: extractErrorMessage(validated.error) });
 		}
@@ -86,18 +86,15 @@ export const actions: Actions = {
 		}
 
 		const formData = await request.formData();
-		const validated = validateFormData(formData, deleteSchema);
 
+		const validated = validateFormData(formData, deleteSchema);
 		if (!validated.success) {
 			return fail(400, { success: false, message: extractErrorMessage(validated.error) });
 		}
 
 		const { currentDraftId, draftId } = validated.data;
 
-		console.log(currentDraftId, draftId);
-
 		const totalCount = await getCountOfDrafts(locals.user.id);
-
 		if (totalCount <= 1) {
 			return fail(400, { success: false, message: '마지막 초고는 삭제하실 수 없습니다 😅' });
 		}
