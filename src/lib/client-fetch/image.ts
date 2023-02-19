@@ -1,24 +1,34 @@
-import { convertBlobToBase64 } from '$lib/utils/base64';
+type ImageType = 'avatar' | 'article' | 'article-cover';
 
-// 임시 업로드 function, 내 이미지 캐시 서버 구축하면 바뀔 예정
-
-export async function uploadImages(files: File[]) {
-	console.log(files);
-
-	const encodedUrls = await Promise.all(
-		files.map((file: File) => convertBlobToBase64(file) as Promise<string>)
-	);
-
-	// Todo: loading spinner 작동 필요
-	const response = await fetch('/api/images', {
+const getPresignedUrl = async (imageFor: ImageType, contentType: string) => {
+	const { data: presignedData } = await fetch('/api/s3/presigned', {
 		method: 'POST',
-		body: JSON.stringify({ imageUrls: encodedUrls }),
-		headers: {
-			'content-type': 'application/json'
-		}
+		body: JSON.stringify({ imageFor, contentType }),
+		headers: { 'Content-Type': 'application/json' }
+	}).then((res) => res.json());
+
+	return presignedData;
+};
+
+const uploadImageToS3 = async (presignedUrl: string, formData: FormData) => {
+	return await fetch(presignedUrl, {
+		method: 'POST',
+		body: formData
+	});
+};
+
+export async function uploadImage(file: File, options: { imageFor: ImageType }) {
+	// Todo?: image file이 아닌 경우 에러 핸들링 && image 용량 제한 설정 및 에러 핸들링
+	const presignedData = await getPresignedUrl(options.imageFor, file.type);
+
+	const formData = new FormData();
+	Object.keys(presignedData.fields).forEach((key) => {
+		formData.append(key, presignedData.fields[key]);
 	});
 
-	const urls: string[] = await response.json();
+	formData.append('file', file);
+	await uploadImageToS3(presignedData.url, formData);
 
-	return urls;
+	// Todo: lamda@edge 이용하여 on-the-fly 이미지 리사이징 구현하기
+	return presignedData.fields['key'];
 }

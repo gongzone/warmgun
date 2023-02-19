@@ -18,6 +18,9 @@
 		"db:studio": "npx prisma studio"
 	},
 	"dependencies": {
+		"@aws-sdk/client-s3": "^3.272.0",
+		"@aws-sdk/s3-presigned-post": "^3.272.0",
+		"@aws-sdk/s3-request-presigner": "^3.272.0",
 		"@bytemd/plugin-gfm": "^1.20.0",
 		"@bytemd/plugin-highlight-ssr": "^1.20.0",
 		"@fontsource/concert-one": "^4.5.9",
@@ -30,7 +33,10 @@
 		"cloudinary": "^1.33.0",
 		"fast-jwt": "^2.1.0",
 		"highlight.js": "^11.7.0",
+		"mime-types": "^2.1.35",
 		"remixicon": "^2.5.0",
+		"sharp": "^0.31.3",
+		"uuid": "^9.0.0",
 		"zod": "^3.20.2"
 	},
 	"devDependencies": {
@@ -42,6 +48,8 @@
 		"@tailwindcss/line-clamp": "^0.4.2",
 		"@tailwindcss/typography": "^0.5.8",
 		"@types/autosize": "^4.0.1",
+		"@types/mime-types": "^2.1.1",
+		"@types/uuid": "^9.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"autoprefixer": "^10.4.13",

@@ -4,8 +4,6 @@
 	import gfm from '@bytemd/plugin-gfm';
 	import highlight from '@bytemd/plugin-highlight-ssr';
 
-	import { uploadImages } from '$lib/client-fetch/image';
-
 	import AutosizedTextarea from '$components/@custom/AutosizedTextarea.svelte';
 
 	export let title: string;
@@ -22,8 +20,7 @@
 	$: dispatch('change', { title, subTitle, body });
 
 	async function handleUploadImages(markdownImages: File[]) {
-		const urls = await uploadImages(markdownImages);
-		return urls.map((url) => ({ url }));
+		console.log('hi!');
 	}
 </script>
 
