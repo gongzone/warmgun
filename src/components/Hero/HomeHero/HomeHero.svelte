@@ -1,4 +1,5 @@
 <script lang="ts">
+	import SearchInput from '$components/Form/SearchInput.svelte';
 	import HeroCommunities from './HeroCommunities/HeroCommunities.svelte';
 	import HeroPopularTags from './HeroPopularTags/HeroPopularTags.svelte';
 </script>
@@ -11,13 +12,12 @@
 		<span class="font-serif">기록하고 공유하세요</span>
 	</div>
 
-	<div class="flex flex-col items-center">
-		<div class="w-full">
-			<input type="search" placeholder="검색어를 입력하세요" class="h-14" />
+	<div>
+		<SearchInput height="h-14" />
+
+		<div class="flex flex-col items-center mt-8 gap-4">
+			<span class="text-sm md:text-base">Popular Tags</span>
+			<HeroPopularTags />
 		</div>
-
-		<span class="mt-8 mb-4 text-sm md:text-base">Popular Tags</span>
-
-		<HeroPopularTags />
 	</div>
 </div>

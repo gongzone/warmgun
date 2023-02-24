@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { LayoutData } from '../../../../routes/write/draft/[draftId]/$types';
 	import { enhance } from '$app/forms';
-	import { drawerStore, AccordionGroup, AccordionItem } from '@skeletonlabs/skeleton';
+	import { drawerStore, Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 
 	import DraftHeader from './DraftHeader/DraftHeader.svelte';
 	import WriterDisplay from './WriterDisplay/WriterDisplay.svelte';
@@ -14,7 +14,7 @@
 <WriterDisplay name={writer.nickname} avatar={writer.avatar} />
 
 <div class="py-8 px-2">
-	<AccordionGroup spacing="space-y-0" collapse={false}>
+	<Accordion spacing="space-y-0">
 		<AccordionItem open>
 			<svelte:fragment slot="lead">
 				<i class="ri-draft-line" />
@@ -34,7 +34,7 @@
 				</ul>
 			</svelte:fragment>
 		</AccordionItem>
-	</AccordionGroup>
+	</Accordion>
 </div>
 
 <div class="px-6 mb-10">

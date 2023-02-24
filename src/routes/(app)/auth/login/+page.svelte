@@ -31,5 +31,5 @@
 		</LabelInput>
 	</div>
 
-	<button class="w-full btn variant-filled-primary">로그인</button>
+	<button type="submit" class="w-full btn variant-filled-primary">로그인</button>
 </form>

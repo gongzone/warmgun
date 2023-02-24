@@ -2,10 +2,10 @@
 	import type { LayoutData } from '../../../routes/(app)/$types';
 	import { AppBar } from '@skeletonlabs/skeleton';
 
+	import AuthenticatedMenu from '$components/Popover/Menu/AuthenticatedMenu/AuthenticatedMenu.svelte';
+	import AnonymousMenu from '$components/Popover/Menu/AnonymousMenu/AnonymousMenu.svelte';
 	import Hamburger from './Hamburger/Hamburger.svelte';
 	import SiteLogo from './SiteLogo/SiteLogo.svelte';
-	import AnonymousMenu from '$components/Header/@Menu/AnonymousMenu.svelte';
-	import AuthenticatedMenu from '$components/Header/@Menu/AuthenticatedMenu.svelte';
 
 	export let user: LayoutData['user'];
 	export let border: string = '';

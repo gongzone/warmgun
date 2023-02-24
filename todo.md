@@ -1,3 +1,2 @@
-1. Publish Refactoring
-2. Editor Refactoring
-3. draftId 페이지 프론트 및 백엔드 전체 리팩토링
+1. 이미지 최적화 작업 완료
+2. 처음부터 리팩토링 시작

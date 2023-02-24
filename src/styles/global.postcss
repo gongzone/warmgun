@@ -1,6 +1,6 @@
 html,
 body {
-	@apply h-full;
+	@apply h-full overflow-hidden;
 }
 
 pre {
@@ -9,4 +9,11 @@ pre {
 
 code {
 	@apply !bg-transparent !pl-0;
+}
+
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration {
+	display: none;
 }

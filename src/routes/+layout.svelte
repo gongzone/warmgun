@@ -9,8 +9,12 @@
 	import '../styles/global.postcss';
 	import '../styles/editor.postcss';
 
-	import { Toast } from '@skeletonlabs/skeleton';
+	import { Toast, storePopup } from '@skeletonlabs/skeleton';
+	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
+
 	import GlobalDrawer from '$components/Drawer/GlobalDrawer/GlobalDrawer.svelte';
+
+	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
 <Toast />

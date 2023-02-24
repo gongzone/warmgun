@@ -9,10 +9,13 @@
 	let files: FileList;
 </script>
 
-<div class="flex flex-col justify-center items-center card p-4 w-full max-w-[320px] h-[232px]">
+<div
+	class="flex flex-col justify-center items-center text-center place-content-center card p-4 w-full max-w-[320px] h-[232px]"
+>
 	{#if !src}
 		<i class="ri-image-edit-fill text-9xl" />
 		<FileButton
+			name="article-cover"
 			bind:files
 			on:change={async () => {
 				const imageUrl = await uploadImage(files[0], { imageFor: 'article-cover' });
