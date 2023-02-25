@@ -9,7 +9,7 @@
 
 	<button
 		type="submit"
-		formaction="?/publish"
+		formaction="/write?/publish"
 		class="btn variant-filled-primary"
 		on:click={() => drawerStore.close()}
 	>

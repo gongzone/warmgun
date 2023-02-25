@@ -27,9 +27,9 @@ export const POST = (async ({ request, locals }) => {
 	}
 
 	const { username } = locals.user;
-	const { imageFor, contentType } = await request.json();
+	const { contentType } = await request.json();
 
-	const key = `images/${username}/${imageFor}/${uuidv4()}.${mime.extension(contentType)}`;
+	const key = `upload/${username}/${uuidv4()}.${mime.extension(contentType)}`;
 
 	// Todo: 실패 시 에러 처리
 	const data = await createPresignedPost(s3Client, generatePresignedOptions(key, contentType));

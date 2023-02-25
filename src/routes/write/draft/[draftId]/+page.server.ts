@@ -78,7 +78,7 @@ export const actions: Actions = {
 			slug
 		});
 
-		console.log(s);
+		console.log(s, '이게 작동되면 잘못된거야!');
 	},
 	delete: async ({ request, locals }) => {
 		if (!locals.user) {
