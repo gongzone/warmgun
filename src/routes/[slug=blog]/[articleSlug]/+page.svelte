@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import { Avatar } from '@skeletonlabs/skeleton';
 
+	import { CDN_DOMAIN } from '$lib/constants/cdn';
 	import Viewer from './_Viewer/_Viewer.svelte';
 
 	export let data: PageData;
@@ -28,7 +29,11 @@
 
 <div class="flex flex-col gap-6 mb-16">
 	<div class="w-full h-[478px] overflow-hidden rounded-lg">
-		<img class="w-full h-full object-cover" src={article?.coverImage} alt={article?.title} />
+		<img
+			class="w-full h-full object-cover"
+			src={`${CDN_DOMAIN}/${article?.coverImage}`}
+			alt={article?.title}
+		/>
 	</div>
 
 	<div class="space-y-4">

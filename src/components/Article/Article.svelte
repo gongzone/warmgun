@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { CDN_DOMAIN } from '$lib/constants/cdn';
 	interface Article {
 		title: string;
 		subTitle: string;
@@ -30,7 +31,7 @@
 		class="min-w-[92px] min-h-[92px] w-[92px] h-[92px] sm:min-w-[112px] sm:min-h-[112px] sm:w-[112px] sm:h-[112px] overflow-hidden"
 	>
 		<a class="unstyled" href={article.slug}>
-			<img class="aspect-square" src={article.coverImage} alt={article.title} />
+			<img class="aspect-square" src={`${CDN_DOMAIN}/${article.coverImage}`} alt={article.title} />
 		</a>
 	</div>
 </div>

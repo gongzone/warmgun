@@ -2,7 +2,7 @@
 	import type { LayoutData } from './$types';
 
 	import BlogHero from './_BlogHero/BlogHero.svelte';
-	import BlogTab from './_BlogTab/BlogTab.svelte';
+	import BlogTab from '$components/Tab/BlogTab.svelte';
 
 	export let data: LayoutData;
 </script>
