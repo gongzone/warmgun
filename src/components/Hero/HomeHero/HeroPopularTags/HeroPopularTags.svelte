@@ -1,20 +1,18 @@
 <script lang="ts">
+	interface PopularTags {
+		name: string;
+		to: string;
+	}
+
+	export let popularTags: PopularTags[];
 </script>
 
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm break-all">#React</a>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm flex-wrap">#Javascript</a
-	>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm">#일상</a>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm"
-		><span class="max-w-[78px] truncate">#spaceasdasdsadasdsadasdsadsad</span></a
-	>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm">태그</a>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm">나의 피드</a>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm">#강화학습</a>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm">태그</a>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm">나의 피드</a>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm">#강화학습</a>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm">태그</a>
-	<a href="/" class="btn btn-lg variant-ringed-tertiary rounded-lg text-sm">나의 피드</a>
-</div>
+<ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+	{#each popularTags as tag, index (tag.name)}
+		<li class={`${index > 7 ? 'hidden sm:inline-flex' : ''}`}>
+			<a href={tag.to} class="w-full btn btn-lg variant-ringed-tertiary rounded-lg text-sm">
+				<span class="max-w-[78px] truncate">#{tag.name}</span>
+			</a>
+		</li>
+	{/each}
+</ul>

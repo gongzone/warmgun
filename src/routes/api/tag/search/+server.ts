@@ -22,9 +22,9 @@ export const POST = (async ({ request, locals }) => {
 		},
 		select: {
 			name: true,
-			articles: {
+			_count: {
 				select: {
-					_count: true
+					articles: true
 				}
 			}
 		}

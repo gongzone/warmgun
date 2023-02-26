@@ -12,28 +12,22 @@
 	export let data: LayoutData;
 </script>
 
-<AppShell>
-	<svelte:fragment slot="pageHeader">
-		{#if $page.url.pathname === '/'}
-			<div class="relative bg-surface-800">
-				<img
-					src={bgSnow}
-					alt="bg-snow"
-					class="absolute top-0 left-0 w-screen h-full opacity-[0.03] object-cover"
-				/>
-				<AppHeader user={data.user} />
-				<HomeHero />
-			</div>
-		{:else}
-			<AppHeader user={data.user} border="border-b border-b-surface-500" />
-		{/if}
-	</svelte:fragment>
+{#if $page.url.pathname === '/'}
+	<div class="relative bg-surface-800">
+		<img
+			src={bgSnow}
+			alt="bg-snow"
+			class="absolute top-0 left-0 w-screen h-full opacity-[0.03] object-cover"
+		/>
+		<AppHeader user={data.user} />
+		<HomeHero />
+	</div>
+{:else}
+	<AppHeader user={data.user} border="border-b border-b-surface-500" />
+{/if}
 
-	<main>
-		<slot />
-	</main>
+<main>
+	<slot />
+</main>
 
-	<svelte:fragment slot="pageFooter">
-		<Footer />
-	</svelte:fragment>
-</AppShell>
+<Footer />

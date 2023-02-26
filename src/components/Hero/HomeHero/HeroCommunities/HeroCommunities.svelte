@@ -4,7 +4,7 @@
 
 <ul class="overflow-x-auto">
 	{#each communities as community (community.name)}
-		<li class="inline-block mb-2 mr-1">
+		<li class="inline-block mb-2 mr-2">
 			<a href={community.to} class="btn btn-sm variant-ringed-surface font-logo py-3 md:btn-lg"
 				>{community.name}</a
 			>

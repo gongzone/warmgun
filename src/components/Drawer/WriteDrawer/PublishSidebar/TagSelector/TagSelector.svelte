@@ -4,6 +4,9 @@
 
 	interface Tag {
 		name: string;
+		_count: {
+			articles: number;
+		};
 	}
 
 	export let tags: string[] = [];
@@ -17,6 +20,7 @@
 				return;
 			}
 			fetchedTags = await getTagsByInput(e.target.value, tags);
+			console.log(fetchedTags);
 		}, 300);
 
 	const onClickHandler = (e: any) => {
@@ -66,8 +70,11 @@
 							type="button"
 							on:click={onClickHandler}
 							data-index={index}
-							class="w-full h-full p-3 hover:bg-slate-700 text-left">{tag.name}</button
+							class="w-full h-full p-3 hover:bg-slate-700 text-left"
 						>
+							<span>{tag.name}</span>
+							<span class="text-sm font-bold">({tag._count.articles})</span>
+						</button>
 					</li>
 				{/each}
 			</ul>

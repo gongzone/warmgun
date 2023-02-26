@@ -1,14 +1,13 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
 
-	// import BlogHeader from './_BlogHeader/BlogHeader.svelte';
+	import BlogHeader from '$components/Header/BlogHeader/BlogHeader.svelte';
 
 	export let data: LayoutData;
 
 	let user = data.user;
 </script>
 
-<!-- 
-<BlogHeader {user} /> -->
+<BlogHeader {user} />
 
 <slot />

@@ -1,7 +1,22 @@
 <script lang="ts">
-	import SearchInput from '$components/Form/SearchInput.svelte';
 	import HeroCommunities from './HeroCommunities/HeroCommunities.svelte';
+	import HeroSearch from './HeroSearch/HeroSearch.svelte';
 	import HeroPopularTags from './HeroPopularTags/HeroPopularTags.svelte';
+
+	const popularTags = [
+		{ name: 'React', to: '/' },
+		{ name: 'JavaScript', to: '/' },
+		{ name: 'NextJs', to: '/' },
+		{ name: 'Python', to: '/' },
+		{ name: 'Web', to: '/' },
+		{ name: 'Machine Learning', to: '/' },
+		{ name: 'Sveltekit', to: '/' },
+		{ name: '일상', to: '/' },
+		{ name: '직장', to: '/' },
+		{ name: 'My Story', to: '/' },
+		{ name: 'Functional Programming', to: '/' },
+		{ name: 'Algorithm', to: '/' }
+	];
 </script>
 
 <div class="relative flex flex-col items-center px-4 pb-12">
@@ -13,11 +28,11 @@
 	</div>
 
 	<div>
-		<SearchInput height="h-14" />
+		<HeroSearch />
 
 		<div class="flex flex-col items-center mt-8 gap-4">
 			<span class="text-sm md:text-base">Popular Tags</span>
-			<HeroPopularTags />
+			<HeroPopularTags {popularTags} />
 		</div>
 	</div>
 </div>

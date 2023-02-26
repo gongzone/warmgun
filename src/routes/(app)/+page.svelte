@@ -1,5 +1,4 @@
 <script lang="ts">
-	import flowers from '$lib/images/flowers.jpg';
 </script>
 
 <div class="flex flex-col items-center">
