@@ -1,5 +1,6 @@
 <script>
 	import '@fontsource/noto-sans-kr/400.css';
+	import '@fontsource/noto-sans-kr/100.css';
 	import '@fontsource/noto-serif-kr/400.css';
 	import '@fontsource/concert-one';
 	import 'remixicon/fonts/remixicon.css';

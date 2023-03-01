@@ -32,7 +32,7 @@ export const actions: Actions = {
 			subTitle,
 			body,
 			coverImage,
-			slug,
+			slug: `@${locals.user.username}/${slug}`,
 			tags: tags.split(',')
 		});
 
