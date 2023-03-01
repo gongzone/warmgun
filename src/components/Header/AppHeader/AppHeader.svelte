@@ -17,7 +17,7 @@
 	background="bg-transparent"
 	shadow="shadow-none"
 	{border}
-	padding="px-[5vw] py-5 md:py-12"
+	padding="px-[5vw] py-5 sm:py-6 md:py-12"
 >
 	<svelte:fragment slot="lead">
 		<Hamburger />

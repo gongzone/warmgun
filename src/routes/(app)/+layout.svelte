@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { LayoutData } from './$types';
 	import { page } from '$app/stores';
-	import { AppShell } from '@skeletonlabs/skeleton';
 
 	import bgSnow from '$lib/images/bg-snow.svg';
 
@@ -20,7 +19,7 @@
 			class="absolute top-0 left-0 w-screen h-full opacity-[0.03] object-cover"
 		/>
 		<AppHeader user={data.user} />
-		<HomeHero />
+		<HomeHero popularTags={data.popularTags} />
 	</div>
 {:else}
 	<AppHeader user={data.user} border="border-b border-b-surface-500" />

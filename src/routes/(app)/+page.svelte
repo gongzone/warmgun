@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HomeHero from '$components/Hero/HomeHero/HomeHero.svelte';
 	import ArticleCard from '$components/Article/ArticleCard.svelte';
 
 	const trendingArticles = [
