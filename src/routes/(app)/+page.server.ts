@@ -6,20 +6,15 @@ const ARTICLES_PER_TAKE = 12;
 export const load = (async ({ locals, params }) => {
 	const initArticles = await findTrendingArticles(0, ARTICLES_PER_TAKE);
 
-	return {};
+	return { initArticles };
 }) satisfies PageServerLoad;
 
 async function findTrendingArticles(skip: number, take: number) {
 	return await db.article.findMany({
 		skip,
 		take,
-		where: {
-			createdAt: {
-				gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14) // two weeks
-			}
-		},
 		orderBy: {
-			// score 관련 view table 생성
+			trendingScore: 'asc'
 		},
 		select: {
 			id: true,

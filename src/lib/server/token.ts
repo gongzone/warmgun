@@ -11,7 +11,7 @@ export const ACCESS_TOKEN_KEY = 'access_token';
 export const REFRESH_TOKEN_KEY = 'refresh_token';
 
 export const tokensDuration = {
-	[ACCESS_TOKEN_KEY]: 1000 * 10,
+	[ACCESS_TOKEN_KEY]: 1000 * 60 * 10,
 	[REFRESH_TOKEN_KEY]: 1000 * 60 * 60 * 24 * 7
 } as const;
 

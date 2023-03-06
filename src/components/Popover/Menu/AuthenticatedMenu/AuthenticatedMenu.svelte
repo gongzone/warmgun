@@ -5,7 +5,7 @@
 
 	import UserAvatar from '$components/User/UserAvatar.svelte';
 
-	export let user: AuthenticatedUser;
+	export let user: NonNullable<AuthenticatedUser>;
 
 	const menuKey = 'authenticated-menu';
 	const authenticatedMenuSettings: PopupSettings = {
@@ -16,7 +16,7 @@
 
 <div>
 	<button use:popup={authenticatedMenuSettings} class="btn-icon md:btn-icon-lg px-0">
-		<UserAvatar width="md:w-[53px]" src={user?.avatar} />
+		<UserAvatar width="md:w-[53px]" src={user.avatar} />
 	</button>
 
 	<div class="relative card w-52 md:w-60 p-4 shadow-xl z-50" data-popup={menuKey}>
@@ -29,7 +29,7 @@
 					</a>
 				</li>
 				<li>
-					<a href={`/write/draft/${user?.latestDraftId}`}>
+					<a href={`/write/draft`}>
 						<span class="badge-icon py-4"><i class="ri-quill-pen-line ri-xl" /></span>
 						<span class="flex-auto">글쓰기</span>
 					</a>

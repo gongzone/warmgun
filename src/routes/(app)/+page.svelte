@@ -1,118 +1,9 @@
 <script lang="ts">
+	import type { PageServerData } from './$types';
+
 	import ArticleCard from '$components/Article/ArticleCard/ArticleCard.svelte';
 
-	const trendingArticles = [
-		{
-			id: 0,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: '리액트의 기초를 잡고싶다면 보라! 리액트 훅, 리액트 컨텍스트, 전역상태 관리 및 모든것',
-			subTitle:
-				'임시 테스트 아티클입니다. Under certain circumstances overflow needs a little extra love. It turns out that there was a feature in the flexbox specification that added an ...',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 1,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle: '임시 테스트 아티클입니다',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 2,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle: '임시 테스트 아티클입니다',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 11,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle:
-				'With micro-frontends each app needs to be as independent as possible. But sometimes a communication between the applications is mandatory (in our use case changing the language of all micro-frontends at the same time). In this article I will discuss more on how to implement the translation functionality using i18n in a micro-frontends environment and further explore how this can be achieved with hooks.',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 3,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle: '임시 테스트 아티클입니다',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 4,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle: '임시 테스트 아티클입니다',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 5,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle: '임시 테스트 아티클입니다',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 6,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle: '임시 테스트 아티클입니다',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 7,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle: '임시 테스트 아티클입니다',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 8,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle: '임시 테스트 아티클입니다',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 9,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle: '임시 테스트 아티클입니다',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		},
-		{
-			id: 10,
-			coverImage: 'https://source.unsplash.com/random/1280x540?skeleton',
-			title: 'Good Article!',
-			subTitle: '임시 테스트 아티클입니다',
-			writerAvatar: 'https://i.pravatar.cc/160?img=48',
-			writerName: 'Alex',
-			date: new Date()
-		}
-	];
+	export let data: PageServerData;
 </script>
 
 <div class="px-[5vw] py-10 md:py-20">
@@ -131,7 +22,7 @@
 	</div>
 
 	<ul class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-		{#each trendingArticles as article, index (article.id)}
+		{#each data.initArticles as article, index (article.id)}
 			<ArticleCard {article} />
 		{/each}
 	</ul>

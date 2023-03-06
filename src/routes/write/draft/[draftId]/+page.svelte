@@ -6,7 +6,7 @@
 	import { triggerToast } from '$components/Message/toast';
 
 	import BackButton from '$components/@custom/BackButton.svelte';
-	import Editor from '../../_Editor/Editor.svelte';
+	import Editor from '$components/_Editor/Editor.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;

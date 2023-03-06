@@ -1,13 +1,14 @@
 <script lang="ts">
-	import type { LayoutData } from '../../../routes/(app)/$types';
 	import { AppBar } from '@skeletonlabs/skeleton';
+
+	import type { AuthenticatedUser } from '$lib/types/user';
 
 	import AuthenticatedMenu from '$components/Popover/Menu/AuthenticatedMenu/AuthenticatedMenu.svelte';
 	import AnonymousMenu from '$components/Popover/Menu/AnonymousMenu/AnonymousMenu.svelte';
 	import Hamburger from './Hamburger/Hamburger.svelte';
 	import SiteLogo from './SiteLogo/SiteLogo.svelte';
 
-	export let user: LayoutData['user'];
+	export let user: AuthenticatedUser;
 	export let border: string = '';
 </script>
 

@@ -15,7 +15,6 @@ export async function getArticlesByUsername(username: string) {
 			body: true,
 			coverImage: true,
 			likes: true,
-			views: true,
 			slug: true,
 			createdAt: true
 		}

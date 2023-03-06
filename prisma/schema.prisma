@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views", "clientExtensions"]
 }
 
 datasource db {
@@ -24,18 +25,31 @@ model User {
   articles   Article[]
   comments   Comment[]
   likes      Like[]
-  followedBy Follows[] @relation("following")
-  following  Follows[] @relation("follower")
+  followedBy User[]    @relation("UserFollows")
+  following  User[]    @relation("UserFollows")
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model Profile {
-  id          Int     @id @default(autoincrement())
-  nickname    String
-  description String
-  avatar      String?
+  id       Int     @id @default(autoincrement())
+  nickname String
+  bio      String
+  avatar   String?
 
   user   User @relation(fields: [userId], references: [id])
   userId Int  @unique
+}
+
+view UserAuth {
+  id       Int     @unique
+  username String
+  nickname String
+  avatar   String?
+  role     Role
 }
 
 model Draft {
@@ -47,18 +61,19 @@ model Draft {
   updatedAt DateTime @updatedAt
 
   author   User @relation(fields: [authorId], references: [id])
-  authorId Int
+  authorId Int  @unique
 }
 
 model Article {
-  id         Int      @id @default(autoincrement())
-  title      String
-  subTitle   String
-  body       String
-  coverImage String?
-  slug       String   @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id            Int      @id @default(autoincrement())
+  title         String
+  subTitle      String
+  body          String
+  coverImage    String?
+  slug          String   @unique
+  trendingScore Float    @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   author   User      @relation(fields: [authorId], references: [id])
   authorId Int
@@ -94,18 +109,4 @@ model Like {
   userId    Int
   article   Article @relation(fields: [articleId], references: [id])
   articleId Int
-}
-
-model Follows {
-  follower    User @relation("follower", fields: [followerId], references: [id])
-  followerId  Int
-  following   User @relation("following", fields: [followingId], references: [id])
-  followingId Int
-
-  @@id([followerId, followingId])
-}
-
-enum Role {
-  USER
-  ADMIN
 }
