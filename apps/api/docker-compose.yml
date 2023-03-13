@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: warmgun-postgres
+    image: postgres:latest
+    ports:
+      - '${DATABASE_PORT}:${DATABASE_PORT}'
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
