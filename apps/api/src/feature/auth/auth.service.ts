@@ -13,17 +13,18 @@ import User from 'src/entity/User.entity';
 import Token from 'src/entity/Token.entity';
 import { SignupDTO, LoginDTO } from './lib/dtos';
 import { JwtUtil } from './lib/utils';
-import { ConfigServiceWithEnv } from 'src/lib/types/config-service-with-env';
+import { ConfigService } from '@nestjs/config';
+import { EnvConfig } from 'src/config/env.config';
 
 @Injectable()
-class AuthService {
+export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: EntityRepository<User>,
-    @InjectRepository(User)
+    @InjectRepository(Token)
     private readonly tokenRepository: EntityRepository<Token>,
+    private readonly configService: ConfigService<EnvConfig, true>,
     private readonly jwtUtil: JwtUtil,
-    private readonly configService: ConfigServiceWithEnv,
   ) {}
 
   async signup(signupDTO: SignupDTO) {
@@ -208,5 +209,3 @@ interface SetAuthCookiesData {
   accessToken: string;
   refreshToken: string;
 }
-
-export default AuthService;

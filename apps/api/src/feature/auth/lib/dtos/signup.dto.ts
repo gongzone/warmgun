@@ -1,7 +1,7 @@
 import { IsString, Matches, IsEmail } from 'class-validator';
 import { Match } from 'src/lib/decorators/match';
 
-class SignupDTO {
+export class SignupDTO {
   @IsString()
   @Matches(/^[A-Za-z]{1}[A-Za-z0-9]{4,19}$/, {
     message: '아이디 생성 규칙을 확인하세요.',
@@ -25,5 +25,3 @@ class SignupDTO {
   @IsEmail({}, { message: '이메일 형식에 맞지 않습니다.' })
   email: string;
 }
-
-export default SignupDTO;

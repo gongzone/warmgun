@@ -8,15 +8,15 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import AuthService from './auth.service';
 import { Response } from 'express';
+import { AuthService } from './auth.service';
 import JwtRefreshGuard from './lib/guards/refresh.guard';
 import { SignupDTO, LoginDTO } from './lib/dtos';
 import { JwtAccessAuthGuard } from './lib/guards/access.guard';
 import { RequestWithUser } from 'src/lib/types/request-with-user';
 
 @Controller('auth')
-class AuthController {
+export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/signup')
@@ -85,5 +85,3 @@ class AuthController {
     return { accessToken, refreshToken, tokenId };
   }
 }
-
-export default AuthController;

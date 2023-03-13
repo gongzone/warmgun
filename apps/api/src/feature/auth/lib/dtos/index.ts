@@ -1,4 +1,2 @@
-import SignupDTO from './signup.dto';
-import LoginDTO from './login.dto';
-
-export { SignupDTO, LoginDTO };
+export * from './login.dto';
+export * from './signup.dto';

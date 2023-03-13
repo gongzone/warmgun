@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { EnvConfig } from 'src/config/env.config';
 import { JwtPayload, TokenConfig } from '../types';
-import { ConfigServiceWithEnv } from 'src/lib/types/config-service-with-env';
 
 const TOKENS_OPTIONS = {
   access: {
@@ -18,7 +19,7 @@ const TOKENS_OPTIONS = {
 export class JwtUtil {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigServiceWithEnv,
+    private readonly configService: ConfigService<EnvConfig, true>,
   ) {}
 
   async generateTokens(userId: number, username: string) {

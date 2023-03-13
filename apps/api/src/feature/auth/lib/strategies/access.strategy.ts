@@ -1,17 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { ConfigServiceWithEnv } from 'src/lib/types/config-service-with-env';
+import { ConfigService } from '@nestjs/config';
 import { RequestWithUser } from 'src/lib/types/request-with-user';
 import { Request } from 'express';
 import { JwtPayload } from '../types/jwt';
+import { EnvConfig } from 'src/config/env.config';
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(
   Strategy,
   'jwt-access',
 ) {
-  constructor(protected readonly configService: ConfigServiceWithEnv) {
+  constructor(
+    protected readonly configService: ConfigService<EnvConfig, true>,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req: Request) => req.cookies?.['access_token'],
