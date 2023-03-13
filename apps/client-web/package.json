@@ -13,6 +13,12 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
+	"dependencies": {
+		"@fontsource/concert-one": "^4.5.9",
+		"@fontsource/noto-sans-kr": "^4.5.12",
+		"@fontsource/noto-serif-kr": "^4.5.13",
+		"@skeletonlabs/skeleton": "^1.0.0"
+	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "^2.0.0",
@@ -37,11 +43,5 @@
 		"vite": "^4.0.0",
 		"vitest": "^0.25.3"
 	},
-	"type": "module",
-	"dependencies": {
-		"@fontsource/concert-one": "^4.5.9",
-		"@fontsource/noto-sans-kr": "^4.5.12",
-		"@fontsource/noto-serif-kr": "^4.5.13",
-		"@skeletonlabs/skeleton": "^1.0.0"
-	}
+	"type": "module"
 }

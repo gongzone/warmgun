@@ -8,3 +8,5 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../styles/global.postcss';
 </script>
+
+<slot />
