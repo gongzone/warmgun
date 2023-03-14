@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
-	import AnonymousUserIcon from '~icons/ri/user-line';
+	import UserIcon from '~icons/ri/user-line';
 
 	const popupKey = 'anonymous-menu';
 	const settings: PopupSettings = {
@@ -22,9 +22,7 @@
 		use:popup={settings}
 		class="btn-icon variant-ringed-tertiary ring-[1.5px] md:btn-icon-lg"
 	>
-		<span>
-			<AnonymousUserIcon />
-		</span>
+		<span><UserIcon /></span>
 	</button>
 
 	<div class="relative card w-48 p-4 shadow-xl z-50" data-popup={popupKey}>
