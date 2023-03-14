@@ -9,12 +9,10 @@ module.exports = {
 	],
 	theme: {
 		extend: {
-			extend: {
-				fontFamily: {
-					sans: ['Noto Sans KR', ...defaultTheme.fontFamily.sans],
-					serif: ['Noto Serif KR', ...defaultTheme.fontFamily.serif],
-					logo: ['Concert One', ...defaultTheme.fontFamily.sans]
-				}
+			fontFamily: {
+				sans: ['Noto Sans KR', ...defaultTheme.fontFamily.sans],
+				serif: ['Noto Serif KR', ...defaultTheme.fontFamily.serif],
+				logo: ['Concert One', ...defaultTheme.fontFamily.sans]
 			}
 		}
 	},

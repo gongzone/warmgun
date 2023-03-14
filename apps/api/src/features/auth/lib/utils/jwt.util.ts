@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { EnvConfig } from 'src/config/env.config';
+import { EnvConfig } from 'src/configs/env.config';
 import { JwtPayload, TokenConfig } from '../types';
 
 const TOKENS_OPTIONS = {

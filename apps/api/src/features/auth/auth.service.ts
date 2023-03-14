@@ -9,12 +9,12 @@ import {
 import { Response } from 'express';
 import * as argon2 from 'argon2';
 import dayjs from 'dayjs';
-import User from 'src/entity/User.entity';
-import Token from 'src/entity/Token.entity';
+import User from 'src/entities/User.entity';
+import Token from 'src/entities/Token.entity';
 import { SignupDTO, LoginDTO } from './lib/dtos';
 import { JwtUtil } from './lib/utils';
 import { ConfigService } from '@nestjs/config';
-import { EnvConfig } from 'src/config/env.config';
+import { EnvConfig } from 'src/configs/env.config';
 
 @Injectable()
 export class AuthService {

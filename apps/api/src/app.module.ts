@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import envConfig from './config/env.config';
-import { ORMModule } from './feature/@base/orm/orm.module';
-import { AuthModule } from './feature/auth/auth.module';
+import envConfig from './configs/env.config';
+import { ORMModule } from './features/@base/orm/orm.module';
+import { AuthModule } from './features/auth/auth.module';
 
 @Module({
   imports: [

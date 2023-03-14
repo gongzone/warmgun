@@ -2,7 +2,7 @@ import { Logger, Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { LoadStrategy } from '@mikro-orm/core';
 import { ConfigService } from '@nestjs/config';
-import { EnvConfig } from 'src/config/env.config';
+import { EnvConfig } from 'src/configs/env.config';
 
 const logger = new Logger('MikroORM');
 

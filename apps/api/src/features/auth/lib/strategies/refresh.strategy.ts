@@ -1,27 +1,29 @@
+import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
+import Token from 'src/entities/Token.entity';
 import { RequestWithUser } from 'src/lib/types/request-with-user';
-import { Request } from 'express';
 import { JwtPayload } from '../types/jwt';
-import { EnvConfig } from 'src/config/env.config';
+import { EnvConfig } from 'src/configs/env.config';
 
 @Injectable()
-export class JwtAccessStrategy extends PassportStrategy(
+export class JwtRefreshStrategy extends PassportStrategy(
   Strategy,
-  'jwt-access',
+  'jwt-refresh',
 ) {
   constructor(
     protected readonly configService: ConfigService<EnvConfig, true>,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (req: Request) => req.cookies?.['access_token'],
+        (req: Request) => req.cookies?.['refresh_token'],
         ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
       ignoreExpiration: false,
-      secretOrKey: configService.get('jwt.accessSecretKey', { infer: true }),
+      secretOrKey: configService.get('jwt.refreshSecretKey', { infer: true }),
       passReqToCallback: true,
     });
   }
@@ -31,8 +33,8 @@ export class JwtAccessStrategy extends PassportStrategy(
     payload: JwtPayload,
   ): Promise<RequestWithUser['user']> {
     const tokenId = parseInt(req.cookies?.['token_id']);
-    const accessToken =
-      req.cookies?.['access_token'] ??
+    const refreshToken =
+      req.cookies?.['refresh_token'] ??
       req.header('Authorization').split(' ')[1];
 
     return {
@@ -40,7 +42,7 @@ export class JwtAccessStrategy extends PassportStrategy(
       username: payload.username,
       token: {
         id: tokenId,
-        value: accessToken,
+        value: refreshToken,
         iat: new Date(payload.iat * 1000),
         exp: new Date(payload.exp * 1000),
       },
