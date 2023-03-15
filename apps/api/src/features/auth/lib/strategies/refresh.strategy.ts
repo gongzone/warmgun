@@ -1,10 +1,8 @@
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import Token from 'src/entities/Token.entity';
 import { RequestWithUser } from 'src/lib/types/request-with-user';
 import { JwtPayload } from '../types/jwt';
 import { EnvConfig } from 'src/configs/env.config';
@@ -36,6 +34,10 @@ export class JwtRefreshStrategy extends PassportStrategy(
     const refreshToken =
       req.cookies?.['refresh_token'] ??
       req.header('Authorization').split(' ')[1];
+
+    if (!tokenId || !refreshToken) {
+      throw new UnauthorizedException('인증 토큰을 찾을 수 없습니다.');
+    }
 
     return {
       id: payload.sub,

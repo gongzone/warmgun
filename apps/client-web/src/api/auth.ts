@@ -8,12 +8,8 @@ export async function login(loginDTO: LoginDTO) {
 	return await api.post('api/auth/login', { json: loginDTO }).json<AuthResult>();
 }
 
-export async function refresh() {
-	return await api
-		.post('api/auth/refresh', {
-			retry: 0
-		})
-		.json<AuthResult>();
+export async function logout() {
+	return await api.post('api/auth/logout');
 }
 
 export interface SignupDTO {

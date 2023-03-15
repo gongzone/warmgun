@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
@@ -34,6 +34,10 @@ export class JwtAccessStrategy extends PassportStrategy(
     const accessToken =
       req.cookies?.['access_token'] ??
       req.header('Authorization').split(' ')[1];
+
+    if (!tokenId || !accessToken) {
+      throw new UnauthorizedException('인증 토큰을 찾을 수 없습니다.');
+    }
 
     return {
       id: payload.sub,

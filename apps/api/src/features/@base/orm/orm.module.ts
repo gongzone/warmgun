@@ -1,10 +1,8 @@
-import { Logger, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { LoadStrategy } from '@mikro-orm/core';
 import { ConfigService } from '@nestjs/config';
 import { EnvConfig } from 'src/configs/env.config';
-
-const logger = new Logger('MikroORM');
 
 @Module({
   imports: [
@@ -18,8 +16,7 @@ const logger = new Logger('MikroORM');
         host: configService.get('database.host', { infer: true }),
         port: configService.get('database.port', { infer: true }),
         autoLoadEntities: true,
-        debug: configService.get('base.env', { infer: true }) !== 'production',
-        logger: logger.log.bind(logger),
+        // debug: configService.get('base.env', { infer: true }) !== 'production',
         loadStrategy: LoadStrategy.JOINED,
       }),
     }),

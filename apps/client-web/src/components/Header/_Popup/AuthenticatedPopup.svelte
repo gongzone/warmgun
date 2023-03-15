@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { popup, Avatar, type PopupSettings } from '@skeletonlabs/skeleton';
+	import { goto } from '$app/navigation';
 	import CommunityIcon from '~icons/ri/community-line';
 	import QuillPenIcon from '~icons/ri/quill-pen-line';
 
+	import { logout } from '$api/auth';
 	import type { GetMeResult } from '$api/me';
+	import { createMutation } from '@tanstack/svelte-query';
+	import queryClient from '$lib/query-client';
 
 	export let user: GetMeResult;
 
@@ -17,6 +21,14 @@
 		{ to: `/@${user?.username}`, name: '내 블로그' },
 		{ to: `/write/draft`, name: '글쓰기' }
 	];
+
+	const logoutMutation = createMutation({
+		mutationFn: logout,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['me'] });
+			goto('/auth/login');
+		}
+	});
 </script>
 
 <div>
@@ -43,7 +55,7 @@
 				{/each}
 
 				<li>
-					<button class="w-full option">로그아웃</button>
+					<button class="w-full option" on:click={() => $logoutMutation.mutate()}>로그아웃</button>
 				</li>
 			</ul>
 		</nav>
