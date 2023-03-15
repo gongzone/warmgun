@@ -11,7 +11,7 @@
 			<span class="text-2xl font-bold">is the soul of Efficiency</span>
 		</div>
 
-		<div class="mt-8 mb-4">
+		<div class="mt-6 mb-4">
 			<slot />
 		</div>
 

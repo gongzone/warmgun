@@ -7,7 +7,7 @@
 		event: 'click',
 		target: popupKey,
 		placement: 'bottom',
-		closeQuery: '.listbox-item'
+		closeQuery: '.list-nav'
 	};
 
 	const navData = [
@@ -25,7 +25,7 @@
 		<span><UserIcon /></span>
 	</button>
 
-	<div class="relative card w-48 p-4 shadow-xl z-50" data-popup={popupKey}>
+	<div class="relative card w-52 p-4 shadow-xl z-50" data-popup={popupKey}>
 		<nav class="list-nav">
 			<ul>
 				{#each navData as nav (nav.to)}

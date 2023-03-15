@@ -1,13 +1,42 @@
 <script lang="ts">
+	import { createMutation } from '@tanstack/svelte-query';
+	import { HTTPError } from 'ky-universal';
 	import UserIcon from '~icons/ri/user-line';
 	import PasswordIcon from '~icons/ri/lock-password-line';
 	import CheckIcon from '~icons/ri/shield-check-line';
 	import EmailIcon from '~icons/ri/mail-line';
 
+	import { signup, type SignupDTO } from '$api/auth';
+	import FormAlert from '$components/Alert/FormAlert.svelte';
 	import LabelInput from '$components/@base/Input/LabelInput.svelte';
+
+	const mutation = createMutation({
+		mutationFn: (signupDTO: SignupDTO) => signup(signupDTO)
+	});
+
+	const onSubmit = (e: any) => {
+		const signupDTO = {
+			username: e.target.username.value,
+			password: e.target.password.value,
+			confirm: e.target.confirm.value,
+			email: e.target.email.value
+		} satisfies SignupDTO;
+
+		$mutation.mutate(signupDTO);
+	};
+
+	$: isVisible = $mutation.isError;
+	$: errorMessage =
+		isVisible && $mutation.error instanceof HTTPError
+			? $mutation.error.message
+			: '회원가입 도중 문제가 발생하였습니다.';
 </script>
 
-<form>
+<div class="mb-4">
+	<FormAlert {isVisible} {errorMessage} />
+</div>
+
+<form on:submit|preventDefault={onSubmit}>
 	<div class="space-y-5 mb-8">
 		<LabelInput type="text" name="username">
 			<svelte:fragment slot="labelText">아이디</svelte:fragment>

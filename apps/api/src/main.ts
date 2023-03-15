@@ -10,7 +10,7 @@ async function bootstrap() {
 
   if (configService.get('base.env') === 'development') {
     app.enableCors({
-      origin: '/localhost/',
+      origin: 'http://localhost:5173',
       allowedHeaders: ['Cookie', 'Content-Type'],
       credentials: true,
     });
@@ -20,7 +20,11 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.setGlobalPrefix('api');
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      enableDebugMessages: true,
+    }),
+  );
   await app.listen(3000);
 }
 bootstrap();

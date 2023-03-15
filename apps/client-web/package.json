@@ -18,7 +18,10 @@
 		"@fontsource/concert-one": "^4.5.9",
 		"@fontsource/noto-sans-kr": "^4.5.12",
 		"@fontsource/noto-serif-kr": "^4.5.13",
-		"@skeletonlabs/skeleton": "^1.0.0"
+		"@skeletonlabs/skeleton": "^1.0.0",
+		"@tanstack/svelte-query": "^4.26.1",
+		"ky": "^0.33.2",
+		"ky-universal": "^0.11.0"
 	},
 	"devDependencies": {
 		"@iconify-json/game-icons": "^1.1.2",

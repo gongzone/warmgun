@@ -8,10 +8,16 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../styles/global.postcss';
 
+	import type { LayoutData } from './$types';
+	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
+
+	export let data: LayoutData;
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
-<slot />
+<QueryClientProvider client={data.queryClient}>
+	<slot />
+</QueryClientProvider>

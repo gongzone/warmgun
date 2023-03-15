@@ -35,7 +35,7 @@ export class AuthService {
       $or: [{ username }, { email }],
     });
 
-    if (!foundUser) {
+    if (foundUser) {
       throw new ConflictException(
         '해당 아이디 혹은 이메일을 가진 사용자가 이미 존재합니다.',
       );
@@ -140,18 +140,7 @@ export class AuthService {
 
   setAuthCookies(res: Response, data: SetAuthCookiesData) {
     const { accessToken, refreshToken, tokenId } = data;
-
-    const decodedAccess = this.jwtUtil.decodeToken(accessToken);
-    const decodedRefresh = this.jwtUtil.decodeToken(refreshToken);
-
-    const accessMaxAge = dayjs().diff(
-      new Date(decodedAccess['exp'] * 1000),
-      'seconds',
-    );
-    const refreshMaxAge = dayjs().diff(
-      new Date(decodedRefresh['exp'] * 1000),
-      'seconds',
-    );
+    const { accessMaxAge, refreshMaxAge } = this.jwtUtil.getTokensMaxAge();
 
     res.cookie('token_id', tokenId, {
       path: '/',
@@ -171,7 +160,7 @@ export class AuthService {
       maxAge: accessMaxAge,
     });
 
-    res.cookie('access_token', refreshToken, {
+    res.cookie('refresh_token', refreshToken, {
       path: '/',
       httpOnly: true,
       sameSite: 'strict',

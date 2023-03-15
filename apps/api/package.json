@@ -13,7 +13,7 @@
     "db:schema:create": "npx mikro-orm schema:create --dump",
     "db:migrate:create": "npx mikro-orm migration:create",
     "start": "nest start",
-    "dev": "nest start --watch",
+    "dev": "NODE_ENV=development nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -74,7 +74,7 @@
   "mikro-orm": {
     "useTsNode": true,
     "configPaths": [
-      "./src/config/mikro-orm.config.ts"
+      "./src/configs/mikro-orm.config.ts"
     ]
   },
   "jest": {

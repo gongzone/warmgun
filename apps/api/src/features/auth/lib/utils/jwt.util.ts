@@ -7,11 +7,11 @@ import { JwtPayload, TokenConfig } from '../types';
 const TOKENS_OPTIONS = {
   access: {
     secret: 'jwt.accessSecretKey',
-    expiresIn: '30m',
+    expiresIn: 5,
   } satisfies TokenConfig,
   refresh: {
     secret: 'jwt.refreshSecretKey',
-    expiresIn: '7d',
+    expiresIn: 60 * 60 * 24 * 7,
   } satisfies TokenConfig,
 };
 
@@ -31,8 +31,10 @@ export class JwtUtil {
     return { accessToken, refreshToken };
   }
 
-  async decodeToken(token: string) {
-    return this.jwtService.decode(token);
+  getTokensMaxAge() {
+    const accessMaxAge = TOKENS_OPTIONS['access'].expiresIn * 1000;
+    const refreshMaxAge = TOKENS_OPTIONS['refresh'].expiresIn * 1000;
+    return { accessMaxAge, refreshMaxAge };
   }
 
   private async generateToken(
