@@ -1,9 +1,17 @@
 <script lang="ts">
 	import { AppBar } from '@skeletonlabs/skeleton';
+	import { createQuery } from '@tanstack/svelte-query';
 	import HamburgerIcon from '~icons/ri/menu-2-line';
 	import PistolGunIcon from '~icons/game-icons/pistol-gun';
 
+	import { getMe } from '$api/me';
 	import AnonymousPopup from '../_Popup/AnonymousPopup.svelte';
+	import AuthenticatedPopup from '../_Popup/AuthenticatedPopup.svelte';
+
+	const getMeQuery = createQuery({
+		queryKey: ['me'],
+		queryFn: getMe
+	});
 </script>
 
 <AppBar
@@ -31,6 +39,10 @@
 	</a>
 
 	<svelte:fragment slot="trail">
-		<AnonymousPopup />
+		{#if $getMeQuery.isSuccess}
+			<AuthenticatedPopup user={$getMeQuery.data} />
+		{:else}
+			<AnonymousPopup />
+		{/if}
 	</svelte:fragment>
 </AppBar>

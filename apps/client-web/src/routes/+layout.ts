@@ -1,14 +1,12 @@
 import type { LayoutLoad } from './$types';
-import { browser } from '$app/environment';
-import { QueryClient } from '@tanstack/svelte-query';
+
+import queryClient from '$lib/query-client';
+import { getMe } from '$api/me';
 
 export const load = (async () => {
-	const queryClient = new QueryClient({
-		defaultOptions: {
-			queries: {
-				enabled: browser
-			}
-		}
+	await queryClient.prefetchQuery({
+		queryKey: ['me'],
+		queryFn: getMe
 	});
 
 	return { queryClient };

@@ -1,15 +1,21 @@
 <script lang="ts">
 	import { createMutation } from '@tanstack/svelte-query';
+	import { goto } from '$app/navigation';
 	import { HTTPError } from 'ky-universal';
 	import UserIcon from '~icons/ri/user-line';
 	import PasswordIcon from '~icons/ri/lock-password-line';
 
+	import queryClient from '$lib/query-client';
 	import { login, type LoginDTO } from '$api/auth';
 	import FormAlert from '$components/Alert/FormAlert.svelte';
 	import LabelInput from '$components/@base/Input/LabelInput.svelte';
 
-	const mutation = createMutation({
-		mutationFn: (signupDTO: LoginDTO) => login(signupDTO)
+	const loginMutation = createMutation({
+		mutationFn: (signupDTO: LoginDTO) => login(signupDTO),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['me'] });
+			goto('/');
+		}
 	});
 
 	const onSubmit = (e: any) => {
@@ -18,13 +24,13 @@
 			password: e.target.password.value
 		} satisfies LoginDTO;
 
-		$mutation.mutate(loginDTO);
+		$loginMutation.mutate(loginDTO);
 	};
 
-	$: isVisible = $mutation.isError;
+	$: isVisible = $loginMutation.isError;
 	$: errorMessage =
-		isVisible && $mutation.error instanceof HTTPError
-			? $mutation.error.message
+		isVisible && $loginMutation.error instanceof HTTPError
+			? $loginMutation.error.message
 			: '로그인 도중 문제가 발생하였습니다.';
 </script>
 

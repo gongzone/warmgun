@@ -2,6 +2,7 @@ import ky from 'ky-universal';
 
 const api = ky.extend({
 	prefixUrl: import.meta.env.MODE === 'development' ? 'http://localhost:3000' : '',
+	retry: 0,
 	hooks: {
 		beforeError: [
 			async (error) => {

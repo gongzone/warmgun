@@ -7,10 +7,16 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtAccessStrategy, JwtRefreshStrategy } from './lib/strategies';
 import { JwtUtil } from './lib/utils';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  imports: [MikroOrmModule.forFeature([User, Token]), JwtModule.register({})],
+  imports: [
+    MikroOrmModule.forFeature([User, Token]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.register({}),
+  ],
   controllers: [AuthController],
   providers: [AuthService, JwtUtil, JwtAccessStrategy, JwtRefreshStrategy],
+  exports: [PassportModule, JwtAccessStrategy, JwtRefreshStrategy],
 })
 export class AuthModule {}
