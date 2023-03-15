@@ -61,7 +61,7 @@ export class AuthController {
     @Req() req: RequestWithUser,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { id } = req.user.token;
+    const { id } = req.user;
     await this.authService.logout(id);
     this.authService.deleteAuthCookies(res);
   }

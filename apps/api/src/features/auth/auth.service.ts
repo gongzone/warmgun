@@ -96,9 +96,16 @@ export class AuthService {
     return { accessToken, refreshToken, tokenId: token.id };
   }
 
-  async logout(tokenId: number) {
-    const token = this.tokenRepository.getReference(tokenId);
-    await this.tokenRepository.removeAndFlush(token);
+  async logout(userId: number) {
+    await this.tokenRepository
+      .qb()
+      .delete()
+      .where({
+        user: {
+          id: userId,
+        },
+      });
+    await this.tokenRepository.flush();
   }
 
   async refresh(tokenId: number, refreshToken: string, tokenIssuedAt: Date) {
