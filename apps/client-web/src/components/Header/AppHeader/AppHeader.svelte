@@ -5,6 +5,7 @@
 	import PistolGunIcon from '~icons/game-icons/pistol-gun';
 
 	import { getMe } from '$api/me';
+	import { openNavSidebar } from '$components/Drawer/drawer';
 	import AnonymousPopup from '../_Popup/AnonymousPopup.svelte';
 	import AuthenticatedPopup from '../_Popup/AuthenticatedPopup.svelte';
 
@@ -21,7 +22,10 @@
 	padding="px-[5vw] py-6 sm:py-8 md:py-12"
 >
 	<svelte:fragment slot="lead">
-		<button class="btn-icon variant-ringed-tertiary ring-[1.5px] md:btn-icon-lg">
+		<button
+			class="btn-icon variant-ringed-tertiary ring-[1.5px] md:btn-icon-lg"
+			on:click={openNavSidebar}
+		>
 			<span>
 				<HamburgerIcon />
 			</span>

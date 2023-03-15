@@ -18,8 +18,8 @@
 	};
 
 	const navData = [
-		{ to: `/@${user?.username}`, name: '내 블로그' },
-		{ to: `/write/draft`, name: '글쓰기' }
+		{ to: `/@${user?.username}`, name: '내 블로그', icon: CommunityIcon },
+		{ to: `/write/draft`, name: '글쓰기', icon: QuillPenIcon }
 	];
 
 	const logoutMutation = createMutation({
@@ -43,11 +43,7 @@
 					<li>
 						<a href={nav.to}>
 							<span class="badge-icon py-4">
-								{#if nav.name === '내 블로그'}
-									<CommunityIcon />
-								{:else if nav.name === '글쓰기'}
-									<QuillPenIcon />
-								{/if}
+								<svelte:component this={nav.icon} class="w-[24px] h-[24px]" />
 							</span>
 							<span class="flex-auto">{nav.name}</span>
 						</a>

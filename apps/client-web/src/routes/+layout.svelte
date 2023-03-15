@@ -13,10 +13,14 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 
+	import Drawer from '$components/Drawer/Drawer.svelte';
+
 	export let data: LayoutData;
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
+
+<Drawer />
 
 <QueryClientProvider client={data.queryClient}>
 	<slot />
