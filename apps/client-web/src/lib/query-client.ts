@@ -6,7 +6,9 @@ const queryClient = new QueryClient({
 		queries: {
 			enabled: browser,
 			retry: false,
-			refetchOnWindowFocus: false
+			refetchOnWindowFocus: false,
+			refetchOnMount: false,
+			refetchOnReconnect: false
 		}
 	}
 });

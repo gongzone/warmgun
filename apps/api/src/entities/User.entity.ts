@@ -7,6 +7,7 @@ import {
   OneToMany,
   Collection,
 } from '@mikro-orm/core';
+import Draft from './Draft.entity';
 import Profile from './Profile.entity';
 import Token from './Token.entity';
 
@@ -38,6 +39,9 @@ class User {
 
   @OneToMany(() => Token, (Token) => Token.user, { orphanRemoval: true })
   tokens = new Collection<Token>(this);
+
+  @OneToMany(() => Draft, (Draft) => Draft.user, { orphanRemoval: true })
+  drafts = new Collection<Draft>(this);
 }
 
 export enum UserRole {

@@ -8,6 +8,5 @@ export const load = (async () => {
 		queryKey: ['me'],
 		queryFn: getMe
 	});
-
 	return { queryClient };
 }) satisfies LayoutLoad;

@@ -1,4 +1,4 @@
-import api from '$lib/api-client';
+import { api, apiAfterRefresh } from '$lib/api-client';
 
 export async function signup(signupDTO: SignupDTO) {
 	return await api.post('api/auth/signup', { json: signupDTO }).json<AuthResult>();
@@ -9,7 +9,7 @@ export async function login(loginDTO: LoginDTO) {
 }
 
 export async function logout() {
-	return await api.post('api/auth/logout');
+	return await apiAfterRefresh.post('api/auth/logout');
 }
 
 export interface SignupDTO {

@@ -1,7 +1,7 @@
-import api from '$lib/api-client';
+import { apiAfterRefresh } from '$lib/api-client';
 
 export async function getMe() {
-	return await api.get('api/me').json<GetMeResult>();
+	return await apiAfterRefresh.get('api/me').json<GetMeResult>();
 }
 
 export interface GetMeResult {

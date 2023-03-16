@@ -25,7 +25,7 @@
 	const logoutMutation = createMutation({
 		mutationFn: logout,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['me'] });
+			queryClient.setQueryData(['me'], null);
 			goto('/auth/login');
 		}
 	});

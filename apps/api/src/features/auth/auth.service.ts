@@ -49,6 +49,7 @@ export class AuthService {
         nickname: username,
         bio: `${username}입니다.`,
       },
+      drafts: [{}],
     });
 
     const { accessToken, refreshToken } = await this.jwtUtil.generateTokens(
