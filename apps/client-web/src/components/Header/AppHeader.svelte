@@ -6,8 +6,8 @@
 
 	import { getMe } from '$api/me';
 	import { openNavSidebar } from '$components/Drawer/drawer';
-	import AnonymousPopup from '../_Popup/AnonymousPopup.svelte';
-	import AuthenticatedPopup from '../_Popup/AuthenticatedPopup.svelte';
+	import AnonymousPopup from './_Popup/AnonymousPopup.svelte';
+	import AuthenticatedPopup from './_Popup/AuthenticatedPopup.svelte';
 
 	const getMeQuery = createQuery({
 		queryKey: ['me'],

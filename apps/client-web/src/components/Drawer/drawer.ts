@@ -9,3 +9,13 @@ export function openNavSidebar() {
 	};
 	drawerStore.open(navSidebarSettings);
 }
+
+export function openDraftSidebar() {
+	const draftSidebarSettings: DrawerSettings = {
+		id: 'draft-sidebar',
+		position: 'left',
+		width: 'w-full md:w-[485px]',
+		duration: 200
+	};
+	drawerStore.open(draftSidebarSettings);
+}

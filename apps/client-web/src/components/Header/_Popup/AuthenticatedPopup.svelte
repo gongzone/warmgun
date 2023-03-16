@@ -18,8 +18,8 @@
 	};
 
 	const navData = [
-		{ to: `/@${user?.username}`, name: '내 블로그', icon: CommunityIcon },
-		{ to: `/write/draft`, name: '글쓰기', icon: QuillPenIcon }
+		{ to: `/@${user.username}`, name: '내 블로그', icon: CommunityIcon },
+		{ to: `/write/draft/${user.drafts[0].id}`, name: '글쓰기', icon: QuillPenIcon }
 	];
 
 	const logoutMutation = createMutation({

@@ -16,7 +16,7 @@ import { EnvConfig } from 'src/configs/env.config';
         host: configService.get('database.host', { infer: true }),
         port: configService.get('database.port', { infer: true }),
         autoLoadEntities: true,
-        // debug: configService.get('base.env', { infer: true }) !== 'production',
+        debug: configService.get('base.env', { infer: true }) !== 'production',
         loadStrategy: LoadStrategy.JOINED,
       }),
     }),

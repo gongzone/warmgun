@@ -20,8 +20,7 @@
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
-<Drawer />
-
 <QueryClientProvider client={data.queryClient}>
+	<Drawer />
 	<slot />
 </QueryClientProvider>

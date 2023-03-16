@@ -14,4 +14,10 @@ export interface GetMeResult {
 		bio: string;
 		avatar: string;
 	};
+	drafts: {
+		id: number;
+		title: string;
+		subTitle: string;
+		updatedAt: string;
+	}[];
 }

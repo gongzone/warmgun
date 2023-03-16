@@ -12,11 +12,9 @@ export class MeService {
 
   async getMe(id: number) {
     const me = await this.userRepository.findOne(
+      { id },
       {
-        id,
-      },
-      {
-        populate: [
+        fields: [
           'id',
           'username',
           'email',
@@ -24,7 +22,17 @@ export class MeService {
           'profile.nickname',
           'profile.bio',
           'profile.avatar',
+          'drafts.id',
+          'drafts.title',
+          'drafts.subTitle',
+          'drafts.updatedAt',
         ],
+        populate: ['profile', 'drafts'],
+        orderBy: {
+          drafts: {
+            updatedAt: 'DESC',
+          },
+        },
       },
     );
 
