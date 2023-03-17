@@ -58,8 +58,8 @@
 										}}
 									>
 										<div class="text-left w-full">
-											<h2 class="unstyled font-bold text-lg truncate">{draft.title}</h2>
-											<p class="unstyled text-sm truncate">{draft.subTitle}</p>
+											<h2 class="unstyled font-bold text-lg truncate">{draft.title || '무제'}</h2>
+											<p class="unstyled text-sm truncate">{draft.subTitle || '내용없음'}</p>
 										</div>
 										<span class="text-xs self-end"
 											>{formatDate(new Date(draft.updatedAt))} 저장됨</span

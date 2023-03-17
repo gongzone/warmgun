@@ -7,10 +7,10 @@ class Draft {
   id!: number;
 
   @Property()
-  title: string = '무제';
+  title: string = '';
 
   @Property()
-  subTitle: string = '멋진 글을 작성해보세요.';
+  subTitle: string = '';
 
   @Property()
   body: string = '';
