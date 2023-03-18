@@ -6,5 +6,5 @@
 <DraftHeader />
 
 <div class="py-2 px-2 max-w-[700px] mx-auto md:my-4">
-	<Editor title="" subTitle="" />
+	<Editor />
 </div>

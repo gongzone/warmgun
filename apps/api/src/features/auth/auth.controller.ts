@@ -4,7 +4,6 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -13,7 +12,8 @@ import { AuthService } from './auth.service';
 import JwtRefreshGuard from './lib/guards/refresh.guard';
 import { SignupDTO, LoginDTO } from './lib/dtos';
 import { JwtAccessAuthGuard } from './lib/guards/access.guard';
-import { RequestWithUser } from 'src/lib/types/request-with-user';
+import { RequestUser } from 'src/lib/types/request-user';
+import { GetUser } from 'src/lib/decorators/user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -58,11 +58,10 @@ export class AuthController {
   @Post('/logout')
   @HttpCode(HttpStatus.OK)
   async logout(
-    @Req() req: RequestWithUser,
+    @GetUser() user: RequestUser,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { id } = req.user;
-    await this.authService.logout(id);
+    await this.authService.logout(user.id);
     this.authService.deleteAuthCookies(res);
   }
 
@@ -70,12 +69,15 @@ export class AuthController {
   @Post('/refresh')
   @HttpCode(HttpStatus.OK)
   async refresh(
-    @Req() req: RequestWithUser,
+    @GetUser() user: RequestUser,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { id, value, iat } = req.user.token;
     const { tokenId, accessToken, refreshToken } =
-      await this.authService.refresh(id, value, iat);
+      await this.authService.refresh(
+        user.token.id,
+        user.token.value,
+        user.token.iat,
+      );
     this.authService.setAuthCookies(res, {
       tokenId,
       accessToken,

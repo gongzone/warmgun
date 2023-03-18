@@ -1,18 +1,48 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { createQuery } from '@tanstack/svelte-query';
+	import { createMutation, createQuery } from '@tanstack/svelte-query';
 	import { drawerStore, Accordion, AccordionItem, Avatar } from '@skeletonlabs/skeleton';
 	import CloseIcon from '~icons/ri/close-line';
 	import DraftIcon from '~icons/ri/draft-line';
 	import TrashBinIcon from '~icons/ri/delete-bin-line';
 
 	import { getMe } from '$api/me';
+	import { createDraft, deleteDraft } from '$api/draft';
 	import { formatDate } from '$lib/utils/format';
+	import queryClient from '$lib/query-client';
+	import { triggerToast } from '$components/Message/toast';
+	import type { HTTPError } from 'ky-universal';
 
 	const getMeQuery = createQuery({
 		queryKey: ['me'],
 		queryFn: getMe
+	});
+
+	const createDraftMutation = createMutation({
+		mutationFn: () => createDraft(),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['me'] });
+		}
+	});
+
+	const deleteDraftMutation = createMutation({
+		mutationFn: (draftId: number) => deleteDraft(draftId),
+		onError: async (error: HTTPError) => {
+			const { message } = await error.response.json();
+			triggerToast(message, 'warning');
+		},
+		onSuccess: (_, draftId) => {
+			if (+$page.params.draftId === draftId) {
+				const targetDraftId =
+					$getMeQuery.data?.drafts[0].id === draftId
+						? $getMeQuery.data?.drafts[1].id
+						: $getMeQuery.data?.drafts[0].id;
+				goto(`/write/draft/${targetDraftId}`);
+			}
+
+			queryClient.invalidateQueries({ queryKey: ['me'] });
+		}
 	});
 </script>
 
@@ -44,8 +74,8 @@
 						{#each $getMeQuery.data.drafts as draft (draft.id)}
 							<li>
 								<div class="flex items-center gap-4">
-									<button
-										type="button"
+									<a
+										href={`/write/draft/${draft.id}`}
 										class={`unstyled w-full flex flex-col px-6 py-3 space-y-1 rounded-lg bg-surface-700 hover:bg-surface-600 truncate
                         ${
 													+$page.params.draftId === draft.id
@@ -54,7 +84,6 @@
 												}`}
 										on:click={() => {
 											drawerStore.close();
-											goto(`/write/draft/${draft.id}`);
 										}}
 									>
 										<div class="text-left w-full">
@@ -64,11 +93,12 @@
 										<span class="text-xs self-end"
 											>{formatDate(new Date(draft.updatedAt))} 저장됨</span
 										>
-									</button>
+									</a>
 
 									<button
 										type="button"
 										class="btn-icon w-9 h-9 px-0 variant-ringed-tertiary rounded-lg"
+										on:click={() => $deleteDraftMutation.mutate(draft.id)}
 										><TrashBinIcon />
 									</button>
 								</div>
@@ -81,6 +111,10 @@
 	</div>
 
 	<div class="px-6 mb-10">
-		<button type="button" class="btn variant-filled-primary w-full">새 초고 만들기</button>
+		<button
+			type="button"
+			class="btn variant-filled-primary w-full"
+			on:click={() => $createDraftMutation.mutate()}>새 초고 만들기</button
+		>
 	</div>
 {/if}

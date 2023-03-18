@@ -3,10 +3,10 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Req,
   UseGuards,
 } from '@nestjs/common';
-import { RequestWithUser } from 'src/lib/types/request-with-user';
+import { GetUser } from 'src/lib/decorators/user.decorator';
+import { RequestUser } from 'src/lib/types/request-user';
 import { JwtAccessAuthGuard } from '../auth/lib/guards/access.guard';
 import { MeService } from './me.service';
 
@@ -17,8 +17,7 @@ export class MeController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async getMe(@Req() req: RequestWithUser) {
-    const { id } = req.user;
-    return await this.meService.getMe(id);
+  async getMe(@GetUser() user: RequestUser) {
+    return await this.meService.getMe(user.id);
   }
 }

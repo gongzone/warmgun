@@ -7,7 +7,7 @@
 
 	import queryClient from '$lib/query-client';
 	import { login, type LoginDTO } from '$api/auth';
-	import FormAlert from '$components/Alert/FormAlert.svelte';
+	import Alert from '$components/Message/Alert.svelte';
 	import LabelInput from '$components/@base/Input/LabelInput.svelte';
 
 	const loginMutation = createMutation({
@@ -35,7 +35,7 @@
 </script>
 
 <div class="mb-4">
-	<FormAlert {isVisible} {errorMessage} />
+	<Alert {isVisible} {errorMessage} />
 </div>
 
 <form on:submit|preventDefault={onSubmit}>
