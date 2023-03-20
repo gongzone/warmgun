@@ -5,11 +5,12 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { page } from '$app/stores';
 	import { getDraftById } from '$api/draft';
+	import type { OutputData } from '@editorjs/editorjs';
 
 	let editor: EditorJS;
 	let title: string;
 	let subTitle: string;
-	let body: string;
+	let body: OutputData | null = null;
 
 	$: getDraftByIdQuery = createQuery({
 		queryKey: ['drafts', $page.params['draftId']],

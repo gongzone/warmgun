@@ -18,14 +18,14 @@
 	export let editor: EditorJS | null;
 	export let title: string;
 	export let subTitle: string;
-	export let body: string;
+	export let body: OutputData | null;
 
 	let isEditorReady = false;
 
 	$: if (isEditorReady && editor) {
 		editor.render(
 			body
-				? JSON.parse(body)
+				? body
 				: ({
 						time: new Date().getTime(),
 						blocks: [

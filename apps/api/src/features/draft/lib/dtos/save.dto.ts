@@ -1,5 +1,5 @@
-import { IsString, Matches, IsEmail } from 'class-validator';
-import { Match } from 'src/lib/decorators/match';
+import { JsonType } from '@mikro-orm/core';
+import { IsString } from 'class-validator';
 
 export class SaveDTO {
   @IsString()
@@ -8,6 +8,5 @@ export class SaveDTO {
   @IsString()
   subTitle: string;
 
-  @IsString()
-  body: string;
+  body: JsonType;
 }

@@ -318,13 +318,12 @@
         },
         "body": {
           "name": "body",
-          "type": "varchar(255)",
+          "type": "jsonb",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
-          "default": "''",
-          "mappedType": "string"
+          "nullable": true,
+          "mappedType": "json"
         },
         "created_at": {
           "name": "created_at",

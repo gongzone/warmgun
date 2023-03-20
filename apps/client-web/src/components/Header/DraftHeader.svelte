@@ -8,7 +8,7 @@
 	import { createMutation } from '@tanstack/svelte-query';
 	import { saveDraft } from '$api/draft';
 	import { triggerToast } from '$components/Message/toast';
-	import type { EditorData } from '$lib/types/editor';
+	import type { EditorData } from '$api/draft';
 
 	export let getEditorData: () => Promise<EditorData>;
 
@@ -18,7 +18,7 @@
 			return await saveDraft($page.params['draftId'], {
 				title,
 				subTitle,
-				body: JSON.stringify(body)
+				body
 			});
 		},
 		onSuccess: () => {

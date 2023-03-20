@@ -1,5 +1,5 @@
 import { apiAfterRefresh } from '$lib/api-client';
-import type { EditorData } from '$lib/types/editor';
+import type { OutputData } from '@editorjs/editorjs';
 
 export async function getDraftById(draftId: string) {
 	return await apiAfterRefresh.get(`api/draft/${draftId}`).json<Draft>();
@@ -19,9 +19,12 @@ export async function deleteDraft(draftId: number) {
 	return await apiAfterRefresh.delete(`api/draft/${draftId}`);
 }
 
-interface Draft {
+interface Draft extends EditorData {
 	id: number;
+}
+
+export interface EditorData {
 	title: string;
 	subTitle: string;
-	body: string;
+	body: OutputData;
 }

@@ -1,4 +1,10 @@
-import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
+import {
+  Entity,
+  PrimaryKey,
+  Property,
+  ManyToOne,
+  JsonType,
+} from '@mikro-orm/core';
 import User from './User.entity';
 
 @Entity()
@@ -12,8 +18,8 @@ class Draft {
   @Property()
   subTitle: string = '';
 
-  @Property()
-  body: string = '';
+  @Property({ type: 'json', nullable: true })
+  body?: JsonType;
 
   @Property()
   createdAt: Date = new Date();
