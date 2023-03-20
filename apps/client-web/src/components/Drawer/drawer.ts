@@ -1,3 +1,4 @@
+import type { EditorData } from '$api/draft';
 import { drawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
 
 export function openNavSidebar() {
@@ -18,4 +19,15 @@ export function openDraftSidebar() {
 		duration: 200
 	};
 	drawerStore.open(draftSidebarSettings);
+}
+
+export function openPublishSidebar(meta: EditorData) {
+	const publishSidebarSettings: DrawerSettings = {
+		id: 'publish-sidebar',
+		position: 'right',
+		width: 'w-full sm:w-[420px]',
+		duration: 200,
+		meta
+	};
+	drawerStore.open(publishSidebarSettings);
 }

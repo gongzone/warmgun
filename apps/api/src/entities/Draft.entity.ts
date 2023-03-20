@@ -5,10 +5,10 @@ import {
   ManyToOne,
   JsonType,
 } from '@mikro-orm/core';
-import User from './User.entity';
+import { User } from './User.entity';
 
 @Entity()
-class Draft {
+export class Draft {
   @PrimaryKey()
   id!: number;
 
@@ -30,5 +30,3 @@ class Draft {
   @ManyToOne(() => User)
   user!: User;
 }
-
-export default Draft;

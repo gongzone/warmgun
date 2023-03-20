@@ -1,8 +1,8 @@
 import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
-import User from './User.entity';
+import { User } from './User.entity';
 
 @Entity()
-class Token {
+export class Token {
   @PrimaryKey()
   id!: number;
 
@@ -18,5 +18,3 @@ class Token {
   @ManyToOne(() => User)
   user!: User;
 }
-
-export default Token;

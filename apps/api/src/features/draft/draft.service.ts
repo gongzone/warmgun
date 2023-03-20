@@ -4,9 +4,8 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
-  InternalServerErrorException,
 } from '@nestjs/common';
-import Draft from 'src/entities/Draft.entity';
+import { Draft } from 'src/entities/Draft.entity';
 import { SaveDTO } from './lib/dtos';
 
 @Injectable()

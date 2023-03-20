@@ -9,8 +9,8 @@ import {
 import { Response } from 'express';
 import * as argon2 from 'argon2';
 import dayjs from 'dayjs';
-import User from 'src/entities/User.entity';
-import Token from 'src/entities/Token.entity';
+import { User } from 'src/entities/User.entity';
+import { Token } from 'src/entities/Token.entity';
 import { SignupDTO, LoginDTO } from './lib/dtos';
 import { JwtUtil } from './lib/utils';
 import { ConfigService } from '@nestjs/config';

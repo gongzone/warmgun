@@ -3,6 +3,10 @@
 
 	import NavSidebar from './_NavSidebar/NavSidebar.svelte';
 	import DraftSidebar from './_DraftSidebar/DraftSidebar.svelte';
+	import PublishSidebar from './_PublishSidebar/PublishSidebar.svelte';
+
+	let coverImage: string | null = null;
+	let slug: string = '';
 </script>
 
 <Drawer>
@@ -10,5 +14,7 @@
 		<NavSidebar />
 	{:else if $drawerStore.id === 'draft-sidebar'}
 		<DraftSidebar />
+	{:else if $drawerStore.id === 'publish-sidebar'}
+		<PublishSidebar bind:coverImage bind:slug />
 	{/if}
 </Drawer>

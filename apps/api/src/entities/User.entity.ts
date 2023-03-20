@@ -7,12 +7,15 @@ import {
   OneToMany,
   Collection,
 } from '@mikro-orm/core';
-import Draft from './Draft.entity';
-import Profile from './Profile.entity';
-import Token from './Token.entity';
+import { Draft } from './Draft.entity';
+import { Profile } from './Profile.entity';
+import { Token } from './Token.entity';
+import { Comment } from './Comment.entity';
+import { Article } from './Article.entity';
+import { Like } from './Like.entity';
 
 @Entity()
-class User {
+export class User {
   @PrimaryKey()
   id!: number;
 
@@ -42,11 +45,18 @@ class User {
 
   @OneToMany(() => Draft, (Draft) => Draft.user, { orphanRemoval: true })
   drafts = new Collection<Draft>(this);
+
+  @OneToMany(() => Article, (article) => article.user, { orphanRemoval: true })
+  articles = new Collection<Article>(this);
+
+  @OneToMany(() => Comment, (comment) => comment.user, { orphanRemoval: true })
+  comments = new Collection<Comment>(this);
+
+  @OneToMany(() => Like, (like) => like.user, { orphanRemoval: true })
+  likes = new Collection<Like>(this);
 }
 
 export enum UserRole {
   USER = 'user',
   ADMIN = 'admin',
 }
-
-export default User;

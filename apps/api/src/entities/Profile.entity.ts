@@ -1,8 +1,8 @@
 import { Entity, PrimaryKey, Property, OneToOne } from '@mikro-orm/core';
-import User from './User.entity';
+import { User } from './User.entity';
 
 @Entity()
-class Profile {
+export class Profile {
   @PrimaryKey()
   id!: number;
 
@@ -18,5 +18,3 @@ class Profile {
   @OneToOne(() => User, (user) => user.profile, { owner: true })
   user!: User;
 }
-
-export default Profile;
