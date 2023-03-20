@@ -5,10 +5,9 @@
 	import DraftIcon from '~icons/ri/article-line';
 
 	import { openDraftSidebar } from '$components/Drawer/drawer';
-	import { createMutation, useQueryClient } from '@tanstack/svelte-query';
+	import { createMutation } from '@tanstack/svelte-query';
 	import { saveDraft } from '$api/draft';
 	import { triggerToast } from '$components/Message/toast';
-	// import queryClient from '$lib/query-client';
 	import type { EditorData } from '$lib/types/editor';
 
 	export let getEditorData: () => Promise<EditorData>;

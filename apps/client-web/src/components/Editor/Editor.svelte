@@ -13,6 +13,7 @@
 	import InlineCode from '@editorjs/inline-code';
 
 	import AutosizedTextarea from '$components/@base/Input/AutoSizedTextarea.svelte';
+	import { uploadImage } from '$api/image';
 
 	export let editor: EditorJS | null;
 	export let title: string;
@@ -77,9 +78,21 @@
 				image: {
 					class: ImageTool,
 					config: {
-						endpoints: {
-							byFile: 'http://localhost:8008/uploadFile', // Your backend file uploader endpoint
-							byUrl: 'http://localhost:8008/fetchUrl' // Your endpoint that provides uploading by Url
+						uploader: {
+							uploadByFile(file: File) {
+								return uploadImage(file)
+									.then((imageUrl) => ({
+										success: 1,
+										file: {
+											url: imageUrl
+										}
+									}))
+									.catch(() =>
+										Promise.resolve({
+											success: 0
+										})
+									);
+							}
 						}
 					}
 				},

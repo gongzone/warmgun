@@ -33,10 +33,7 @@ const responseHandler: AfterResponseHook = async (request, options, response) =>
 export const api = ky.create({
 	prefixUrl,
 	retry: 0,
-	credentials: 'include',
-	hooks: {
-		beforeError: [errorHandler]
-	}
+	credentials: 'include'
 });
 
 export const apiAfterRefresh = api.extend({

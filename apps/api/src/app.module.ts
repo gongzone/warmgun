@@ -5,6 +5,7 @@ import { ORMModule } from './features/@base/orm/orm.module';
 import { AuthModule } from './features/auth/auth.module';
 import { MeModule } from './features/me/me.module';
 import { DraftModule } from './features/draft/draft.module';
+import { ImageModule } from './features/@base/image/image.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { DraftModule } from './features/draft/draft.module';
     AuthModule,
     MeModule,
     DraftModule,
+    ImageModule,
   ],
 })
 export class AppModule {}
