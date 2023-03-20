@@ -1,9 +1,8 @@
 <script lang="ts">
 	import '../../styles/editor.postcss';
-	import { page } from '$app/stores';
 
 	import { onMount, onDestroy } from 'svelte';
-	import EditorJS from '@editorjs/editorjs';
+	import EditorJS, { type OutputData } from '@editorjs/editorjs';
 	import Header from '@editorjs/header';
 	import Quote from '@editorjs/quote';
 	import Alert from 'editorjs-alert';
@@ -14,19 +13,32 @@
 	import InlineCode from '@editorjs/inline-code';
 
 	import AutosizedTextarea from '$components/@base/Input/AutoSizedTextarea.svelte';
-	import { createQuery } from '@tanstack/svelte-query';
-	import { getDraftById } from '$api/draft';
 
-	// export let title: string;
-	// export let subTitle: string;
-	// export let body: string;
+	export let editor: EditorJS | null;
+	export let title: string;
+	export let subTitle: string;
+	export let body: string;
 
-	let editor: EditorJS | null;
+	let isEditorReady = false;
 
-	$: getDraftByIdQuery = createQuery({
-		queryKey: ['drafts', $page.params['draftId']],
-		queryFn: () => getDraftById($page.params['draftId'])
-	});
+	$: if (isEditorReady && editor) {
+		editor.render(
+			body
+				? JSON.parse(body)
+				: ({
+						time: new Date().getTime(),
+						blocks: [
+							{
+								type: 'paragraph',
+								data: {
+									text: ''
+								}
+							}
+						],
+						version: '2.26.5'
+				  } satisfies OutputData)
+		);
+	}
 
 	onMount(() => {
 		editor = new EditorJS({
@@ -80,6 +92,9 @@
 				underline: {
 					class: Underline
 				}
+			},
+			onReady: () => {
+				isEditorReady = true;
 			}
 		});
 	});
@@ -93,26 +108,19 @@
 </script>
 
 <div class="space-y-4">
-	{#if $getDraftByIdQuery.isSuccess && $getDraftByIdQuery.data}
-		<div>
-			<AutosizedTextarea
-				name="title"
-				placeholder="제목을 입력하세요"
-				bind:value={$getDraftByIdQuery.data.title}
-				size="lg"
-			/>
-			<AutosizedTextarea
-				name="subTitle"
-				placeholder="소제목을 입력하세요"
-				bind:value={$getDraftByIdQuery.data.subTitle}
-				size="md"
-			/>
-		</div>
+	<div>
+		<AutosizedTextarea name="title" placeholder="제목을 입력하세요" bind:value={title} size="lg" />
+		<AutosizedTextarea
+			name="subTitle"
+			placeholder="소제목을 입력하세요"
+			bind:value={subTitle}
+			size="md"
+		/>
+	</div>
 
-		<div class="px-[0.75rem]">
-			<hr />
-		</div>
-	{/if}
+	<div class="px-[0.75rem]">
+		<hr />
+	</div>
 
 	<div id="editor" class="px-[0.75rem]" />
 </div>

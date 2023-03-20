@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { createMutation, createQuery } from '@tanstack/svelte-query';
+	import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { drawerStore, Accordion, AccordionItem, Avatar } from '@skeletonlabs/skeleton';
 	import CloseIcon from '~icons/ri/close-line';
 	import DraftIcon from '~icons/ri/draft-line';
@@ -10,13 +10,16 @@
 	import { getMe } from '$api/me';
 	import { createDraft, deleteDraft } from '$api/draft';
 	import { formatDate } from '$lib/utils/format';
-	import queryClient from '$lib/query-client';
 	import { triggerToast } from '$components/Message/toast';
 	import type { HTTPError } from 'ky-universal';
 
+	const queryClient = useQueryClient();
+
+	// Todo: getDrafts query로 바꿀 것...
 	const getMeQuery = createQuery({
 		queryKey: ['me'],
-		queryFn: getMe
+		queryFn: getMe,
+		refetchOnMount: true
 	});
 
 	const createDraftMutation = createMutation({
@@ -44,6 +47,8 @@
 			queryClient.invalidateQueries({ queryKey: ['me'] });
 		}
 	});
+
+	$: console.log($getMeQuery.data?.drafts);
 </script>
 
 {#if $getMeQuery.isSuccess && $getMeQuery.data}

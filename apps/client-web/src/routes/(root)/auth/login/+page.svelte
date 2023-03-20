@@ -1,14 +1,15 @@
 <script lang="ts">
-	import { createMutation } from '@tanstack/svelte-query';
+	import { createMutation, useQueryClient } from '@tanstack/svelte-query';
 	import { goto } from '$app/navigation';
 	import { HTTPError } from 'ky-universal';
 	import UserIcon from '~icons/ri/user-line';
 	import PasswordIcon from '~icons/ri/lock-password-line';
 
-	import queryClient from '$lib/query-client';
 	import { login, type LoginDTO } from '$api/auth';
 	import Alert from '$components/Message/Alert.svelte';
 	import LabelInput from '$components/@base/Input/LabelInput.svelte';
+
+	const queryClient = useQueryClient();
 
 	const loginMutation = createMutation({
 		mutationFn: (signupDTO: LoginDTO) => login(signupDTO),

@@ -7,6 +7,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import Draft from 'src/entities/Draft.entity';
+import { SaveDTO } from './lib/dtos';
 
 @Injectable()
 export class DraftService {
@@ -35,6 +36,15 @@ export class DraftService {
     await this.draftRepository.flush();
 
     return draft;
+  }
+
+  async saveDraft(userId: number, draftId: number, saveDTO: SaveDTO) {
+    await this.draftRepository
+      .qb()
+      .update(saveDTO)
+      .where({ $and: [{ id: draftId, user: userId }] });
+
+    await this.draftRepository.flush();
   }
 
   async deleteDraft(userId: number, draftId: number) {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createMutation } from '@tanstack/svelte-query';
+	import { createMutation, useQueryClient } from '@tanstack/svelte-query';
 	import { goto } from '$app/navigation';
 	import { HTTPError } from 'ky-universal';
 	import UserIcon from '~icons/ri/user-line';
@@ -7,10 +7,11 @@
 	import CheckIcon from '~icons/ri/shield-check-line';
 	import EmailIcon from '~icons/ri/mail-line';
 
-	import queryClient from '$lib/query-client';
 	import { signup, type SignupDTO } from '$api/auth';
 	import Alert from '$components/Message/Alert.svelte';
 	import LabelInput from '$components/@base/Input/LabelInput.svelte';
+
+	const queryClient = useQueryClient();
 
 	const mutation = createMutation({
 		mutationFn: (signupDTO: SignupDTO) => signup(signupDTO),
