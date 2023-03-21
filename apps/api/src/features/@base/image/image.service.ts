@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EnvConfig } from 'src/configs/env.config';
 import mime from 'mime-types';
 import { v4 as uuidv4 } from 'uuid';
 import { S3Service } from '../s3/s3.service';
@@ -14,7 +13,7 @@ import { CreatePresignedUrlDTO } from './lib/dtos';
 export class ImageService {
   constructor(
     private readonly s3Service: S3Service,
-    private readonly configService: ConfigService<EnvConfig, true>,
+    private readonly configService: ConfigService,
   ) {}
 
   async createPresignedUrl(username: string, dto: CreatePresignedUrlDTO) {
@@ -35,7 +34,7 @@ export class ImageService {
 
   private generatePresignedOptions(key: string, contentType: string) {
     return {
-      Bucket: this.configService.get('s3.name', { infer: true }),
+      Bucket: this.configService.get('S3_BUCKET_NAME'),
       Key: key,
       Conditions: [
         ['starts-with', '$Content-Type', 'image/'], // only image

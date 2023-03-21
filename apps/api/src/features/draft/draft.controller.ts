@@ -14,7 +14,7 @@ import { DraftService } from './draft.service';
 import { JwtAccessAuthGuard } from '../auth/lib/guards/access.guard';
 import { GetUser } from 'src/lib/decorators/user.decorator';
 import { RequestUser } from 'src/lib/types/request-user';
-import { SaveDTO } from './lib/dtos';
+import { SaveDraftDTO } from './lib/dtos';
 
 @Controller('draft')
 @UseGuards(JwtAccessAuthGuard)
@@ -23,8 +23,8 @@ export class DraftController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async getDraftById(@GetUser() user: RequestUser, @Param('id') id: string) {
-    return await this.draftService.getDraftBy(user.id, parseInt(id));
+  async getDraft(@GetUser() user: RequestUser, @Param('id') draftId: string) {
+    return await this.draftService.getDraft(user.id, parseInt(draftId));
   }
 
   @Post()
@@ -37,15 +37,22 @@ export class DraftController {
   @HttpCode(HttpStatus.OK)
   async saveDraft(
     @GetUser() user: RequestUser,
-    @Param('id') id: string,
-    @Body() saveDTO: SaveDTO,
+    @Param('id') draftId: string,
+    @Body() saveDTO: SaveDraftDTO,
   ) {
-    return await this.draftService.saveDraft(user.id, parseInt(id), saveDTO);
+    return await this.draftService.saveDraft(
+      user.id,
+      parseInt(draftId),
+      saveDTO,
+    );
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  async deleteDraft(@GetUser() user: RequestUser, @Param('id') id: string) {
-    return await this.draftService.deleteDraft(user.id, parseInt(id));
+  async deleteDraft(
+    @GetUser() user: RequestUser,
+    @Param('id') draftId: string,
+  ) {
+    return await this.draftService.deleteDraft(user.id, parseInt(draftId));
   }
 }

@@ -4,17 +4,17 @@
 	import Editor from '$components/Editor/Editor.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { page } from '$app/stores';
-	import { getDraftById } from '$api/draft';
+	import { getDraft } from '$api/draft';
 	import type { OutputData } from '@editorjs/editorjs';
 
 	let editor: EditorJS;
-	let title: string;
-	let subTitle: string;
+	let title: string = '';
+	let subTitle: string = '';
 	let body: OutputData | null = null;
 
 	$: getDraftByIdQuery = createQuery({
 		queryKey: ['drafts', $page.params['draftId']],
-		queryFn: () => getDraftById($page.params['draftId'])
+		queryFn: () => getDraft($page.params['draftId'])
 	});
 
 	// for reactivity problem in binding inputs

@@ -1,34 +1,25 @@
 <script lang="ts">
 	import { debounce } from '$lib/utils/debounce';
-	import { searchTags } from '$api/tag';
-	import { createQuery } from '@tanstack/svelte-query';
-
-	interface FetchedTag {
-		name: string;
-	}
+	import { searchTags, type SearchedTag } from '$api/tag';
 
 	export let tags: string[] = [];
 	let input: string = '';
-
-	$: searchTagsQuery = createQuery({
-		queryKey: ['searchTags', input],
-		queryFn: () => searchTags(input, tags.join()),
-		onSuccess: (tags: FetchedTag[]) => {
-			console.log(tags);
-		},
-		enabled: Boolean(input)
-	});
+	let fetchedTags: SearchedTag[] = [];
 
 	const clean = () => {
 		input = '';
-		$searchTagsQuery.remove();
+		fetchedTags = [];
 	};
 
-	const onChangeInput = (e: any) => {
-		return debounce(async () => {
-			input = e.target.value;
-		}, 300);
-	};
+	const onChangeInput = (e: any) =>
+		debounce(async () => {
+			if (e.target.value === '') {
+				fetchedTags = [];
+				return;
+			}
+
+			fetchedTags = await searchTags(e.target.value, tags.join());
+		}, 500);
 
 	const onKeypress = (e: any) => {
 		if (e.key === 'Enter') {
@@ -43,18 +34,15 @@
 		}
 	};
 
-	// const onClickFetchedTag = (e: any) => {
-	// 	const name = $searchTagsQuery.data![e.target.dataset.index].name;
+	const onClickFetchedTag = (e: any) => {
+		console.log(fetchedTags, e.target.dataset.name);
 
-	// 	if (tags.find((tag) => tag === name)) {
-	// 		value = '';
-	// 		fetchedTags = null;
-	// 		return;
-	// 	}
-	// 	tags = [...tags, name];
-	// 	value = '';
-	// 	fetchedTags = null;
-	// };
+		if (tags.find((tag) => tag === e.target.dataset.name)) {
+			return clean();
+		}
+		tags = [...tags, e.target.dataset.name];
+		clean();
+	};
 </script>
 
 <div class="relative">
@@ -68,18 +56,19 @@
 		class="input rounded-md"
 	/>
 
-	{#if $searchTagsQuery.data}
+	{#if fetchedTags.length > 0}
 		<div class="absolute w-full bg-surface-500 rounded-sm shadow-lg">
 			<ul>
-				{#each $searchTagsQuery.data as tag, index (tag.name)}
+				{#each fetchedTags as tag, index (tag.name)}
 					<li>
 						<button
 							type="button"
-							data-index={index}
+							data-name={tag.name}
+							on:click={onClickFetchedTag}
 							class="w-full h-full p-3 hover:bg-slate-700 text-left"
 						>
 							<span>{tag.name}</span>
-							<!-- <span class="text-sm font-bold">({tag._count.articles})</span> -->
+							<span class="text-sm font-bold">({tag.count})</span>
 						</button>
 					</li>
 				{/each}

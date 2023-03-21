@@ -17,6 +17,7 @@
 		mutationFn: (signupDTO: SignupDTO) => signup(signupDTO),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['me'] });
+			queryClient.invalidateQueries({ queryKey: ['myDrafts'] });
 			goto('/');
 		}
 	});

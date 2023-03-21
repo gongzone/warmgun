@@ -3,7 +3,6 @@
 	import EditIcon from '~icons/ri/image-edit-fill';
 	import DeleteBinIcon from '~icons/ri/delete-bin-line';
 
-	import { CDN_DOMAIN } from '$lib/constants/cdn';
 	import { uploadImage } from '$api/image';
 	import { createMutation } from '@tanstack/svelte-query';
 
@@ -37,9 +36,7 @@
 			</button>
 		</div>
 	{:else if $uploadImageMutation.isLoading}
-		<div class="w-20">
-			<ProgressRadial stroke={50} meter="stroke-primary-500" />
-		</div>
+		<ProgressRadial stroke={50} meter="stroke-primary-500" />
 	{:else}
 		<span><EditIcon class="w-[90px] h-[90px]" /></span>
 		<FileButton

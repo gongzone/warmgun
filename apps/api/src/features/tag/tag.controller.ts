@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { TagService } from './tag.service';
 
 @Controller('tag')
@@ -17,9 +9,9 @@ export class TagController {
   @HttpCode(HttpStatus.OK)
   async searchTags(
     @Query('input') input: string,
-    @Query('exclude') exclude: string,
+    @Query('excludes') excludes: string,
   ) {
-    const excludes = exclude ? exclude.split(',').map((tag) => tag) : [];
-    return await this.tagService.searchTags(input, excludes);
+    const excludesArray = excludes ? excludes.split(',').map((tag) => tag) : [];
+    return await this.tagService.searchTags(input, excludesArray);
   }
 }

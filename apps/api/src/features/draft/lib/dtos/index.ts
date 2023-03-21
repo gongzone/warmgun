@@ -1,1 +1,1 @@
-export * from './save.dto';
+export * from './save-draft.dto';

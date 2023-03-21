@@ -1,7 +1,7 @@
 import { apiAfterRefresh } from '$lib/api-client';
 import type { OutputData } from '@editorjs/editorjs';
 
-export async function getDraftById(draftId: string) {
+export async function getDraft(draftId: string) {
 	return await apiAfterRefresh.get(`api/draft/${draftId}`).json<Draft>();
 }
 

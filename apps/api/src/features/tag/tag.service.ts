@@ -1,31 +1,40 @@
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
-import { Tag } from 'src/entities/Tag.entity';
+import { PrismaService } from '../@base/prisma/prisma.service';
 
 @Injectable()
 export class TagService {
-  constructor(
-    @InjectRepository(Tag)
-    private readonly tagRepository: EntityRepository<Tag>,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async searchTags(input: string, excludes: string[] = []) {
-    const tags = await this.tagRepository
-      .qb('t')
-      .leftJoinAndSelect('t.articles', 'a')
-      .count('a.id')
-      .select(['t.name', 'a'])
-      .where({
-        $and: [{ name: { $fulltext: input } }, { name: { $nin: excludes } }],
-      })
-      .groupBy(['t.name', 'a.id'])
-      .orderBy({
-        'COUNT(a.id)': 'ASC',
-      })
-      .limit(5)
-      .execute();
+    // startsWith를 fullText를 바꿀지 고민
 
-    console.log(tags);
+    const fetchedTags = await this.prismaService.tag.findMany({
+      where: {
+        name: {
+          startsWith: input,
+          notIn: excludes,
+          mode: 'insensitive',
+        },
+      },
+      take: 5,
+      orderBy: {
+        articles: {
+          _count: 'asc',
+        },
+      },
+      select: {
+        name: true,
+        _count: {
+          select: {
+            articles: true,
+          },
+        },
+      },
+    });
+
+    return fetchedTags.map((tag) => ({
+      name: tag.name,
+      count: tag._count.articles,
+    }));
   }
 }
