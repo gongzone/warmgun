@@ -14,10 +14,14 @@ import { SignupDTO, LoginDTO } from './lib/dtos';
 import { JwtAccessAuthGuard } from './lib/guards/access.guard';
 import { RequestUser } from 'src/lib/types/request-user';
 import { GetUser } from 'src/lib/decorators/user.decorator';
+import { CookieService } from './cookie.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly cookieService: CookieService,
+  ) {}
 
   @Post('/signup')
   @HttpCode(HttpStatus.CREATED)
@@ -25,15 +29,16 @@ export class AuthController {
     @Body() signupDTO: SignupDTO,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { accessToken, refreshToken, tokenId } =
+    const { tokenId, accessToken, refreshToken } =
       await this.authService.signup(signupDTO);
-    this.authService.setAuthCookies(res, {
+
+    this.cookieService.setAuthCookies(res, {
       tokenId,
       accessToken,
       refreshToken,
     });
 
-    return { accessToken, refreshToken, tokenId };
+    return { tokenId, accessToken, refreshToken };
   }
 
   @Post('/login')
@@ -42,16 +47,17 @@ export class AuthController {
     @Body() loginDTO: LoginDTO,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { accessToken, refreshToken, tokenId } = await this.authService.login(
+    const { tokenId, accessToken, refreshToken } = await this.authService.login(
       loginDTO,
     );
-    this.authService.setAuthCookies(res, {
+
+    this.cookieService.setAuthCookies(res, {
       tokenId,
       accessToken,
       refreshToken,
     });
 
-    return { accessToken, refreshToken, tokenId };
+    return { tokenId, accessToken, refreshToken };
   }
 
   @UseGuards(JwtAccessAuthGuard)
@@ -62,7 +68,8 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     await this.authService.logout(user.id);
-    this.authService.deleteAuthCookies(res);
+
+    this.cookieService.deleteAuthCookies(res);
   }
 
   @UseGuards(JwtRefreshGuard)
@@ -78,12 +85,13 @@ export class AuthController {
         user.token.value,
         user.token.iat,
       );
-    this.authService.setAuthCookies(res, {
+
+    this.cookieService.setAuthCookies(res, {
       tokenId,
       accessToken,
       refreshToken,
     });
 
-    return { accessToken, refreshToken, tokenId };
+    return { tokenId, accessToken, refreshToken };
   }
 }

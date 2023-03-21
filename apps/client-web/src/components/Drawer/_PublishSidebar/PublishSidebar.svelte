@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { createEventDispatcher, onDestroy } from 'svelte';
-	import { enhance } from '$app/forms';
 	import { drawerStore } from '@skeletonlabs/skeleton';
 	import CloseIcon from '~icons/ri/close-line';
 

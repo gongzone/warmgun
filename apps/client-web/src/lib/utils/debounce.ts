@@ -1,12 +1,6 @@
-type Func = (...args: any[]) => any;
+let timer = null;
 
-export function debounce<F extends Func>(func: F, wait: number): (...args: Parameters<F>) => void {
-	let timeoutId: ReturnType<typeof setTimeout> | undefined;
-
-	return function (this: ThisParameterType<F>, ...args: Parameters<F>) {
-		clearTimeout(timeoutId);
-		timeoutId = setTimeout(() => {
-			func.apply(this, args);
-		}, wait);
-	};
+export function debounce(cb, time: number) {
+	clearTimeout(timer);
+	timer = setTimeout(cb, time);
 }

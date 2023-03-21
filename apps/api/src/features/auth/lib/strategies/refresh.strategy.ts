@@ -3,34 +3,32 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
+
 import { RequestUser } from 'src/lib/types/request-user';
 import { JwtPayload } from '../types/jwt';
-import { EnvConfig } from 'src/configs/env.config';
+import { TOKENS_CONFIGS, TOKEN_ID, REFRESH_TOKEN } from '../constants';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
   Strategy,
   'jwt-refresh',
 ) {
-  constructor(
-    protected readonly configService: ConfigService<EnvConfig, true>,
-  ) {
+  constructor(protected readonly configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (req: Request) => req.cookies?.['refresh_token'],
+        (req: Request) => req.cookies?.[REFRESH_TOKEN],
         ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
       ignoreExpiration: false,
-      secretOrKey: configService.get('jwt.refreshSecretKey', { infer: true }),
+      secretOrKey: configService.get(TOKENS_CONFIGS['refresh'].secret),
       passReqToCallback: true,
     });
   }
 
   async validate(req: Request, payload: JwtPayload): Promise<RequestUser> {
-    const tokenId = parseInt(req.cookies?.['token_id']);
+    const tokenId = parseInt(req.cookies?.[TOKEN_ID]);
     const refreshToken =
-      req.cookies?.['refresh_token'] ??
-      req.header('Authorization').split(' ')[1];
+      req.cookies?.[REFRESH_TOKEN] ?? req.header('Authorization').split(' ')[1];
 
     if (!tokenId || !refreshToken) {
       throw new UnauthorizedException('인증 토큰을 찾을 수 없습니다.');

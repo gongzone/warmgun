@@ -1,79 +1,85 @@
 <script lang="ts">
 	import { debounce } from '$lib/utils/debounce';
-	import { getTagsByInput } from '$lib/client-fetch/tag';
+	import { searchTags } from '$api/tag';
+	import { createQuery } from '@tanstack/svelte-query';
 
-	interface Tag {
+	interface FetchedTag {
 		name: string;
-		_count: {
-			articles: number;
-		};
 	}
 
 	export let tags: string[] = [];
-	let fetchedTags: Tag[] | null = null;
-	let value: string | null = null;
+	let input: string = '';
 
-	const fetchTags = (e: any) =>
-		debounce(async () => {
-			if (e.target.value === '') {
-				fetchedTags = null;
-				return;
-			}
-			fetchedTags = await getTagsByInput(e.target.value, tags);
-			console.log(fetchedTags);
-		}, 300);
+	$: searchTagsQuery = createQuery({
+		queryKey: ['searchTags', input],
+		queryFn: () => searchTags(input, tags.join()),
+		onSuccess: (tags: FetchedTag[]) => {
+			console.log(tags);
+		},
+		enabled: Boolean(input)
+	});
 
-	const onClickHandler = (e: any) => {
-		const name = fetchedTags![e.target.dataset.index].name;
-
-		if (tags.find((tag) => tag === name)) {
-			value = '';
-			fetchedTags = null;
-			return;
-		}
-		tags = [...tags, name];
-		value = '';
-		fetchedTags = null;
+	const clean = () => {
+		input = '';
+		$searchTagsQuery.remove();
 	};
+
+	const onChangeInput = (e: any) => {
+		return debounce(async () => {
+			input = e.target.value;
+		}, 300);
+	};
+
+	const onKeypress = (e: any) => {
+		if (e.key === 'Enter') {
+			if (input) {
+				if (tags.find((tag) => tag === input)) {
+					return clean();
+				}
+
+				tags = [...tags, input];
+				clean();
+			}
+		}
+	};
+
+	// const onClickFetchedTag = (e: any) => {
+	// 	const name = $searchTagsQuery.data![e.target.dataset.index].name;
+
+	// 	if (tags.find((tag) => tag === name)) {
+	// 		value = '';
+	// 		fetchedTags = null;
+	// 		return;
+	// 	}
+	// 	tags = [...tags, name];
+	// 	value = '';
+	// 	fetchedTags = null;
+	// };
 </script>
 
 <div class="relative">
 	<input
-		on:input={fetchTags}
-		on:keypress={(e) => {
-			if (e.key === 'Enter') {
-				if (value) {
-					if (tags.find((tag) => tag === value)) {
-						value = '';
-						fetchedTags = null;
-						return;
-					}
-					tags = [...tags, value];
-					value = '';
-					fetchedTags = null;
-				}
-			}
-		}}
-		disabled={tags.length >= 5}
+		on:input={onChangeInput}
+		on:keypress={onKeypress}
+		bind:value={input}
 		type="text"
-		bind:value
+		disabled={tags.length >= 5}
 		placeholder={tags.length >= 5 ? '태그 선택은 5개까지만 가능합니다.' : '태그를 선택해주세요'}
 		class="input rounded-md"
 	/>
 
-	{#if fetchedTags && fetchedTags.length > 0}
+	{#if $searchTagsQuery.data}
 		<div class="absolute w-full bg-surface-500 rounded-sm shadow-lg">
 			<ul>
-				{#each fetchedTags as tag, index (tag.name)}
+				{#each $searchTagsQuery.data as tag, index (tag.name)}
 					<li>
 						<button
 							type="button"
-							on:click={onClickHandler}
 							data-index={index}
 							class="w-full h-full p-3 hover:bg-slate-700 text-left"
 						>
 							<span>{tag.name}</span>
-							<span class="text-sm font-bold">({tag._count.articles})</span>
+							<!-- <span class="text-sm font-bold">({tag._count.articles})</span> -->
 						</button>
 					</li>
 				{/each}

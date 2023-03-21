@@ -1,22 +1,26 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { User } from 'src/entities/User.entity';
-import { Token } from 'src/entities/Token.entity';
 import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { JwtAccessStrategy, JwtRefreshStrategy } from './lib/strategies';
-import { JwtUtil } from './lib/utils';
 import { PassportModule } from '@nestjs/passport';
+
+import { AuthService } from './auth.service';
+import { JwtService } from './jwt.service';
+import { JwtAccessStrategy, JwtRefreshStrategy } from './lib/strategies';
+import { CookieService } from './cookie.service';
 
 @Module({
   imports: [
-    MikroOrmModule.forFeature([User, Token]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({}),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtUtil, JwtAccessStrategy, JwtRefreshStrategy],
+  providers: [
+    AuthService,
+    JwtService,
+    JwtAccessStrategy,
+    JwtRefreshStrategy,
+    CookieService,
+  ],
   exports: [PassportModule, JwtAccessStrategy, JwtRefreshStrategy],
 })
 export class AuthModule {}

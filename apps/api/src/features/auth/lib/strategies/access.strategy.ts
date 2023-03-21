@@ -2,35 +2,33 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import { RequestUser } from 'src/lib/types/request-user';
 import { Request } from 'express';
+
+import { RequestUser } from 'src/lib/types/request-user';
 import { JwtPayload } from '../types/jwt';
-import { EnvConfig } from 'src/configs/env.config';
+import { TOKENS_CONFIGS, TOKEN_ID, ACCESS_TOKEN } from '../constants';
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(
   Strategy,
   'jwt-access',
 ) {
-  constructor(
-    protected readonly configService: ConfigService<EnvConfig, true>,
-  ) {
+  constructor(protected readonly configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (req: Request) => req.cookies?.['access_token'],
+        (req: Request) => req.cookies?.[ACCESS_TOKEN],
         ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
       ignoreExpiration: false,
-      secretOrKey: configService.get('jwt.accessSecretKey', { infer: true }),
+      secretOrKey: configService.get(TOKENS_CONFIGS['access'].secret),
       passReqToCallback: true,
     });
   }
 
   async validate(req: Request, payload: JwtPayload): Promise<RequestUser> {
-    const tokenId = parseInt(req.cookies?.['token_id']);
+    const tokenId = parseInt(req.cookies?.[TOKEN_ID]);
     const accessToken =
-      req.cookies?.['access_token'] ??
-      req.header('Authorization').split(' ')[1];
+      req.cookies?.[ACCESS_TOKEN] ?? req.header('Authorization').split(' ')[1];
 
     if (!tokenId || !accessToken) {
       throw new UnauthorizedException('인증 토큰을 찾을 수 없습니다.');

@@ -4,7 +4,7 @@
 	import BackIcon from '~icons/ri/arrow-left-line';
 	import DraftIcon from '~icons/ri/article-line';
 
-	import { openDraftSidebar } from '$components/Drawer/drawer';
+	import { openDraftSidebar, openPublishSidebar } from '$components/Drawer/drawer';
 	import { createMutation } from '@tanstack/svelte-query';
 	import { saveDraft } from '$api/draft';
 	import { triggerToast } from '$components/Message/toast';
@@ -47,6 +47,13 @@
 			class="btn variant-filled-secondary"
 			on:click={() => $saveDraftMutation.mutate()}>저장</button
 		>
-		<button type="button" class="btn variant-filled-primary" on:click={() => {}}>글 등록</button>
+		<button
+			type="button"
+			class="btn variant-filled-primary"
+			on:click={async () => {
+				const { title, subTitle, body } = await getEditorData();
+				openPublishSidebar({ title, subTitle, body });
+			}}>글 등록</button
+		>
 	</svelte:fragment>
 </AppBar>
