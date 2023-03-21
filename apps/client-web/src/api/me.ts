@@ -4,6 +4,10 @@ export async function getMe() {
 	return await apiAfterRefresh.get('api/me').json<GetMeResult>();
 }
 
+export async function getMyDrafts() {
+	return await apiAfterRefresh.get('api/me/drafts').json<GetMyDraftsResult[]>();
+}
+
 export interface GetMeResult {
 	id: number;
 	username: string;
@@ -12,12 +16,13 @@ export interface GetMeResult {
 	profile: {
 		nickname: string;
 		bio: string;
-		avatar: string;
+		avatar: string | null;
 	};
-	drafts: {
-		id: number;
-		title: string;
-		subTitle: string;
-		updatedAt: string;
-	}[];
+}
+
+export interface GetMyDraftsResult {
+	id: number;
+	title: string;
+	subTitle: string;
+	updatedAt: Date;
 }

@@ -20,4 +20,10 @@ export class MeController {
   async getMe(@GetUser() user: RequestUser) {
     return await this.meService.getMe(user.id);
   }
+
+  @Get('/drafts')
+  @HttpCode(HttpStatus.OK)
+  async getMyDrafts(@GetUser() user: RequestUser) {
+    return await this.meService.getMyDrafts(user.id);
+  }
 }

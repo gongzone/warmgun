@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
@@ -8,6 +8,7 @@ import { JwtService } from './jwt.service';
 import { JwtAccessStrategy, JwtRefreshStrategy } from './lib/strategies';
 import { CookieService } from './cookie.service';
 
+@Global()
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -17,9 +18,9 @@ import { CookieService } from './cookie.service';
   providers: [
     AuthService,
     JwtService,
+    CookieService,
     JwtAccessStrategy,
     JwtRefreshStrategy,
-    CookieService,
   ],
   exports: [PassportModule, JwtAccessStrategy, JwtRefreshStrategy],
 })

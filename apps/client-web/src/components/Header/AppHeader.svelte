@@ -4,7 +4,7 @@
 	import HamburgerIcon from '~icons/ri/menu-2-line';
 	import PistolGunIcon from '~icons/game-icons/pistol-gun';
 
-	import { getMe } from '$api/me';
+	import { getMe, getMyDrafts } from '$api/me';
 	import { openNavSidebar } from '$components/Drawer/drawer';
 	import AnonymousPopup from './_Popup/AnonymousPopup.svelte';
 	import AuthenticatedPopup from './_Popup/AuthenticatedPopup.svelte';
@@ -12,6 +12,11 @@
 	const getMeQuery = createQuery({
 		queryKey: ['me'],
 		queryFn: getMe
+	});
+
+	const getMyDraftsQuery = createQuery({
+		queryKey: ['myDrafts'],
+		queryFn: getMyDrafts
 	});
 </script>
 
@@ -43,8 +48,8 @@
 	</a>
 
 	<svelte:fragment slot="trail">
-		{#if $getMeQuery.isSuccess && $getMeQuery.data}
-			<AuthenticatedPopup user={$getMeQuery.data} />
+		{#if $getMeQuery.isSuccess && $getMyDraftsQuery.isSuccess}
+			<AuthenticatedPopup user={$getMeQuery.data} latestDraftId={$getMyDraftsQuery.data[0].id} />
 		{:else}
 			<AnonymousPopup />
 		{/if}

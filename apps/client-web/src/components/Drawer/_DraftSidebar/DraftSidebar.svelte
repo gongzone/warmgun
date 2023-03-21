@@ -7,7 +7,7 @@
 	import DraftIcon from '~icons/ri/draft-line';
 	import TrashBinIcon from '~icons/ri/delete-bin-line';
 
-	import { getMe } from '$api/me';
+	import { getMe, getMyDrafts } from '$api/me';
 	import { createDraft, deleteDraft } from '$api/draft';
 	import { formatDate } from '$lib/utils/format';
 	import { triggerToast } from '$components/Message/toast';
@@ -15,17 +15,21 @@
 
 	const queryClient = useQueryClient();
 
-	// Todo: getDrafts query로 바꿀 것...
 	const getMeQuery = createQuery({
 		queryKey: ['me'],
-		queryFn: getMe,
+		queryFn: getMe
+	});
+
+	const getMyDraftsQuery = createQuery({
+		queryKey: ['myDrafts'],
+		queryFn: getMyDrafts,
 		refetchOnMount: true
 	});
 
 	const createDraftMutation = createMutation({
 		mutationFn: () => createDraft(),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['me'] });
+			queryClient.invalidateQueries({ queryKey: ['myDrafts'] });
 		}
 	});
 
@@ -38,31 +42,31 @@
 		onSuccess: (_, draftId) => {
 			if (+$page.params.draftId === draftId) {
 				const targetDraftId =
-					$getMeQuery.data?.drafts[0].id === draftId
-						? $getMeQuery.data?.drafts[1].id
-						: $getMeQuery.data?.drafts[0].id;
+					$getMyDraftsQuery.data?.[0].id === draftId
+						? $getMyDraftsQuery.data?.[1].id
+						: $getMyDraftsQuery.data?.[0].id;
 				goto(`/write/draft/${targetDraftId}`);
 			}
 
-			queryClient.invalidateQueries({ queryKey: ['me'] });
+			queryClient.invalidateQueries({ queryKey: ['myDrafts'] });
 		}
 	});
-
-	$: console.log($getMeQuery.data?.drafts);
 </script>
 
-{#if $getMeQuery.isSuccess && $getMeQuery.data}
-	<header class="flex justify-end p-5">
-		<button type="button" class="btn-icon btn-ringed-tertiary" on:click={() => drawerStore.close()}>
-			<span><CloseIcon class="w-[24px] h-[24px]" /></span>
-		</button>
-	</header>
+<header class="flex justify-end p-5">
+	<button type="button" class="btn-icon btn-ringed-tertiary" on:click={() => drawerStore.close()}>
+		<span><CloseIcon class="w-[24px] h-[24px]" /></span>
+	</button>
+</header>
 
+{#if $getMeQuery.isSuccess}
 	<div class="flex flex-col justify-center items-center gap-2">
-		<Avatar src={$getMeQuery.data.profile.avatar} class="w-24" />
+		<Avatar src={$getMeQuery.data.profile.avatar ?? ''} class="w-24" />
 		<span class="text-lg font-bold">{$getMeQuery.data.username}</span>
 	</div>
+{/if}
 
+{#if $getMyDraftsQuery.isSuccess}
 	<div class="py-8 px-2">
 		<Accordion spacing="space-y-0">
 			<AccordionItem open>
@@ -76,7 +80,7 @@
 
 				<svelte:fragment slot="content">
 					<ul class="flex flex-col gap-3">
-						{#each $getMeQuery.data.drafts as draft (draft.id)}
+						{#each $getMyDraftsQuery.data as draft (draft.id)}
 							<li>
 								<div class="flex items-center gap-4">
 									<a

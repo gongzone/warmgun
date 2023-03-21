@@ -10,6 +10,7 @@
 	import queryClient from '$lib/query-client';
 
 	export let user: GetMeResult;
+	export let latestDraftId: number;
 
 	const popupKey = 'authenticated-menu';
 	const settings: PopupSettings = {
@@ -19,7 +20,7 @@
 
 	const navData = [
 		{ to: `/@${user.username}`, name: '내 블로그', icon: CommunityIcon },
-		{ to: `/write/draft/${user.drafts[0].id}`, name: '글쓰기', icon: QuillPenIcon }
+		{ to: `/write/draft/${latestDraftId}`, name: '글쓰기', icon: QuillPenIcon }
 	];
 
 	const logoutMutation = createMutation({
@@ -33,7 +34,7 @@
 
 <div>
 	<button use:popup={settings} class="btn-icon md:btn-icon-lg px-0">
-		<Avatar width="md:w-[53px]" src={user.profile.avatar} />
+		<Avatar width="md:w-[53px]" src={user.profile.avatar ?? ''} />
 	</button>
 
 	<div class="relative card w-52 p-4 shadow-xl z-50" data-popup={popupKey}>
