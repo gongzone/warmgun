@@ -6,10 +6,28 @@
 	import IconText from './IconText/IconText.svelte';
 	import CoverImagePreview from './CoverImagePreview/CoverImagePreview.svelte';
 	import TagSelector from './TagSelector/TagSelector.svelte';
+	import { createMutation } from '@tanstack/svelte-query';
+	import { createArticle } from '$api/article';
+	import type { OutputData } from '@editorjs/editorjs';
 
 	export let coverImage: string | null;
 	export let slug: string;
-	let tags: string[];
+	export let tags: string[];
+
+	const createArticleMutation = createMutation({
+		mutationFn: async () => {
+			const createArticleDTO = {
+				title: $drawerStore.meta.title as string,
+				subTitle: $drawerStore.meta.subTitle as string,
+				body: $drawerStore.meta.body as OutputData,
+				coverImage,
+				slug: `/${slug}`,
+				tags
+			};
+
+			await createArticle(createArticleDTO);
+		}
+	});
 
 	const dispatch = createEventDispatcher();
 
@@ -24,7 +42,11 @@
 		<span>닫기</span>
 	</button>
 
-	<button type="button" class="btn variant-filled-primary" on:click={() => drawerStore.close()}>
+	<button
+		type="button"
+		class="btn variant-filled-primary"
+		on:click={() => $createArticleMutation.mutate()}
+	>
 		출간하기
 	</button>
 </header>

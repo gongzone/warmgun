@@ -6,6 +6,7 @@ import { DraftModule } from './features/draft/draft.module';
 import { ImageModule } from './features/@base/image/image.module';
 import { TagModule } from './features/tag/tag.module';
 import { PrismaModule } from './features/@base/prisma/prisma.module';
+import { ArticleModule } from './features/article/article.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PrismaModule } from './features/@base/prisma/prisma.module';
     DraftModule,
     ImageModule,
     TagModule,
+    ArticleModule,
   ],
 })
 export class AppModule {}

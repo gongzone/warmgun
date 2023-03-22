@@ -7,6 +7,7 @@
 
 	let coverImage: string | null = null;
 	let slug: string = '';
+	let tags: string[] = [];
 </script>
 
 <Drawer>
@@ -15,6 +16,6 @@
 	{:else if $drawerStore.id === 'draft-sidebar'}
 		<DraftSidebar />
 	{:else if $drawerStore.id === 'publish-sidebar'}
-		<PublishSidebar bind:coverImage bind:slug />
+		<PublishSidebar bind:coverImage bind:slug bind:tags />
 	{/if}
 </Drawer>
