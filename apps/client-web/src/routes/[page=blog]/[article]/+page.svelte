@@ -1,10 +1,15 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { createQuery } from '@tanstack/svelte-query';
+	import { createMutation, createQuery } from '@tanstack/svelte-query';
 
 	import { getArticleBySlug } from '$api/article';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import Viewer from '$components/Editor/Viewer.svelte';
+	import { toggleLike } from '$api/like';
+
+	const toggleLikeMutation = createMutation({
+		mutationFn: () => toggleLike(`/${$page.params.page}/${$page.params.article}`)
+	});
 
 	$: getArticleBySlugQuery = createQuery({
 		queryKey: ['article', `${$page.params.page}/${$page.params.article}`],

@@ -5,6 +5,12 @@ import { TagService } from './tag.service';
 export class TagController {
   constructor(private readonly tagService: TagService) {}
 
+  @Get('/popular')
+  @HttpCode(HttpStatus.OK)
+  async getPopularTags() {
+    return await this.tagService.getPopularTags();
+  }
+
   @Get()
   @HttpCode(HttpStatus.OK)
   async searchTags(

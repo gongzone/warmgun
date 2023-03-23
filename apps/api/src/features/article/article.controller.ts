@@ -25,7 +25,6 @@ export class ArticleController {
     @Param('username') username: string,
     @Param('slug') slug: string,
   ) {
-    console.log(username, slug);
     return await this.articleService.getArticleBySlug(username, slug);
   }
 

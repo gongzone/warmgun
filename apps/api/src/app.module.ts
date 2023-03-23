@@ -8,6 +8,7 @@ import { TagModule } from './features/tag/tag.module';
 import { PrismaModule } from './features/@base/prisma/prisma.module';
 import { ArticleModule } from './features/article/article.module';
 import { UserModule } from './features/user/user.module';
+import { LikeModule } from './features/like/like.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UserModule } from './features/user/user.module';
     TagModule,
     ArticleModule,
     UserModule,
+    LikeModule,
   ],
 })
 export class AppModule {}
