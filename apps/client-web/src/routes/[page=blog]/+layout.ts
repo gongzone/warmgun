@@ -1,6 +1,3 @@
-// queryKey: ['user', $page.params.page.slice(1)],
-// queryFn: () => getUserByUsername($page.params.page.slice(1))
-
 import { getUserByUsername } from '$api/user';
 import type { LayoutLoad } from './$types';
 

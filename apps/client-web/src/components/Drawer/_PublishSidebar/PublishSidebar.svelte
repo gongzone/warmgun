@@ -6,22 +6,32 @@
 	import IconText from './IconText/IconText.svelte';
 	import CoverImagePreview from './CoverImagePreview/CoverImagePreview.svelte';
 	import TagSelector from './TagSelector/TagSelector.svelte';
-	import { createMutation } from '@tanstack/svelte-query';
+	import { createMutation, createQuery } from '@tanstack/svelte-query';
 	import { createArticle } from '$api/article';
 	import type { OutputData } from '@editorjs/editorjs';
+	import { getMe } from '$api/me';
 
 	export let coverImage: string | null;
 	export let slug: string;
 	export let tags: string[];
 
+	const getMeQuery = createQuery({
+		queryKey: ['me'],
+		queryFn: getMe
+	});
+
 	const createArticleMutation = createMutation({
 		mutationFn: async () => {
+			if (!$getMeQuery.isSuccess) {
+				return;
+			}
+
 			const createArticleDTO = {
 				title: $drawerStore.meta.title as string,
 				subTitle: $drawerStore.meta.subTitle as string,
 				body: $drawerStore.meta.body as OutputData,
 				coverImage,
-				slug: `/${slug}`,
+				slug: `@${$getMeQuery.data.username}/${slug}`,
 				tags
 			};
 

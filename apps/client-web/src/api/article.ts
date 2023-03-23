@@ -2,6 +2,10 @@ import { apiAfterRefresh } from '$lib/api-client';
 import type { OutputData } from '@editorjs/editorjs';
 import type { QueryFunctionContext } from '@tanstack/svelte-query';
 
+export async function getArticleBySlug(slug: string) {
+	return apiAfterRefresh.get(`api/article/${slug}`).json<GetArticleBySlug>();
+}
+
 export async function getArticlesByPagination({ queryKey, pageParam = 0 }: QueryFunctionContext) {
 	const username = queryKey[1];
 
@@ -18,12 +22,26 @@ export interface Article {
 	id: number;
 	title: string;
 	subTitle: string;
+	body: OutputData;
 	coverImage: string;
 	slug: string;
 	createdAt: Date;
+	tags: {
+		name: string;
+	}[];
 	likeCount: number;
 	commentCount: number;
 }
+
+interface GetArticleBySlug {
+	article: Article;
+	author: {
+		nickname: string;
+		bio: string;
+		avatar: string;
+	};
+}
+
 interface GetArticlesByPagination {
 	articles: Article[];
 	lastCursor: number;

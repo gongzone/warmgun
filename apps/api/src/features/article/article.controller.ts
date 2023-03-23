@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Query,
   UseGuards,
@@ -17,6 +18,16 @@ import { CreateArticleDTO } from './lib/create-article.dto';
 @Controller('article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
+
+  @Get('/:username/:slug')
+  @HttpCode(HttpStatus.OK)
+  async getArticleBySlug(
+    @Param('username') username: string,
+    @Param('slug') slug: string,
+  ) {
+    console.log(username, slug);
+    return await this.articleService.getArticleBySlug(username, slug);
+  }
 
   @Get()
   @HttpCode(HttpStatus.OK)

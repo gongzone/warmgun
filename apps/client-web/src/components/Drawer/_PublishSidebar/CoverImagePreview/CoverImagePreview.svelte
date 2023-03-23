@@ -11,7 +11,7 @@
 	const uploadImageMutation = createMutation({
 		mutationFn: (file: File) => uploadImage(file),
 		onSuccess: (imageUrl) => {
-			coverImage = `${imageUrl}?w=300&h=200&f=webp`;
+			coverImage = `${imageUrl}`;
 		}
 	});
 
@@ -25,7 +25,11 @@
 >
 	{#if coverImage}
 		<div class="relative w-full h-full">
-			<img src={coverImage} class="w-full h-full object-cover" alt="cover" />
+			<img
+				src={`${coverImage}?w=300&h=200&f=webp`}
+				class="w-full h-full object-cover"
+				alt="cover"
+			/>
 			<button
 				class="absolute top-0 right-0 btn-icon variant-ghost-tertiary rounded-lg"
 				on:click={() => {
