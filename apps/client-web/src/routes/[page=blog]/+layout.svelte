@@ -1,0 +1,16 @@
+<script lang="ts">
+	import BlogHeader from '$components/Header/BlogHeader.svelte';
+	import BlogHero from '$components/Hero/BlogHero.svelte';
+	import BlogTab from '$components/Tab/BlogTab.svelte';
+</script>
+
+<BlogHeader />
+
+<div class="lg:max-w-[720px] mx-auto">
+	<BlogHero />
+
+	<div class="px-4 sm:px-8 my-8 sm:my-12 md:px-24 lg:px-0 lg:my-6">
+		<BlogTab />
+		<slot />
+	</div>
+</div>

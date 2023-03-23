@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { GetUser } from 'src/lib/decorators/user.decorator';
@@ -15,6 +17,22 @@ import { CreateArticleDTO } from './lib/create-article.dto';
 @Controller('article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async getArticlesByPagination(
+    @Query('username') username: string,
+    @Query('take') take: string,
+    @Query('cursor') cursor: string | undefined,
+  ) {
+    const newCursor = cursor ? parseInt(cursor) : undefined;
+
+    return await this.articleService.getArticlesByPagination(
+      username,
+      parseInt(take),
+      newCursor,
+    );
+  }
 
   @UseGuards(JwtAccessAuthGuard)
   @Post()
