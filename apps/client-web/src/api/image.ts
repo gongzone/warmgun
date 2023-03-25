@@ -1,8 +1,8 @@
-import { apiAfterRefresh } from '$lib/api-client';
+import { api } from '$lib/api-client';
 import { CDN_DOMAIN } from '$lib/constants/cdn';
 
 async function createPresignedUrl(contentType: string) {
-	return await apiAfterRefresh
+	return await api
 		.post('api/image/presigned', { json: { contentType } })
 		.json<CreatePresignedUrlResult>();
 }

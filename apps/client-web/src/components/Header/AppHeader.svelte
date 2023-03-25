@@ -48,7 +48,7 @@
 	</a>
 
 	<svelte:fragment slot="trail">
-		{#if $getMeQuery.isSuccess && $getMyDraftsQuery.isSuccess}
+		{#if $getMeQuery.data && $getMyDraftsQuery.data}
 			<AuthenticatedPopup user={$getMeQuery.data} latestDraftId={$getMyDraftsQuery.data[0].id} />
 		{:else}
 			<AnonymousPopup />

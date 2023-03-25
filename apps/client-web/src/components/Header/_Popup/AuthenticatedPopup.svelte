@@ -27,6 +27,7 @@
 		mutationFn: logout,
 		onSuccess: () => {
 			queryClient.setQueryData(['me'], null);
+			queryClient.setQueryData(['myDrafts'], null);
 			goto('/auth/login');
 		}
 	});

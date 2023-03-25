@@ -1,11 +1,11 @@
-import { apiAfterRefresh } from '$lib/api-client';
+import { api } from '$lib/api-client';
 
 export async function getMe() {
-	return await apiAfterRefresh.get('api/me').json<GetMeResult>();
+	return await api.get('api/me').json<GetMeResult>();
 }
 
 export async function getMyDrafts() {
-	return await apiAfterRefresh.get('api/me/drafts').json<GetMyDraftsResult[]>();
+	return await api.get('api/me/drafts').json<GetMyDraftsResult>();
 }
 
 export interface GetMeResult {
@@ -15,14 +15,13 @@ export interface GetMeResult {
 	role: string;
 	profile: {
 		nickname: string;
-		bio: string;
 		avatar: string | null;
 	};
 }
 
-export interface GetMyDraftsResult {
+export type GetMyDraftsResult = {
 	id: number;
 	title: string;
 	subTitle: string;
 	updatedAt: Date;
-}
+}[];

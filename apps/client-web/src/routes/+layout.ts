@@ -13,5 +13,6 @@ export const load = (async () => {
 		queryKey: ['myDrafts'],
 		queryFn: getMyDrafts
 	});
+
 	return { queryClient };
 }) satisfies LayoutLoad;

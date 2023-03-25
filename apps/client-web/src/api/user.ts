@@ -1,7 +1,7 @@
-import { apiAfterRefresh } from '$lib/api-client';
+import { api } from '$lib/api-client';
 
 export async function getUserByUsername(username: string) {
-	return await apiAfterRefresh.get(`api/user/${username}`).json<GetUserByUsernameResult>();
+	return await api.get(`api/user/${username}`).json<GetUserByUsernameResult>();
 }
 
 interface GetUserByUsernameResult {
