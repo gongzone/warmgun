@@ -17,7 +17,6 @@ export class MeService {
         profile: {
           select: {
             nickname: true,
-            bio: true,
             avatar: true,
           },
         },

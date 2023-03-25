@@ -6,12 +6,17 @@ import { Request } from 'express';
 
 import { RequestUser } from 'src/lib/types/request-user';
 import { JwtPayload } from '../types/jwt';
-import { TOKENS_CONFIGS, TOKEN_ID, ACCESS_TOKEN } from '../constants';
+import {
+  TOKENS_CONFIGS,
+  TOKEN_ID,
+  ACCESS_TOKEN,
+  ACCESS_STRATEGY_NAME,
+} from '../constants';
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(
   Strategy,
-  'jwt-access',
+  ACCESS_STRATEGY_NAME,
 ) {
   constructor(protected readonly configService: ConfigService) {
     super({

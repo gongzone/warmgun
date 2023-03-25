@@ -3,6 +3,9 @@ interface TokenConfig {
   expiresIn: string | number;
 }
 
+export const ACCESS_STRATEGY_NAME = 'jwt-access';
+export const REFRESH_STRATEGY_NAME = 'jwt-refresh';
+
 export const TOKENS_CONFIGS = {
   access: {
     secret: 'JWT_ACCESS_KEY',

@@ -7,7 +7,6 @@ import {
 import * as argon2 from 'argon2';
 import dayjs from 'dayjs';
 import { SignupDTO, LoginDTO } from './lib/dtos';
-import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../@base/prisma/prisma.service';
 import { JwtService } from './jwt.service';
 
@@ -15,7 +14,6 @@ import { JwtService } from './jwt.service';
 export class AuthService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {}
 

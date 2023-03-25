@@ -6,12 +6,17 @@ import { ConfigService } from '@nestjs/config';
 
 import { RequestUser } from 'src/lib/types/request-user';
 import { JwtPayload } from '../types/jwt';
-import { TOKENS_CONFIGS, TOKEN_ID, REFRESH_TOKEN } from '../constants';
+import {
+  TOKENS_CONFIGS,
+  TOKEN_ID,
+  REFRESH_TOKEN,
+  REFRESH_STRATEGY_NAME,
+} from '../constants';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
   Strategy,
-  'jwt-refresh',
+  REFRESH_STRATEGY_NAME,
 ) {
   constructor(protected readonly configService: ConfigService) {
     super({
