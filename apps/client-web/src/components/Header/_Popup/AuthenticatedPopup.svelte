@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { popup, Avatar, type PopupSettings } from '@skeletonlabs/skeleton';
+	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import CommunityIcon from '~icons/ri/community-line';
 	import QuillPenIcon from '~icons/ri/quill-pen-line';
@@ -8,6 +8,7 @@
 	import type { GetMeResult } from '$api/me';
 	import { createMutation } from '@tanstack/svelte-query';
 	import queryClient from '$lib/query-client';
+	import UserAvatar from '$components/@base/Avatar/UserAvatar.svelte';
 
 	export let user: GetMeResult;
 	export let latestDraftId: number;
@@ -35,7 +36,7 @@
 
 <div>
 	<button use:popup={settings} class="btn-icon md:btn-icon-lg px-0">
-		<Avatar width="md:w-[53px]" src={user.profile.avatar ?? ''} />
+		<UserAvatar avatar={user.profile.avatar} width="md:w-[53px]" />
 	</button>
 
 	<div class="relative card w-52 p-4 shadow-xl z-50" data-popup={popupKey}>

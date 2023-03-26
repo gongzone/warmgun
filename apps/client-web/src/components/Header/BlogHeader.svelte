@@ -21,16 +21,16 @@
 <AppBar
 	background="bg-transparent"
 	border="border-b border-surface-500"
-	padding="px-4 md:px-8 py-2"
+	padding="px-4 py-2 md:px-8"
 >
 	<svelte:fragment slot="lead">
 		<a href="/">
-			<PistolGunIcon class="w-[42px] h-[42px] md:w-[58px] md:h-[58px]" />
+			<PistolGunIcon class="w-[42px] h-[42px] md:w-[52px] md:h-[52px]" />
 		</a>
 	</svelte:fragment>
 
 	<svelte:fragment slot="trail">
-		{#if $getMeQuery.isSuccess && $getMyDraftsQuery.isSuccess}
+		{#if $getMeQuery.data && $getMyDraftsQuery.data}
 			<AuthenticatedPopup user={$getMeQuery.data} latestDraftId={$getMyDraftsQuery.data[0].id} />
 		{:else}
 			<AnonymousPopup />

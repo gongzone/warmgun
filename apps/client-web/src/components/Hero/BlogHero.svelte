@@ -5,6 +5,7 @@
 
 	import { getUserByUsername } from '$api/user';
 	import { Avatar } from '@skeletonlabs/skeleton';
+	import UserAvatar from '$components/@base/Avatar/UserAvatar.svelte';
 
 	$: getUserByUsernameQuery = createQuery({
 		queryKey: ['user', $page.params.page.slice(1)],
@@ -13,12 +14,9 @@
 </script>
 
 {#if $getUserByUsernameQuery.isSuccess}
-	<section
-		class="relative flex flex-col gap-2 p-8 bg-surface-800
-		sm:px-12 md:px-24 lg:bg-transparent lg:px-0"
-	>
-		<div class="self-end">
-			<Avatar width="w-20 md:w-28" src={$getUserByUsernameQuery.data.avatar ?? ''} />
+	<div class="relative card p-20">
+		<div class="absolute top-0 -translate-y-1/2 right-0 pr-20">
+			<UserAvatar avatar={$getUserByUsernameQuery.data.avatar} width="w-20 md:w-28" />
 		</div>
 
 		<div class="space-y-4">
@@ -44,5 +42,5 @@
 				</span>
 			</div>
 		</div>
-	</section>
+	</div>
 {/if}

@@ -1,30 +1,5 @@
 <script lang="ts">
-	export const communities = [
-		{
-			name: 'Frontend',
-			to: '/community/frontend'
-		},
-		{
-			name: 'Backend',
-			to: '/community/backend'
-		},
-		{
-			name: 'Dev-Ops',
-			to: '/community/dev-ops'
-		},
-		{
-			name: 'Mobile',
-			to: '/community/mobile'
-		},
-		{
-			name: 'Game',
-			to: '/community/game'
-		},
-		{
-			name: 'Data Science',
-			to: '/community/data-science'
-		}
-	];
+	import { communities } from '$lib/constants/nav';
 </script>
 
 <ul class="flex flex-wrap gap-2">

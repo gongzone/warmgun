@@ -6,8 +6,6 @@
 		queryKey: ['popularTags'],
 		queryFn: () => getPopularTags()
 	});
-
-	$: console.log($query.data);
 </script>
 
 {#if $query.isSuccess}

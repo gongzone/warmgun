@@ -12,6 +12,7 @@ export class ArticleService {
         slug: `/${username}/${slug}`,
       },
       select: {
+        id: true,
         title: true,
         subTitle: true,
         body: true,
@@ -45,6 +46,7 @@ export class ArticleService {
     });
 
     const enhancedArticle = {
+      id: article.id,
       title: article.title,
       subTitle: article.subTitle,
       body: article.body,
@@ -105,6 +107,7 @@ export class ArticleService {
 
     return {
       articles: articles.map((article) => ({
+        id: article.id,
         title: article.title,
         subTitle: article.subTitle,
         coverImage: article.coverImage,
