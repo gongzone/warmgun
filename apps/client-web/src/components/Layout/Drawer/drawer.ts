@@ -1,9 +1,11 @@
-import type { EditorData } from '$api/draft';
 import { drawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
+
+import { NAV_SIDEBAR, DRAFT_SIDEBAR, PUBLISH_SIDEBAR } from '$lib/constants/drawer';
+import type { EditorData } from '$api/draft';
 
 export function openNavSidebar() {
 	const navSidebarSettings: DrawerSettings = {
-		id: 'nav-sidebar',
+		id: NAV_SIDEBAR,
 		position: 'left',
 		width: 'w-[325px]',
 		duration: 200
@@ -13,7 +15,7 @@ export function openNavSidebar() {
 
 export function openDraftSidebar() {
 	const draftSidebarSettings: DrawerSettings = {
-		id: 'draft-sidebar',
+		id: DRAFT_SIDEBAR,
 		position: 'left',
 		width: 'w-full md:w-[485px]',
 		duration: 200
@@ -23,7 +25,7 @@ export function openDraftSidebar() {
 
 export function openPublishSidebar(meta: EditorData) {
 	const publishSidebarSettings: DrawerSettings = {
-		id: 'publish-sidebar',
+		id: PUBLISH_SIDEBAR,
 		position: 'right',
 		width: 'w-full sm:w-[420px]',
 		duration: 200,

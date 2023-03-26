@@ -1,7 +1,7 @@
 <script lang="ts">
 	import HamburgerIcon from '~icons/ri/menu-2-line';
 
-	import { openNavSidebar } from '$components/Drawer/drawer';
+	import { openNavSidebar } from '$components/Layout/Drawer/drawer';
 </script>
 
 <button
