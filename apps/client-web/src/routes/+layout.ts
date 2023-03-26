@@ -1,6 +1,6 @@
 import type { LayoutLoad } from './$types';
 
-import queryClient from '$lib/query-client';
+import queryClient from '$lib/clients/query-client';
 import { getMe, getMyDrafts } from '$api/me';
 
 export const load = (async () => {

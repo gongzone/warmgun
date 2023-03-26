@@ -1,4 +1,4 @@
-import { api } from '$lib/api-client';
+import { api } from '$lib/clients/api-client';
 
 export async function getMe() {
 	return await api.get('api/me').json<GetMeResult>();

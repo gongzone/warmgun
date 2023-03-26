@@ -1,4 +1,4 @@
-import { api } from '$lib/api-client';
+import { api } from '$lib/clients/api-client';
 
 export async function signup(signupDTO: SignupDTO) {
 	return await api.post('api/auth/signup', { json: signupDTO }).json<AuthResult>();

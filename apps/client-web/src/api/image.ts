@@ -1,4 +1,4 @@
-import { api } from '$lib/api-client';
+import { api } from '$lib/clients/api-client';
 import { CDN_DOMAIN } from '$lib/constants/cdn';
 
 async function createPresignedUrl(contentType: string) {

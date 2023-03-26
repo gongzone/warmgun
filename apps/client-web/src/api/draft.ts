@@ -1,4 +1,4 @@
-import { api } from '$lib/api-client';
+import { api } from '$lib/clients/api-client';
 import type { OutputData } from '@editorjs/editorjs';
 
 export async function getDraft(draftId: string) {
