@@ -7,7 +7,7 @@
 
 	import { login, type LoginDTO } from '$api/auth';
 	import Alert from '$components/Message/Alert.svelte';
-	import LabelInput from '$components/@base/Input/LabelInput.svelte';
+	import LabelInput from '$components/@Base/Input/LabelInput.svelte';
 
 	const queryClient = useQueryClient();
 

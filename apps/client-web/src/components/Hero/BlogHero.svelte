@@ -5,7 +5,7 @@
 
 	import { getUserByUsername } from '$api/user';
 	import { Avatar } from '@skeletonlabs/skeleton';
-	import UserAvatar from '$components/@base/Avatar/UserAvatar.svelte';
+	import UserAvatar from '$components/@Base/Avatar/UserAvatar.svelte';
 
 	$: getUserByUsernameQuery = createQuery({
 		queryKey: ['user', $page.params.page.slice(1)],

@@ -1,4 +1,11 @@
-import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  ParseIntPipe,
+  Query,
+} from '@nestjs/common';
 import { TagService } from './tag.service';
 
 @Controller('tag')
@@ -7,8 +14,8 @@ export class TagController {
 
   @Get('/popular')
   @HttpCode(HttpStatus.OK)
-  async getPopularTags() {
-    return await this.tagService.getPopularTags();
+  async getPopularTags(@Query('take', ParseIntPipe) take: number) {
+    return await this.tagService.getPopularTags(take);
   }
 
   @Get()

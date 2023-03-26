@@ -2,8 +2,8 @@
 	import { page } from '$app/stores';
 
 	import bgSnow from '$lib/images/bg-snow.svg';
-	import AppHeader from '$components/Header/AppHeader.svelte';
-	import HomeHero from '$components/Hero/HomeHero/HomeHero.svelte';
+	import AppHeader from '$components/Layout/Header/AppHeader/AppHeader.svelte';
+	import HomeHero from '$components/Layout/Hero/HomeHero/HomeHero.svelte';
 </script>
 
 {#if $page.url.pathname === '/'}

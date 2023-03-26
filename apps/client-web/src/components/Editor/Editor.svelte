@@ -12,7 +12,7 @@
 	import Underline from '@editorjs/underline';
 	import InlineCode from '@editorjs/inline-code';
 
-	import AutosizedTextarea from '$components/@base/Input/AutoSizedTextarea.svelte';
+	import AutosizedTextarea from '$components/@Base/Input/AutoSizedTextarea.svelte';
 	import { uploadImage } from '$api/image';
 
 	export let editor: EditorJS | null;
