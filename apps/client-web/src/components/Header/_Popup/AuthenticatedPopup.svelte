@@ -6,9 +6,10 @@
 
 	import { logout } from '$api/auth';
 	import type { GetMeResult } from '$api/me';
-	import { createMutation } from '@tanstack/svelte-query';
-	import queryClient from '$lib/query-client';
+	import { createMutation, useQueryClient } from '@tanstack/svelte-query';
 	import UserAvatar from '$components/@Base/Avatar/UserAvatar.svelte';
+
+	const queryClient = useQueryClient();
 
 	export let user: GetMeResult;
 	export let latestDraftId: number;

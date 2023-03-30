@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Avatar } from '@skeletonlabs/skeleton';
 
-	export let writerAvatar: string;
+	export let writerAvatar: string | null;
 	export let writerName: string;
 	export let likesCount: number;
 	export let commentsCount: number;
@@ -9,7 +9,7 @@
 
 <footer class="flex justify-between items-center p-4 border-t border-t-surface-500">
 	<div class="flex items-center gap-4">
-		<Avatar src={writerAvatar} width="w-12" />
+		<Avatar src={writerAvatar ?? ''} width="w-12" />
 		<span class="font-bold">{writerName}</span>
 	</div>
 

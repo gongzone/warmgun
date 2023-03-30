@@ -2,6 +2,14 @@ import { api } from '$lib/clients/api-client';
 import type { OutputData } from '@editorjs/editorjs';
 import type { QueryFunctionContext } from '@tanstack/svelte-query';
 
+export async function getTrendingArticles({ queryKey, pageParam = 0 }: QueryFunctionContext) {
+	const take = queryKey[1];
+
+	return api
+		.get(`api/article/trending?take=${take}&cursor=${pageParam}`)
+		.json<GetArticlesByPagination>();
+}
+
 export async function getArticleBySlug(slug: string) {
 	return api.get(`api/article/${slug}`).json<GetArticleBySlug>();
 }
@@ -29,8 +37,17 @@ export interface Article {
 	tags: {
 		name: string;
 	}[];
+	author: {
+		username: string;
+		nickname: string;
+		avatar: string | null;
+	};
 	likeCount: number;
 	commentCount: number;
+}
+export interface GetArticlesByPagination {
+	articles: Article[];
+	nextCursor: number;
 }
 
 interface GetArticleBySlug {
@@ -40,11 +57,6 @@ interface GetArticleBySlug {
 		bio: string;
 		avatar: string;
 	};
-}
-
-interface GetArticlesByPagination {
-	articles: Article[];
-	lastCursor: number;
 }
 
 interface CreateArticleDTO {

@@ -1,22 +1,24 @@
 <script lang="ts">
+	import type { Article } from '$api/article';
 	import ArticleCardHeader from './ArticleCardHeader/ArticleCardHeader.svelte';
 	import ArticleCardContent from './ArticleCardContent/ArticleCardContent.svelte';
 	import ArticleCardTags from './ArticleCardTags/ArticleCardTags.svelte';
 	import ArticleCardFooter from './ArticleCardFooter/ArticleCardFooter.svelte';
+
+	export let article: Article;
+
+	$: ({ title, subTitle, coverImage, slug, createdAt, tags, author, likeCount, commentCount } =
+		article);
 </script>
 
 <div class="card flex flex-col overflow-hidden">
 	<ArticleCardHeader coverImage={'https://source.unsplash.com/random/1280x540?skeleton'} />
-	<ArticleCardContent
-		title={'타입스크립트 명확하기 알기 위한 튜토리얼 1'}
-		subTitle={'당신의 꿈을 펼치세요.'}
-		date={new Date()}
-	/>
-	<ArticleCardTags tags={[{ name: 'React' }, { name: 'Sveltekit' }]} />
+	<ArticleCardContent {title} {subTitle} date={createdAt} />
+	<ArticleCardTags {tags} />
 	<ArticleCardFooter
-		writerAvatar={'https://i.pravatar.cc/160?img=36'}
-		writerName={'Alex'}
-		likesCount={30}
-		commentsCount={8}
+		writerAvatar={author.avatar}
+		writerName={author.nickname}
+		likesCount={likeCount}
+		commentsCount={commentCount}
 	/>
 </div>

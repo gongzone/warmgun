@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Query,
   UseGuards,
@@ -18,6 +19,15 @@ import { CreateArticleDTO } from './lib/create-article.dto';
 @Controller('article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
+
+  @Get('/trending')
+  @HttpCode(HttpStatus.OK)
+  async getTrendingArticles(
+    @Query('take', ParseIntPipe) take: number,
+    @Query('cursor', ParseIntPipe) cursor: number,
+  ) {
+    return await this.articleService.getTrendingArticles(take, cursor);
+  }
 
   @Get('/:username/:slug')
   @HttpCode(HttpStatus.OK)
