@@ -2,11 +2,15 @@ import { api } from '$lib/clients/api-client';
 import type { OutputData } from '@editorjs/editorjs';
 import type { QueryFunctionContext } from '@tanstack/svelte-query';
 
-export async function getTrendingArticles({ queryKey, pageParam = 0 }: QueryFunctionContext) {
+export async function getBestArticles(take: number) {
+	return api.get(`api/article/best?take=${take}`).json<Article[]>();
+}
+
+export async function getHotArticles({ queryKey, pageParam = 1 }: QueryFunctionContext) {
 	const take = queryKey[1];
 
 	return api
-		.get(`api/article/trending?take=${take}&cursor=${pageParam}`)
+		.get(`api/article/hot?take=${take}&cursor=${pageParam}`)
 		.json<GetArticlesByPagination>();
 }
 

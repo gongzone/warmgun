@@ -3,7 +3,10 @@ export function setInfiniteScroll(observable: Element, options: SetInfiniteScrol
 
 	const observer = new IntersectionObserver(
 		(entries, observer) => {
-			console.log(entries[0].isIntersecting, isMoreAvailable);
+			if (!isMoreAvailable) {
+				observer.unobserve(observable);
+			}
+
 			if (entries[0].isIntersecting && isMoreAvailable) {
 				console.log('fetch!');
 				fetchFn();

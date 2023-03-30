@@ -20,13 +20,19 @@ import { CreateArticleDTO } from './lib/create-article.dto';
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
-  @Get('/trending')
+  @Get('/best')
   @HttpCode(HttpStatus.OK)
-  async getTrendingArticles(
+  async getBestArticles(@Query('take', ParseIntPipe) take: number) {
+    return await this.articleService.getBestArticles(take);
+  }
+
+  @Get('/hot')
+  @HttpCode(HttpStatus.OK)
+  async getHotArticles(
     @Query('take', ParseIntPipe) take: number,
     @Query('cursor', ParseIntPipe) cursor: number,
   ) {
-    return await this.articleService.getTrendingArticles(take, cursor);
+    return await this.articleService.getHotArticles(take, cursor);
   }
 
   @Get('/:username/:slug')
