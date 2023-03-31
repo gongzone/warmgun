@@ -3,7 +3,7 @@
 	import avatarDefault from '$lib/images/avatar-default.svg';
 
 	export let avatar: string | null = null;
-	export let width: string | undefined = '';
+	export let width: string | undefined = 'w-12';
 </script>
 
 <Avatar src={avatar ?? avatarDefault} {width} />

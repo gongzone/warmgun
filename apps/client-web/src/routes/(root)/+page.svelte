@@ -5,10 +5,10 @@
 
 	import { TRENDING_ARTICLE_PAGINATION_TAKE } from '$lib/constants/article';
 	import { getBestArticles, getHotArticles } from '$api/article';
-	import ArticleCard from '$components/Article/ArticleCard/ArticleCard.svelte';
 	import SectionTitle from '$components/Layout/Section/SectionTitle/SectionTitle.svelte';
 	import SectionDivider from '$components/Layout/Section/SectionDivider/SectionDivider.svelte';
-	import ArticleList from '$components/Article/ArticleList.svelte';
+	import ArticleCard from '$components/Article/ArticleCard/ArticleCard.svelte';
+	import ArticleList from '$components/Article/ArticleList/ArticleList.svelte';
 	import InfiniteScroll from '$components/@Base/InfiniteScroll/InfiniteScroll.svelte';
 
 	const bestArticlesQuery = createQuery({
@@ -40,20 +40,26 @@
 	<SectionDivider text="Hot Articles" icon={FireIcon} />
 
 	{#if $hotArticlesQuery.isSuccess}
-		<div class="flex">
-			<section class="flex-1">
+		<div class="grid grid-cols-[repeat(8,1fr)_repeat(4,_minmax(48px,_1fr))]">
+			<section class="col-[1_/_span_7]">
 				<ul>
 					{#each $hotArticlesQuery.data.pages as { articles }}
 						{#each articles as article}
 							<li>
 								<ArticleList {article} />
 							</li>
+
+							<hr class="my-6" />
 						{/each}
 					{/each}
 				</ul>
 			</section>
 
-			<aside class="w-1/3">sd</aside>
+			<aside class="col-[9_/_span_4]">
+				<span class="text-2xl">Top Writers</span>
+
+				<div class="card">s</div>
+			</aside>
 		</div>
 
 		<InfiniteScroll

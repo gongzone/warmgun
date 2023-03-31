@@ -16,10 +16,10 @@
 	<ArticleCardContent {title} {subTitle} {slug} date={new Date(createdAt)} />
 	<ArticleCardTags {tags} />
 	<ArticleCardFooter
-		writerAvatar={author.avatar}
 		username={author.username}
-		writerName={author.nickname}
-		likesCount={likeCount}
-		commentsCount={commentCount}
+		nickname={author.nickname}
+		avatar={author.avatar}
+		{likeCount}
+		{commentCount}
 	/>
 </div>
