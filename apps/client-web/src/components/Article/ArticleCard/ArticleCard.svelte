@@ -12,11 +12,12 @@
 </script>
 
 <div class="card flex flex-col overflow-hidden">
-	<ArticleCardHeader coverImage={'https://source.unsplash.com/random/1280x540?skeleton'} />
-	<ArticleCardContent {title} {subTitle} date={createdAt} />
+	<ArticleCardHeader {coverImage} {slug} />
+	<ArticleCardContent {title} {subTitle} {slug} date={new Date(createdAt)} />
 	<ArticleCardTags {tags} />
 	<ArticleCardFooter
 		writerAvatar={author.avatar}
+		username={author.username}
 		writerName={author.nickname}
 		likesCount={likeCount}
 		commentsCount={commentCount}

@@ -14,11 +14,6 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"dependencies": {
-		"@bytemd/plugin-breaks": "^1.20.2",
-		"@bytemd/plugin-gemoji": "^1.20.2",
-		"@bytemd/plugin-gfm": "^1.20.2",
-		"@bytemd/plugin-highlight-ssr": "^1.20.2",
-		"@bytemd/plugin-medium-zoom": "^1.20.2",
 		"@editorjs/editorjs": "^2.26.5",
 		"@editorjs/header": "^2.7.0",
 		"@editorjs/image": "^2.8.1",
@@ -31,10 +26,9 @@
 		"@fontsource/concert-one": "^4.5.9",
 		"@fontsource/noto-sans-kr": "^4.5.12",
 		"@fontsource/noto-serif-kr": "^4.5.13",
-		"@skeletonlabs/skeleton": "^1.0.0",
+		"@skeletonlabs/skeleton": "^1.1.0",
 		"@tanstack/svelte-query": "^4.26.1",
 		"autosize": "^6.0.1",
-		"bytemd": "^1.20.2",
 		"editorjs-alert": "^1.0.3",
 		"highlight.js": "^11.7.0",
 		"ky": "^0.33.2",

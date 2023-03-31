@@ -5,18 +5,18 @@
 	import AnonymousMenu from './AnonymousMenu/AnonymousMenu.svelte';
 	import AuthenticatedMenu from './AuthenticatedMenu/AuthenticatedMenu.svelte';
 
-	const getMeQuery = createQuery({
+	const meQuery = createQuery({
 		queryKey: ['me'],
 		queryFn: getMe
 	});
 
-	const getMyDraftsQuery = createQuery({
+	const myDraftsQuery = createQuery({
 		queryKey: ['myDrafts'],
 		queryFn: getMyDrafts
 	});
 
-	$: user = $getMeQuery.data;
-	$: drafts = $getMyDraftsQuery.data;
+	$: user = $meQuery.data;
+	$: drafts = $myDraftsQuery.data;
 </script>
 
 {#if user && drafts}

@@ -21,33 +21,40 @@
 		queryFn: getHotArticles,
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	});
-
-	$: bestArticles = $bestArticlesQuery.isSuccess ? $bestArticlesQuery.data : [];
-	$: trendingArticlesPages = $hotArticlesQuery.isSuccess ? $hotArticlesQuery.data.pages : [];
 </script>
 
 <div class="px-[5vw] py-10 md:py-20">
 	<SectionTitle title="Trending Articles" subTitle="요새 뜨는 글들을 만나보세요" />
 	<SectionDivider text="Best of Best" icon={MedalIcon} />
 
-	<ul class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-		{#each bestArticles as article (article.id)}
-			<li>
-				<ArticleCard {article} />
-			</li>
-		{/each}
-	</ul>
+	{#if $bestArticlesQuery.isSuccess}
+		<ul class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+			{#each $bestArticlesQuery.data as article (article.id)}
+				<li>
+					<ArticleCard {article} />
+				</li>
+			{/each}
+		</ul>
+	{/if}
 
 	<SectionDivider text="Hot Articles" icon={FireIcon} />
 
 	{#if $hotArticlesQuery.isSuccess}
-		<ul class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-			{#each trendingArticlesPages as { articles }}
-				{#each articles as article}
-					<ArticleCard {article} />
-				{/each}
-			{/each}
-		</ul>
+		<div class="flex">
+			<section class="flex-1">
+				<ul>
+					{#each $hotArticlesQuery.data.pages as { articles }}
+						{#each articles as article}
+							<li>
+								<ArticleList {article} />
+							</li>
+						{/each}
+					{/each}
+				</ul>
+			</section>
+
+			<aside class="w-1/3">sd</aside>
+		</div>
 
 		<InfiniteScroll
 			fetchFn={$hotArticlesQuery.fetchNextPage}
