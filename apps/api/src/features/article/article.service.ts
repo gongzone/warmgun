@@ -6,6 +6,78 @@ import { CreateArticleDTO } from './lib/create-article.dto';
 export class ArticleService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async searchArticles(take: number, cursor: number, searchInput: string) {
+    const articles = await this.prismaService.article.findMany({
+      take,
+      where: {
+        title: {
+          contains: searchInput,
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        id: true,
+        title: true,
+        subTitle: true,
+        coverImage: true,
+        slug: true,
+        createdAt: true,
+        tags: {
+          select: {
+            name: true,
+          },
+        },
+        author: {
+          select: {
+            username: true,
+            profile: {
+              select: {
+                nickname: true,
+                avatar: true,
+              },
+            },
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    if (!articles || articles.length === 0) {
+      return {
+        articles: [],
+        lastCursor: undefined,
+      };
+    }
+
+    return {
+      articles: articles.map((article) => ({
+        id: article.id,
+        title: article.title,
+        subTitle: article.subTitle,
+        coverImage: article.coverImage,
+        slug: article.slug,
+        tags: article.tags,
+        author: {
+          username: article.author.username,
+          nickname: article.author.profile.nickname,
+          avatar: article.author.profile.avatar,
+        },
+        createdAt: article.createdAt,
+        likeCount: article._count.likes,
+        commentCount: article._count.comments,
+      })),
+      nextCursor: cursor + 1,
+    };
+  }
+
   async getBestArticles(take: number) {
     const articles = await this.prismaService.article.findMany({
       take,

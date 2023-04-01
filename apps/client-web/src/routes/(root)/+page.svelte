@@ -10,6 +10,7 @@
 	import ArticleCard from '$components/Article/ArticleCard/ArticleCard.svelte';
 	import ArticleList from '$components/Article/ArticleList/ArticleList.svelte';
 	import InfiniteScroll from '$components/@Base/InfiniteScroll/InfiniteScroll.svelte';
+	import { getTopBlogers } from '$api/user';
 
 	const bestArticlesQuery = createQuery({
 		queryKey: ['bestArticles', TRENDING_ARTICLE_PAGINATION_TAKE],
@@ -20,6 +21,11 @@
 		queryKey: ['trendingArticles', TRENDING_ARTICLE_PAGINATION_TAKE],
 		queryFn: getHotArticles,
 		getNextPageParam: (lastPage) => lastPage.nextCursor
+	});
+
+	const topBlogersQuery = createQuery({
+		queryKey: ['topBlogers', 10],
+		queryFn: () => getTopBlogers(10)
 	});
 </script>
 
@@ -58,7 +64,13 @@
 			<aside class="col-[9_/_span_4]">
 				<span class="text-2xl">Top Writers</span>
 
-				<div class="card">s</div>
+				{#if $topBlogersQuery.isSuccess}
+					<div class="card">
+						{#each $topBlogersQuery.data as topBloger (topBloger.id)}
+							<p>{topBloger.nickname}</p>
+						{/each}
+					</div>
+				{/if}
 			</aside>
 		</div>
 

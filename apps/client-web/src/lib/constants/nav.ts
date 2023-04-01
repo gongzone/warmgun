@@ -2,7 +2,7 @@ import HomeIcon from '~icons/ri/home-3-line';
 import NowIcon from '~icons/ri/timer-flash-line';
 import FeedIcon from '~icons/ri/rss-line';
 
-export const defaultLinks = [
+export const defaultLinks: NavLink[] = [
 	{
 		name: '메인 페이지',
 		icon: HomeIcon,
@@ -20,7 +20,7 @@ export const defaultLinks = [
 	}
 ];
 
-export const communities = [
+export const communities: NavLink[] = [
 	{
 		name: 'Frontend',
 		to: '/community/frontend'
@@ -46,3 +46,9 @@ export const communities = [
 		to: '/community/data-science'
 	}
 ];
+
+export interface NavLink {
+	name: string;
+	icon?: any;
+	to: string;
+}

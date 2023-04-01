@@ -2,6 +2,16 @@ import { api } from '$lib/clients/api-client';
 import type { OutputData } from '@editorjs/editorjs';
 import type { QueryFunctionContext } from '@tanstack/svelte-query';
 
+export async function searchArtlces({ queryKey, pageParam = 1 }: QueryFunctionContext) {
+	const [_, take, searchInput] = queryKey;
+
+	console.log(searchInput);
+
+	return api
+		.get(`api/article/search?take=${take}&cursor=${pageParam}&search=${searchInput}`)
+		.json<GetArticlesByPagination>();
+}
+
 export async function getBestArticles(take: number) {
 	return api.get(`api/article/best?take=${take}`).json<Article[]>();
 }

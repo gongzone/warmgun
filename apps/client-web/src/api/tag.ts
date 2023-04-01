@@ -1,16 +1,16 @@
 import { api } from '$lib/clients/api-client';
 
 export async function getPopularTags(take: number) {
-	return await api.get(`api/tag/popular?take=${take}`).json<GetPopularTagsResult>();
+	return await api.get(`api/tag/popular?take=${take}`).json<Tag[]>();
 }
 
 export async function searchTags(input: string, exclude: string) {
 	return await api.get(`api/tag?input=${input}&excludes=${exclude}`).json<SearchedTag[]>();
 }
 
-type GetPopularTagsResult = {
+export interface Tag {
 	name: string;
-}[];
+}
 
 export interface SearchedTag {
 	name: string;

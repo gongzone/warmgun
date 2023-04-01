@@ -1,4 +1,4 @@
-import ky, { HTTPError, type AfterResponseHook, type BeforeRequestHook } from 'ky-universal';
+import ky, { type AfterResponseHook } from 'ky-universal';
 
 const prefixUrl = import.meta.env.MODE === 'development' ? 'http://localhost:3000' : '';
 

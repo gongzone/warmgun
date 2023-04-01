@@ -5,3 +5,7 @@ export function formatDate(dateData: Date) {
 
 	return `${year}. ${month >= 10 ? month : `0${month}`}. ${date >= 10 ? date : `0${date}`}.`;
 }
+
+export function formatTagNameToSlug(tagName: string) {
+	return `/tags/${tagName.replace(' ', '-').toLowerCase()}`;
+}

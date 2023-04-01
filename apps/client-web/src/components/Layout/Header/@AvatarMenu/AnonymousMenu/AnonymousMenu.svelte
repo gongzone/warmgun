@@ -7,7 +7,7 @@
 		event: 'click',
 		target: menuKey,
 		placement: 'bottom',
-		closeQuery: '.list-nav'
+		closeQuery: '.list-nav li'
 	};
 
 	const navData = [

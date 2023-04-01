@@ -14,13 +14,10 @@
 		queryKey: ['myDrafts'],
 		queryFn: getMyDrafts
 	});
-
-	$: user = $meQuery.data;
-	$: drafts = $myDraftsQuery.data;
 </script>
 
-{#if user && drafts}
-	<AuthenticatedMenu {user} latestDraftId={drafts[0].id} />
+{#if $meQuery.data && $myDraftsQuery.data}
+	<AuthenticatedMenu user={$meQuery.data} latestDraftId={$myDraftsQuery.data[0].id} />
 {:else}
 	<AnonymousMenu />
 {/if}
