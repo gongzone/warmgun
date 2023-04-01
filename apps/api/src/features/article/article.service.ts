@@ -202,6 +202,8 @@ export class ArticleService {
   }
 
   async getArticleBySlug(username: string, slug: string) {
+    console.log(username, slug);
+
     const article = await this.prismaService.article.findUnique({
       where: {
         slug: `/${username}/${slug}`,

@@ -31,7 +31,7 @@
 				subTitle: $drawerStore.meta.subTitle as string,
 				body: $drawerStore.meta.body as OutputData,
 				coverImage,
-				slug: `@${$getMeQuery.data.username}/${slug}`,
+				slug: `/@${$getMeQuery.data.username}/${slug}`,
 				tags
 			};
 

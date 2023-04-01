@@ -27,7 +27,7 @@
 
 	<div class="mt-6 mb-8">
 		<div class="flex flex-col items-center gap-1">
-			<span class="font-bold font-serif text-2xl">당신의 개발 이야기</span>
+			<span class="font-serif text-2xl font-bold">당신의 개발 이야기</span>
 			<span class="font-serif">기록하고 공유하세요</span>
 		</div>
 	</div>
@@ -36,9 +36,9 @@
 		<HeroSearch />
 
 		<div class="space-y-4 text-center">
-			<span class="text-sm md:text-base font-bold">Popular Tags</span>
+			<span class="text-sm font-bold md:text-base">Popular Tags</span>
 			{#if $popularTagsQuery.isSuccess}
-				<ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+				<ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
 					{#each $popularTagsQuery.data as tag, index (tag.name)}
 						<li class={`${index > 7 ? 'hidden sm:inline-flex' : ''}`}>
 							<PopularTag to={formatTagNameToSlug(tag.name)} name={tag.name} />
