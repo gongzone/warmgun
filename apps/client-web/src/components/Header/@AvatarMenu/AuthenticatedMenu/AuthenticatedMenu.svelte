@@ -5,11 +5,12 @@
 	import CommunityIcon from '~icons/ri/community-line';
 	import QuillPenIcon from '~icons/ri/quill-pen-line';
 
+	import type { Me } from '$api/me';
 	import { logout } from '$api/auth';
-	import type { GetMeResult } from '$api/me';
-	import UserAvatar from '$components/@Base/Avatar/UserAvatar.svelte';
 
-	export let user: GetMeResult;
+	import UserAvatar from '$components/@ui/Block/UserAvatar.svelte';
+
+	export let user: Me;
 	export let latestDraftId: number;
 
 	const menuKey = 'authenticated-menu';
@@ -36,8 +37,8 @@
 </script>
 
 <div>
-	<button use:popup={settings} class="btn-icon md:btn-icon-lg px-0">
-		<UserAvatar avatar={user.profile.avatar} width="md:w-[53px]" />
+	<button class="btn-icon md:btn-icon-lg" use:popup={settings}>
+		<span><UserAvatar avatar={user.profile.avatar} width="md:w-[53px]" /></span>
 	</button>
 
 	<div class="relative card w-52 p-4 shadow-xl z-50" data-popup={menuKey}>

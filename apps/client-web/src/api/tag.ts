@@ -1,6 +1,6 @@
 import { api } from '$lib/clients/api-client';
 
-export async function getPopularTags(take: number) {
+export async function getPopularTags(take = 12) {
 	return await api.get(`api/tag/popular?take=${take}`).json<Tag[]>();
 }
 

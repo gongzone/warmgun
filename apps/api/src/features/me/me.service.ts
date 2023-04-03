@@ -10,16 +10,8 @@ export class MeService {
       where: {
         id: userId,
       },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        profile: {
-          select: {
-            nickname: true,
-            avatar: true,
-          },
-        },
+      include: {
+        profile: true,
       },
     });
 
@@ -34,12 +26,6 @@ export class MeService {
     const myDrafts = await this.prismaService.draft.findMany({
       where: {
         authorId: userId,
-      },
-      select: {
-        id: true,
-        title: true,
-        subTitle: true,
-        updatedAt: true,
       },
       orderBy: {
         updatedAt: 'desc',

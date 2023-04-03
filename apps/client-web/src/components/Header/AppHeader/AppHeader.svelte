@@ -4,8 +4,8 @@
 
 	import { openNavSidebar } from '$components/Drawer/drawer';
 
-	import AvatarMenu from '../@AvatarMenu/AvatarMenu.svelte';
 	import MainLogo from './MainLogo/MainLogo.svelte';
+	import AvatarMenu from '../@AvatarMenu/AvatarMenu.svelte';
 </script>
 
 <AppBar

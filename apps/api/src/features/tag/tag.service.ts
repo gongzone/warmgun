@@ -9,11 +9,11 @@ export class TagService {
     const popularTags = await this.findPopularTagsQuery(take);
 
     if (popularTags.length < take) {
-      const tagNames = popularTags.map((tag) => tag.name);
+      const excludes = popularTags.map((tag) => tag.name);
 
       const fallbackTags = await this.findFallbackTagsQuery(
         take - popularTags.length,
-        tagNames,
+        excludes,
       );
 
       return popularTags.concat(fallbackTags);
@@ -72,9 +72,6 @@ export class TagService {
           _count: 'desc',
         },
       },
-      select: {
-        name: true,
-      },
     });
   }
 
@@ -90,9 +87,6 @@ export class TagService {
         articles: {
           _count: 'desc',
         },
-      },
-      select: {
-        name: true,
       },
     });
   }
