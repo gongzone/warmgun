@@ -40,7 +40,7 @@ export class AuthService {
         password: hashedPassword,
         email,
         profile: {
-          create: { nickname: username },
+          create: { nickname: username, bio: `안녕하세요. ${username}입니다.` },
         },
         drafts: {
           create: {},

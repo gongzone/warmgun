@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
-	import ArticleList from '$components/Article/ArticleList/ArticleList.svelte';
+	import ArticleList from '$components/Article/@ArticleList/ArticleList.svelte';
 
 	$: searchArticlesQuery = createInfiniteQuery({
 		queryKey: ['searchArticles', 10, $page.params.searchInput],

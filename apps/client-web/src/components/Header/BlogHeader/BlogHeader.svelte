@@ -1,22 +1,20 @@
 <script lang="ts">
 	import { AppBar } from '@skeletonlabs/skeleton';
+	import PistolGunIcon from '~icons/game-icons/pistol-gun';
 
-	import HamburgerBtn from './HamburgerBtn/HamburgerBtn.svelte';
-	import Logo from './Logo/Logo.svelte';
 	import AvatarMenu from '../@AvatarMenu/AvatarMenu.svelte';
 </script>
 
 <AppBar
-	class="relative"
-	slotLead="space-x-1 md:space-x-4"
-	padding="px-[5vw] py-6 sm:py-8 md:py-12"
-	shadow="shadow-none"
+	background="bg-transparent"
+	border="border-b border-surface-500"
+	padding="px-4 py-2 md:px-8"
 >
 	<svelte:fragment slot="lead">
-		<HamburgerBtn />
+		<a href="/">
+			<PistolGunIcon class="w-[42px] h-[42px] md:w-[52px] md:h-[52px]" />
+		</a>
 	</svelte:fragment>
-
-	<Logo />
 
 	<svelte:fragment slot="trail">
 		<AvatarMenu />

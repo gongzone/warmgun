@@ -13,7 +13,7 @@
 	import { storePopup, Toast } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 
-	import Drawer from '$components/Layout/Drawer/Drawer.svelte';
+	import Drawer from '$components/Drawer/Drawer.svelte';
 
 	export let data: LayoutData;
 

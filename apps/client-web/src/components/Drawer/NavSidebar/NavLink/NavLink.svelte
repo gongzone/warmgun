@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { NavLink } from '$lib/constants/nav';
 	import { drawerStore } from '@skeletonlabs/skeleton';
+
+	import type { NavLink } from '$lib/constants/nav';
 
 	export let link: NavLink;
 

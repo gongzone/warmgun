@@ -1,4 +1,3 @@
 Todo
 
-1. BestOfBest Article api, Hot Article api 분리하기
-2. Infinite scroll 최적화 및 코드 수정
+1. 정교하고 우아하게, 그리고 논리적인 코드 짜기 (처음부터 리팩토링 시작)
