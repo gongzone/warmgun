@@ -1,10 +1,47 @@
+import { Prisma } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
+
 import { PrismaService } from '../@base/prisma/prisma.service';
 import { CreateArticleDTO } from './lib/create-article.dto';
 
 @Injectable()
 export class ArticleService {
   constructor(private readonly prismaService: PrismaService) {}
+
+  async getBestArticles(take: number) {
+    const articles = await this.prismaService.article.findMany({
+      take,
+      include: this.getArticleInclude(),
+      orderBy: {
+        trendingScore: 'desc',
+      },
+    });
+
+    return articles;
+  }
+
+  async getHotArticles(take: number, cursor: number) {
+    const articles = await this.prismaService.article.findMany({
+      take,
+      skip: take * cursor,
+      include: this.getArticleInclude(),
+      orderBy: {
+        trendingScore: 'desc',
+      },
+    });
+
+    if (!articles || articles.length === 0) {
+      return {
+        articles: [],
+        nextCursor: undefined,
+      };
+    }
+
+    return {
+      articles,
+      nextCursor: cursor + 1,
+    };
+  }
 
   async searchArticles(take: number, cursor: number, searchInput: string) {
     const articles = await this.prismaService.article.findMany({
@@ -47,129 +84,6 @@ export class ArticleService {
       },
       orderBy: {
         createdAt: 'desc',
-      },
-    });
-
-    if (!articles || articles.length === 0) {
-      return {
-        articles: [],
-        lastCursor: undefined,
-      };
-    }
-
-    return {
-      articles: articles.map((article) => ({
-        id: article.id,
-        title: article.title,
-        subTitle: article.subTitle,
-        coverImage: article.coverImage,
-        slug: article.slug,
-        tags: article.tags,
-        author: {
-          username: article.author.username,
-          nickname: article.author.profile.nickname,
-          avatar: article.author.profile.avatar,
-        },
-        createdAt: article.createdAt,
-        likeCount: article._count.likes,
-        commentCount: article._count.comments,
-      })),
-      nextCursor: cursor + 1,
-    };
-  }
-
-  async getBestArticles(take: number) {
-    const articles = await this.prismaService.article.findMany({
-      take,
-      select: {
-        id: true,
-        title: true,
-        subTitle: true,
-        coverImage: true,
-        slug: true,
-        createdAt: true,
-        tags: {
-          select: {
-            name: true,
-          },
-        },
-        author: {
-          select: {
-            username: true,
-            profile: {
-              select: {
-                nickname: true,
-                avatar: true,
-              },
-            },
-          },
-        },
-        _count: {
-          select: {
-            likes: true,
-            comments: true,
-          },
-        },
-      },
-      orderBy: {
-        trendingScore: 'desc',
-      },
-    });
-
-    return articles.map((article) => ({
-      id: article.id,
-      title: article.title,
-      subTitle: article.subTitle,
-      coverImage: article.coverImage,
-      slug: article.slug,
-      tags: article.tags,
-      author: {
-        username: article.author.username,
-        nickname: article.author.profile.nickname,
-        avatar: article.author.profile.avatar,
-      },
-      createdAt: article.createdAt,
-      likeCount: article._count.likes,
-      commentCount: article._count.comments,
-    }));
-  }
-
-  async getHotArticles(take: number, cursor: number) {
-    const articles = await this.prismaService.article.findMany({
-      take,
-      skip: take * cursor,
-      select: {
-        id: true,
-        title: true,
-        subTitle: true,
-        coverImage: true,
-        slug: true,
-        createdAt: true,
-        tags: {
-          select: {
-            name: true,
-          },
-        },
-        author: {
-          select: {
-            username: true,
-            profile: {
-              select: {
-                nickname: true,
-                avatar: true,
-              },
-            },
-          },
-        },
-        _count: {
-          select: {
-            likes: true,
-            comments: true,
-          },
-        },
-      },
-      orderBy: {
-        trendingScore: 'desc',
       },
     });
 
@@ -342,5 +256,22 @@ export class ArticleService {
     });
 
     return article;
+  }
+
+  private getArticleInclude() {
+    return {
+      tags: true,
+      author: {
+        include: {
+          profile: true,
+        },
+      },
+      _count: {
+        select: {
+          likes: true,
+          comments: true,
+        },
+      },
+    } satisfies Prisma.ArticleInclude;
   }
 }

@@ -8,7 +8,7 @@
 	import PopularTags from './PopularTags/PopularTags.svelte';
 </script>
 
-<ImageBackground image={bgSnow} alt="bg-snow" bg="bg-surface-800">
+<ImageBackground image={bgSnow} bg="bg-surface-800">
 	<div class="relative flex flex-col items-center px-4 pb-12">
 		<Communities />
 

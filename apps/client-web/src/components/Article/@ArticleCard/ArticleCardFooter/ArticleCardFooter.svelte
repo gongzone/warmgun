@@ -1,34 +1,23 @@
 <script lang="ts">
-	import { Avatar } from '@skeletonlabs/skeleton';
 	import HeartIcon from '~icons/ri/heart-2-fill';
 	import CommentIcon from '~icons/ri/message-3-fill';
+
+	import UserPiece from '$components/@ui/Block/UserPiece.svelte';
+	import UserAvatar from '$components/@Base/Avatar/UserAvatar.svelte';
+	import CountWithIcon from '$components/@ui/Block/CountWithIcon.svelte';
 
 	export let username: string;
 	export let nickname: string;
 	export let avatar: string | null;
-	export let likeCount: number;
-	export let commentCount: number;
+	export let likesCount: number;
+	export let commentsCount: number;
 </script>
 
 <footer class="flex justify-between items-center p-4 border-t border-t-surface-500">
-	<div class="flex items-center gap-2">
-		<a class="unstyled" href={`/@${username}`}>
-			<Avatar src={avatar ?? ''} width="w-12" />
-		</a>
-		<a class="unstyled" href={`/@${username}`}>
-			<span class="font-bold">{nickname}</span>
-		</a>
-	</div>
+	<UserPiece {username} {nickname} {avatar} />
 
 	<div class="flex items-center gap-4">
-		<div class="flex items-center gap-1">
-			<span><HeartIcon class="text-secondary-500" /></span>
-			<span class="text-sm font-thin tracking-wide">{likeCount}</span>
-		</div>
-
-		<div class="flex items-center gap-1">
-			<span><CommentIcon /></span>
-			<span class="text-sm font-thin">{commentCount}</span>
-		</div>
+		<CountWithIcon icon={HeartIcon} iconClass="text-secondary-500" count={likesCount} />
+		<CountWithIcon icon={CommentIcon} count={commentsCount} />
 	</div>
 </footer>

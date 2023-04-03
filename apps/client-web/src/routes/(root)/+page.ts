@@ -1,6 +1,5 @@
 import type { PageLoad } from './$types';
 
-import { TRENDING_ARTICLE_PAGINATION_TAKE } from '$lib/constants/article';
 import { getBestArticles } from '$api/article';
 import { getTopBlogers } from '$api/user';
 import { getPopularTags } from '$api/tag';
@@ -14,12 +13,12 @@ export const load = (async ({ parent }) => {
 	});
 
 	await queryClient.prefetchQuery({
-		queryKey: ['bestArticles', TRENDING_ARTICLE_PAGINATION_TAKE],
-		queryFn: () => getBestArticles(TRENDING_ARTICLE_PAGINATION_TAKE)
+		queryKey: ['bestArticles'],
+		queryFn: () => getBestArticles()
 	});
 
 	await queryClient.prefetchQuery({
-		queryKey: ['topBlogers', 10],
-		queryFn: () => getTopBlogers(10)
+		queryKey: ['topBlogers'],
+		queryFn: () => getTopBlogers()
 	});
 }) satisfies PageLoad;

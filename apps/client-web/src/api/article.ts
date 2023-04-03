@@ -2,6 +2,14 @@ import { api } from '$lib/clients/api-client';
 import type { OutputData } from '@editorjs/editorjs';
 import type { QueryFunctionContext } from '@tanstack/svelte-query';
 
+export async function getBestArticles(take = 12) {
+	return api.get(`api/article/best?take=${take}`).json<Article[]>();
+}
+
+export async function getHotArticles({ pageParam = 1 }: QueryFunctionContext) {
+	return api.get(`api/article/hot?take=${12}&cursor=${pageParam}`).json<ArticlesByPagination>();
+}
+
 export async function searchArtlces({ queryKey, pageParam = 1 }: QueryFunctionContext) {
 	const [_, take, searchInput] = queryKey;
 
@@ -9,19 +17,7 @@ export async function searchArtlces({ queryKey, pageParam = 1 }: QueryFunctionCo
 
 	return api
 		.get(`api/article/search?take=${take}&cursor=${pageParam}&search=${searchInput}`)
-		.json<GetArticlesByPagination>();
-}
-
-export async function getBestArticles(take: number) {
-	return api.get(`api/article/best?take=${take}`).json<Article[]>();
-}
-
-export async function getHotArticles({ queryKey, pageParam = 1 }: QueryFunctionContext) {
-	const take = queryKey[1];
-
-	return api
-		.get(`api/article/hot?take=${take}&cursor=${pageParam}`)
-		.json<GetArticlesByPagination>();
+		.json<ArticlesByPagination>();
 }
 
 export async function getArticleBySlug(slug: string) {
@@ -33,7 +29,7 @@ export async function getArticlesByPagination({ queryKey, pageParam = 0 }: Query
 
 	return api
 		.get(`api/article?username=${username}&take=10${pageParam ? `&cursor=${pageParam}` : ''}`)
-		.json<GetArticlesByPagination>();
+		.json<ArticlesByPagination>();
 }
 
 export async function createArticle(createArticleDTO: CreateArticleDTO) {
@@ -53,13 +49,17 @@ export interface Article {
 	}[];
 	author: {
 		username: string;
-		nickname: string;
-		avatar: string | null;
+		profile: {
+			nickname: string;
+			avatar: string | null;
+		};
 	};
-	likeCount: number;
-	commentCount: number;
+	_count: {
+		likes: number;
+		comments: number;
+	};
 }
-export interface GetArticlesByPagination {
+export interface ArticlesByPagination {
 	articles: Article[];
 	nextCursor: number;
 }

@@ -8,30 +8,27 @@
 
 	export let article: Article;
 
-	$: ({ title, subTitle, coverImage, slug, createdAt, tags, author, likeCount, commentCount } =
-		article);
+	$: ({ title, subTitle, coverImage, slug, createdAt, tags, author, _count } = article);
 </script>
 
 <div class="flex flex-col px-4">
-	<div class="mb-4">
-		<ArticleListHeader
-			{likeCount}
-			{commentCount}
-			avatar={author.avatar}
-			username={author.username}
-			nickname={author.nickname}
-			createdAt={new Date(createdAt)}
-		/>
+	<ArticleListHeader
+		username={author.username}
+		nickname={author.profile.nickname}
+		avatar={author.profile.avatar}
+		createdAt={new Date(createdAt)}
+		likesCount={_count.likes}
+		commentsCount={_count.comments}
+	/>
+
+	<div
+		class="flex flex-col-reverse justify-between gap-6 mt-1 pt-2 sm:flex-row sm:items-center sm:pt-0"
+	>
+		<ArticleListContent {title} {subTitle} {slug} />
+		<ArticleListImage {coverImage} {slug} />
 	</div>
 
-	<div class="flex items-center justify-between gap-6">
-		<div class="px-8">
-			<ArticleListContent {title} {subTitle} {slug} />
-		</div>
-		<ArticleListImage {title} {coverImage} {slug} />
-	</div>
-
-	<div class="px-8 mt-6">
+	<div class="mt-4">
 		<ArticleListFooter {tags} />
 	</div>
 </div>

@@ -3,11 +3,11 @@
 	import WitchIcon from '~icons/game-icons/witch-face';
 
 	import { getTopBlogers } from '$api/user';
-	import UserAvatar from '$components/@Base/Avatar/UserAvatar.svelte';
+	import UserPiece from '$components/@ui/Block/UserPiece.svelte';
 
 	const topBlogersQuery = createQuery({
-		queryKey: ['topBlogers', 10],
-		queryFn: () => getTopBlogers(10)
+		queryKey: ['topBlogers'],
+		queryFn: () => getTopBlogers()
 	});
 </script>
 
@@ -19,22 +19,17 @@
 {#if $topBlogersQuery.isSuccess}
 	<ul>
 		{#each $topBlogersQuery.data as topBloger (topBloger.id)}
-			<li class="space-y-2 py-6 px-6 border-b border-b-surface-500 border-dashed">
-				<div class="flex items-center gap-2">
-					<span>
-						<UserAvatar avatar={topBloger.avatar} />
-					</span>
-					<div class="flex flex-col">
-						<span class="font-bold">
-							{topBloger.nickname}
-						</span>
-						<span class="text-sm text-surface-300 line-clamp-3">{topBloger.bio} </span>
-					</div>
-				</div>
+			<li class="space-y-2 py-6 border-b border-b-surface-500 border-dashed">
+				<UserPiece
+					username={topBloger.username}
+					nickname={topBloger.profile.nickname}
+					avatar={topBloger.profile.avatar}
+					subText={topBloger.profile.bio}
+				/>
 
 				<div class="space-x-2 ml-14">
-					<span class="badge variant-filled-success">구독자 {topBloger.followedByCount}</span>
-					<span class="badge variant-filled">아티클 {topBloger.articleCount}</span>
+					<span class="badge variant-filled-success">구독자 {topBloger._count.followedBy}</span>
+					<span class="badge variant-filled">아티클 {topBloger._count.articles}</span>
 				</div>
 			</li>
 		{/each}

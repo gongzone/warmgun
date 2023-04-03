@@ -1,14 +1,13 @@
 <script lang="ts">
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
-	import { TRENDING_ARTICLE_PAGINATION_TAKE } from '$lib/constants/article';
 	import { getHotArticles } from '$api/article';
 
 	import ArticleList from './@ArticleList/ArticleList.svelte';
-	import InfiniteScroll from '$components/@Base/InfiniteScroll/InfiniteScroll.svelte';
+	import InfiniteScroll from '$components/@utility/InfiniteScroll.svelte';
 
 	const hotArticlesQuery = createInfiniteQuery({
-		queryKey: ['trendingArticles', TRENDING_ARTICLE_PAGINATION_TAKE],
+		queryKey: ['hotArticles'],
 		queryFn: getHotArticles,
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	});

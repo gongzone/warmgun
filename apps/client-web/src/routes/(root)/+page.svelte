@@ -1,7 +1,6 @@
 <script lang="ts">
 	import MedalIcon from '~icons/ri/medal-2-line';
 	import FireIcon from '~icons/ri/fire-fill';
-	import WitchIcon from '~icons/game-icons/witch-face';
 
 	import HomeHero from '$components/Hero/HomeHero/HomeHero.svelte';
 	import MainTitle from '$components/@ui/Block/MainTitle.svelte';
@@ -28,7 +27,7 @@
 		</section>
 
 		<aside class="col-[9_/_span_4] hidden lg:block">
-			<div>
+			<div class="sticky top-12">
 				<TopBlogersBox />
 			</div>
 		</aside>
