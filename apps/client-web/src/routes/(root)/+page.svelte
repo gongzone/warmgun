@@ -26,8 +26,8 @@
 			<HotArticles />
 		</section>
 
-		<aside class="col-[9_/_span_4] hidden lg:block">
-			<div class="sticky top-12">
+		<aside class="col-[9_/_span_4] hidden lg:block pb-6">
+			<div class="">
 				<TopBlogersBox />
 			</div>
 		</aside>
