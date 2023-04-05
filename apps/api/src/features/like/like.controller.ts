@@ -12,11 +12,11 @@ import { JwtAccessAuthGuard } from '../auth/lib/guards/access.guard';
 import { ToggleLikeDTO } from './lib/dtos';
 import { LikeService } from './like.service';
 
+@UseGuards(JwtAccessAuthGuard)
 @Controller('like')
 export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 
-  @UseGuards(JwtAccessAuthGuard)
   @Post()
   @HttpCode(HttpStatus.OK)
   async toggleLike(

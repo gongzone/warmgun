@@ -3,7 +3,6 @@
 	import CommentIcon from '~icons/ri/message-3-fill';
 
 	import UserPiece from '$components/@ui/Block/UserPiece.svelte';
-	import UserAvatar from '$components/@Base/Avatar/UserAvatar.svelte';
 	import CountWithIcon from '$components/@ui/Block/CountWithIcon.svelte';
 
 	export let username: string;

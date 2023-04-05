@@ -2,38 +2,38 @@ import { api } from '$lib/clients/api-client';
 import type { OutputData } from '@editorjs/editorjs';
 import type { QueryFunctionContext } from '@tanstack/svelte-query';
 
+const API_BASE_URL = 'api/articles';
+
+export async function searchArtlces({ queryKey, pageParam = 0 }: QueryFunctionContext) {
+	const searchInput = queryKey[1];
+
+	return api
+		.get(`${API_BASE_URL}?search=${searchInput}&take=${10}&cursor=${pageParam}`)
+		.json<ArticlesByPagination>();
+}
+
 export async function getBestArticles(take = 12) {
-	return api.get(`api/article/best?take=${take}`).json<Article[]>();
+	return api.get(`${API_BASE_URL}/best?take=${take}`).json<Article[]>();
 }
 
 export async function getHotArticles({ pageParam = 1 }: QueryFunctionContext) {
-	return api.get(`api/article/hot?take=${12}&cursor=${pageParam}`).json<ArticlesByPagination>();
+	return api.get(`${API_BASE_URL}/hot?take=${12}&cursor=${pageParam}`).json<ArticlesByPagination>();
 }
 
 export async function getBlogerArticles({ queryKey, pageParam = 0 }: QueryFunctionContext) {
 	const username = queryKey[1];
 
 	return api
-		.get(`api/article/bloger?username=${username}&take=${12}&cursor=${pageParam}`)
+		.get(`${API_BASE_URL}/${username}?take=${12}&cursor=${pageParam}`)
 		.json<ArticlesByPagination>();
 }
 
-export async function searchArtlces({ queryKey, pageParam = 1 }: QueryFunctionContext) {
-	const [_, take, searchInput] = queryKey;
-
-	console.log(searchInput);
-
-	return api
-		.get(`api/article/search?take=${take}&cursor=${pageParam}&search=${searchInput}`)
-		.json<ArticlesByPagination>();
-}
-
-export async function getArticleBySlug(slug: string) {
-	return api.get(`api/article/${slug}`).json<GetArticleBySlug>();
+export async function getBlogerArticle(username: string, slug: string) {
+	return api.get(`${API_BASE_URL}/${username}/${slug}`).json<Article>();
 }
 
 export async function createArticle(createArticleDTO: CreateArticleDTO) {
-	return api.post('api/article', { json: createArticleDTO }).json();
+	return api.post(`${API_BASE_URL}`, { json: createArticleDTO });
 }
 
 export interface Article {
@@ -52,6 +52,7 @@ export interface Article {
 		profile: {
 			nickname: string;
 			avatar: string | null;
+			bio: string;
 		};
 	};
 	_count: {
@@ -62,15 +63,6 @@ export interface Article {
 export interface ArticlesByPagination {
 	articles: Article[];
 	nextCursor: number;
-}
-
-interface GetArticleBySlug {
-	article: Article;
-	author: {
-		nickname: string;
-		bio: string;
-		avatar: string;
-	};
 }
 
 interface CreateArticleDTO {

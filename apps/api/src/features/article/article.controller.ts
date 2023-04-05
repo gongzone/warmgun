@@ -16,9 +16,22 @@ import { JwtAccessAuthGuard } from '../auth/lib/guards/access.guard';
 import { ArticleService } from './article.service';
 import { CreateArticleDTO } from './lib/create-article.dto';
 
-@Controller('article')
+@Controller('articles')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
+
+  @Get('')
+  @HttpCode(HttpStatus.OK)
+  async searchArticles(
+    @Query('search') search: string,
+    @Query('take', ParseIntPipe) take: number,
+    @Query('cursor', ParseIntPipe) cursor: number,
+  ) {
+    return await this.articleService.searchArticles(search, {
+      take,
+      cursor,
+    });
+  }
 
   @Get('/best')
   @HttpCode(HttpStatus.OK)
@@ -35,33 +48,26 @@ export class ArticleController {
     return await this.articleService.getHotArticles(take, cursor);
   }
 
-  @Get('/bloger')
+  @Get(':username')
   @HttpCode(HttpStatus.OK)
   async getBlogerArticles(
-    @Query('username') username: string,
+    @Param('username') username: string,
     @Query('take', ParseIntPipe) take: number,
     @Query('cursor', ParseIntPipe) cursor: number,
   ) {
-    return await this.articleService.getBlogerArticles(username, take, cursor);
-  }
-
-  @Get('/search')
-  @HttpCode(HttpStatus.OK)
-  async searchArticles(
-    @Query('take', ParseIntPipe) take: number,
-    @Query('cursor', ParseIntPipe) cursor: number,
-    @Query('search') searchInput: string,
-  ) {
-    return await this.articleService.searchArticles(take, cursor, searchInput);
+    return await this.articleService.getBlogerArticles(username, {
+      take,
+      cursor,
+    });
   }
 
   @Get('/:username/:slug')
   @HttpCode(HttpStatus.OK)
-  async getArticleBySlug(
+  async getBlogerArticle(
     @Param('username') username: string,
     @Param('slug') slug: string,
   ) {
-    return await this.articleService.getArticleBySlug(username, slug);
+    return await this.articleService.getBlogerArticle(username, slug);
   }
 
   @UseGuards(JwtAccessAuthGuard)

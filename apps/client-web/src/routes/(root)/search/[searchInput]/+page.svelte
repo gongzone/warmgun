@@ -6,7 +6,7 @@
 	import ArticleList from '$components/Article/@ArticleList/ArticleList.svelte';
 
 	$: searchArticlesQuery = createInfiniteQuery({
-		queryKey: ['searchArticles', 10, $page.params.searchInput],
+		queryKey: ['searchArticles', $page.params.searchInput],
 		queryFn: searchArtlces,
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	});
