@@ -11,7 +11,7 @@
 	$: ({ title, subTitle, coverImage, slug, createdAt, tags, author, _count } = article);
 </script>
 
-<div class="flex flex-col px-4">
+<div class="flex flex-col">
 	<ArticleListHeader
 		username={author.username}
 		nickname={author.profile.nickname}
@@ -31,4 +31,6 @@
 	<div class="mt-4">
 		<ArticleListFooter {tags} />
 	</div>
+
+	<hr class="my-6" />
 </div>

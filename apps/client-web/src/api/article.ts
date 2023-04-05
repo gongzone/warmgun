@@ -10,6 +10,14 @@ export async function getHotArticles({ pageParam = 1 }: QueryFunctionContext) {
 	return api.get(`api/article/hot?take=${12}&cursor=${pageParam}`).json<ArticlesByPagination>();
 }
 
+export async function getBlogerArticles({ queryKey, pageParam = 0 }: QueryFunctionContext) {
+	const username = queryKey[1];
+
+	return api
+		.get(`api/article/bloger?username=${username}&take=${12}&cursor=${pageParam}`)
+		.json<ArticlesByPagination>();
+}
+
 export async function searchArtlces({ queryKey, pageParam = 1 }: QueryFunctionContext) {
 	const [_, take, searchInput] = queryKey;
 
@@ -22,14 +30,6 @@ export async function searchArtlces({ queryKey, pageParam = 1 }: QueryFunctionCo
 
 export async function getArticleBySlug(slug: string) {
 	return api.get(`api/article/${slug}`).json<GetArticleBySlug>();
-}
-
-export async function getArticlesByPagination({ queryKey, pageParam = 0 }: QueryFunctionContext) {
-	const username = queryKey[1];
-
-	return api
-		.get(`api/article?username=${username}&take=10${pageParam ? `&cursor=${pageParam}` : ''}`)
-		.json<ArticlesByPagination>();
 }
 
 export async function createArticle(createArticleDTO: CreateArticleDTO) {

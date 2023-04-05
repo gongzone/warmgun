@@ -1,21 +1,22 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
-	import { getHotArticles } from '$api/article';
+	import { getBlogerArticles } from '$api/article';
 
 	import ArticleList from './@ArticleList/ArticleList.svelte';
 	import InfiniteScroll from '$components/@utility/InfiniteScroll.svelte';
 
-	const hotArticlesQuery = createInfiniteQuery({
-		queryKey: ['hotArticles'],
-		queryFn: getHotArticles,
+	const blogerArticlesQuery = createInfiniteQuery({
+		queryKey: ['articles', $page.params.page.slice(1)],
+		queryFn: getBlogerArticles,
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	});
 </script>
 
-{#if $hotArticlesQuery.isSuccess}
+{#if $blogerArticlesQuery.isSuccess}
 	<ul>
-		{#each $hotArticlesQuery.data.pages as { articles }}
+		{#each $blogerArticlesQuery.data.pages as { articles }}
 			{#each articles as article (article.id)}
 				<li>
 					<ArticleList {article} />
@@ -25,7 +26,7 @@
 	</ul>
 
 	<InfiniteScroll
-		fetchFn={$hotArticlesQuery.fetchNextPage}
-		hasNextPage={$hotArticlesQuery.hasNextPage}
+		fetchFn={$blogerArticlesQuery.fetchNextPage}
+		hasNextPage={$blogerArticlesQuery.hasNextPage}
 	/>
 {/if}

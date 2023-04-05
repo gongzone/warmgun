@@ -38,7 +38,7 @@
 
 <div>
 	<button class="btn-icon md:btn-icon-lg" use:popup={settings}>
-		<span><UserAvatar avatar={user.profile.avatar} width="md:w-[53px]" /></span>
+		<span><UserAvatar avatar={user.profile.avatar} width="w-12 md:w-[53px]" /></span>
 	</button>
 
 	<div class="relative card w-52 p-4 shadow-xl z-50" data-popup={menuKey}>

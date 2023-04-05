@@ -35,6 +35,16 @@ export class ArticleController {
     return await this.articleService.getHotArticles(take, cursor);
   }
 
+  @Get('/bloger')
+  @HttpCode(HttpStatus.OK)
+  async getBlogerArticles(
+    @Query('username') username: string,
+    @Query('take', ParseIntPipe) take: number,
+    @Query('cursor', ParseIntPipe) cursor: number,
+  ) {
+    return await this.articleService.getBlogerArticles(username, take, cursor);
+  }
+
   @Get('/search')
   @HttpCode(HttpStatus.OK)
   async searchArticles(
@@ -52,22 +62,6 @@ export class ArticleController {
     @Param('slug') slug: string,
   ) {
     return await this.articleService.getArticleBySlug(username, slug);
-  }
-
-  @Get()
-  @HttpCode(HttpStatus.OK)
-  async getArticlesByPagination(
-    @Query('username') username: string,
-    @Query('take') take: string,
-    @Query('cursor') cursor: string | undefined,
-  ) {
-    const newCursor = cursor ? parseInt(cursor) : undefined;
-
-    return await this.articleService.getArticlesByPagination(
-      username,
-      parseInt(take),
-      newCursor,
-    );
   }
 
   @UseGuards(JwtAccessAuthGuard)

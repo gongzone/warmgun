@@ -12,7 +12,7 @@
 </script>
 
 <div>
-	<div class="flex items-center gap-2 pb-4 bg-secondary-800 px-6 py-4 rounded-t-xl">
+	<div class="flex items-center gap-2 pb-4 bg-secondary-900 px-6 py-4 rounded-t-xl">
 		<span><WitchIcon class="w-[40px] h-[40px]" /></span>
 		<span class="text-2xl font-bold">Top Blogers</span>
 	</div>

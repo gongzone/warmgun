@@ -11,7 +11,7 @@ export class ArticleService {
   async getBestArticles(take: number) {
     const articles = await this.prismaService.article.findMany({
       take,
-      include: this.getArticleInclude(),
+      include: this.populateArticleInclude(),
       orderBy: {
         trendingScore: 'desc',
       },
@@ -24,13 +24,41 @@ export class ArticleService {
     const articles = await this.prismaService.article.findMany({
       take,
       skip: take * cursor,
-      include: this.getArticleInclude(),
+      include: this.populateArticleInclude(),
       orderBy: {
         trendingScore: 'desc',
       },
     });
 
     if (!articles || articles.length === 0) {
+      return {
+        articles: [],
+        nextCursor: undefined,
+      };
+    }
+
+    return {
+      articles,
+      nextCursor: cursor + 1,
+    };
+  }
+
+  async getBlogerArticles(username: string, take: number, cursor: number) {
+    const articles = await this.prismaService.article.findMany({
+      take,
+      skip: take * cursor,
+      where: {
+        author: {
+          username,
+        },
+      },
+      include: this.populateArticleInclude(),
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    if (!articles) {
       return {
         articles: [],
         nextCursor: undefined,
@@ -179,58 +207,6 @@ export class ArticleService {
     return { article: enhancedArticle, author: enhancedAuthor };
   }
 
-  async getArticlesByPagination(
-    username: string,
-    take: number,
-    cursor?: number,
-  ) {
-    const articles = await this.prismaService.article.findMany({
-      take,
-      skip: cursor ? 1 : 0,
-      ...(cursor ? { cursor: { id: cursor } } : {}),
-      where: {
-        author: {
-          username,
-        },
-      },
-      select: {
-        id: true,
-        title: true,
-        subTitle: true,
-        coverImage: true,
-        slug: true,
-        createdAt: true,
-        _count: {
-          select: {
-            likes: true,
-            comments: true,
-          },
-        },
-      },
-    });
-
-    if (!articles) {
-      return {
-        articles: [],
-        lastCursor: 0,
-      };
-    }
-
-    return {
-      articles: articles.map((article) => ({
-        id: article.id,
-        title: article.title,
-        subTitle: article.subTitle,
-        coverImage: article.coverImage,
-        slug: article.slug,
-        createdAt: article.createdAt,
-        likeCount: article._count.likes,
-        commentCount: article._count.comments,
-      })),
-      lastCursor: articles[articles.length - 1].id,
-    };
-  }
-
   async createArticle(userId: number, createArticleDTO: CreateArticleDTO) {
     const { title, subTitle, body, coverImage, slug, tags } = createArticleDTO;
 
@@ -258,7 +234,7 @@ export class ArticleService {
     return article;
   }
 
-  private getArticleInclude() {
+  private populateArticleInclude() {
     return {
       tags: true,
       author: {
