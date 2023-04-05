@@ -7,7 +7,7 @@
 	import ThickDivider from '$components/@ui/Block/ThickDivider.svelte';
 	import BestArtcles from '$components/Article/BestArtcles.svelte';
 	import HotArticles from '$components/Article/HotArticles.svelte';
-	import TopBlogersBox from '$components/Display/TopBlogersDisplay/TopBlogersDisplay.svelte';
+	import TopBlogersDisplay from '$components/Display/TopBlogersDisplay/TopBlogersDisplay.svelte';
 </script>
 
 <HomeHero />
@@ -28,7 +28,7 @@
 
 		<aside class="col-[9_/_span_4] hidden lg:block pb-6">
 			<div class="">
-				<TopBlogersBox />
+				<TopBlogersDisplay />
 			</div>
 		</aside>
 	</div>

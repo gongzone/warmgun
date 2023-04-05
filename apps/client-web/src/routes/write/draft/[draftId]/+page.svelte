@@ -13,7 +13,7 @@
 	let body: OutputData | null = null;
 
 	$: getDraftByIdQuery = createQuery({
-		queryKey: ['drafts', $page.params['draftId']],
+		queryKey: ['draft', $page.params['draftId']],
 		queryFn: () => getDraft($page.params['draftId'])
 	});
 

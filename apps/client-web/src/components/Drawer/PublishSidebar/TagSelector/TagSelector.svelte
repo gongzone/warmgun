@@ -1,4 +1,6 @@
 <script lang="ts">
+	import CloseIcon from '~icons/ri/close-line';
+
 	import { debounce } from '$lib/utils/debounce';
 	import { searchTags, type SearchedTag } from '$api/tag';
 
@@ -35,7 +37,7 @@
 	};
 
 	const onClickFetchedTag = (e: any) => {
-		console.log(fetchedTags, e.target.dataset.name);
+		console.log(fetchedTags, e.target);
 
 		if (tags.find((tag) => tag === e.target.dataset.name)) {
 			return clean();
@@ -67,8 +69,8 @@
 							on:click={onClickFetchedTag}
 							class="w-full h-full p-3 hover:bg-slate-700 text-left"
 						>
-							<span>{tag.name}</span>
-							<span class="text-sm font-bold">({tag.count})</span>
+							<span data-name={tag.name}>{tag.name}</span>
+							<span data-name={tag.name} class="text-sm font-bold">({tag.count})</span>
 						</button>
 					</li>
 				{/each}
@@ -92,7 +94,7 @@
 							class="chip variant-filled-tertiary"
 						>
 							<span>{tag}</span>
-							<i class="ri-close-line ri-lg" />
+							<span><CloseIcon /></span>
 						</button>
 					</li>
 				{/each}

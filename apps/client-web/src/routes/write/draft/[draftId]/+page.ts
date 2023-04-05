@@ -6,7 +6,7 @@ export const load = (async ({ params, parent }) => {
 	const { queryClient } = await parent();
 
 	await queryClient.prefetchQuery({
-		queryKey: ['drafts', params.draftId],
+		queryKey: ['draft', params.draftId],
 		queryFn: () => getDraft(params.draftId)
 	});
 }) satisfies PageLoad;

@@ -7,6 +7,20 @@ import { PrismaService } from '../@base/prisma/prisma.service';
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async getTopBlogers(take: number) {
+    const topBlogers = await this.prismaService.user.findMany({
+      take,
+      include: this.populateUserInclude(),
+      orderBy: {
+        followedBy: {
+          _count: 'desc',
+        },
+      },
+    });
+
+    return topBlogers;
+  }
+
   async getBloger(bloger: string) {
     const foundBloger = await this.prismaService.user.findUnique({
       where: {
@@ -20,20 +34,6 @@ export class UserService {
     }
 
     return foundBloger;
-  }
-
-  async getTopBlogers(take: number) {
-    const topBlogers = await this.prismaService.user.findMany({
-      take,
-      include: this.populateUserInclude(),
-      orderBy: {
-        followedBy: {
-          _count: 'desc',
-        },
-      },
-    });
-
-    return topBlogers;
   }
 
   private populateUserInclude() {
