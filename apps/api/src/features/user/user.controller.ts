@@ -13,15 +13,15 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get(':bloger')
+  @HttpCode(HttpStatus.OK)
+  async getBloger(@Param('bloger') bloger: string) {
+    return await this.userService.getBloger(bloger);
+  }
+
   @Get('/top')
   @HttpCode(HttpStatus.OK)
   async getTopBlogers(@Query('take', ParseIntPipe) take: number) {
     return await this.userService.getTopBlogers(take);
-  }
-
-  @Get(':username')
-  @HttpCode(HttpStatus.OK)
-  async getUserByUsername(@Param('username') username: string) {
-    return await this.userService.getUserByUsername(username);
   }
 }

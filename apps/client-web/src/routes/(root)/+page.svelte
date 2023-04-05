@@ -7,7 +7,7 @@
 	import ThickDivider from '$components/@ui/Block/ThickDivider.svelte';
 	import BestArtcles from '$components/Article/BestArtcles.svelte';
 	import HotArticles from '$components/Article/HotArticles.svelte';
-	import TopBlogersBox from '$components/Box/TopBlogersBox/TopBlogersBox.svelte';
+	import TopBlogersBox from '$components/Display/TopBlogersDisplay/TopBlogersDisplay.svelte';
 </script>
 
 <HomeHero />

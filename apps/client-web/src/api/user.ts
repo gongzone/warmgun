@@ -1,11 +1,11 @@
 import { api } from '$lib/clients/api-client';
 
-export async function getTopBlogers(take = 10) {
-	return await api.get(`api/user/top?take=${take}`).json<User[]>();
+export async function getBloger(bloger: string) {
+	return await api.get(`api/user/${bloger}`).json<User>();
 }
 
-export async function getUserByUsername(username: string) {
-	return await api.get(`api/user/${username}`).json<GetUserByUsernameResult>();
+export async function getTopBlogers(take = 10) {
+	return await api.get(`api/user/top?take=${take}`).json<User[]>();
 }
 
 export interface User {
@@ -23,13 +23,4 @@ export interface User {
 		followedBy: number;
 		following: number;
 	};
-}
-
-interface GetUserByUsernameResult {
-	nickname: string;
-	bio: string;
-	avatar: string;
-	articleCount: number;
-	followedByCount: number;
-	followingCount: number;
 }
