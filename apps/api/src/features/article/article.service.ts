@@ -86,19 +86,50 @@ export class ArticleService {
     };
   }
 
-  async getBlogerArticle(username: string, slug: string) {
+  async getBlogerArticle(
+    username: string,
+    slug: string,
+    requestUserId?: number,
+  ) {
     const article = await this.prismaService.article.findUnique({
       where: {
         slug: `/@${username}/${slug}`,
       },
-      include: this.populateArticleInclude(),
+      include: {
+        ...this.populateArticleInclude(),
+        comments: {
+          select: {
+            content: true,
+            createdAt: true,
+            updatedAt: true,
+            user: true,
+            children: {
+              select: {
+                content: true,
+                createdAt: true,
+                updatedAt: true,
+                user: true,
+              },
+            },
+          },
+        },
+        likes: requestUserId
+          ? {
+              where: {
+                userId: requestUserId,
+              },
+            }
+          : false,
+      },
     });
+
+    console.log(article.likes?.length);
 
     if (!article) {
       throw new BadRequestException('아티클을 찾을 수 없습니다.');
     }
 
-    return article;
+    return { ...article, isLiked: !!article.likes?.length };
   }
 
   async createArticle(userId: number, createArticleDTO: CreateArticleDTO) {
@@ -126,6 +157,45 @@ export class ArticleService {
     });
 
     return article;
+  }
+
+  async likeArticle(userId: number, articleId: number) {
+    const foundLike = await this.prismaService.like.findFirst({
+      where: {
+        AND: [{ userId }, { articleId }],
+      },
+    });
+
+    if (foundLike) {
+      throw new BadRequestException('이미 좋아요한 아티클입니다.');
+    }
+
+    await this.prismaService.like.create({
+      data: {
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+        article: {
+          connect: {
+            id: articleId,
+          },
+        },
+      },
+    });
+
+    /* Todo: trending score update */
+  }
+
+  async unlikeArticle(userId: number, articleId: number) {
+    await this.prismaService.like.deleteMany({
+      where: {
+        AND: [{ userId }, { articleId }],
+      },
+    });
+
+    /* Todo: trending score update */
   }
 
   private populateArticleInclude() {

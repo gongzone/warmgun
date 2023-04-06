@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -15,6 +16,7 @@ import { RequestUser } from 'src/lib/types/request-user';
 import { JwtAccessAuthGuard } from '../auth/lib/guards/access.guard';
 import { ArticleService } from './article.service';
 import { CreateArticleDTO } from './lib/create-article.dto';
+import { JwtCheckGuard } from '../auth/lib/guards/check.guard';
 
 @Controller('articles')
 export class ArticleController {
@@ -61,13 +63,15 @@ export class ArticleController {
     });
   }
 
+  @UseGuards(JwtCheckGuard)
   @Get('/:username/:slug')
   @HttpCode(HttpStatus.OK)
   async getBlogerArticle(
+    @GetUser() user: RequestUser,
     @Param('username') username: string,
     @Param('slug') slug: string,
   ) {
-    return await this.articleService.getBlogerArticle(username, slug);
+    return await this.articleService.getBlogerArticle(username, slug, user?.id);
   }
 
   @UseGuards(JwtAccessAuthGuard)
@@ -78,5 +82,25 @@ export class ArticleController {
     @Body() createArticleDTO: CreateArticleDTO,
   ) {
     return await this.articleService.createArticle(user.id, createArticleDTO);
+  }
+
+  @UseGuards(JwtAccessAuthGuard)
+  @Post('/:id/likes')
+  @HttpCode(HttpStatus.OK)
+  async likeArticle(
+    @GetUser() user: RequestUser,
+    @Param('id', ParseIntPipe) articleId: number,
+  ) {
+    return await this.articleService.likeArticle(user.id, articleId);
+  }
+
+  @UseGuards(JwtAccessAuthGuard)
+  @Delete('/:id/likes')
+  @HttpCode(HttpStatus.OK)
+  async unlikeArticle(
+    @GetUser() user: RequestUser,
+    @Param('id', ParseIntPipe) articleId: number,
+  ) {
+    return await this.articleService.unlikeArticle(user.id, articleId);
   }
 }

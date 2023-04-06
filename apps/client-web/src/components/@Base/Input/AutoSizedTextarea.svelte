@@ -12,11 +12,15 @@
 
 	$: autosize(textarea);
 	$: textareaSize =
-		size === 'md' ? 'h-10 text-2xl' : size === 'lg' ? 'h-14 text-3xl' : 'h-6 text-lg';
+		size === 'md'
+			? 'h-10 text-2xl font-bold'
+			: size === 'lg'
+			? 'h-14 text-3xl font-bold'
+			: 'h-6 text-base';
 </script>
 
 <textarea
-	class={`unstyled w-full resize-none border-0 bg-transparent font-bold focus:!outline-none focus:ring-0 ${textareaSize}`}
+	class={`unstyled w-full resize-none border-0 bg-transparent focus:!outline-none focus:ring-0 ${textareaSize}`}
 	{name}
 	{placeholder}
 	bind:value

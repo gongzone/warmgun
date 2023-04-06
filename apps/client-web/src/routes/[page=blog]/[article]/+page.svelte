@@ -1,16 +1,40 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { createQuery } from '@tanstack/svelte-query';
+	import { createMutation, createQuery } from '@tanstack/svelte-query';
 	import HeartIcon from '~icons/ri/heart-2-fill';
 
-	import { getBlogerArticle } from '$api/article';
+	import { getBlogerArticle, likeArticle, unlikeArticle } from '$api/article';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import Viewer from '$components/Editor/Viewer.svelte';
+	import BottomBar from '$components/@ui/Block/BottomBar/BottomBar.svelte';
+	import BottomBarItem from '$components/@ui/Block/BottomBar/BottomBarItem.svelte';
+	import Comment from '$components/Comment/Comment.svelte';
+
+	let isLiked: boolean | undefined = false;
 
 	$: blogerArticleQuery = createQuery({
 		queryKey: ['articles', $page.params.page.slice(1), $page.params.article],
-		queryFn: () => getBlogerArticle($page.params.page.slice(1), $page.params.article)
+		queryFn: () => getBlogerArticle($page.params.page.slice(1), $page.params.article),
+		onSuccess: (data) => {
+			isLiked = data.isLiked;
+		}
 	});
+
+	const likeArticleMutation = createMutation({
+		mutationFn: () => likeArticle($blogerArticleQuery.data!.id),
+		onSuccess: () => {
+			isLiked = true;
+		}
+	});
+
+	const unlikeArticleMutation = createMutation({
+		mutationFn: () => unlikeArticle($blogerArticleQuery.data!.id),
+		onSuccess: () => {
+			isLiked = false;
+		}
+	});
+
+	$: console.log($blogerArticleQuery.data?.comments);
 </script>
 
 {#if $blogerArticleQuery.isSuccess}
@@ -52,31 +76,30 @@
 			</div>
 		</div>
 
-		<div>
+		<div class="viewer-container">
 			<Viewer body={$blogerArticleQuery.data.body} />
 		</div>
-	</main>
-{/if}
 
-<div
-	class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-gray-200 rounded-full bottom-4 left-1/2 dark:bg-gray-700 dark:border-gray-600"
->
-	<div class="grid h-full max-w-lg grid-cols-5 mx-auto">
-		<button
-			data-tooltip-target="tooltip-home"
-			type="button"
-			class="inline-flex flex-col items-center justify-center px-5 rounded-l-full hover:bg-gray-50 dark:hover:bg-gray-800 group"
-		>
-			<HeartIcon />
-			<span class="sr-only">Home</span>
-		</button>
-		<div
-			id="tooltip-home"
-			role="tooltip"
-			class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-		>
-			Home
-			<div class="tooltip-arrow" data-popper-arrow />
-		</div>
-	</div>
-</div>
+		<Comment articleId={$blogerArticleQuery.data.id} />
+	</main>
+
+	<BottomBar position="fixed" innerDiv="grid-cols-2">
+		{#if isLiked}
+			<BottomBarItem
+				btnName="delete"
+				appBtnPosition="left"
+				on:click={() => $unlikeArticleMutation.mutate()}
+			>
+				<HeartIcon class="text-primary-500" />
+			</BottomBarItem>
+		{:else}
+			<BottomBarItem
+				btnName="Home"
+				appBtnPosition="left"
+				on:click={() => $likeArticleMutation.mutate()}
+			>
+				<HeartIcon />
+			</BottomBarItem>
+		{/if}
+	</BottomBar>
+{/if}
