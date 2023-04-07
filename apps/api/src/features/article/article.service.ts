@@ -97,22 +97,6 @@ export class ArticleService {
       },
       include: {
         ...this.populateArticleInclude(),
-        comments: {
-          select: {
-            content: true,
-            createdAt: true,
-            updatedAt: true,
-            user: true,
-            children: {
-              select: {
-                content: true,
-                createdAt: true,
-                updatedAt: true,
-                user: true,
-              },
-            },
-          },
-        },
         likes: requestUserId
           ? {
               where: {

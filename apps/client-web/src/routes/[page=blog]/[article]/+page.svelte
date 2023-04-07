@@ -33,8 +33,6 @@
 			isLiked = false;
 		}
 	});
-
-	$: console.log($blogerArticleQuery.data?.comments);
 </script>
 
 {#if $blogerArticleQuery.isSuccess}

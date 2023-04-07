@@ -43,7 +43,6 @@ export interface Article {
 }
 
 export interface BlogerArticle extends Article {
-	comments: Comment[];
 	isLiked: boolean;
 }
 
@@ -53,5 +52,4 @@ export interface Comment {
 	createdAt: Date;
 	updatedAt: Date;
 	user: User;
-	children: Comment[];
 }

@@ -9,6 +9,7 @@ import { PrismaModule } from './features/@base/prisma/prisma.module';
 import { ArticleModule } from './features/article/article.module';
 import { UserModule } from './features/user/user.module';
 import { LikeModule } from './features/like/like.module';
+import { CommentModule } from './features/comment/comment.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { LikeModule } from './features/like/like.module';
     ArticleModule,
     UserModule,
     LikeModule,
+    CommentModule,
   ],
 })
 export class AppModule {}

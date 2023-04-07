@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Article } from '$api/article';
+	import type { Article } from '$lib/types/api';
 	import ArticleCardHeader from './ArticleCardHeader/ArticleCardHeader.svelte';
 	import ArticleCardContent from './ArticleCardContent/ArticleCardContent.svelte';
 	import ArticleCardTags from './ArticleCardTags/ArticleCardTags.svelte';
