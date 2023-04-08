@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 
-import { TOKEN_ID, ACCESS_TOKEN, REFRESH_TOKEN } from './lib/constants';
-import { JwtService } from './jwt.service';
+import {
+  TOKEN_ID,
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+} from 'src/lib/constants/cookie';
+import { TOKENS_CONFIGS } from 'src/lib/constants/token';
 
 interface SetAuthCookiesData {
   tokenId: number;
@@ -12,11 +16,11 @@ interface SetAuthCookiesData {
 
 @Injectable()
 export class CookieService {
-  constructor(private readonly jwtService: JwtService) {}
-
   setAuthCookies(res: Response, data: SetAuthCookiesData) {
-    const { accessToken, refreshToken, tokenId } = data;
-    const { accessMaxAge, refreshMaxAge } = this.jwtService.getTokensMaxAge();
+    const { tokenId, accessToken, refreshToken } = data;
+
+    const accessMaxAge = TOKENS_CONFIGS['access'].expiresIn * 1000;
+    const refreshMaxAge = TOKENS_CONFIGS['refresh'].expiresIn * 1000;
 
     res.cookie(TOKEN_ID, tokenId, {
       path: '/',

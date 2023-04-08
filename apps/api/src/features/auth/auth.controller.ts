@@ -8,13 +8,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
+
 import { AuthService } from './auth.service';
-import JwtRefreshGuard from './lib/guards/refresh.guard';
-import { SignupDTO, LoginDTO } from './lib/dtos';
-import { JwtAccessAuthGuard } from './lib/guards/access.guard';
-import { RequestUser } from 'src/lib/types/request-user';
-import { GetUser } from 'src/lib/decorators/user.decorator';
 import { CookieService } from './cookie.service';
+import { SignupDto, LoginDto } from './dtos';
+import { GetUser } from 'src/lib/decorators/user.decorator';
+import { AlreadyLoggedIn } from 'src/lib/guards/alreadyLoggedIn.guard';
+import { AuthGuard } from 'src/lib/guards/auth.guard';
+import { RequestUser } from 'src/lib/types/request-user';
 
 @Controller('auth')
 export class AuthController {
@@ -23,10 +24,12 @@ export class AuthController {
     private readonly cookieService: CookieService,
   ) {}
 
+  /* Check */
+  @UseGuards(AlreadyLoggedIn)
   @Post('/signup')
   @HttpCode(HttpStatus.CREATED)
   async signUp(
-    @Body() signupDTO: SignupDTO,
+    @Body() signupDTO: SignupDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { tokenId, accessToken, refreshToken } =
@@ -38,13 +41,15 @@ export class AuthController {
       refreshToken,
     });
 
-    return { tokenId, accessToken, refreshToken };
+    return { message: '회원가입 성공' };
   }
 
+  /* Check */
+  @UseGuards(AlreadyLoggedIn)
   @Post('/login')
   @HttpCode(HttpStatus.OK)
   async login(
-    @Body() loginDTO: LoginDTO,
+    @Body() loginDTO: LoginDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { tokenId, accessToken, refreshToken } = await this.authService.login(
@@ -57,22 +62,26 @@ export class AuthController {
       refreshToken,
     });
 
-    return { tokenId, accessToken, refreshToken };
+    return { message: '로그인 성공' };
   }
 
-  @UseGuards(JwtAccessAuthGuard)
+  /* Check */
+  @UseGuards(AuthGuard('access'))
   @Post('/logout')
   @HttpCode(HttpStatus.OK)
   async logout(
-    @GetUser() user: RequestUser,
+    @GetUser('id') userId: number,
     @Res({ passthrough: true }) res: Response,
   ) {
-    await this.authService.logout(user.id);
+    await this.authService.logout(userId);
 
     this.cookieService.deleteAuthCookies(res);
+
+    return { message: '로그아웃 성공' };
   }
 
-  @UseGuards(JwtRefreshGuard)
+  /* Check */
+  @UseGuards(AuthGuard('refresh'))
   @Post('/refresh')
   @HttpCode(HttpStatus.OK)
   async refresh(

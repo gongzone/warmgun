@@ -7,12 +7,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { GetUser } from 'src/lib/decorators/user.decorator';
+import { AuthGuard } from 'src/lib/guards/auth.guard';
 import { RequestUser } from 'src/lib/types/request-user';
-import { JwtAccessAuthGuard } from '../auth/lib/guards/access.guard';
 import { ToggleLikeDTO } from './lib/dtos';
 import { LikeService } from './like.service';
 
-@UseGuards(JwtAccessAuthGuard)
+@UseGuards(AuthGuard('access'))
 @Controller('like')
 export class LikeController {
   constructor(private readonly likeService: LikeService) {}

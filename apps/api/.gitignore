@@ -2,6 +2,7 @@
 /dist
 /node_modules
 /aws-lambda
+*.pem
 
 # Logs
 logs

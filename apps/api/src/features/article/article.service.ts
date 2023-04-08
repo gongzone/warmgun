@@ -9,30 +9,30 @@ import { PaginationData } from 'src/lib/types/pagination';
 export class ArticleService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async searchArticles(search: string, paginationData: PaginationData) {
-    const { take, cursor } = paginationData;
+  // async searchArticles(search: string, paginationData: PaginationData) {
+  //   const { take, cursor } = paginationData;
 
-    /* MoreValue: Filtering */
-    const articles = await this.prismaService.article.findMany({
-      take,
-      skip: take * cursor,
-      where: {
-        title: {
-          contains: search,
-          mode: 'insensitive',
-        },
-      },
-      include: this.populateArticleInclude(),
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+  //   /* MoreValue: Filtering */
+  //   const articles = await this.prismaService.article.findMany({
+  //     take,
+  //     skip: take * cursor,
+  //     where: {
+  //       title: {
+  //         contains: search,
+  //         mode: 'insensitive',
+  //       },
+  //     },
+  //     include: this.populateArticleInclude(),
+  //     orderBy: {
+  //       createdAt: 'desc',
+  //     },
+  //   });
 
-    return {
-      articles,
-      nextCursor: articles.length === take ? cursor + 1 : undefined,
-    };
-  }
+  //   return {
+  //     articles,
+  //     nextCursor: articles.length === take ? cursor + 1 : undefined,
+  //   };
+  // }
 
   async getBestArticles(take: number) {
     const articles = await this.prismaService.article.findMany({

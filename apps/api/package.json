@@ -36,6 +36,7 @@
     "class-validator": "^0.14.0",
     "cookie-parser": "^1.4.6",
     "dayjs": "^1.11.7",
+    "meilisearch": "^0.32.2",
     "mime-types": "^2.1.35",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",

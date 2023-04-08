@@ -6,14 +6,14 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAccessAuthGuard } from 'src/features/auth/lib/guards/access.guard';
+import { AuthGuard } from 'src/lib/guards/auth.guard';
 import { GetUser } from 'src/lib/decorators/user.decorator';
 import { RequestUser } from 'src/lib/types/request-user';
 import { ImageService } from './image.service';
 import { CreatePresignedUrlDTO } from './lib/dtos';
 
+@UseGuards(AuthGuard('access'))
 @Controller('image')
-@UseGuards(JwtAccessAuthGuard)
 export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 

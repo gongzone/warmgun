@@ -11,13 +11,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { DraftService } from './draft.service';
-import { JwtAccessAuthGuard } from '../auth/lib/guards/access.guard';
+import { AuthGuard } from 'src/lib/guards/auth.guard';
 import { GetUser } from 'src/lib/decorators/user.decorator';
 import { RequestUser } from 'src/lib/types/request-user';
 import { SaveDraftDTO } from './lib/dtos';
 
+@UseGuards(AuthGuard('access'))
 @Controller('draft')
-@UseGuards(JwtAccessAuthGuard)
 export class DraftController {
   constructor(private readonly draftService: DraftService) {}
 

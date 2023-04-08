@@ -7,11 +7,11 @@ import {
 } from '@nestjs/common';
 import { GetUser } from 'src/lib/decorators/user.decorator';
 import { RequestUser } from 'src/lib/types/request-user';
-import { JwtAccessAuthGuard } from '../auth/lib/guards/access.guard';
+import { AuthGuard } from 'src/lib/guards/auth.guard';
 import { MeService } from './me.service';
 
+@UseGuards(AuthGuard('access'))
 @Controller('me')
-@UseGuards(JwtAccessAuthGuard)
 export class MeController {
   constructor(private readonly meService: MeService) {}
 

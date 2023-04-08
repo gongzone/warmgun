@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
-import { JwtAccessAuthGuard } from '../auth/lib/guards/access.guard';
+import { AuthGuard } from 'src/lib/guards/auth.guard';
 import { CreateCommentDTO } from './lib/dtos/create-comment.dto';
 import { GetUser } from 'src/lib/decorators/user.decorator';
 import { RequestUser } from 'src/lib/types/request-user';
@@ -47,7 +47,7 @@ export class CommentController {
     });
   }
 
-  @UseGuards(JwtAccessAuthGuard)
+  @UseGuards(AuthGuard('access'))
   @Post(':articleId')
   @HttpCode(HttpStatus.CREATED)
   async createComment(

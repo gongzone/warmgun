@@ -1,7 +1,7 @@
 import { IsString, Matches, IsEmail } from 'class-validator';
 import { Match } from 'src/lib/decorators/match';
 
-export class SignupDTO {
+export class SignupDto {
   @IsString()
   @Matches(/^[A-Za-z]{1}[A-Za-z0-9]{4,19}$/, {
     message: '아이디 생성 규칙을 확인하세요.',
@@ -17,7 +17,7 @@ export class SignupDTO {
   )
   password: string;
 
-  @Match(SignupDTO, (o) => o.password, {
+  @Match(SignupDto, (o) => o.password, {
     message: '비밀번호가 동일하지 않습니다.',
   })
   confirm: string;
