@@ -71,3 +71,8 @@ export interface Comment {
 	updatedAt: Date;
 	user: User;
 }
+
+export interface CommentsByPagination {
+	comments: Comment[];
+	nextCursor: number;
+}

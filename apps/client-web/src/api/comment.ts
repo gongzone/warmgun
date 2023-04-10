@@ -1,41 +1,27 @@
-import { api } from '$lib/clients/api-client';
-import type { Comment } from '$lib/types/api';
 import type { QueryFunctionContext } from '@tanstack/svelte-query';
 
-const API_BASE_URL = 'api/comments';
+import { api } from '$lib/clients/api-client';
+import type { CommentsByPagination } from '$lib/types/api';
 
-export async function getParentComments({ queryKey, pageParam = 0 }: QueryFunctionContext) {
+export async function findArticleComments({ queryKey, pageParam = 0 }: QueryFunctionContext) {
 	const articleId = queryKey[1];
+	const parentId = queryKey[2] ?? undefined;
 
 	return api
-		.get(`${API_BASE_URL}/${articleId}?take=${10}&cursor=${pageParam}`)
-		.json<CommentsByPagination>();
-}
-
-export async function getChildrenComments({ queryKey, pageParam = 0 }: QueryFunctionContext) {
-	const articleId = queryKey[1];
-	const parentId = queryKey[2];
-
-	return api
-		.get(`${API_BASE_URL}/${articleId}/${parentId}?take=${10}&cursor=${pageParam}`)
+		.get(`api/comments/articles/${articleId}?cursor=${pageParam}&parentId=${parentId}`)
 		.json<CommentsByPagination>();
 }
 
 export async function createComment(
 	articleId: number,
 	parentId: number | undefined,
-	createCommentDTO: CreateCommentDTO
+	createCommentDto: CreateCommentDto
 ) {
-	return api.post(`${API_BASE_URL}/${articleId}${parentId ? `?parentId=${parentId}` : ''}`, {
-		json: createCommentDTO
+	return api.post(`api/comments/${articleId}?parentId=${parentId}`, {
+		json: createCommentDto
 	});
 }
 
-interface CommentsByPagination {
-	comments: Comment[];
-	nextCursor: number;
-}
-
-interface CreateCommentDTO {
+interface CreateCommentDto {
 	content: string;
 }

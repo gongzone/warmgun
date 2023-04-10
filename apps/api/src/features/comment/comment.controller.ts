@@ -10,57 +10,46 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+
 import { CommentService } from './comment.service';
 import { AuthGuard } from 'src/lib/guards/auth.guard';
-import { CreateCommentDTO } from './lib/dtos/create-comment.dto';
+import { CreateCommentDto } from './dtos/create-comment.dto';
 import { GetUser } from 'src/lib/decorators/user.decorator';
-import { RequestUser } from 'src/lib/types/request-user';
 
 @Controller('comments')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @Get(':articleId')
+  @Get('/articles/:articleId')
   @HttpCode(HttpStatus.OK)
-  async getParentComments(
+  async findArticleComments(
     @Param('articleId', ParseIntPipe) articleId: number,
-    @Query('take', ParseIntPipe) take: number,
+    @Query('parentId') parentId: number | undefined,
     @Query('cursor', ParseIntPipe) cursor: number,
   ) {
-    return await this.commentService.getParentComments(articleId, {
-      take,
-      cursor,
-    });
-  }
-
-  @Get('/:articleId/:parentId')
-  @HttpCode(HttpStatus.OK)
-  async getChildrenComments(
-    @Param('articleId', ParseIntPipe) articleId: number,
-    @Param('parentId', ParseIntPipe) parentId: number,
-    @Query('take', ParseIntPipe) take: number,
-    @Query('cursor', ParseIntPipe) cursor: number,
-  ) {
-    return await this.commentService.getChildrenComments(articleId, parentId, {
-      take,
+    return await this.commentService.findArticleComments({
+      articleId,
+      parentId: parentId ? +parentId : null,
       cursor,
     });
   }
 
   @UseGuards(AuthGuard('access'))
-  @Post(':articleId')
+  @Post('/articles/:articleId')
   @HttpCode(HttpStatus.CREATED)
-  async createComment(
-    @GetUser() user: RequestUser,
+  async create(
+    @GetUser('id') userId: number,
     @Param('articleId', ParseIntPipe) articleId: number,
-    @Query('parentId') parentId: number,
-    @Body() createCommentDTO: CreateCommentDTO,
+    @Query('parentId') parentId: number | undefined,
+    @Body() createCommentDto: CreateCommentDto,
   ) {
-    return await this.commentService.createComment(
-      user.id,
+    await this.commentService.create({
+      userId,
       articleId,
-      +parentId,
-      createCommentDTO,
-    );
+      parentId: parentId ? +parentId : null,
+      createCommentDto,
+    });
+
+    return { message: '댓글 생성 성공' };
   }
 }

@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class CreateCommentDTO {
+export class CreateCommentDto {
   @IsString()
   content: string;
 }
