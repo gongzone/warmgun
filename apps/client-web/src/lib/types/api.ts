@@ -35,9 +35,7 @@ export interface Article {
 	coverImage: string;
 	slug: string;
 	createdAt: Date;
-	tags: {
-		name: string;
-	}[];
+	tags: Tag[];
 	author: {
 		username: string;
 		profile: {
@@ -59,6 +57,11 @@ export interface BlogerArticle extends Article {
 export interface ArticlesByPagination {
 	articles: Article[];
 	nextCursor: number;
+}
+
+export interface Tag {
+	id: number;
+	name: string;
 }
 
 export interface Comment {

@@ -47,7 +47,7 @@ export class ArticleController {
     return await this.articleService.findBlogerArticle(userId, newSlug);
   }
 
-  @Get('/:username/blogers')
+  @Get('/blogers/:username')
   @HttpCode(HttpStatus.OK)
   async findBlogerArticles(
     @Param('username') username: string,
@@ -68,7 +68,7 @@ export class ArticleController {
   }
 
   @UseGuards(AuthGuard('access'))
-  @Post('/:id/likes')
+  @Post('/likes/:id')
   @HttpCode(HttpStatus.OK)
   async like(
     @GetUser('id') userId: number,
@@ -79,7 +79,7 @@ export class ArticleController {
   }
 
   @UseGuards(AuthGuard('access'))
-  @Delete('/:id/likes')
+  @Delete('/likes/:id')
   @HttpCode(HttpStatus.OK)
   async unlikeArticle(
     @GetUser('id') userId: number,

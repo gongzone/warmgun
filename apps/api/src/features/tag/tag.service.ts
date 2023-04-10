@@ -1,25 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../@base/prisma/prisma.service';
+import { TagFindAllMode } from './types';
+
+const POPULAR_TAGS_NUMBER = 12;
 
 @Injectable()
 export class TagService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getPopularTags(take: number) {
-    const popularTags = await this.findPopularTagsQuery(take);
-
-    if (popularTags.length < take) {
-      const excludes = popularTags.map((tag) => tag.name);
-
-      const fallbackTags = await this.findFallbackTagsQuery(
-        take - popularTags.length,
-        excludes,
-      );
-
-      return popularTags.concat(fallbackTags);
+  async findAll({ mode }: { mode: TagFindAllMode }) {
+    if (mode === 'popular') {
+      return this.findPopularTags();
     }
-
-    return popularTags;
   }
 
   async searchTags(input: string, excludes: string[] = []) {
@@ -55,39 +47,33 @@ export class TagService {
     }));
   }
 
-  private async findPopularTagsQuery(take: number) {
-    return await this.prismaService.tag.findMany({
-      take,
+  private async findPopularTags() {
+    const popularTags = await this.prismaService.tag.findMany({
+      take: POPULAR_TAGS_NUMBER,
       where: {
         articles: {
           some: {
-            createdAt: {
-              gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14), // two weeks
-            },
+            createdAt: { gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14) },
           },
         },
       },
-      orderBy: {
-        articles: {
-          _count: 'desc',
-        },
-      },
+      orderBy: { articles: { _count: 'desc' } },
     });
-  }
 
-  private async findFallbackTagsQuery(take: number, excludes: string[]) {
-    return await this.prismaService.tag.findMany({
-      take,
-      where: {
-        name: {
-          notIn: excludes,
+    if (popularTags.length < POPULAR_TAGS_NUMBER) {
+      const excludes = popularTags.map((tag) => tag.name);
+
+      const fallbackTags = await this.prismaService.tag.findMany({
+        take: POPULAR_TAGS_NUMBER - popularTags.length,
+        where: {
+          name: { notIn: excludes },
         },
-      },
-      orderBy: {
-        articles: {
-          _count: 'desc',
-        },
-      },
-    });
+        orderBy: { articles: { _count: 'desc' } },
+      });
+
+      return popularTags.concat(fallbackTags);
+    }
+
+    return popularTags;
   }
 }

@@ -29,7 +29,7 @@ export async function findBlogerArticle(slug: string) {
 export async function findBlogerArticles({ queryKey, pageParam = 0 }: QueryFunctionContext) {
 	const username = queryKey[1];
 	return api
-		.get(`api/articles/${username}/blogers?cursor=${pageParam}`)
+		.get(`api/articles/blogers/${username}?cursor=${pageParam}`)
 		.json<ArticlesByPagination>();
 }
 
@@ -38,11 +38,11 @@ export async function createArticle(createArticleDto: CreateArticleDto) {
 }
 
 export async function likeArticle(articleId: number) {
-	return api.post(`api/articles/${articleId}/likes`);
+	return api.post(`api/articles/likes/${articleId}`);
 }
 
 export async function unlikeArticle(articleId: number) {
-	return api.delete(`$api/articles/${articleId}/likes`);
+	return api.delete(`$api/articles/likes/${articleId}`);
 }
 
 interface CreateArticleDto {
