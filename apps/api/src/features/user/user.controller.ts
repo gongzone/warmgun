@@ -4,24 +4,40 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseIntPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { UserService } from './user.service';
 
-@Controller('user')
+import { UserService } from './user.service';
+import { AuthGuard } from 'src/lib/guards/auth.guard';
+import { GetUser } from 'src/lib/decorators/user.decorator';
+import { UserFindAllMode } from './types';
+
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('/top')
+  /* Check */
+  @Get()
   @HttpCode(HttpStatus.OK)
-  async getTopBlogers(@Query('take', ParseIntPipe) take: number) {
-    return await this.userService.getTopBlogers(take);
+  async findAll(@Query('mode') mode: UserFindAllMode) {
+    return await this.userService.findAll({ mode });
   }
 
-  @Get(':bloger')
+  /* Check */
+  @UseGuards(AuthGuard('access'))
+  @Get('/me')
   @HttpCode(HttpStatus.OK)
-  async getBloger(@Param('bloger') bloger: string) {
-    return await this.userService.getBloger(bloger);
+  async findMe(@GetUser('id') userId: number) {
+    return await this.userService.findMe(userId);
   }
+
+  /* Check */
+  @Get('/:username')
+  @HttpCode(HttpStatus.OK)
+  async findOne(@Param('username') username: string) {
+    return await this.userService.findOne(username);
+  }
+
+  // Todo: update user, delete user
 }

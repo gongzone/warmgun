@@ -1,26 +1,16 @@
 import { api } from '$lib/clients/api-client';
+import type { User } from '$lib/types/api';
 
-export async function getBloger(bloger: string) {
-	return await api.get(`api/user/${bloger}`).json<User>();
+type UserFindAllMode = 'top';
+
+export async function findAllUsers({ mode }: { mode: UserFindAllMode }) {
+	return await api.get(`api/users?mode=${mode}`).json<User[]>();
 }
 
-export async function getTopBlogers(take = 10) {
-	return await api.get(`api/user/top?take=${take}`).json<User[]>();
+export async function findMe() {
+	return await api.get(`api/users/me`).json<User>();
 }
 
-export interface User {
-	id: number;
-	username: string;
-	email: string;
-	role: 'USER' | 'ADMIN';
-	profile: {
-		nickname: string;
-		bio: string;
-		avatar: string | null;
-	};
-	_count: {
-		articles: number;
-		followedBy: number;
-		following: number;
-	};
+export async function findOne(username: string) {
+	return await api.get(`api/users/${username}`).json<User>();
 }

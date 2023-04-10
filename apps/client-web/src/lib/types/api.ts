@@ -5,6 +5,7 @@ export interface User {
 	username: string;
 	email: string;
 	role: 'USER' | 'ADMIN';
+	createdAt: Date;
 	profile: {
 		nickname: string;
 		bio: string;

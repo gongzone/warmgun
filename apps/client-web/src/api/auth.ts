@@ -1,31 +1,25 @@
 import { api } from '$lib/clients/api-client';
 
-export async function signup(signupDTO: SignupDTO) {
-	return await api.post('api/auth/signup', { json: signupDTO }).json<AuthResult>();
+export async function signup(signupDto: SignupDto) {
+	return await api.post('api/auth/signup', { json: signupDto });
 }
 
-export async function login(loginDTO: LoginDTO) {
-	return await api.post('api/auth/login', { json: loginDTO }).json<AuthResult>();
+export async function login(loginDto: LoginDto) {
+	return await api.post('api/auth/login', { json: loginDto });
 }
 
 export async function logout() {
 	return await api.post('api/auth/logout');
 }
 
-export interface SignupDTO {
+export interface SignupDto {
 	username: string;
 	password: string;
 	confirm: string;
 	email: string;
 }
 
-export interface LoginDTO {
+export interface LoginDto {
 	username: string;
 	password: string;
-}
-
-interface AuthResult {
-	tokenId: number;
-	accessToken: string;
-	refreshToken: string;
 }
