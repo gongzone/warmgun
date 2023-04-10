@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import mime from 'mime-types';
-import { v4 as uuidv4 } from 'uuid';
-import { S3Service } from '../s3/s3.service';
 import {
   createPresignedPost,
   type PresignedPostOptions,
 } from '@aws-sdk/s3-presigned-post';
-import { CreatePresignedUrlDTO } from './lib/dtos';
+import mime from 'mime-types';
+import { v4 as uuidv4 } from 'uuid';
+
+import { S3Service } from '../@base/s3/s3.service';
+import { CreatePresignedUrlDto } from './dtos';
 
 @Injectable()
 export class ImageService {
@@ -16,17 +17,17 @@ export class ImageService {
     private readonly configService: ConfigService,
   ) {}
 
-  async createPresignedUrl(username: string, dto: CreatePresignedUrlDTO) {
-    const s3Client = this.s3Service.getS3Client();
+  async createPresignedUrl(
+    username: string,
+    createPresignedUrldto: CreatePresignedUrlDto,
+  ) {
+    const { contentType } = createPresignedUrldto;
 
-    const key = `upload/${username}/${uuidv4()}.${mime.extension(
-      dto.contentType,
-    )}`;
+    const key = `upload/${username}/${uuidv4()}.${mime.extension(contentType)}`;
 
-    // Todo: 실패 시 에러 처리
     const presignedData = await createPresignedPost(
-      s3Client,
-      this.generatePresignedOptions(key, dto.contentType),
+      this.s3Service,
+      this.generatePresignedOptions(key, contentType),
     );
 
     return presignedData;

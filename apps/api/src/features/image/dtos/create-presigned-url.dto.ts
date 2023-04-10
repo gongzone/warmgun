@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class CreatePresignedUrlDTO {
+export class CreatePresignedUrlDto {
   @IsString()
   contentType: string;
 }
