@@ -3,8 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './features/@base/prisma/prisma.module';
 import { AuthModule } from './features/auth/auth.module';
 import { UserModule } from './features/user/user.module';
-// import { MeModule } from './features/me/me.module';
-// import { DraftModule } from './features/draft/draft.module';
+import { DraftModule } from './features/draft/draft.module';
 // import { ImageModule } from './features/@base/image/image.module';
 // import { TagModule } from './features/tag/tag.module';
 // import { ArticleModule } from './features/article/article.module';
@@ -23,8 +22,7 @@ import { UserModule } from './features/user/user.module';
     PrismaModule,
     AuthModule,
     UserModule,
-    // MeModule,
-    // DraftModule,
+    DraftModule,
     // ImageModule,
     // TagModule,
     // ArticleModule,

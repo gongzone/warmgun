@@ -1,9 +1,12 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -12,6 +15,7 @@ import { UserService } from './user.service';
 import { AuthGuard } from 'src/lib/guards/auth.guard';
 import { GetUser } from 'src/lib/decorators/user.decorator';
 import { UserFindAllMode } from './types';
+import { UpdateUserDto } from './dtos';
 
 @Controller('users')
 export class UserController {
@@ -39,5 +43,23 @@ export class UserController {
     return await this.userService.findOne(username);
   }
 
-  // Todo: update user, delete user
+  /* frontend implementation required */
+  @UseGuards(AuthGuard('access'))
+  @Put('/me')
+  @HttpCode(HttpStatus.OK)
+  async updateMe(
+    @GetUser('id') userId: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    await this.userService.updateMe(userId, updateUserDto);
+    return { message: '사용자 업데이트 성공' };
+  }
+
+  @UseGuards(AuthGuard('access'))
+  @Delete('/me')
+  @HttpCode(HttpStatus.OK)
+  async deleteMe(@GetUser('id') userId: number) {
+    await this.userService.deleteMe(userId);
+    return { message: '사용자 삭제 성공' };
+  }
 }

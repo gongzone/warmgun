@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { IsString } from 'class-validator';
 
-export class SaveDraftDTO {
+export class SaveDraftDto {
   @IsString()
   title: string;
 

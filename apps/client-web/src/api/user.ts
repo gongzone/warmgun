@@ -11,6 +11,6 @@ export async function findMe() {
 	return await api.get(`api/users/me`).json<User>();
 }
 
-export async function findOne(username: string) {
+export async function findOneUser(username: string) {
 	return await api.get(`api/users/${username}`).json<User>();
 }

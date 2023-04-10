@@ -4,16 +4,27 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { PrismaService } from '../@base/prisma/prisma.service';
-import { SaveDraftDTO } from './lib/dtos';
+import { SaveDraftDto } from './dtos';
 
 @Injectable()
 export class DraftService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getDraft(userId: number, draftId: number) {
+  async findAll(userId: number) {
+    const drafts = await this.prismaService.draft.findMany({
+      where: { authorId: userId },
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    });
+
+    return drafts;
+  }
+
+  async findOne(userId: number, id: number) {
     const draft = await this.prismaService.draft.findFirst({
       where: {
-        AND: [{ id: draftId }, { authorId: userId }],
+        AND: [{ id }, { authorId: userId }],
       },
     });
 
@@ -24,8 +35,16 @@ export class DraftService {
     return draft;
   }
 
-  async createDraft(userId: number) {
-    const draft = await this.prismaService.draft.create({
+  async create(userId: number) {
+    const draftCount = await this.prismaService.draft.count({
+      where: { authorId: userId },
+    });
+
+    if (draftCount >= 10) {
+      throw new BadRequestException('초고는 10개까지만 생성 가능합니다. 😅');
+    }
+
+    await this.prismaService.draft.create({
       data: {
         author: {
           connect: {
@@ -34,16 +53,14 @@ export class DraftService {
         },
       },
     });
-
-    return draft;
   }
 
-  async saveDraft(userId: number, draftId: number, saveDraftDTO: SaveDraftDTO) {
+  async save(userId: number, id: number, saveDraftDTO: SaveDraftDto) {
     const { title, subTitle, body } = saveDraftDTO;
 
     const draft = await this.prismaService.draft.updateMany({
       where: {
-        AND: [{ id: draftId }, { authorId: userId }],
+        AND: [{ id }, { authorId: userId }],
       },
       data: {
         title,
@@ -59,7 +76,7 @@ export class DraftService {
     return draft;
   }
 
-  async deleteDraft(userId: number, draftId: number) {
+  async delete(userId: number, id: number) {
     const draftCount = await this.prismaService.draft.count({
       where: {
         authorId: userId,
@@ -72,7 +89,7 @@ export class DraftService {
 
     await this.prismaService.draft.deleteMany({
       where: {
-        AND: [{ id: draftId }, { authorId: userId }],
+        AND: [{ id: id }, { authorId: userId }],
       },
     });
   }

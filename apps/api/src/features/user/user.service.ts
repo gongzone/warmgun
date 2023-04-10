@@ -7,6 +7,7 @@ import {
 
 import { UserFindAllMode } from './types';
 import { PrismaService } from '../@base/prisma/prisma.service';
+import { UpdateUserDto } from './dtos';
 
 @Injectable()
 export class UserService {
@@ -42,6 +43,27 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async updateMe(id: number, updateUserDto: UpdateUserDto) {
+    const { nickname, bio, avatar } = updateUserDto;
+
+    await this.prismaService.user.update({
+      where: { id },
+      data: {
+        profile: {
+          update: {
+            nickname,
+            bio,
+            avatar,
+          },
+        },
+      },
+    });
+  }
+
+  async deleteMe(id: number) {
+    return;
   }
 
   private async findTopUsers() {

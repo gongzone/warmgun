@@ -18,6 +18,15 @@ export interface User {
 	};
 }
 
+export interface Draft {
+	id: number;
+	title: string;
+	subTitle: string;
+	body: OutputData;
+	createdAt: Date;
+	updatedAt: Date;
+}
+
 export interface Article {
 	id: number;
 	title: string;

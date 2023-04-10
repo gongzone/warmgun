@@ -6,53 +6,70 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UseGuards,
 } from '@nestjs/common';
+
 import { DraftService } from './draft.service';
 import { AuthGuard } from 'src/lib/guards/auth.guard';
 import { GetUser } from 'src/lib/decorators/user.decorator';
-import { RequestUser } from 'src/lib/types/request-user';
-import { SaveDraftDTO } from './lib/dtos';
+import { SaveDraftDto } from './dtos';
 
-@UseGuards(AuthGuard('access'))
-@Controller('draft')
+@Controller('drafts')
 export class DraftController {
   constructor(private readonly draftService: DraftService) {}
 
-  @Get(':id')
+  /* Check */
+  @UseGuards(AuthGuard('access'))
+  @Get()
   @HttpCode(HttpStatus.OK)
-  async getDraft(@GetUser() user: RequestUser, @Param('id') draftId: string) {
-    return await this.draftService.getDraft(user.id, parseInt(draftId));
+  async findAll(@GetUser('id') userId: number) {
+    return await this.draftService.findAll(userId);
   }
 
+  /* Check */
+  @UseGuards(AuthGuard('access'))
+  @Get('/:id')
+  @HttpCode(HttpStatus.OK)
+  async findOne(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return await this.draftService.findOne(userId, id);
+  }
+
+  /* Check */
+  @UseGuards(AuthGuard('access'))
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async craeteDraft(@GetUser() user: RequestUser) {
-    return await this.draftService.createDraft(user.id);
+  async craete(@GetUser('id') userId: number) {
+    await this.draftService.create(userId);
+    return { message: '초고 생성 완료' };
   }
 
-  @Put(':id')
+  /* Check */
+  @UseGuards(AuthGuard('access'))
+  @Put('/:id')
   @HttpCode(HttpStatus.OK)
-  async saveDraft(
-    @GetUser() user: RequestUser,
-    @Param('id') draftId: string,
-    @Body() saveDTO: SaveDraftDTO,
+  async save(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() saveDraftDto: SaveDraftDto,
   ) {
-    return await this.draftService.saveDraft(
-      user.id,
-      parseInt(draftId),
-      saveDTO,
-    );
+    await this.draftService.save(userId, id, saveDraftDto);
+    return { message: '초고 저장 완료' };
   }
 
-  @Delete(':id')
+  @UseGuards(AuthGuard('access'))
+  @Delete('/:id')
   @HttpCode(HttpStatus.OK)
-  async deleteDraft(
-    @GetUser() user: RequestUser,
-    @Param('id') draftId: string,
+  async delete(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
   ) {
-    return await this.draftService.deleteDraft(user.id, parseInt(draftId));
+    await this.draftService.delete(userId, id);
+    return { message: '초고 삭제 완료' };
   }
 }
