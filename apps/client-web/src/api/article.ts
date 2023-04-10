@@ -1,38 +1,20 @@
 import type { QueryFunctionContext } from '@tanstack/svelte-query';
 import type { OutputData } from '@editorjs/editorjs';
 
-import type { Article, BlogerArticle } from '$lib/types/api';
+import type { Article, BlogerArticle, ArticlesByPagination } from '$lib/types/api';
 import { api, refresh } from '$lib/clients/api-client';
 
-const API_BASE_URL = 'api/articles';
+export async function findBestArticles() {
+	return api.get(`api/articles?mode=best`).json<Article[]>();
+}
 
-export async function searchArtlces({ queryKey, pageParam = 0 }: QueryFunctionContext) {
-	const searchInput = queryKey[1];
+export async function findHotArticles({ pageParam = 1 }: QueryFunctionContext) {
+	return api.get(`api/articles?mode=hot&cursor=${pageParam}`).json<ArticlesByPagination>();
+}
 
+export async function findBlogerArticle(slug: string) {
 	return api
-		.get(`${API_BASE_URL}?search=${searchInput}&take=${10}&cursor=${pageParam}`)
-		.json<ArticlesByPagination>();
-}
-
-export async function getBestArticles(take = 12) {
-	return api.get(`${API_BASE_URL}/best?take=${take}`).json<Article[]>();
-}
-
-export async function getHotArticles({ pageParam = 1 }: QueryFunctionContext) {
-	return api.get(`${API_BASE_URL}/hot?take=${12}&cursor=${pageParam}`).json<ArticlesByPagination>();
-}
-
-export async function getBlogerArticles({ queryKey, pageParam = 0 }: QueryFunctionContext) {
-	const username = queryKey[1];
-
-	return api
-		.get(`${API_BASE_URL}/${username}?take=${12}&cursor=${pageParam}`)
-		.json<ArticlesByPagination>();
-}
-
-export async function getBlogerArticle(username: string, slug: string) {
-	return api
-		.get(`${API_BASE_URL}/${username}/${slug}`, {
+		.get(`api/articles/${slug.replace('/', ' ')}`, {
 			hooks: {
 				beforeRequest: [
 					async () => {
@@ -44,24 +26,26 @@ export async function getBlogerArticle(username: string, slug: string) {
 		.json<BlogerArticle>();
 }
 
-export async function createArticle(createArticleDTO: CreateArticleDTO) {
-	return api.post(`${API_BASE_URL}`, { json: createArticleDTO });
+export async function findBlogerArticles({ queryKey, pageParam = 0 }: QueryFunctionContext) {
+	const username = queryKey[1];
+	return api
+		.get(`api/articles/${username}/blogers?cursor=${pageParam}`)
+		.json<ArticlesByPagination>();
+}
+
+export async function createArticle(createArticleDto: CreateArticleDto) {
+	return api.post(`api/articles`, { json: createArticleDto });
 }
 
 export async function likeArticle(articleId: number) {
-	return api.post(`${API_BASE_URL}/${articleId}/likes`);
+	return api.post(`api/articles/${articleId}/likes`);
 }
 
 export async function unlikeArticle(articleId: number) {
-	return api.delete(`${API_BASE_URL}/${articleId}/likes`);
+	return api.delete(`$api/articles/${articleId}/likes`);
 }
 
-export interface ArticlesByPagination {
-	articles: Article[];
-	nextCursor: number;
-}
-
-interface CreateArticleDTO {
+interface CreateArticleDto {
 	title: string;
 	subTitle: string;
 	body: OutputData;

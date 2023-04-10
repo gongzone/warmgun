@@ -10,102 +10,82 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { GetUser } from 'src/lib/decorators/user.decorator';
-import { RequestUser } from 'src/lib/types/request-user';
 
+import { GetUser } from 'src/lib/decorators/user.decorator';
 import { ArticleService } from './article.service';
-import { CreateArticleDTO } from './lib/create-article.dto';
+import { CreateArticleDto } from './dtos/create-article.dto';
+import { ArticleFindAllMode } from './types';
+import { ReqUserInterceptor } from 'src/lib/interceptors/reqUser.interceptor';
+import { AuthGuard } from 'src/lib/guards/auth.guard';
 
 @Controller('articles')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
-  @Get('')
+  @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll() {
-    return;
+  async findAll(
+    @Query('mode') mode: ArticleFindAllMode,
+    @Query('cursor') cursor: string | undefined,
+  ) {
+    return await this.articleService.findAll({
+      mode,
+      cursor: cursor ? +cursor : undefined,
+    });
   }
 
-  // @Get('')
-  // @HttpCode(HttpStatus.OK)
-  // async searchArticles(
-  //   @Query('search') search: string,
-  //   @Query('take', ParseIntPipe) take: number,
-  //   @Query('cursor', ParseIntPipe) cursor: number,
-  // ) {
-  //   return await this.articleService.searchArticles(search, {
-  //     take,
-  //     cursor,
-  //   });
-  // }
+  @UseInterceptors(ReqUserInterceptor)
+  @Get('/:slug')
+  @HttpCode(HttpStatus.OK)
+  async findBlogerArticle(
+    @GetUser('id') userId: number,
+    @Param('slug') slug: string,
+  ) {
+    const newSlug = slug.replace(' ', '/');
+    return await this.articleService.findBlogerArticle(userId, newSlug);
+  }
 
-  // @Get('/best')
-  // @HttpCode(HttpStatus.OK)
-  // async getBestArticles(@Query('take', ParseIntPipe) take: number) {
-  //   return await this.articleService.getBestArticles(take);
-  // }
+  @Get('/:username/blogers')
+  @HttpCode(HttpStatus.OK)
+  async findBlogerArticles(
+    @Param('username') username: string,
+    @Query('cursor', ParseIntPipe) cursor: number,
+  ) {
+    return await this.articleService.findBlogerArticles(username, cursor);
+  }
 
-  // @Get('/hot')
-  // @HttpCode(HttpStatus.OK)
-  // async getHotArticles(
-  //   @Query('take', ParseIntPipe) take: number,
-  //   @Query('cursor', ParseIntPipe) cursor: number,
-  // ) {
-  //   return await this.articleService.getHotArticles(take, cursor);
-  // }
+  @UseGuards(AuthGuard('access'))
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async create(
+    @GetUser('id') userId: number,
+    @Body() createArticleDto: CreateArticleDto,
+  ) {
+    await this.articleService.create(userId, createArticleDto);
+    return { message: '아티클 생성 성공' };
+  }
 
-  // @Get(':username')
-  // @HttpCode(HttpStatus.OK)
-  // async getBlogerArticles(
-  //   @Param('username') username: string,
-  //   @Query('take', ParseIntPipe) take: number,
-  //   @Query('cursor', ParseIntPipe) cursor: number,
-  // ) {
-  //   return await this.articleService.getBlogerArticles(username, {
-  //     take,
-  //     cursor,
-  //   });
-  // }
+  @UseGuards(AuthGuard('access'))
+  @Post('/:id/likes')
+  @HttpCode(HttpStatus.OK)
+  async like(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) articleId: number,
+  ) {
+    await this.articleService.like(userId, articleId);
+    return { message: '아티클 좋아요 성공' };
+  }
 
-  // @UseGuards(JwtCheckGuard)
-  // @Get('/:username/:slug')
-  // @HttpCode(HttpStatus.OK)
-  // async getBlogerArticle(
-  //   @GetUser() user: RequestUser,
-  //   @Param('username') username: string,
-  //   @Param('slug') slug: string,
-  // ) {
-  //   return await this.articleService.getBlogerArticle(username, slug, user?.id);
-  // }
-
-  // @UseGuards(JwtAccessAuthGuard)
-  // @Post()
-  // @HttpCode(HttpStatus.CREATED)
-  // async createArticle(
-  //   @GetUser() user: RequestUser,
-  //   @Body() createArticleDTO: CreateArticleDTO,
-  // ) {
-  //   return await this.articleService.createArticle(user.id, createArticleDTO);
-  // }
-
-  // @UseGuards(JwtAccessAuthGuard)
-  // @Post('/:id/likes')
-  // @HttpCode(HttpStatus.OK)
-  // async likeArticle(
-  //   @GetUser() user: RequestUser,
-  //   @Param('id', ParseIntPipe) articleId: number,
-  // ) {
-  //   return await this.articleService.likeArticle(user.id, articleId);
-  // }
-
-  // @UseGuards(JwtAccessAuthGuard)
-  // @Delete('/:id/likes')
-  // @HttpCode(HttpStatus.OK)
-  // async unlikeArticle(
-  //   @GetUser() user: RequestUser,
-  //   @Param('id', ParseIntPipe) articleId: number,
-  // ) {
-  //   return await this.articleService.unlikeArticle(user.id, articleId);
-  // }
+  @UseGuards(AuthGuard('access'))
+  @Delete('/:id/likes')
+  @HttpCode(HttpStatus.OK)
+  async unlikeArticle(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) articleId: number,
+  ) {
+    await this.articleService.unlike(userId, articleId);
+    return { message: '아티클 좋아요 취소 성공' };
+  }
 }

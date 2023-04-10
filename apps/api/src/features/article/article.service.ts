@@ -2,112 +2,39 @@ import { Prisma } from '@prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { PrismaService } from '../@base/prisma/prisma.service';
-import { CreateArticleDTO } from './lib/create-article.dto';
-import { PaginationData } from 'src/lib/types/pagination';
+import { CreateArticleDto } from './dtos/create-article.dto';
+import { ArticleFindAllMode } from './types';
+
+const ARTICLES_PAGINATION_TAKE = 12;
 
 @Injectable()
 export class ArticleService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  // async searchArticles(search: string, paginationData: PaginationData) {
-  //   const { take, cursor } = paginationData;
+  async findAll({
+    mode,
+    cursor,
+  }: {
+    mode: ArticleFindAllMode;
+    cursor: number;
+  }) {
+    if (mode === 'best') {
+      return await this.findBestArtlces();
+    }
 
-  //   /* MoreValue: Filtering */
-  //   const articles = await this.prismaService.article.findMany({
-  //     take,
-  //     skip: take * cursor,
-  //     where: {
-  //       title: {
-  //         contains: search,
-  //         mode: 'insensitive',
-  //       },
-  //     },
-  //     include: this.populateArticleInclude(),
-  //     orderBy: {
-  //       createdAt: 'desc',
-  //     },
-  //   });
-
-  //   return {
-  //     articles,
-  //     nextCursor: articles.length === take ? cursor + 1 : undefined,
-  //   };
-  // }
-
-  async getBestArticles(take: number) {
-    const articles = await this.prismaService.article.findMany({
-      take,
-      include: this.populateArticleInclude(),
-      orderBy: {
-        trendingScore: 'desc',
-      },
-    });
-
-    return articles;
+    if (mode === 'hot') {
+      return await this.findHotArticles(cursor);
+    }
   }
 
-  async getHotArticles(take: number, cursor: number) {
-    const articles = await this.prismaService.article.findMany({
-      take,
-      skip: take * cursor,
-      include: this.populateArticleInclude(),
-      orderBy: {
-        trendingScore: 'desc',
-      },
-    });
-
-    return {
-      articles,
-      nextCursor: articles.length === take ? cursor + 1 : undefined,
-    };
-  }
-
-  async getBlogerArticles(username: string, paginationData: PaginationData) {
-    const { take, cursor } = paginationData;
-
-    /* MoreValue: Filtering */
-    const articles = await this.prismaService.article.findMany({
-      take,
-      skip: take * cursor,
-      where: {
-        author: {
-          username,
-        },
-      },
-      include: this.populateArticleInclude(),
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-
-    return {
-      articles,
-      nextCursor: articles.length === take ? cursor + 1 : undefined,
-    };
-  }
-
-  async getBlogerArticle(
-    username: string,
-    slug: string,
-    requestUserId?: number,
-  ) {
+  async findBlogerArticle(userId: number, slug: string) {
     const article = await this.prismaService.article.findUnique({
-      where: {
-        slug: `/@${username}/${slug}`,
-      },
+      where: { slug },
       include: {
-        ...this.populateArticleInclude(),
-        likes: requestUserId
-          ? {
-              where: {
-                userId: requestUserId,
-              },
-            }
-          : false,
+        ...this.articleInclude,
+        likes: userId ? { where: { userId } } : false,
       },
     });
-
-    console.log(article.likes?.length);
 
     if (!article) {
       throw new BadRequestException('아티클을 찾을 수 없습니다.');
@@ -116,10 +43,30 @@ export class ArticleService {
     return { ...article, isLiked: !!article.likes?.length };
   }
 
-  async createArticle(userId: number, createArticleDTO: CreateArticleDTO) {
-    const { title, subTitle, body, coverImage, slug, tags } = createArticleDTO;
+  async findBlogerArticles(username: string, cursor: number) {
+    const articles = await this.prismaService.article.findMany({
+      take: ARTICLES_PAGINATION_TAKE,
+      skip: ARTICLES_PAGINATION_TAKE * cursor,
+      where: {
+        author: { username },
+      },
+      include: this.articleInclude,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
 
-    const article = await this.prismaService.article.create({
+    return {
+      articles,
+      nextCursor:
+        articles.length === ARTICLES_PAGINATION_TAKE ? cursor + 1 : undefined,
+    };
+  }
+
+  async create(userId: number, createArticleDto: CreateArticleDto) {
+    const { title, subTitle, body, coverImage, slug, tags } = createArticleDto;
+
+    await this.prismaService.article.create({
       data: {
         title,
         subTitle,
@@ -133,17 +80,13 @@ export class ArticleService {
           })),
         },
         author: {
-          connect: {
-            id: userId,
-          },
+          connect: { id: userId },
         },
       },
     });
-
-    return article;
   }
 
-  async likeArticle(userId: number, articleId: number) {
+  async like(userId: number, articleId: number) {
     const foundLike = await this.prismaService.like.findFirst({
       where: {
         AND: [{ userId }, { articleId }],
@@ -157,14 +100,10 @@ export class ArticleService {
     await this.prismaService.like.create({
       data: {
         user: {
-          connect: {
-            id: userId,
-          },
+          connect: { id: userId },
         },
         article: {
-          connect: {
-            id: articleId,
-          },
+          connect: { id: articleId },
         },
       },
     });
@@ -172,7 +111,7 @@ export class ArticleService {
     /* Todo: trending score update */
   }
 
-  async unlikeArticle(userId: number, articleId: number) {
+  async unlike(userId: number, articleId: number) {
     await this.prismaService.like.deleteMany({
       where: {
         AND: [{ userId }, { articleId }],
@@ -182,19 +121,43 @@ export class ArticleService {
     /* Todo: trending score update */
   }
 
-  private populateArticleInclude() {
+  private async findBestArtlces() {
+    const articles = await this.prismaService.article.findMany({
+      take: ARTICLES_PAGINATION_TAKE,
+      include: this.articleInclude,
+      orderBy: {
+        trendingScore: 'desc',
+      },
+    });
+
+    return articles;
+  }
+
+  private async findHotArticles(cursor: number) {
+    const articles = await this.prismaService.article.findMany({
+      take: ARTICLES_PAGINATION_TAKE,
+      skip: ARTICLES_PAGINATION_TAKE * cursor,
+      include: this.articleInclude,
+      orderBy: {
+        trendingScore: 'desc',
+      },
+    });
+
+    return {
+      articles,
+      nextCursor:
+        articles.length === ARTICLES_PAGINATION_TAKE ? cursor + 1 : undefined,
+    };
+  }
+
+  private get articleInclude() {
     return {
       tags: true,
       author: {
-        include: {
-          profile: true,
-        },
+        include: { profile: true },
       },
       _count: {
-        select: {
-          likes: true,
-          comments: true,
-        },
+        select: { likes: true, comments: true },
       },
     } satisfies Prisma.ArticleInclude;
   }

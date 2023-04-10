@@ -56,6 +56,11 @@ export interface BlogerArticle extends Article {
 	isLiked: boolean;
 }
 
+export interface ArticlesByPagination {
+	articles: Article[];
+	nextCursor: number;
+}
+
 export interface Comment {
 	id: number;
 	content: string;
