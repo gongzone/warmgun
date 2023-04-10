@@ -27,7 +27,7 @@ export class ArticleService {
     }
   }
 
-  async findBlogerArticle(userId: number, slug: string) {
+  async findOne(userId: number, slug: string) {
     const article = await this.prismaService.article.findUnique({
       where: { slug },
       include: {

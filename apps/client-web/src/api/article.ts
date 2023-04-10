@@ -12,7 +12,7 @@ export async function findHotArticles({ pageParam = 1 }: QueryFunctionContext) {
 	return api.get(`api/articles?mode=hot&cursor=${pageParam}`).json<ArticlesByPagination>();
 }
 
-export async function findBlogerArticle(slug: string) {
+export async function findOneArticle(slug: string) {
 	return api
 		.get(`api/articles/${slug.replace('/', ' ')}`, {
 			hooks: {

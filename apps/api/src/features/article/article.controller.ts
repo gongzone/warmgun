@@ -39,12 +39,9 @@ export class ArticleController {
   @UseInterceptors(ReqUserInterceptor)
   @Get('/:slug')
   @HttpCode(HttpStatus.OK)
-  async findBlogerArticle(
-    @GetUser('id') userId: number,
-    @Param('slug') slug: string,
-  ) {
+  async findOne(@GetUser('id') userId: number, @Param('slug') slug: string) {
     const newSlug = slug.replace(' ', '/');
-    return await this.articleService.findBlogerArticle(userId, newSlug);
+    return await this.articleService.findOne(userId, newSlug);
   }
 
   @Get('/blogers/:username')
@@ -81,7 +78,7 @@ export class ArticleController {
   @UseGuards(AuthGuard('access'))
   @Delete('/likes/:id')
   @HttpCode(HttpStatus.OK)
-  async unlikeArticle(
+  async unlike(
     @GetUser('id') userId: number,
     @Param('id', ParseIntPipe) articleId: number,
   ) {
