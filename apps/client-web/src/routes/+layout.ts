@@ -1,17 +1,18 @@
 import type { LayoutLoad } from './$types';
 
 import queryClient from '$lib/clients/query-client';
-import { getMe, getMyDrafts } from '$api/me';
+import { findMe } from '$api/user';
+import { findAllDrafts } from '$api/draft';
 
 export const load = (async () => {
 	await queryClient.prefetchQuery({
 		queryKey: ['me'],
-		queryFn: getMe
+		queryFn: findMe
 	});
 
 	await queryClient.prefetchQuery({
-		queryKey: ['myDrafts'],
-		queryFn: getMyDrafts
+		queryKey: ['drafts'],
+		queryFn: findAllDrafts
 	});
 
 	return { queryClient };

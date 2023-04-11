@@ -21,7 +21,6 @@ import { SaveDraftDto } from './dtos';
 export class DraftController {
   constructor(private readonly draftService: DraftService) {}
 
-  /* Check */
   @UseGuards(AuthGuard('access'))
   @Get()
   @HttpCode(HttpStatus.OK)
@@ -29,7 +28,6 @@ export class DraftController {
     return await this.draftService.findAll(userId);
   }
 
-  /* Check */
   @UseGuards(AuthGuard('access'))
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
@@ -40,7 +38,6 @@ export class DraftController {
     return await this.draftService.findOne(userId, id);
   }
 
-  /* Check */
   @UseGuards(AuthGuard('access'))
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -49,7 +46,6 @@ export class DraftController {
     return { message: '초고 생성 완료' };
   }
 
-  /* Check */
   @UseGuards(AuthGuard('access'))
   @Put('/:id')
   @HttpCode(HttpStatus.OK)
