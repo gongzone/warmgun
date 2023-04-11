@@ -9,20 +9,20 @@
 	import { createMutation, createQuery } from '@tanstack/svelte-query';
 	import { createArticle } from '$api/article';
 	import type { OutputData } from '@editorjs/editorjs';
-	import { getMe } from '$api/me';
+	import { findMe } from '$api/user';
 
 	export let coverImage: string | null;
 	export let slug: string;
 	export let tags: string[];
 
-	const getMeQuery = createQuery({
+	const meQuery = createQuery({
 		queryKey: ['me'],
-		queryFn: getMe
+		queryFn: findMe
 	});
 
 	const createArticleMutation = createMutation({
 		mutationFn: async () => {
-			if (!$getMeQuery.isSuccess) {
+			if (!$meQuery.data) {
 				return;
 			}
 
@@ -31,7 +31,7 @@
 				subTitle: $drawerStore.meta.subTitle as string,
 				body: $drawerStore.meta.body as OutputData,
 				coverImage,
-				slug: `/@${$getMeQuery.data.username}/${slug}`,
+				slug: `/@${$meQuery.data.username}/${slug}`,
 				tags
 			};
 
@@ -63,7 +63,7 @@
 
 <hr />
 
-<ul class="space-y-10 px-8 py-8 sm:px-12 ">
+<ul class="space-y-10 px-8 py-8 sm:px-12">
 	<li>
 		<IconText text="대표 이미지" />
 		<div class="flex flex-col justify-center items-center">

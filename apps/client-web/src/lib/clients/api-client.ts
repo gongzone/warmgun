@@ -8,30 +8,23 @@ export const refresh = async () => {
 	});
 };
 
-const responseHandler: AfterResponseHook = async (request, options, response) => {
-	if (response.status === 401) {
-		try {
-			await refresh();
-			return ky(request);
-		} catch (err) {
-			if (response.url === `${prefixUrl}/api/me`) {
-				return new Response(null, { status: 200 });
-			}
-
-			if (response.url === `${prefixUrl}/api/me/drafts`) {
-				return new Response(null, { status: 200 });
-			}
-			return response;
-		}
-	}
-	return response;
-};
+// const responseHandler: AfterResponseHook = async (request, options, response) => {
+// 	if (response.status === 401) {
+// 		try {
+// 			await refresh();
+// 			return ky(request);
+// 		} catch (err) {
+// 			return response;
+// 		}
+// 	}
+// 	return response;
+// };
 
 export const api = ky.extend({
 	prefixUrl,
 	retry: 0,
-	credentials: 'include',
-	hooks: {
-		afterResponse: [responseHandler]
-	}
+	credentials: 'include'
+	// hooks: {
+	// 	afterResponse: [responseHandler]
+	// }
 });

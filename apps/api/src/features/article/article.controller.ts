@@ -59,7 +59,7 @@ export class ArticleController {
     return await this.articleService.findUserArticles(username, take, cursor);
   }
 
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(
@@ -70,7 +70,7 @@ export class ArticleController {
     return { message: '아티클 생성 성공' };
   }
 
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Post('/:id/likes')
   @HttpCode(HttpStatus.OK)
   async like(
@@ -81,7 +81,7 @@ export class ArticleController {
     return { message: '아티클 좋아요 성공' };
   }
 
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Delete('/:id/likes')
   @HttpCode(HttpStatus.OK)
   async unlike(

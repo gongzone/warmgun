@@ -6,7 +6,7 @@ interface TokenConfig {
 export const TOKENS_CONFIGS = {
   access: {
     secret: 'JWT_ACCESS_KEY',
-    expiresIn: 60 * 30, // 30m
+    expiresIn: 10, // 30m
   } satisfies TokenConfig,
   refresh: {
     secret: 'JWT_REFRESH_KEY',

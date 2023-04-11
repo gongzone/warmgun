@@ -36,7 +36,7 @@ export class CommentController {
     });
   }
 
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Post('/:articleId/articles')
   @HttpCode(HttpStatus.CREATED)
   async create(

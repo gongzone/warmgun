@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 
-	import { getPopularTags } from '$api/tag';
+	import { findPopularTags } from '$api/tag';
 	import { formatTagNameToSlug } from '$lib/utils/format';
 
 	const popularTagsQuery = createQuery({
 		queryKey: ['popularTags'],
-		queryFn: () => getPopularTags()
+		queryFn: findPopularTags
 	});
 </script>
 

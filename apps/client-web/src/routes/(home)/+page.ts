@@ -1,24 +1,24 @@
 import type { PageLoad } from './$types';
 
-import { getBestArticles } from '$api/article';
-import { getTopBlogers } from '$api/user';
-import { getPopularTags } from '$api/tag';
+import { findPopularTags } from '$api/tag';
+import { findBestArticles } from '$api/article';
+import { findTopUsers } from '$api/user';
 
 export const load = (async ({ parent }) => {
 	const { queryClient } = await parent();
 
 	await queryClient.prefetchQuery({
 		queryKey: ['popularTags'],
-		queryFn: () => getPopularTags()
+		queryFn: findPopularTags
 	});
 
 	await queryClient.prefetchQuery({
 		queryKey: ['bestArticles'],
-		queryFn: () => getBestArticles()
+		queryFn: findBestArticles
 	});
 
 	await queryClient.prefetchQuery({
-		queryKey: ['topBlogers'],
-		queryFn: () => getTopBlogers()
+		queryKey: ['topUsers'],
+		queryFn: findTopUsers
 	});
 }) satisfies PageLoad;

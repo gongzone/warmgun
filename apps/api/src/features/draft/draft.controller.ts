@@ -10,25 +10,32 @@ import {
   Post,
   Put,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { DraftService } from './draft.service';
 import { AuthGuard } from 'src/lib/guards/auth.guard';
 import { GetUser } from 'src/lib/decorators/user.decorator';
 import { SaveDraftDto } from './dtos';
+import { ReqUserInterceptor } from 'src/lib/interceptors/reqUser.interceptor';
+import { RequestUser } from 'src/lib/types/request-user';
 
 @Controller('drafts')
 export class DraftController {
   constructor(private readonly draftService: DraftService) {}
 
-  @UseGuards(AuthGuard('access'))
+  @UseInterceptors(ReqUserInterceptor)
   @Get('/me')
   @HttpCode(HttpStatus.OK)
-  async findMyDrafts(@GetUser('id') userId: number) {
-    return await this.draftService.findMyDrafts(userId);
+  async findMyDrafts(@GetUser() user: RequestUser) {
+    if (!user) {
+      return null;
+    }
+
+    return await this.draftService.findMyDrafts(user.id);
   }
 
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
   async findOne(
@@ -38,7 +45,7 @@ export class DraftController {
     return await this.draftService.findOne(userId, id);
   }
 
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async craete(@GetUser('id') userId: number) {
@@ -46,7 +53,7 @@ export class DraftController {
     return { message: '초고 생성 완료' };
   }
 
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Put('/:id')
   @HttpCode(HttpStatus.OK)
   async save(
@@ -58,7 +65,7 @@ export class DraftController {
     return { message: '초고 저장 완료' };
   }
 
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Delete('/:id')
   @HttpCode(HttpStatus.OK)
   async delete(

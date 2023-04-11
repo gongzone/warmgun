@@ -10,6 +10,6 @@ import { CookieService } from './cookie.service';
   imports: [JwtModule.register({})],
   controllers: [AuthController],
   providers: [AuthService, CookieService],
-  exports: [JwtModule, CookieService],
+  exports: [JwtModule, AuthService, CookieService],
 })
 export class AuthModule {}

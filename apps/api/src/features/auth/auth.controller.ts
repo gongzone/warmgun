@@ -66,7 +66,7 @@ export class AuthController {
   }
 
   /* Check */
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Post('/logout')
   @HttpCode(HttpStatus.OK)
   async logout(
@@ -81,26 +81,22 @@ export class AuthController {
   }
 
   /* Check */
-  @UseGuards(AuthGuard('refresh'))
-  @Post('/refresh')
-  @HttpCode(HttpStatus.OK)
-  async refresh(
-    @GetUser() user: RequestUser,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    const { tokenId, accessToken, refreshToken } =
-      await this.authService.refresh(
-        user.token.id,
-        user.token.value,
-        user.token.iat,
-      );
+  // @UseGuards(AuthGuard('refresh'))
+  // @Post('/refresh')
+  // @HttpCode(HttpStatus.OK)
+  // async refresh(
+  //   @GetUser() user: RequestUser,
+  //   @Res({ passthrough: true }) res: Response,
+  // ) {
+  //   const { tokenId, accessToken, refreshToken } =
+  //     await this.authService.refresh(user.token.id, user.token.value);
 
-    this.cookieService.setAuthCookies(res, {
-      tokenId,
-      accessToken,
-      refreshToken,
-    });
+  //   this.cookieService.setAuthCookies(res, {
+  //     tokenId,
+  //     accessToken,
+  //     refreshToken,
+  //   });
 
-    return { tokenId, accessToken, refreshToken };
-  }
+  //   return { tokenId, accessToken, refreshToken };
+  // }
 }

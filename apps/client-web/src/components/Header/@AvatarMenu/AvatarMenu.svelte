@@ -1,18 +1,19 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 
-	import { getMe, getMyDrafts } from '$api/me';
+	import { findMe } from '$api/user';
+	import { findMyDrafts } from '$api/draft';
 	import AnonymousMenu from './AnonymousMenu/AnonymousMenu.svelte';
 	import AuthenticatedMenu from './AuthenticatedMenu/AuthenticatedMenu.svelte';
 
 	const meQuery = createQuery({
 		queryKey: ['me'],
-		queryFn: getMe
+		queryFn: findMe
 	});
 
 	const myDraftsQuery = createQuery({
 		queryKey: ['myDrafts'],
-		queryFn: getMyDrafts
+		queryFn: findMyDrafts
 	});
 </script>
 

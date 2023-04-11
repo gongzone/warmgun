@@ -10,12 +10,15 @@ import {
   Put,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { UserService } from './user.service';
 import { AuthGuard } from 'src/lib/guards/auth.guard';
 import { GetUser } from 'src/lib/decorators/user.decorator';
 import { UpdateUserDto } from './dtos';
+import { ReqUserInterceptor } from 'src/lib/interceptors/reqUser.interceptor';
+import { RequestUser } from 'src/lib/types/request-user';
 
 @Controller('users')
 export class UserController {
@@ -27,11 +30,15 @@ export class UserController {
     return await this.userService.findTopUsers(take);
   }
 
-  @UseGuards(AuthGuard('access'))
+  @UseInterceptors(ReqUserInterceptor)
   @Get('/me')
   @HttpCode(HttpStatus.OK)
-  async findMe(@GetUser('id') userId: number) {
-    return await this.userService.findMe(userId);
+  async findMe(@GetUser() user: RequestUser) {
+    if (!user) {
+      return null;
+    }
+
+    return await this.userService.findMe(user.id);
   }
 
   @Get('/:username')
@@ -41,7 +48,7 @@ export class UserController {
   }
 
   /* frontend implementation required */
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Put('/me')
   @HttpCode(HttpStatus.OK)
   async updateMe(
@@ -52,7 +59,7 @@ export class UserController {
     return { message: '사용자 업데이트 성공' };
   }
 
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Delete('/me')
   @HttpCode(HttpStatus.OK)
   async deleteMe(@GetUser('id') userId: number) {

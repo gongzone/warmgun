@@ -1,10 +1,8 @@
 import {
   CanActivate,
   ExecutionContext,
-  Inject,
-  Type,
+  Injectable,
   UnauthorizedException,
-  mixin,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -12,57 +10,69 @@ import { ConfigService } from '@nestjs/config';
 import { ACCESS_TOKEN, REFRESH_TOKEN, TOKEN_ID } from '../constants/cookie';
 import { RequestUser } from '../types/request-user';
 import { JwtPayload } from '../types/token';
+import { AuthService } from 'src/features/auth/auth.service';
+import { CookieService } from 'src/features/auth/cookie.service';
 
-type AuthGuardMode = 'access' | 'refresh';
+@Injectable()
+export class AuthGuard implements CanActivate {
+  constructor(
+    private readonly authSerivce: AuthService,
+    private readonly cookieService: CookieService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
-export const AuthGuard = (
-  mode: AuthGuardMode = 'access',
-): Type<CanActivate> => {
-  class AuthGuardMixin implements CanActivate {
-    constructor(
-      @Inject(JwtService) private readonly jwtService: JwtService,
-      private readonly configService: ConfigService,
-    ) {}
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const req = context.switchToHttp().getRequest();
+    const res = context.switchToHttp().getResponse();
 
-    async canActivate(context: ExecutionContext): Promise<boolean> {
-      const req = context.switchToHttp().getRequest();
-      const tokenId = parseInt(req.cookies?.[TOKEN_ID]);
-      const token: string =
-        mode === 'access'
-          ? req.cookies?.[ACCESS_TOKEN]
-          : req.cookies?.[REFRESH_TOKEN];
+    const tokenId = parseInt(req.cookies?.[TOKEN_ID]);
+    const accessToken = req.cookies?.[ACCESS_TOKEN];
+    const refreshToken = req.cookies?.[REFRESH_TOKEN];
 
-      if (!token) {
-        throw new UnauthorizedException('인증 토큰을 찾을 수 없습니다.');
-      }
-
-      try {
-        const payload = await this.jwtService.verifyAsync<JwtPayload>(token, {
-          secret:
-            mode === 'access'
-              ? this.configService.get('JWT_ACCESS_KEY')
-              : this.configService.get('JWT_REFRESH_KEY'),
-        });
-
-        req['user'] = {
-          id: payload.sub,
-          username: payload.username,
-          token: {
-            id: tokenId,
-            value: token,
-            iat: new Date(payload.iat * 1000),
-            exp: new Date(payload.exp * 1000),
-          },
-        } satisfies RequestUser;
-      } catch (err) {
-        throw new UnauthorizedException(
-          '토큰 검증 과정에서 문제가 발생하였습니다.',
-        );
-      }
-
-      return true;
+    if (!tokenId || !refreshToken) {
+      throw new UnauthorizedException('인증 토큰을 찾을 수 없습니다.');
     }
-  }
 
-  return mixin(AuthGuardMixin);
-};
+    if (!accessToken && refreshToken) {
+      const {
+        tokenId: newTokenId,
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+        userId,
+        username,
+      } = await this.authSerivce.refresh(tokenId, refreshToken);
+
+      this.cookieService.setAuthCookies(res, {
+        tokenId: newTokenId,
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+      });
+
+      req['user'] = {
+        id: userId,
+        username,
+      };
+    }
+
+    try {
+      const payload = await this.jwtService.verifyAsync<JwtPayload>(
+        accessToken,
+        {
+          secret: this.configService.get('JWT_ACCESS_KEY'),
+        },
+      );
+
+      req['user'] = {
+        id: payload.sub,
+        username: payload.username,
+      } satisfies RequestUser;
+    } catch (err) {
+      throw new UnauthorizedException(
+        '토큰 검증 과정에서 문제가 발생하였습니다.',
+      );
+    }
+
+    return true;
+  }
+}

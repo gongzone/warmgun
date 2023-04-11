@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 
-	import { getBestArticles } from '$api/article';
+	import { findBestArticles } from '$api/article';
 
 	import ArticleCard from './@ArticleCard/ArticleCard.svelte';
 
 	const bestArticlesQuery = createQuery({
 		queryKey: ['bestArticles'],
-		queryFn: () => getBestArticles()
+		queryFn: findBestArticles
 	});
 </script>
 

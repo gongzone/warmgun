@@ -7,7 +7,8 @@
 	import DraftIcon from '~icons/ri/draft-line';
 	import TrashBinIcon from '~icons/ri/delete-bin-line';
 
-	import { getMe, getMyDrafts } from '$api/me';
+	import { findMe } from '$api/user';
+	import { findMyDrafts } from '$api/draft';
 	import { createDraft, deleteDraft } from '$api/draft';
 	import { formatDate } from '$lib/utils/format';
 	import { triggerToast } from '$components/Message/toast';
@@ -15,15 +16,14 @@
 
 	const queryClient = useQueryClient();
 
-	const getMeQuery = createQuery({
+	const meQuery = createQuery({
 		queryKey: ['me'],
-		queryFn: getMe
+		queryFn: findMe
 	});
 
-	const getMyDraftsQuery = createQuery({
+	const myDraftsQuery = createQuery({
 		queryKey: ['myDrafts'],
-		queryFn: getMyDrafts,
-		refetchOnMount: true
+		queryFn: findMyDrafts
 	});
 
 	const createDraftMutation = createMutation({
@@ -42,9 +42,9 @@
 		onSuccess: (_, draftId) => {
 			if (+$page.params.draftId === draftId) {
 				const targetDraftId =
-					$getMyDraftsQuery.data?.[0].id === draftId
-						? $getMyDraftsQuery.data?.[1].id
-						: $getMyDraftsQuery.data?.[0].id;
+					$myDraftsQuery.data?.[0].id === draftId
+						? $myDraftsQuery.data?.[1].id
+						: $myDraftsQuery.data?.[0].id;
 				goto(`/write/draft/${targetDraftId}`);
 			}
 
@@ -59,14 +59,14 @@
 	</button>
 </header>
 
-{#if $getMeQuery.isSuccess}
+{#if $meQuery.data}
 	<div class="flex flex-col justify-center items-center gap-2">
-		<Avatar src={$getMeQuery.data.profile.avatar ?? ''} class="w-24" />
-		<span class="text-lg font-bold">{$getMeQuery.data.username}</span>
+		<Avatar src={$meQuery.data.profile.avatar ?? ''} class="w-24" />
+		<span class="text-lg font-bold">{$meQuery.data.username}</span>
 	</div>
 {/if}
 
-{#if $getMyDraftsQuery.isSuccess}
+{#if $myDraftsQuery.data}
 	<div class="py-8 px-2">
 		<Accordion spacing="space-y-0">
 			<AccordionItem open>
@@ -80,7 +80,7 @@
 
 				<svelte:fragment slot="content">
 					<ul class="flex flex-col gap-3">
-						{#each $getMyDraftsQuery.data as draft (draft.id)}
+						{#each $myDraftsQuery.data as draft (draft.id)}
 							<li>
 								<div class="flex items-center gap-4">
 									<a

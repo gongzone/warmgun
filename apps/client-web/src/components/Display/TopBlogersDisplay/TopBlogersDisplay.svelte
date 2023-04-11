@@ -2,12 +2,12 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import WitchIcon from '~icons/game-icons/witch-face';
 
-	import { getTopBlogers } from '$api/user';
+	import { findTopUsers } from '$api/user';
 	import UserPiece from '$components/@ui/Block/UserPiece.svelte';
 
-	const topBlogersQuery = createQuery({
-		queryKey: ['topBlogers'],
-		queryFn: () => getTopBlogers()
+	const topUsersQuery = createQuery({
+		queryKey: ['topUsers'],
+		queryFn: findTopUsers
 	});
 </script>
 
@@ -17,9 +17,9 @@
 		<span class="text-2xl font-bold">Top Blogers</span>
 	</div>
 
-	{#if $topBlogersQuery.isSuccess}
+	{#if $topUsersQuery.isSuccess}
 		<ul class="">
-			{#each $topBlogersQuery.data as topBloger (topBloger.id)}
+			{#each $topUsersQuery.data as topBloger (topBloger.id)}
 				<li class="space-y-4 py-6 border-b border-b-surface-400 border-dashed">
 					<UserPiece
 						username={topBloger.username}

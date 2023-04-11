@@ -113,20 +113,22 @@ export class AuthService {
     });
   }
 
-  async refresh(tokenId: number, refreshToken: string, tokenIssuedAt: Date) {
-    const token = await this.prismaService.token.findUnique({
+  async refresh(tokenId: number, refreshToken: string) {
+    let payload: JwtPayload;
+
+    try {
+      payload = await this.jwtService.verifyAsync<JwtPayload>(refreshToken, {
+        secret: this.configService.get('JWT_REFRESH_KEY'),
+      });
+    } catch {
+      throw new UnauthorizedException(
+        '토큰 검증 과정에서 문제가 발생하였습니다.',
+      );
+    }
+
+    const token = await this.prismaService.token.findFirst({
       where: {
-        id: tokenId,
-      },
-      select: {
-        id: true,
-        refreshToken: true,
-        user: {
-          select: {
-            id: true,
-            username: true,
-          },
-        },
+        AND: [{ id: tokenId }, { userId: payload.sub }],
       },
     });
 
@@ -138,18 +140,18 @@ export class AuthService {
 
     if (!match) {
       // leaway
-      if (dayjs().diff(tokenIssuedAt, 'seconds') < 60) {
+      if (dayjs().diff(new Date(payload.iat * 1000), 'seconds') < 60) {
         return await this.rotateRefreshToken(
           token.id,
-          token.user.id,
-          token.user.username,
+          payload.sub,
+          payload.username,
         );
       }
 
       // block
       await this.prismaService.token.deleteMany({
         where: {
-          userId: token.user.id,
+          userId: payload.sub,
         },
       });
 
@@ -160,8 +162,8 @@ export class AuthService {
 
     return await this.rotateRefreshToken(
       token.id,
-      token.user.id,
-      token.user.username,
+      payload.sub,
+      payload.username,
     );
   }
 
@@ -185,7 +187,13 @@ export class AuthService {
       },
     });
 
-    return { tokenId: updatedToken.id, accessToken, refreshToken };
+    return {
+      tokenId: updatedToken.id,
+      accessToken,
+      refreshToken,
+      userId,
+      username,
+    };
   }
 
   private async generateTokens(userId: number, username: string) {

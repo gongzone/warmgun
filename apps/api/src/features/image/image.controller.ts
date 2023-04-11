@@ -16,7 +16,7 @@ import { CreatePresignedUrlDto } from './dtos';
 export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
-  @UseGuards(AuthGuard('access'))
+  @UseGuards(AuthGuard)
   @Post('/presigned')
   @HttpCode(HttpStatus.OK)
   async createPresignedUrl(

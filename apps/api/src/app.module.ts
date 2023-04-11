@@ -7,8 +7,8 @@ import { AuthModule } from './features/auth/auth.module';
 import { UserModule } from './features/user/user.module';
 import { DraftModule } from './features/draft/draft.module';
 import { ArticleModule } from './features/article/article.module';
-// import { TagModule } from './features/tag/tag.module';
-// import { CommentModule } from './features/comment/comment.module';
+import { TagModule } from './features/tag/tag.module';
+import { CommentModule } from './features/comment/comment.module';
 // import { MeilisearchModule } from './features/@base/meilisearch/meilisearch.module';
 // import { SearchModule } from './features/search/search.module';
 
@@ -26,9 +26,8 @@ import { ArticleModule } from './features/article/article.module';
     UserModule,
     DraftModule,
     ArticleModule,
-    // TagModule,
-
-    // CommentModule,
+    TagModule,
+    CommentModule,
     // MeilisearchModule,
     // SearchModule,
   ],
