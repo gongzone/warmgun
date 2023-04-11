@@ -3,12 +3,12 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import ChatHeartIcon from '~icons/ri/chat-heart-line';
 
-	import { getBloger } from '$api/user';
+	import { findOneUser } from '$api/user';
 	import UserAvatar from '$components/@ui/Block/UserAvatar.svelte';
 
 	$: blogerQuery = createQuery({
 		queryKey: ['user', $page.params.page.slice(1)],
-		queryFn: () => getBloger($page.params.page.slice(1))
+		queryFn: () => findOneUser($page.params.page.slice(1))
 	});
 </script>
 

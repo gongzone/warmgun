@@ -3,7 +3,7 @@
 	import { createMutation, createQuery } from '@tanstack/svelte-query';
 	import HeartIcon from '~icons/ri/heart-2-fill';
 
-	import { getBlogerArticle, likeArticle, unlikeArticle } from '$api/article';
+	import { findOneArticle, likeArticle, unlikeArticle } from '$api/article';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import Viewer from '$components/Editor/Viewer.svelte';
 	import BottomBar from '$components/@ui/Block/BottomBar/BottomBar.svelte';
@@ -14,7 +14,7 @@
 
 	$: blogerArticleQuery = createQuery({
 		queryKey: ['articles', $page.params.page.slice(1), $page.params.article],
-		queryFn: () => getBlogerArticle($page.params.page.slice(1), $page.params.article),
+		queryFn: () => findOneArticle($page.params.page.slice(1), $page.params.article),
 		onSuccess: (data) => {
 			isLiked = data.isLiked;
 		}

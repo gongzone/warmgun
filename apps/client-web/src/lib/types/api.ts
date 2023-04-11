@@ -70,4 +70,5 @@ export interface Comment {
 	createdAt: Date;
 	updatedAt: Date;
 	user: User;
+	parentId: number | null;
 }

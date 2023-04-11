@@ -34,9 +34,9 @@ export class ArticleService {
     return buildPaginationData(articles, take, cursor);
   }
 
-  async findOne(userId: number | null, slug: string) {
+  async findOne(userId: number | null, username: string, slug: string) {
     const article = await this.prismaService.article.findUnique({
-      where: { slug },
+      where: { slug: `/@${username}/${slug}` },
       include: {
         ...this.articleInclude,
         likes: userId ? { where: { userId } } : false,

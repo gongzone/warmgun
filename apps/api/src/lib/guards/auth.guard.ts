@@ -53,6 +53,8 @@ export class AuthGuard implements CanActivate {
         id: userId,
         username,
       };
+
+      return true;
     }
 
     try {

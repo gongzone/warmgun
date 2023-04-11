@@ -38,17 +38,6 @@ export class ArticleController {
     return await this.articleService.findHotArticles(take, cursor);
   }
 
-  @UseInterceptors(ReqUserInterceptor)
-  @Get('/:slug')
-  @HttpCode(HttpStatus.OK)
-  async findOne(
-    @GetUser('id') userId: number | null,
-    @Param('slug') slug: string,
-  ) {
-    const newSlug = slug.replace('-', '/');
-    return await this.articleService.findOne(userId, newSlug);
-  }
-
   @Get('/:username/users')
   @HttpCode(HttpStatus.OK)
   async findUserArticles(
@@ -57,6 +46,17 @@ export class ArticleController {
     @Query('cursor', ParseIntPipe) cursor: number,
   ) {
     return await this.articleService.findUserArticles(username, take, cursor);
+  }
+
+  @UseInterceptors(ReqUserInterceptor)
+  @Get('/:username/:slug')
+  @HttpCode(HttpStatus.OK)
+  async findOne(
+    @GetUser('id') userId: number | null,
+    @Param('username') username: string,
+    @Param('slug') slug: string,
+  ) {
+    return await this.articleService.findOne(userId, username, slug);
   }
 
   @UseGuards(AuthGuard)

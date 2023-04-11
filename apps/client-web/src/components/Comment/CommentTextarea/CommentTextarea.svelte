@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getMe } from '$api/me';
+	import { findMe } from '$api/user';
 	import UserPiece from '$components/@ui/Block/UserPiece.svelte';
 	import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import AutosizedTextarea from '$components/@Base/Input/AutoSizedTextarea.svelte';
@@ -7,13 +7,13 @@
 
 	let content: string;
 	export let articleId: number;
-	export let parentId: number | undefined;
+	export let parentId: number | null;
 
 	const queryClient = useQueryClient();
 
 	const meQuery = createQuery({
 		queryKey: ['me'],
-		queryFn: getMe
+		queryFn: findMe
 	});
 
 	$: createArticleMutation = createMutation({
@@ -24,7 +24,7 @@
 	});
 </script>
 
-{#if $meQuery.isSuccess}
+{#if $meQuery.data}
 	<UserPiece
 		username={$meQuery.data.username}
 		nickname={$meQuery.data.profile.nickname}

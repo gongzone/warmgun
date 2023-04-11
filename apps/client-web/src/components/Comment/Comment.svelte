@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { createComment, getChildrenComments, getParentComments } from '$api/comment';
-	import { getMe } from '$api/me';
+	import { createComment, findArticleComments } from '$api/comment';
 	import AutosizedTextarea from '$components/@Base/Input/AutoSizedTextarea.svelte';
 	import UserPiece from '$components/@ui/Block/UserPiece.svelte';
 	import {
@@ -12,7 +11,7 @@
 	} from '@tanstack/svelte-query';
 
 	import ConmmentTextarea from './CommentTextarea/CommentTextarea.svelte';
-	import type { Comment } from '$lib/types/api';
+	import type { Comment, PaginationData } from '$lib/types/api';
 
 	export let articleId: number;
 	let open: {
@@ -24,7 +23,7 @@
 
 	$: parentCommentsQuery = createInfiniteQuery({
 		queryKey: ['parentComments', articleId],
-		queryFn: getParentComments,
+		queryFn: findArticleComments,
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	});
 
@@ -34,26 +33,23 @@
 		Object.keys(open).map((key) => {
 			return {
 				queryKey: ['childComments', articleId, key],
-				queryFn: getChildrenComments,
-				getNextPageParam: (lastPage) => lastPage.nextCursor,
-				onSuccess: (data) => {
-					console.log(data);
-					bye[data.comments[0].parentId] = data.comments;
+				queryFn: findArticleComments,
+				getNextPageParam: (lastPage: PaginationData<Comment>) => lastPage.nextCursor,
+				onSuccess: (result: PaginationData<Comment>) => {
+					bye[result.data[0].parentId!] = result.data;
 				}
 			};
 		})
 	);
-
-	$: console.log($childCommentsQueries);
 </script>
 
 <div class="mt-20">
-	<ConmmentTextarea {articleId} parentId={undefined} />
+	<ConmmentTextarea {articleId} parentId={null} />
 
 	{#if $parentCommentsQuery.isSuccess}
 		<ul>
-			{#each $parentCommentsQuery.data.pages as { comments }}
-				{#each comments as comment (comment.id)}
+			{#each $parentCommentsQuery.data.pages as { data }}
+				{#each data as comment (comment.id)}
 					<li class="card p-5">
 						<p>{comment.content}</p>
 						{#if !open[comment.id]}
