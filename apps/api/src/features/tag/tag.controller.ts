@@ -1,15 +1,22 @@
-import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  ParseIntPipe,
+  Query,
+} from '@nestjs/common';
+
 import { TagService } from './tag.service';
-import { TagFindAllMode } from './types';
 
 @Controller('tags')
 export class TagController {
   constructor(private readonly tagService: TagService) {}
 
-  @Get()
+  @Get('/popular')
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query('mode') mode: TagFindAllMode) {
-    return await this.tagService.findAll({ mode });
+  async findPopularTags(@Query('take', ParseIntPipe) take: number) {
+    return await this.tagService.findPopularTags(take);
   }
 
   /* Todo: meilisearch로 교체 */

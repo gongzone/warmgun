@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-import { UserFindAllMode } from './types';
 import { PrismaService } from '../@base/prisma/prisma.service';
 import { UpdateUserDto } from './dtos';
 
@@ -13,10 +12,18 @@ import { UpdateUserDto } from './dtos';
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAll({ mode }: { mode: UserFindAllMode }) {
-    if (mode === 'top') {
-      return await this.findTopUsers();
-    }
+  async findTopUsers(take: number) {
+    const users = await this.prismaService.user.findMany({
+      take: take,
+      select: this.userSelect,
+      orderBy: {
+        followedBy: {
+          _count: 'desc',
+        },
+      },
+    });
+
+    return users;
   }
 
   async findMe(id: number) {
@@ -64,18 +71,6 @@ export class UserService {
 
   async deleteMe(id: number) {
     return;
-  }
-
-  private async findTopUsers() {
-    return await this.prismaService.user.findMany({
-      take: 10,
-      select: this.userSelect,
-      orderBy: {
-        followedBy: {
-          _count: 'desc',
-        },
-      },
-    });
   }
 
   private get userSelect() {

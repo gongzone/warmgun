@@ -10,7 +10,7 @@ import { SaveDraftDto } from './dtos';
 export class DraftService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAll(userId: number) {
+  async findMyDrafts(userId: number) {
     const drafts = await this.prismaService.draft.findMany({
       where: { authorId: userId },
       orderBy: {

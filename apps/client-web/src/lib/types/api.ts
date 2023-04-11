@@ -50,13 +50,13 @@ export interface Article {
 	};
 }
 
-export interface BlogerArticle extends Article {
-	isLiked: boolean;
+export interface PaginationData<T> {
+	data: T[];
+	nextCursor: number | undefined;
 }
 
-export interface ArticlesByPagination {
-	articles: Article[];
-	nextCursor: number;
+export interface BlogerArticle extends Article {
+	isLiked: boolean;
 }
 
 export interface Tag {
@@ -70,9 +70,4 @@ export interface Comment {
 	createdAt: Date;
 	updatedAt: Date;
 	user: User;
-}
-
-export interface CommentsByPagination {
-	comments: Comment[];
-	nextCursor: number;
 }

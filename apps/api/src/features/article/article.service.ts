@@ -3,31 +3,38 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { PrismaService } from '../@base/prisma/prisma.service';
 import { CreateArticleDto } from './dtos/create-article.dto';
-import { ArticleFindAllMode } from './types';
-
-const ARTICLES_PAGINATION_TAKE = 12;
+import { buildPaginationData } from 'src/lib/utils/infinitePagination';
 
 @Injectable()
 export class ArticleService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAll({
-    mode,
-    cursor,
-  }: {
-    mode: ArticleFindAllMode;
-    cursor: number;
-  }) {
-    if (mode === 'best') {
-      return await this.findBestArtlces();
-    }
+  async findBestArticles(take: number) {
+    const articles = await this.prismaService.article.findMany({
+      take: take,
+      include: this.articleInclude,
+      orderBy: {
+        trendingScore: 'desc',
+      },
+    });
 
-    if (mode === 'hot') {
-      return await this.findHotArticles(cursor);
-    }
+    return articles;
   }
 
-  async findOne(userId: number, slug: string) {
+  async findHotArticles(take: number, cursor: number) {
+    const articles = await this.prismaService.article.findMany({
+      take: take,
+      skip: take * cursor,
+      include: this.articleInclude,
+      orderBy: {
+        trendingScore: 'desc',
+      },
+    });
+
+    return buildPaginationData(articles, take, cursor);
+  }
+
+  async findOne(userId: number | null, slug: string) {
     const article = await this.prismaService.article.findUnique({
       where: { slug },
       include: {
@@ -43,10 +50,10 @@ export class ArticleService {
     return { ...article, isLiked: !!article.likes?.length };
   }
 
-  async findBlogerArticles(username: string, cursor: number) {
+  async findUserArticles(username: string, take: number, cursor: number) {
     const articles = await this.prismaService.article.findMany({
-      take: ARTICLES_PAGINATION_TAKE,
-      skip: ARTICLES_PAGINATION_TAKE * cursor,
+      take: take,
+      skip: take * cursor,
       where: {
         author: { username },
       },
@@ -56,11 +63,7 @@ export class ArticleService {
       },
     });
 
-    return {
-      articles,
-      nextCursor:
-        articles.length === ARTICLES_PAGINATION_TAKE ? cursor + 1 : undefined,
-    };
+    return buildPaginationData(articles, take, cursor);
   }
 
   async create(userId: number, createArticleDto: CreateArticleDto) {
@@ -119,35 +122,6 @@ export class ArticleService {
     });
 
     /* Todo: trending score update */
-  }
-
-  private async findBestArtlces() {
-    const articles = await this.prismaService.article.findMany({
-      take: ARTICLES_PAGINATION_TAKE,
-      include: this.articleInclude,
-      orderBy: {
-        trendingScore: 'desc',
-      },
-    });
-
-    return articles;
-  }
-
-  private async findHotArticles(cursor: number) {
-    const articles = await this.prismaService.article.findMany({
-      take: ARTICLES_PAGINATION_TAKE,
-      skip: ARTICLES_PAGINATION_TAKE * cursor,
-      include: this.articleInclude,
-      orderBy: {
-        trendingScore: 'desc',
-      },
-    });
-
-    return {
-      articles,
-      nextCursor:
-        articles.length === ARTICLES_PAGINATION_TAKE ? cursor + 1 : undefined,
-    };
   }
 
   private get articleInclude() {

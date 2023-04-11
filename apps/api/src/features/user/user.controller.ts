@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Put,
   Query,
   UseGuards,
@@ -14,17 +15,16 @@ import {
 import { UserService } from './user.service';
 import { AuthGuard } from 'src/lib/guards/auth.guard';
 import { GetUser } from 'src/lib/decorators/user.decorator';
-import { UserFindAllMode } from './types';
 import { UpdateUserDto } from './dtos';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  @Get('/top')
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query('mode') mode: UserFindAllMode) {
-    return await this.userService.findAll({ mode });
+  async findAll(@Query('take', ParseIntPipe) take: number) {
+    return await this.userService.findTopUsers(take);
   }
 
   @UseGuards(AuthGuard('access'))

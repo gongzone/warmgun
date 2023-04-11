@@ -1,17 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../@base/prisma/prisma.service';
-import { TagFindAllMode } from './types';
-
-const POPULAR_TAGS_NUMBER = 12;
 
 @Injectable()
 export class TagService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAll({ mode }: { mode: TagFindAllMode }) {
-    if (mode === 'popular') {
-      return this.findPopularTags();
+  async findPopularTags(take: number) {
+    const popularTags = await this.prismaService.tag.findMany({
+      take: take,
+      where: {
+        articles: {
+          some: {
+            createdAt: { gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14) },
+          },
+        },
+      },
+      orderBy: { articles: { _count: 'desc' } },
+    });
+
+    if (popularTags.length < take) {
+      const excludes = popularTags.map((tag) => tag.name);
+
+      const fallbackTags = await this.prismaService.tag.findMany({
+        take: take - popularTags.length,
+        where: {
+          name: { notIn: excludes },
+        },
+        orderBy: { articles: { _count: 'desc' } },
+      });
+
+      return popularTags.concat(fallbackTags);
     }
+
+    return popularTags;
   }
 
   async searchTags(input: string, excludes: string[] = []) {
@@ -45,35 +66,5 @@ export class TagService {
       name: tag.name,
       count: tag._count.articles,
     }));
-  }
-
-  private async findPopularTags() {
-    const popularTags = await this.prismaService.tag.findMany({
-      take: POPULAR_TAGS_NUMBER,
-      where: {
-        articles: {
-          some: {
-            createdAt: { gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14) },
-          },
-        },
-      },
-      orderBy: { articles: { _count: 'desc' } },
-    });
-
-    if (popularTags.length < POPULAR_TAGS_NUMBER) {
-      const excludes = popularTags.map((tag) => tag.name);
-
-      const fallbackTags = await this.prismaService.tag.findMany({
-        take: POPULAR_TAGS_NUMBER - popularTags.length,
-        where: {
-          name: { notIn: excludes },
-        },
-        orderBy: { articles: { _count: 'desc' } },
-      });
-
-      return popularTags.concat(fallbackTags);
-    }
-
-    return popularTags;
   }
 }

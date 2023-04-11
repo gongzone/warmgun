@@ -16,7 +16,6 @@ import {
 import { GetUser } from 'src/lib/decorators/user.decorator';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dtos/create-article.dto';
-import { ArticleFindAllMode } from './types';
 import { ReqUserInterceptor } from 'src/lib/interceptors/reqUser.interceptor';
 import { AuthGuard } from 'src/lib/guards/auth.guard';
 
@@ -24,33 +23,40 @@ import { AuthGuard } from 'src/lib/guards/auth.guard';
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
-  @Get()
+  @Get('/best')
   @HttpCode(HttpStatus.OK)
-  async findAll(
-    @Query('mode') mode: ArticleFindAllMode,
-    @Query('cursor') cursor: string | undefined,
+  async findBestArticles(@Query('take', ParseIntPipe) take: number) {
+    return await this.articleService.findBestArticles(take);
+  }
+
+  @Get('/hot')
+  @HttpCode(HttpStatus.OK)
+  async findHotArticles(
+    @Query('take', ParseIntPipe) take: number,
+    @Query('cursor', ParseIntPipe) cursor: number,
   ) {
-    return await this.articleService.findAll({
-      mode,
-      cursor: cursor ? +cursor : undefined,
-    });
+    return await this.articleService.findHotArticles(take, cursor);
   }
 
   @UseInterceptors(ReqUserInterceptor)
   @Get('/:slug')
   @HttpCode(HttpStatus.OK)
-  async findOne(@GetUser('id') userId: number, @Param('slug') slug: string) {
-    const newSlug = slug.replace(' ', '/');
+  async findOne(
+    @GetUser('id') userId: number | null,
+    @Param('slug') slug: string,
+  ) {
+    const newSlug = slug.replace('-', '/');
     return await this.articleService.findOne(userId, newSlug);
   }
 
-  @Get('/blogers/:username')
+  @Get('/:username/users')
   @HttpCode(HttpStatus.OK)
-  async findBlogerArticles(
+  async findUserArticles(
     @Param('username') username: string,
+    @Query('take', ParseIntPipe) take: number,
     @Query('cursor', ParseIntPipe) cursor: number,
   ) {
-    return await this.articleService.findBlogerArticles(username, cursor);
+    return await this.articleService.findUserArticles(username, take, cursor);
   }
 
   @UseGuards(AuthGuard('access'))
@@ -65,24 +71,24 @@ export class ArticleController {
   }
 
   @UseGuards(AuthGuard('access'))
-  @Post('/likes/:id')
+  @Post('/:id/likes')
   @HttpCode(HttpStatus.OK)
   async like(
     @GetUser('id') userId: number,
-    @Param('id', ParseIntPipe) articleId: number,
+    @Param('id', ParseIntPipe) id: number,
   ) {
-    await this.articleService.like(userId, articleId);
+    await this.articleService.like(userId, id);
     return { message: '아티클 좋아요 성공' };
   }
 
   @UseGuards(AuthGuard('access'))
-  @Delete('/likes/:id')
+  @Delete('/:id/likes')
   @HttpCode(HttpStatus.OK)
   async unlike(
     @GetUser('id') userId: number,
-    @Param('id', ParseIntPipe) articleId: number,
+    @Param('id', ParseIntPipe) id: number,
   ) {
-    await this.articleService.unlike(userId, articleId);
+    await this.articleService.unlike(userId, id);
     return { message: '아티클 좋아요 취소 성공' };
   }
 }

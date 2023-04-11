@@ -1,8 +1,8 @@
 import { api } from '$lib/clients/api-client';
 import type { User } from '$lib/types/api';
 
-export async function findAllUsers({ mode }: { mode: UserFindAllMode }) {
-	return await api.get(`api/users?mode=${mode}`).json<User[]>();
+export async function findTopUsers() {
+	return await api.get(`api/users/top?take=${10}`).json<User[]>();
 }
 
 export async function findMe() {
@@ -12,5 +12,3 @@ export async function findMe() {
 export async function findOneUser(username: string) {
 	return await api.get(`api/users/${username}`).json<User>();
 }
-
-type UserFindAllMode = 'top';

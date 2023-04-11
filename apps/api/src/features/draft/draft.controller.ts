@@ -22,10 +22,10 @@ export class DraftController {
   constructor(private readonly draftService: DraftService) {}
 
   @UseGuards(AuthGuard('access'))
-  @Get()
+  @Get('/me')
   @HttpCode(HttpStatus.OK)
-  async findAll(@GetUser('id') userId: number) {
-    return await this.draftService.findAll(userId);
+  async findMyDrafts(@GetUser('id') userId: number) {
+    return await this.draftService.findMyDrafts(userId);
   }
 
   @UseGuards(AuthGuard('access'))

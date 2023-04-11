@@ -2,8 +2,8 @@ import type { OutputData } from '@editorjs/editorjs';
 import { api } from '$lib/clients/api-client';
 import type { Draft } from '$lib/types/api';
 
-export async function findAllDrafts() {
-	return await api.get(`api/drafts`).json<Draft[]>();
+export async function findMyDrafts() {
+	return await api.get(`api/drafts/me`).json<Draft[]>();
 }
 
 export async function findOneDraft(id: number) {

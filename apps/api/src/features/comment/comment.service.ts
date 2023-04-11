@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../@base/prisma/prisma.service';
-import { PaginationData } from 'src/lib/types/pagination';
 import { Prisma } from '@prisma/client';
-import { CreateCommentDto } from './dtos/create-comment.dto';
+import { Injectable } from '@nestjs/common';
 
-const COMMENT_PAGINATION_TAKE = 10;
+import { PrismaService } from '../@base/prisma/prisma.service';
+import { CreateCommentDto } from './dtos/create-comment.dto';
+import { buildPaginationData } from 'src/lib/utils/infinitePagination';
 
 @Injectable()
 export class CommentService {
@@ -13,26 +12,24 @@ export class CommentService {
   async findArticleComments({
     articleId,
     parentId,
+    take,
     cursor,
   }: {
     articleId: number;
     parentId: number | null;
+    take: number;
     cursor: number;
   }) {
     const comments = await this.prismaService.comment.findMany({
-      take: COMMENT_PAGINATION_TAKE,
-      skip: COMMENT_PAGINATION_TAKE * cursor,
+      take: take,
+      skip: take * cursor,
       where: {
         AND: [{ articleId }, { parentId }],
       },
       include: this.commentInclude,
     });
 
-    return {
-      comments,
-      nextCursor:
-        comments.length === COMMENT_PAGINATION_TAKE ? cursor + 1 : undefined,
-    };
+    return buildPaginationData(comments, take, cursor);
   }
 
   async create({
