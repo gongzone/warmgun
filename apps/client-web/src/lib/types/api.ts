@@ -71,4 +71,7 @@ export interface Comment {
 	updatedAt: Date;
 	user: User;
 	parentId: number | null;
+	_count: {
+		children: number;
+	};
 }

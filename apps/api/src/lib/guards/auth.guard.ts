@@ -12,6 +12,7 @@ import { RequestUser } from '../types/request-user';
 import { JwtPayload } from '../types/token';
 import { AuthService } from 'src/features/auth/auth.service';
 import { CookieService } from 'src/features/auth/cookie.service';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -35,25 +36,7 @@ export class AuthGuard implements CanActivate {
     }
 
     if (!accessToken && refreshToken) {
-      const {
-        tokenId: newTokenId,
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-        userId,
-        username,
-      } = await this.authSerivce.refresh(tokenId, refreshToken);
-
-      this.cookieService.setAuthCookies(res, {
-        tokenId: newTokenId,
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-      });
-
-      req['user'] = {
-        id: userId,
-        username,
-      };
-
+      await this.refreshFlow(req, res, tokenId, refreshToken);
       return true;
     }
 
@@ -70,11 +53,39 @@ export class AuthGuard implements CanActivate {
         username: payload.username,
       } satisfies RequestUser;
     } catch (err) {
+      await this.refreshFlow(req, res, tokenId, refreshToken);
+
       throw new UnauthorizedException(
-        '토큰 검증 과정에서 문제가 발생하였습니다.',
+        '액세스 토큰 검증 과정에서 문제가 발생하였습니다.',
       );
     }
 
     return true;
+  }
+
+  private async refreshFlow(
+    req: Request,
+    res: Response,
+    tokenId: number,
+    refreshToken: string,
+  ) {
+    const {
+      tokenId: newTokenId,
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+      userId,
+      username,
+    } = await this.authSerivce.refresh(tokenId, refreshToken);
+
+    this.cookieService.setAuthCookies(res, {
+      tokenId: newTokenId,
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    });
+
+    req['user'] = {
+      id: userId,
+      username,
+    };
   }
 }

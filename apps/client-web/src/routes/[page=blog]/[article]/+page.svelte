@@ -78,7 +78,10 @@
 			<Viewer body={$blogerArticleQuery.data.body} />
 		</div>
 
-		<Comment articleId={$blogerArticleQuery.data.id} />
+		<div class="mt-32 space-y-6">
+			<span class="font-bold text-2xl">{$blogerArticleQuery.data._count.comments}개의 댓글</span>
+			<Comment articleId={$blogerArticleQuery.data.id} />
+		</div>
 	</main>
 
 	<BottomBar position="fixed" innerDiv="grid-cols-2">

@@ -27,6 +27,9 @@ export class CommentService {
         AND: [{ articleId }, { parentId }],
       },
       include: this.commentInclude,
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
 
     return buildPaginationData(comments, take, cursor);
@@ -60,6 +63,11 @@ export class CommentService {
       user: {
         select: {
           profile: true,
+        },
+      },
+      _count: {
+        select: {
+          children: true,
         },
       },
     } satisfies Prisma.CommentInclude;

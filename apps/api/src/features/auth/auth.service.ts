@@ -122,7 +122,7 @@ export class AuthService {
       });
     } catch {
       throw new UnauthorizedException(
-        '토큰 검증 과정에서 문제가 발생하였습니다.',
+        '리프레시 토큰 검증 과정에서 문제가 발생하였습니다.',
       );
     }
 
