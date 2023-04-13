@@ -10,7 +10,7 @@
 
 	import type { LayoutData } from './$types';
 	import { QueryClientProvider } from '@tanstack/svelte-query';
-	import { storePopup, Toast } from '@skeletonlabs/skeleton';
+	import { storePopup, Toast, Modal } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 
 	import Drawer from '$components/Drawer/Drawer.svelte';
@@ -22,6 +22,7 @@
 
 <QueryClientProvider client={data.queryClient}>
 	<Toast />
+	<Modal />
 	<Drawer />
 	<slot />
 </QueryClientProvider>

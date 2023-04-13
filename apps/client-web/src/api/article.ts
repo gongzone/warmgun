@@ -35,6 +35,10 @@ export async function updateArticle(id: number, updateArticleDto: CreateArticleD
 	return api.put(`api/articles/${id}`, { json: updateArticleDto });
 }
 
+export async function deleteArticle(id: number) {
+	return api.delete(`api/articles/${id}`);
+}
+
 export async function likeArticle(articleId: number) {
 	return api.post(`api/articles/${articleId}/likes`);
 }

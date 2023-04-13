@@ -95,6 +95,17 @@ export class ArticleController {
   }
 
   @UseGuards(AuthGuard)
+  @Delete('/:id')
+  @HttpCode(HttpStatus.OK)
+  async delete(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    await this.articleService.delete(userId, id);
+    return { message: '아티클 삭제' };
+  }
+
+  @UseGuards(AuthGuard)
   @Post('/:id/likes')
   @HttpCode(HttpStatus.OK)
   async like(

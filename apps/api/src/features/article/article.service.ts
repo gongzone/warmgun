@@ -137,8 +137,15 @@ export class ArticleService {
     });
   }
 
-  async delete() {
-    return;
+  async delete(userId: number, id: number) {
+    await this.prismaService.article.delete({
+      where: {
+        id_authorId: {
+          id,
+          authorId: userId,
+        },
+      },
+    });
   }
 
   async like(userId: number, articleId: number) {

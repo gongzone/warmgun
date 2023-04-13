@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { createMutation, createQuery } from '@tanstack/svelte-query';
 	import HeartIcon from '~icons/ri/heart-2-fill';
 	import MoreIcon from '~icons/ri/more-2-fill';
 
-	import { findOneArticle, likeArticle, unlikeArticle } from '$api/article';
+	import { deleteArticle, findOneArticle, likeArticle, unlikeArticle } from '$api/article';
 	import { Avatar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import Viewer from '$components/Editor/Viewer.svelte';
 	import BottomBar from '$components/@ui/Block/BottomBar/BottomBar.svelte';
 	import BottomBarItem from '$components/@ui/Block/BottomBar/BottomBarItem.svelte';
 	import Comment from '$components/Comment/Comment.svelte';
+	import { triggerConfirmModal } from '$components/Message/modal';
 
 	let isLiked: boolean | undefined = false;
 
@@ -26,6 +28,17 @@
 		queryFn: () => findOneArticle($page.params.page.slice(1), $page.params.article),
 		onSuccess: (data) => {
 			isLiked = data.isLiked;
+		}
+	});
+
+	const deleteArticleMutation = createMutation({
+		mutationFn: async () => {
+			if ($blogerArticleQuery.isSuccess) {
+				await deleteArticle($blogerArticleQuery.data.id);
+			}
+		},
+		onSuccess: () => {
+			goto(`/@${$blogerArticleQuery.data?.author.username}`);
 		}
 	});
 
@@ -68,7 +81,18 @@
 								<a href={`/write/published/${$blogerArticleQuery.data.id}`}>수정하기</a>
 							</li>
 							<li>
-								<button>삭제하기</button>
+								<button
+									on:click={() =>
+										triggerConfirmModal(
+											'아티클 삭제',
+											'정말로 삭제하시겠습니까? 이 행동은 돌이킬 수 없습니다!',
+											(r) => {
+												if (r) {
+													$deleteArticleMutation.mutate();
+												}
+											}
+										)}>삭제하기</button
+								>
 							</li>
 						</ul>
 						<!-- Append the arrow element -->
