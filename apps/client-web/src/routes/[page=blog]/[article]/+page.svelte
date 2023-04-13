@@ -11,7 +11,7 @@
 	import BottomBar from '$components/@ui/Block/BottomBar/BottomBar.svelte';
 	import BottomBarItem from '$components/@ui/Block/BottomBar/BottomBarItem.svelte';
 	import Comment from '$components/Comment/Comment.svelte';
-	import { triggerConfirmModal } from '$components/Message/modal';
+	import { triggerConfirmModal } from '$components/Modal/modal';
 
 	let isLiked: boolean | undefined = false;
 

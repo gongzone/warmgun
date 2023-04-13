@@ -12,3 +12,13 @@ export async function findMe() {
 export async function findOneUser(username: string) {
 	return await api.get(`api/users/${username}`).json<User>();
 }
+
+export async function updateMyProfile(updateMyProfileDto: UpdateMyProfileDto) {
+	return await api.put(`api/users/me/profile`, { json: updateMyProfileDto });
+}
+
+interface UpdateMyProfileDto {
+	nickname: string;
+	bio: string;
+	avatar: string | null;
+}

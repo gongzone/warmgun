@@ -13,6 +13,7 @@ import { JwtPayload } from '../types/token';
 import { RequestUser } from '../types/request-user';
 import { AuthService } from 'src/features/auth/auth.service';
 import { CookieService } from 'src/features/auth/cookie.service';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class ReqUserInterceptor implements NestInterceptor {
@@ -39,27 +40,8 @@ export class ReqUserInterceptor implements NestInterceptor {
       return next.handle();
     }
 
-    // 리프레시가 필요한 경우
     if (!accessToken && refreshToken) {
-      const {
-        tokenId: newTokenId,
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-        userId,
-        username,
-      } = await this.authSerivce.refresh(tokenId, refreshToken);
-
-      this.cookieService.setAuthCookies(res, {
-        tokenId: newTokenId,
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-      });
-
-      req['user'] = {
-        id: userId,
-        username,
-      };
-
+      await this.refreshFlow(req, res, tokenId, refreshToken);
       return next.handle();
     }
 
@@ -76,10 +58,36 @@ export class ReqUserInterceptor implements NestInterceptor {
         username: payload.username,
       } satisfies RequestUser;
     } catch {
-      req['user'] = null;
+      await this.refreshFlow(req, res, tokenId, refreshToken);
       return next.handle();
     }
 
     return next.handle();
+  }
+
+  private async refreshFlow(
+    req: Request,
+    res: Response,
+    tokenId: number,
+    refreshToken: string,
+  ) {
+    const {
+      tokenId: newTokenId,
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+      userId,
+      username,
+    } = await this.authSerivce.refresh(tokenId, refreshToken);
+
+    this.cookieService.setAuthCookies(res, {
+      tokenId: newTokenId,
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    });
+
+    req['user'] = {
+      id: userId,
+      username,
+    };
   }
 }

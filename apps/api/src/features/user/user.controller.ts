@@ -49,13 +49,13 @@ export class UserController {
 
   /* frontend implementation required */
   @UseGuards(AuthGuard)
-  @Put('/me')
+  @Put('/me/profile')
   @HttpCode(HttpStatus.OK)
   async updateMe(
     @GetUser('id') userId: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    await this.userService.updateMe(userId, updateUserDto);
+    await this.userService.updateMyProfile(userId, updateUserDto);
     return { message: '사용자 업데이트 성공' };
   }
 

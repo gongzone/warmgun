@@ -16,3 +16,15 @@ export function triggerConfirmModal(
 	};
 	modalStore.trigger(confirm);
 }
+
+export function triggerComponentModal(
+	preset: 'editProfileModal',
+	meta: ModalSettings['meta']
+): void {
+	const component: ModalSettings = {
+		type: 'component',
+		component: preset,
+		meta
+	};
+	modalStore.trigger(component);
+}

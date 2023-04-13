@@ -52,7 +52,7 @@ export class UserService {
     return user;
   }
 
-  async updateMe(id: number, updateUserDto: UpdateUserDto) {
+  async updateMyProfile(id: number, updateUserDto: UpdateUserDto) {
     const { nickname, bio, avatar } = updateUserDto;
 
     await this.prismaService.user.update({
