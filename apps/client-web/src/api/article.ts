@@ -12,6 +12,10 @@ export async function findHotArticles({ pageParam = 1 }: QueryFunctionContext) {
 	return api.get(`api/articles/hot?take=${12}&cursor=${pageParam}`).json<PaginationData<Article>>();
 }
 
+export async function findOnePublished(id: number) {
+	return api.get(`api/articles/${id}`).json<Article>();
+}
+
 export async function findOneArticle(username: string, slug: string) {
 	return api.get(`api/articles/${username}/${slug}`).json<BlogerArticle>();
 }
@@ -25,6 +29,10 @@ export async function findUserArticles({ queryKey, pageParam = 0 }: QueryFunctio
 
 export async function createArticle(createArticleDto: CreateArticleDto) {
 	return api.post(`api/articles`, { json: createArticleDto });
+}
+
+export async function updateArticle(id: number, updateArticleDto: CreateArticleDto) {
+	return api.put(`api/articles/${id}`, { json: updateArticleDto });
 }
 
 export async function likeArticle(articleId: number) {

@@ -5,12 +5,12 @@
 	import CommunityIcon from '~icons/ri/community-line';
 	import QuillPenIcon from '~icons/ri/quill-pen-line';
 
-	import type { Me } from '$api/me';
+	import type { User } from '$lib/types/api';
 	import { logout } from '$api/auth';
 
 	import UserAvatar from '$components/@ui/Block/UserAvatar.svelte';
 
-	export let user: Me;
+	export let user: User;
 	export let latestDraftId: number;
 
 	const menuKey = 'authenticated-menu';

@@ -2,15 +2,24 @@
 	import { page } from '$app/stores';
 	import { createMutation, createQuery } from '@tanstack/svelte-query';
 	import HeartIcon from '~icons/ri/heart-2-fill';
+	import MoreIcon from '~icons/ri/more-2-fill';
 
 	import { findOneArticle, likeArticle, unlikeArticle } from '$api/article';
-	import { Avatar } from '@skeletonlabs/skeleton';
+	import { Avatar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import Viewer from '$components/Editor/Viewer.svelte';
 	import BottomBar from '$components/@ui/Block/BottomBar/BottomBar.svelte';
 	import BottomBarItem from '$components/@ui/Block/BottomBar/BottomBarItem.svelte';
 	import Comment from '$components/Comment/Comment.svelte';
 
 	let isLiked: boolean | undefined = false;
+
+	let popupSettings: PopupSettings = {
+		// Set the event as: click | hover | hover-click | focus | focus-click
+		event: 'click',
+		placement: 'bottom',
+		// Provide a matching 'data-popup' value.
+		target: 'examplePopup'
+	};
 
 	$: blogerArticleQuery = createQuery({
 		queryKey: ['articles', $page.params.page.slice(1), $page.params.article],
@@ -37,7 +46,7 @@
 
 {#if $blogerArticleQuery.isSuccess}
 	<main class="max-w-[760px] mx-auto py-12">
-		<div class="flex justify-between mb-6">
+		<div class="flex justify-between items-center mb-6">
 			<div class="flex gap-2">
 				<Avatar src={$blogerArticleQuery.data.author.profile.avatar ?? ''} />
 				<div class="flex flex-col gap-1">
@@ -49,9 +58,23 @@
 			</div>
 
 			<div>
-				<span>Likes: {$blogerArticleQuery.data._count.likes}</span>
-				<span>Comments: {$blogerArticleQuery.data._count.comments}</span>
-				<span>날짜: {$blogerArticleQuery.data.createdAt}</span>
+				{#if $blogerArticleQuery.data.isOwner}
+					<button class="btn-icon variant-ringed-tertiary" use:popup={popupSettings}>
+						<MoreIcon />
+					</button>
+					<div class="card p-4" data-popup="examplePopup">
+						<ul class="list">
+							<li>
+								<a href={`/write/published/${$blogerArticleQuery.data.id}`}>수정하기</a>
+							</li>
+							<li>
+								<button>삭제하기</button>
+							</li>
+						</ul>
+						<!-- Append the arrow element -->
+						<div class="arrow bg-surface-800" />
+					</div>
+				{/if}
 			</div>
 		</div>
 
@@ -91,7 +114,7 @@
 				appBtnPosition="left"
 				on:click={() => $unlikeArticleMutation.mutate()}
 			>
-				<HeartIcon class="text-primary-500" />
+				<HeartIcon class="text-secondary-500" />
 			</BottomBarItem>
 		{:else}
 			<BottomBarItem

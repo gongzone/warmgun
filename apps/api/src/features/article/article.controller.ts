@@ -8,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   Query,
   UseGuards,
   UseInterceptors,
@@ -18,6 +19,7 @@ import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dtos/create-article.dto';
 import { ReqUserInterceptor } from 'src/lib/interceptors/reqUser.interceptor';
 import { AuthGuard } from 'src/lib/guards/auth.guard';
+import { UpdateArticleDto } from './dtos';
 
 @Controller('articles')
 export class ArticleController {
@@ -48,6 +50,16 @@ export class ArticleController {
     return await this.articleService.findUserArticles(username, take, cursor);
   }
 
+  @UseGuards(AuthGuard)
+  @Get('/:id')
+  @HttpCode(HttpStatus.OK)
+  async findOnePublished(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return await this.articleService.findOnePublished(userId, id);
+  }
+
   @UseInterceptors(ReqUserInterceptor)
   @Get('/:username/:slug')
   @HttpCode(HttpStatus.OK)
@@ -68,6 +80,18 @@ export class ArticleController {
   ) {
     await this.articleService.create(userId, createArticleDto);
     return { message: '아티클 생성 성공' };
+  }
+
+  @UseGuards(AuthGuard)
+  @Put('/:id')
+  @HttpCode(HttpStatus.OK)
+  async update(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateArticleDto: UpdateArticleDto,
+  ) {
+    await this.articleService.update(userId, id, updateArticleDto);
+    return { message: '아티클 수정 성공' };
   }
 
   @UseGuards(AuthGuard)

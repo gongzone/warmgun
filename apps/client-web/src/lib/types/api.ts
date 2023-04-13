@@ -57,6 +57,7 @@ export interface PaginationData<T> {
 
 export interface BlogerArticle extends Article {
 	isLiked: boolean;
+	isOwner: boolean;
 }
 
 export interface Tag {

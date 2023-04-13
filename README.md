@@ -1,3 +1,10 @@
-1. Comment component
-2. Viewer component
-3. Article page
+1. 아티클 수정 (v)
+2. 아티클 삭제
+3. 프로필 수정
+4. 계정 삭제
+5. following
+6. 실시간 글
+7. 마이 피드
+8. 태그 페이지
+9. 트렌딩 스코어 알고리즘
+10. 서치 기능

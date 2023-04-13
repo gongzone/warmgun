@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
-import { IsString, IsArray } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
-export class CreateArticleDto {
+export class UpdateArticleDto {
   @IsString()
   title: string;
 

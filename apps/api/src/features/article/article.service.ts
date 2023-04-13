@@ -4,6 +4,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../@base/prisma/prisma.service';
 import { CreateArticleDto } from './dtos/create-article.dto';
 import { buildPaginationData } from 'src/lib/utils/infinitePagination';
+import { UpdateArticleDto } from './dtos';
 
 @Injectable()
 export class ArticleService {
@@ -34,6 +35,20 @@ export class ArticleService {
     return buildPaginationData(articles, take, cursor);
   }
 
+  async findOnePublished(userId: number, id: number) {
+    const article = await this.prismaService.article.findUnique({
+      where: {
+        id_authorId: {
+          id,
+          authorId: userId,
+        },
+      },
+      include: this.articleInclude,
+    });
+
+    return article;
+  }
+
   async findOne(userId: number | null, username: string, slug: string) {
     const article = await this.prismaService.article.findUnique({
       where: { slug: `/@${username}/${slug}` },
@@ -47,7 +62,11 @@ export class ArticleService {
       throw new BadRequestException('아티클을 찾을 수 없습니다.');
     }
 
-    return { ...article, isLiked: !!article.likes?.length };
+    return {
+      ...article,
+      isLiked: !!article.likes?.length,
+      isOwner: article.authorId === userId,
+    };
   }
 
   async findUserArticles(username: string, take: number, cursor: number) {
@@ -87,6 +106,39 @@ export class ArticleService {
         },
       },
     });
+  }
+
+  async update(userId: number, id: number, updateArticleDto: UpdateArticleDto) {
+    const { title, subTitle, body, coverImage, slug, tags } = updateArticleDto;
+
+    console.log(tags);
+
+    await this.prismaService.article.update({
+      where: {
+        id_authorId: {
+          id,
+          authorId: userId,
+        },
+      },
+      data: {
+        title,
+        subTitle,
+        body,
+        coverImage,
+        slug,
+        tags: {
+          set: [],
+          connectOrCreate: tags.map((tag) => ({
+            where: { name: tag },
+            create: { name: tag },
+          })),
+        },
+      },
+    });
+  }
+
+  async delete() {
+    return;
   }
 
   async like(userId: number, articleId: number) {

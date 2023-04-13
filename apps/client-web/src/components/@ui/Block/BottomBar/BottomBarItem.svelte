@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
 	import classNames from 'classnames';
 
 	export let btnName: string = '';
