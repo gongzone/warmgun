@@ -49,6 +49,28 @@ export class ArticleController {
     return await this.articleService.findHotArticles(take, cursor);
   }
 
+  @UseGuards(AuthGuard)
+  @Get('/me/feed')
+  @HttpCode(HttpStatus.OK)
+  async findMyFeedArticles(
+    @GetUser('id') userId: number,
+    @Query('take', ParseIntPipe) take: number,
+    @Query('cursor', ParseIntPipe) cursor: number,
+  ) {
+    return await this.articleService.findMyFeedArticles(userId, take, cursor);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/me/feed/likes')
+  @HttpCode(HttpStatus.OK)
+  async findMyLikeArticles(
+    @GetUser('id') userId: number,
+    @Query('take', ParseIntPipe) take: number,
+    @Query('cursor', ParseIntPipe) cursor: number,
+  ) {
+    return await this.articleService.findMyLikeArticles(userId, take, cursor);
+  }
+
   @Get('/:username/users')
   @HttpCode(HttpStatus.OK)
   async findUserArticles(

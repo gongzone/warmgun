@@ -16,6 +16,18 @@ export async function findHotArticles({ pageParam = 1 }: QueryFunctionContext) {
 	return api.get(`api/articles/hot?take=${12}&cursor=${pageParam}`).json<PaginationData<Article>>();
 }
 
+export async function findMyFeedArticles({ pageParam = 0 }: QueryFunctionContext) {
+	return api
+		.get(`api/articles/me/feed?take=${12}&cursor=${pageParam}`)
+		.json<PaginationData<Article>>();
+}
+
+export async function findMyLikeArticles({ pageParam = 0 }: QueryFunctionContext) {
+	return api
+		.get(`api/articles/me/feed/likes?take=${12}&cursor=${pageParam}`)
+		.json<PaginationData<Article>>();
+}
+
 export async function findOnePublished(id: number) {
 	return api.get(`api/articles/${id}`).json<Article>();
 }

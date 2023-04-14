@@ -48,6 +48,48 @@ export class ArticleService {
     return buildPaginationData(articles, take, cursor);
   }
 
+  async findMyFeedArticles(userId: number, take: number, cursor: number) {
+    const follows = await this.prismaService.follows.findMany({
+      where: {
+        followerId: userId,
+      },
+    });
+
+    const articles = await this.prismaService.article.findMany({
+      take,
+      skip: take * cursor,
+      where: {
+        authorId: { in: follows.map((follow) => follow.followingId) },
+      },
+      include: this.articleInclude,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return buildPaginationData(articles, take, cursor);
+  }
+
+  async findMyLikeArticles(userId: number, take: number, cursor: number) {
+    const articles = await this.prismaService.article.findMany({
+      take,
+      skip: take * cursor,
+      where: {
+        likes: {
+          some: {
+            userId,
+          },
+        },
+      },
+      include: this.articleInclude,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return buildPaginationData(articles, take, cursor);
+  }
+
   async findOnePublished(userId: number, id: number) {
     const article = await this.prismaService.article.findUnique({
       where: {

@@ -16,7 +16,7 @@ export const defaultLinks: NavLink[] = [
 	{
 		name: '나의 피드',
 		icon: FeedIcon,
-		to: '/articles'
+		to: '/feed'
 	}
 ];
 
