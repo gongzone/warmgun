@@ -3,6 +3,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
@@ -17,6 +18,12 @@ export class TagController {
   @HttpCode(HttpStatus.OK)
   async findPopularTags(@Query('take', ParseIntPipe) take: number) {
     return await this.tagService.findPopularTags(take);
+  }
+
+  @Get('/:name')
+  @HttpCode(HttpStatus.OK)
+  async findOne(@Param('name') name: string) {
+    return await this.tagService.findOne(name);
   }
 
   /* Todo: meilisearch로 교체 */

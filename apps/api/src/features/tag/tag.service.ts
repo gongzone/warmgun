@@ -35,6 +35,19 @@ export class TagService {
     return popularTags;
   }
 
+  async findOne(name: string) {
+    const tag = await this.prismaService.tag.findUnique({
+      where: {
+        name,
+      },
+      include: {
+        articles: true,
+      },
+    });
+
+    return tag;
+  }
+
   async searchTags(input: string, excludes: string[] = []) {
     // startsWith를 fullText를 바꿀지 고민
 

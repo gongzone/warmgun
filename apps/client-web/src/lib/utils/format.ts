@@ -9,3 +9,7 @@ export function formatDate(dateData: Date) {
 export function formatTagNameToSlug(tagName: string) {
 	return `/tags/${tagName.replace(' ', '-').toLowerCase()}`;
 }
+
+export function formatSlugToTagName(slug: string) {
+	return slug.replace('-', ' ');
+}

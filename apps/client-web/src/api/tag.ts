@@ -6,6 +6,10 @@ export async function findPopularTags() {
 	return await api.get(`api/tags/popular?take=${12}`).json<Tag[]>();
 }
 
+export async function findOneTag(name: string) {
+	return await api.get(`api/tags/${name}`).json<Tag>();
+}
+
 export async function searchTags(input: string, exclude: string) {
 	return await api.get(`api/tags/search?input=${input}&excludes=${exclude}`).json<SearchedTag[]>();
 }
