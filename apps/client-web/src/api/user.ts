@@ -1,8 +1,15 @@
 import { api } from '$lib/clients/api-client';
-import type { BlogerUser, User } from '$lib/types/api';
+import type { BlogerUser, PaginationData, User } from '$lib/types/api';
+import type { QueryFunctionContext } from '@tanstack/svelte-query';
 
 export async function findTopUsers() {
 	return await api.get(`api/users/top?take=${10}`).json<User[]>();
+}
+
+export async function findMyFollowingUsers({ pageParam = 0 }: QueryFunctionContext) {
+	return await api
+		.get(`api/users/me/follows?take=${10}&cursor=${pageParam}`)
+		.json<PaginationData<User>>();
 }
 
 export async function findMe() {

@@ -31,6 +31,17 @@ export class UserController {
     return await this.userService.findTopUsers(take);
   }
 
+  @UseGuards(AuthGuard)
+  @Get('/me/follows')
+  @HttpCode(HttpStatus.OK)
+  async findMyFollowingUsers(
+    @GetUser('id') userId: number,
+    @Query('take', ParseIntPipe) take: number,
+    @Query('cursor', ParseIntPipe) cursor: number,
+  ) {
+    return await this.userService.findMyFollowingUsers(userId, take, cursor);
+  }
+
   @UseInterceptors(ReqUserInterceptor)
   @Get('/me')
   @HttpCode(HttpStatus.OK)

@@ -7,6 +7,7 @@ import {
 
 import { PrismaService } from '../@base/prisma/prisma.service';
 import { UpdateUserDto } from './dtos';
+import { buildPaginationData } from 'src/lib/utils/infinitePagination';
 
 @Injectable()
 export class UserService {
@@ -24,6 +25,24 @@ export class UserService {
     });
 
     return users;
+  }
+
+  async findMyFollowingUsers(userId: number, take: number, cursor: number) {
+    /* Todo: 최신 구독 순서로 정렬 */
+    const users = await this.prismaService.user.findMany({
+      take,
+      skip: take * cursor,
+      where: {
+        followedBy: {
+          some: {
+            followerId: userId,
+          },
+        },
+      },
+      select: this.userSelect,
+    });
+
+    return buildPaginationData(users, take, cursor);
   }
 
   async findMe(id: number) {
