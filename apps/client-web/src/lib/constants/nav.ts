@@ -11,7 +11,7 @@ export const defaultLinks: NavLink[] = [
 	{
 		name: '실시간',
 		icon: NowIcon,
-		to: '/articles'
+		to: '/now'
 	},
 	{
 		name: '나의 피드',

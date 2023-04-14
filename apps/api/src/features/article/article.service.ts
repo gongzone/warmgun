@@ -10,6 +10,19 @@ import { UpdateArticleDto } from './dtos';
 export class ArticleService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findAll(take: number, cursor: number) {
+    const articles = await this.prismaService.article.findMany({
+      take,
+      skip: take * cursor,
+      include: this.articleInclude,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return buildPaginationData(articles, take, cursor);
+  }
+
   async findBestArticles(take: number) {
     const articles = await this.prismaService.article.findMany({
       take: take,

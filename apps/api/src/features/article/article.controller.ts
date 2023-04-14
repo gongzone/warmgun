@@ -25,6 +25,15 @@ import { UpdateArticleDto } from './dtos';
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async findAll(
+    @Query('take', ParseIntPipe) take: number,
+    @Query('cursor', ParseIntPipe) cursor: number,
+  ) {
+    return await this.articleService.findAll(take, cursor);
+  }
+
   @Get('/best')
   @HttpCode(HttpStatus.OK)
   async findBestArticles(@Query('take', ParseIntPipe) take: number) {

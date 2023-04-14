@@ -4,6 +4,10 @@ import type { OutputData } from '@editorjs/editorjs';
 import type { Article, BlogerArticle, PaginationData } from '$lib/types/api';
 import { api } from '$lib/clients/api-client';
 
+export async function findAllArticles({ pageParam = 0 }: QueryFunctionContext) {
+	return api.get(`api/articles?take=${12}&cursor=${pageParam}`).json<PaginationData<Article>>();
+}
+
 export async function findBestArticles() {
 	return api.get(`api/articles/best?take=${12}`).json<Article[]>();
 }
