@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Post,
   Put,
   Query,
   UseGuards,
@@ -41,13 +42,16 @@ export class UserController {
     return await this.userService.findMe(user.id);
   }
 
+  @UseInterceptors(ReqUserInterceptor)
   @Get('/:username')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('username') username: string) {
-    return await this.userService.findOne(username);
+  async findOne(
+    @GetUser('id') userId: number | null,
+    @Param('username') username: string,
+  ) {
+    return await this.userService.findOne(userId, username);
   }
 
-  /* frontend implementation required */
   @UseGuards(AuthGuard)
   @Put('/me/profile')
   @HttpCode(HttpStatus.OK)
@@ -65,5 +69,27 @@ export class UserController {
   async deleteMe(@GetUser('id') userId: number) {
     await this.userService.deleteMe(userId);
     return { message: '사용자 삭제 성공' };
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('/:id/follows')
+  @HttpCode(HttpStatus.OK)
+  async follow(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    await this.userService.follow(userId, id);
+    return { message: '팔로우 성공' };
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('/:id/follows')
+  @HttpCode(HttpStatus.OK)
+  async unfollow(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    await this.userService.unfollow(userId, id);
+    return { message: '팔로우 취소 성공' };
   }
 }

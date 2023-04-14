@@ -1,14 +1,43 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { createQuery } from '@tanstack/svelte-query';
+	import { createMutation, createQuery } from '@tanstack/svelte-query';
 	import ChatHeartIcon from '~icons/ri/chat-heart-line';
 
-	import { findOneUser } from '$api/user';
+	import { findOneUser, follow, unfollow } from '$api/user';
 	import UserAvatar from '$components/@ui/Block/UserAvatar.svelte';
+
+	let isFollowed: boolean = false;
+	let isOwner: boolean = false;
 
 	$: blogerQuery = createQuery({
 		queryKey: ['user', $page.params.page.slice(1)],
-		queryFn: () => findOneUser($page.params.page.slice(1))
+		queryFn: () => findOneUser($page.params.page.slice(1)),
+		onSuccess: (data) => {
+			isFollowed = data.isFollowed;
+			isOwner = data.isOwner;
+		}
+	});
+
+	const followMutation = createMutation({
+		mutationFn: async () => {
+			if ($blogerQuery.isSuccess) {
+				await follow($blogerQuery.data.id);
+			}
+		},
+		onSuccess: () => {
+			isFollowed = true;
+		}
+	});
+
+	const unfollowMutation = createMutation({
+		mutationFn: async () => {
+			if ($blogerQuery.isSuccess) {
+				await unfollow($blogerQuery.data.id);
+			}
+		},
+		onSuccess: () => {
+			isFollowed = false;
+		}
 	});
 </script>
 
@@ -33,10 +62,22 @@
 			</div>
 
 			<div class="mt-4">
-				<span class="chip variant-filled-primary">
-					<span><ChatHeartIcon /></span>
-					<span>구독하기</span>
-				</span>
+				{#if !isOwner}
+					{#if !isFollowed}
+						<button class="chip variant-filled-primary" on:click={() => $followMutation.mutate()}>
+							<span><ChatHeartIcon /></span>
+							<span>구독하기</span>
+						</button>
+					{:else}
+						<button
+							class="chip variant-filled-secondary"
+							on:click={() => $unfollowMutation.mutate()}
+						>
+							<span><ChatHeartIcon /></span>
+							<span>구독취소</span>
+						</button>
+					{/if}
+				{/if}
 			</div>
 		</div>
 	</div>

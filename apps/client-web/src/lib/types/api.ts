@@ -18,6 +18,11 @@ export interface User {
 	};
 }
 
+export interface BlogerUser extends User {
+	isFollowed: boolean;
+	isOwner: boolean;
+}
+
 export interface Draft {
 	id: number;
 	title: string;

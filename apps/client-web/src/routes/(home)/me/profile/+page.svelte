@@ -1,12 +1,22 @@
 <script lang="ts">
-	import { findMe } from '$api/user';
+	import { deleteMe, findMe } from '$api/user';
+	import { goto } from '$app/navigation';
 	import UserAvatar from '$components/@Base/Avatar/UserAvatar.svelte';
-	import { triggerComponentModal } from '$components/Modal/modal';
-	import { createQuery } from '@tanstack/svelte-query';
+	import { triggerComponentModal, triggerConfirmModal } from '$components/Modal/modal';
+	import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
+
+	const queryClient = useQueryClient();
 
 	const meQuery = createQuery({
 		queryKey: ['me'],
 		queryFn: findMe
+	});
+
+	const deleteMeMutation = createMutation({
+		mutationFn: () => deleteMe(),
+		onSuccess: () => {
+			queryClient.invalidateQueries(['me']);
+		}
 	});
 </script>
 
@@ -33,5 +43,23 @@
 				>
 			</div>
 		</div>
+	</div>
+
+	<div class="mt-20 space-y-4">
+		<h3>회원 탈퇴</h3>
+		<button
+			class="btn variant-filled-secondary"
+			on:click={() =>
+				triggerConfirmModal(
+					'회원 탈퇴',
+					'정말로 계정을 삭제하시겠습니까? 이 행동은 돌이킬 수 없습니다!',
+					(r) => {
+						if (r) {
+							$deleteMeMutation.mutate();
+							goto('/');
+						}
+					}
+				)}>계정 삭제</button
+		>
 	</div>
 {/if}

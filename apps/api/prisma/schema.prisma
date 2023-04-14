@@ -26,8 +26,8 @@ model User {
   articles   Article[]
   comments   Comment[]
   likes      Like[]
-  followedBy User[]    @relation("UserFollows")
-  following  User[]    @relation("UserFollows")
+  followedBy Follows[] @relation("following")
+  following  Follows[] @relation("follower")
 }
 
 enum Role {
@@ -41,7 +41,7 @@ model Profile {
   bio      String  @default("")
   avatar   String?
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int  @unique
 }
 
@@ -51,8 +51,17 @@ model Token {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
+}
+
+model Follows {
+  follower    User @relation("follower", fields: [followerId], references: [id])
+  followerId  Int
+  following   User @relation("following", fields: [followingId], references: [id])
+  followingId Int
+
+  @@id([followerId, followingId])
 }
 
 model Draft {
@@ -63,7 +72,7 @@ model Draft {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  author   User @relation(fields: [authorId], references: [id])
+  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId Int
 }
 
@@ -78,7 +87,7 @@ model Article {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  author   User      @relation(fields: [authorId], references: [id])
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId Int
   comments Comment[]
   tags     Tag[]
@@ -93,11 +102,11 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
-  article   Article   @relation(fields: [articleId], references: [id])
+  article   Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
   articleId Int
-  parent    Comment?  @relation("NestedComments", fields: [parentId], references: [id])
+  parent    Comment?  @relation("NestedComments", fields: [parentId], references: [id], onDelete: Cascade)
   parentId  Int?
   children  Comment[] @relation("NestedComments")
 }
@@ -112,8 +121,8 @@ model Tag {
 model Like {
   id Int @id @default(autoincrement())
 
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
-  article   Article @relation(fields: [articleId], references: [id])
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
   articleId Int
 }

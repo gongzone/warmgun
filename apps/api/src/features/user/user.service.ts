@@ -39,17 +39,24 @@ export class UserService {
     return me;
   }
 
-  async findOne(username: string) {
+  async findOne(userId: number | null, username: string) {
     const user = await this.prismaService.user.findUnique({
       where: { username },
-      select: this.userSelect,
+      select: {
+        ...this.userSelect,
+        followedBy: userId ? { where: { followerId: userId } } : false,
+      },
     });
 
     if (!user) {
       throw new BadRequestException('잘못된 요청입니다.');
     }
 
-    return user;
+    return {
+      ...user,
+      isFollowed: !!user.followedBy?.length,
+      isOwner: userId === user.id,
+    };
   }
 
   async updateMyProfile(id: number, updateUserDto: UpdateUserDto) {
@@ -70,7 +77,31 @@ export class UserService {
   }
 
   async deleteMe(id: number) {
-    return;
+    await this.prismaService.user.delete({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async follow(userId: number, id: number) {
+    await this.prismaService.follows.create({
+      data: {
+        followerId: userId,
+        followingId: id,
+      },
+    });
+  }
+
+  async unfollow(userId: number, id: number) {
+    await this.prismaService.follows.delete({
+      where: {
+        followerId_followingId: {
+          followerId: userId,
+          followingId: id,
+        },
+      },
+    });
   }
 
   private get userSelect() {
