@@ -5,6 +5,7 @@ import { PrismaService } from '../@base/prisma/prisma.service';
 import { CreateArticleDto } from './dtos/create-article.dto';
 import { buildPaginationData } from 'src/lib/utils/infinitePagination';
 import { UpdateArticleDto } from './dtos';
+import { calculateTrendingScore } from 'src/lib/utils/calculate-trending-score';
 
 @Injectable()
 export class ArticleService {
@@ -204,9 +205,12 @@ export class ArticleService {
   }
 
   async like(userId: number, articleId: number) {
-    const foundLike = await this.prismaService.like.findFirst({
+    const foundLike = await this.prismaService.like.findUnique({
       where: {
-        AND: [{ userId }, { articleId }],
+        userId_articleId: {
+          userId,
+          articleId,
+        },
       },
     });
 
@@ -214,7 +218,7 @@ export class ArticleService {
       throw new BadRequestException('이미 좋아요한 아티클입니다.');
     }
 
-    await this.prismaService.like.create({
+    const like = await this.prismaService.like.create({
       data: {
         user: {
           connect: { id: userId },
@@ -223,19 +227,70 @@ export class ArticleService {
           connect: { id: articleId },
         },
       },
-    });
-
-    /* Todo: trending score update */
-  }
-
-  async unlike(userId: number, articleId: number) {
-    await this.prismaService.like.deleteMany({
-      where: {
-        AND: [{ userId }, { articleId }],
+      include: {
+        article: {
+          select: {
+            createdAt: true,
+            _count: {
+              select: {
+                likes: true,
+              },
+            },
+          },
+        },
       },
     });
 
-    /* Todo: trending score update */
+    const trendingScore = calculateTrendingScore(
+      like.article._count.likes,
+      Math.floor(new Date(like.article.createdAt).getTime() / 1000),
+    );
+
+    await this.prismaService.article.update({
+      where: {
+        id: articleId,
+      },
+      data: {
+        trendingScore,
+      },
+    });
+  }
+
+  async unlike(userId: number, articleId: number) {
+    const like = await this.prismaService.like.delete({
+      where: {
+        userId_articleId: {
+          userId,
+          articleId,
+        },
+      },
+      include: {
+        article: {
+          select: {
+            createdAt: true,
+            _count: {
+              select: {
+                likes: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const trendingScore = calculateTrendingScore(
+      like.article._count.likes - 1,
+      Math.floor(new Date(like.article.createdAt).getTime() / 1000),
+    );
+
+    await this.prismaService.article.update({
+      where: {
+        id: articleId,
+      },
+      data: {
+        trendingScore,
+      },
+    });
   }
 
   private get articleInclude() {

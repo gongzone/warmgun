@@ -125,4 +125,6 @@ model Like {
   userId    Int
   article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
   articleId Int
+
+  @@unique(fields: [userId, articleId], name: "userId_articleId")
 }
