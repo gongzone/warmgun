@@ -3,6 +3,7 @@
 /node_modules
 /aws-lambda
 *.pem
+/meili_data
 
 # Logs
 logs

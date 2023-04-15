@@ -9,8 +9,8 @@ import { DraftModule } from './features/draft/draft.module';
 import { ArticleModule } from './features/article/article.module';
 import { TagModule } from './features/tag/tag.module';
 import { CommentModule } from './features/comment/comment.module';
-// import { MeilisearchModule } from './features/@base/meilisearch/meilisearch.module';
-// import { SearchModule } from './features/search/search.module';
+import { MeilisearchModule } from './features/@base/meilisearch/meilisearch.module';
+import { SearchModule } from './features/search/search.module';
 
 @Module({
   imports: [
@@ -20,6 +20,7 @@ import { CommentModule } from './features/comment/comment.module';
       cache: true,
     }),
     PrismaModule,
+    MeilisearchModule,
     S3Module,
     ImageModule,
     AuthModule,
@@ -28,8 +29,7 @@ import { CommentModule } from './features/comment/comment.module';
     ArticleModule,
     TagModule,
     CommentModule,
-    // MeilisearchModule,
-    // SearchModule,
+    SearchModule,
   ],
 })
 export class AppModule {}

@@ -6,10 +6,14 @@ import { CreateArticleDto } from './dtos/create-article.dto';
 import { buildPaginationData } from 'src/lib/utils/infinitePagination';
 import { UpdateArticleDto } from './dtos';
 import { calculateTrendingScore } from 'src/lib/utils/calculate-trending-score';
+import { MeilisearchService } from '../@base/meilisearch/meilisearch.service';
 
 @Injectable()
 export class ArticleService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly meilisearchService: MeilisearchService,
+  ) {}
 
   async findAll(take: number, cursor: number) {
     const articles = await this.prismaService.article.findMany({
@@ -144,7 +148,7 @@ export class ArticleService {
   async create(userId: number, createArticleDto: CreateArticleDto) {
     const { title, subTitle, body, coverImage, slug, tags } = createArticleDto;
 
-    await this.prismaService.article.create({
+    const article = await this.prismaService.article.create({
       data: {
         title,
         subTitle,
@@ -161,15 +165,25 @@ export class ArticleService {
           connect: { id: userId },
         },
       },
+      include: {
+        tags: true,
+      },
     });
+
+    await this.meilisearchService.index('articles').addDocuments([
+      {
+        id: article.id,
+        title: article.title,
+        subTitle: article.subTitle,
+        tags: article.tags.map((tag) => tag.name),
+      },
+    ]);
   }
 
   async update(userId: number, id: number, updateArticleDto: UpdateArticleDto) {
     const { title, subTitle, body, coverImage, slug, tags } = updateArticleDto;
 
-    console.log(tags);
-
-    await this.prismaService.article.update({
+    const article = await this.prismaService.article.update({
       where: {
         id_authorId: {
           id,
@@ -190,11 +204,23 @@ export class ArticleService {
           })),
         },
       },
+      include: {
+        tags: true,
+      },
     });
+
+    await this.meilisearchService.index('articles').updateDocuments([
+      {
+        id: article.id,
+        title: article.title,
+        subTitle: article.subTitle,
+        tags: article.tags.map((tag) => tag.name),
+      },
+    ]);
   }
 
   async delete(userId: number, id: number) {
-    await this.prismaService.article.delete({
+    const article = await this.prismaService.article.delete({
       where: {
         id_authorId: {
           id,
@@ -202,6 +228,8 @@ export class ArticleService {
         },
       },
     });
+
+    await this.meilisearchService.index('articles').deleteDocument(article.id);
   }
 
   async like(userId: number, articleId: number) {

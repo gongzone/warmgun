@@ -6,7 +6,7 @@ import { MeiliSearch } from 'meilisearch';
 export class MeilisearchService extends MeiliSearch {
   constructor(protected readonly configService: ConfigService) {
     super({
-      host: `http://${configService.get('MEILISEARCH_HOST')}`,
+      host: `http://127.0.0.1:7700`,
       apiKey: configService.get('MEILISEARCH_MASTER_KEY'),
     });
   }
