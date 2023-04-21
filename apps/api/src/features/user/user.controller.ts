@@ -31,6 +31,17 @@ export class UserController {
     return await this.userService.findTopUsers(take);
   }
 
+  @UseInterceptors(ReqUserInterceptor)
+  @Get('/me')
+  @HttpCode(HttpStatus.OK)
+  async findMe(@GetUser('id') userId: number) {
+    if (!userId) {
+      return null;
+    }
+
+    return await this.userService.findMe(userId);
+  }
+
   @UseGuards(AuthGuard)
   @Get('/me/follows')
   @HttpCode(HttpStatus.OK)
@@ -40,17 +51,6 @@ export class UserController {
     @Query('cursor', ParseIntPipe) cursor: number,
   ) {
     return await this.userService.findMyFollowingUsers(userId, take, cursor);
-  }
-
-  @UseInterceptors(ReqUserInterceptor)
-  @Get('/me')
-  @HttpCode(HttpStatus.OK)
-  async findMe(@GetUser() user: RequestUser) {
-    if (!user) {
-      return null;
-    }
-
-    return await this.userService.findMe(user.id);
   }
 
   @UseInterceptors(ReqUserInterceptor)

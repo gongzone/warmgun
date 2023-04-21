@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 
-	import { NAV_SIDEBAR, DRAFT_SIDEBAR, PUBLISH_SIDEBAR } from '$lib/constants/drawer';
+	import { NAV_SIDEBAR, DRAFT_SIDEBAR, PUBLISH_SIDEBAR } from './drawer';
 	import NavSidebar from './NavSidebar/NavSidebar.svelte';
 	import DraftSidebar from './DraftSidebar/DraftSidebar.svelte';
 	import PublishSidebar from './PublishSidebar/PublishSidebar.svelte';

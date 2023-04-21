@@ -10,11 +10,12 @@
 
 	import type { LayoutData } from './$types';
 	import { QueryClientProvider } from '@tanstack/svelte-query';
-	import { storePopup, Toast } from '@skeletonlabs/skeleton';
-	import Modal from '$components/Modal/Modal.svelte';
+	import { storePopup } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 
-	import Drawer from '$components/Drawer/Drawer.svelte';
+	import Toast from '$components/@event/@singleton/Toast/Toast.svelte';
+	import Modal from '$components/@event/@singleton/Modal/Modal.svelte';
+	import Drawer from '$components/@event/@singleton/Drawer/Drawer.svelte';
 
 	export let data: LayoutData;
 

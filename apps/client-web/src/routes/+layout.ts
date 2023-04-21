@@ -6,12 +6,12 @@ import { findMyDrafts } from '$api/draft';
 
 export const load = (async () => {
 	await queryClient.prefetchQuery({
-		queryKey: ['me'],
+		queryKey: ['users', 'me'],
 		queryFn: findMe
 	});
 
 	await queryClient.prefetchQuery({
-		queryKey: ['myDrafts'],
+		queryKey: ['drafts', 'me'],
 		queryFn: findMyDrafts
 	});
 

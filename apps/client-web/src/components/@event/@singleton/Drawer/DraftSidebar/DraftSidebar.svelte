@@ -11,7 +11,7 @@
 	import { findMyDrafts } from '$api/draft';
 	import { createDraft, deleteDraft } from '$api/draft';
 	import { formatDate } from '$lib/utils/format';
-	import { triggerToast } from '$components/Message/toast';
+	import { triggerToast } from '$components/@event/@singleton/Toast/toast';
 	import type { HTTPError } from 'ky-universal';
 
 	const queryClient = useQueryClient();

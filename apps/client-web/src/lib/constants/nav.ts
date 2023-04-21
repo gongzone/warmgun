@@ -1,6 +1,6 @@
 import HomeIcon from '~icons/ri/home-3-line';
 import NowIcon from '~icons/ri/timer-flash-line';
-import FeedIcon from '~icons/ri/rss-line';
+import HashTagIcon from '~icons/ri/hashtag';
 
 export const defaultLinks: NavLink[] = [
 	{
@@ -14,9 +14,9 @@ export const defaultLinks: NavLink[] = [
 		to: '/now'
 	},
 	{
-		name: '나의 피드',
-		icon: FeedIcon,
-		to: '/feed'
+		name: '태그',
+		icon: HashTagIcon,
+		to: '/tags'
 	}
 ];
 
