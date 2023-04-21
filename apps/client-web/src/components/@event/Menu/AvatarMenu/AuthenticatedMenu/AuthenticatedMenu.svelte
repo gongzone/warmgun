@@ -7,6 +7,9 @@
 	import AccountIcon from '~icons/ri/account-pin-circle-line';
 	import FeedIcon from '~icons/ri/rss-fill';
 
+	import { authenticatedLinks } from '$lib/constants/nav';
+	import NavLink from '$components/@ui/Link/NavLink/NavLink.svelte';
+
 	import type { User } from '$lib/types/api';
 	import { logout } from '$api/auth';
 
@@ -48,14 +51,9 @@
 	<div class="relative card w-52 p-4 shadow-xl z-50" data-popup={menuKey}>
 		<nav class="list-nav">
 			<ul>
-				{#each navData as nav (nav.to)}
+				{#each authenticatedLinks(user.username, latestDraftId) as link (link.to)}
 					<li>
-						<a href={nav.to}>
-							<span class="badge-icon py-4">
-								<svelte:component this={nav.icon} class="w-[24px] h-[24px]" />
-							</span>
-							<span class="flex-auto">{nav.name}</span>
-						</a>
+						<NavLink {link} badge={true} />
 					</li>
 				{/each}
 

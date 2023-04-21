@@ -4,6 +4,7 @@
 	import type { NavLink } from '$lib/constants/nav';
 
 	export let link: NavLink;
+	export let badge: boolean = false;
 	export let iconSize: 'sm' | 'md' | 'lg' = 'md';
 	export let textClasses: string = '';
 
@@ -19,7 +20,7 @@
 
 <a href={link.to} class={classesActive(link.to)} on:click>
 	{#if link.icon}
-		<span>
+		<span class={badge ? 'badge-icon py-4' : ''}>
 			<svelte:component this={link.icon} class={iconSizeMap[iconSize]} />
 		</span>
 	{/if}

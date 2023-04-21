@@ -17,8 +17,8 @@
 	});
 </script>
 
-{#if !$meQuery.data || !$myDraftsQuery.data}
-	<AnonymousMenu />
-{:else}
+{#if $meQuery.data && $myDraftsQuery.data}
 	<AuthenticatedMenu user={$meQuery.data} latestDraftId={$myDraftsQuery.data[0].id} />
+{:else}
+	<AnonymousMenu />
 {/if}
