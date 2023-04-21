@@ -2,7 +2,7 @@
 	import MedalIcon from '~icons/ri/medal-2-line';
 	import FireIcon from '~icons/ri/fire-fill';
 
-	import HomeHero from '$components/Hero/HomeHero/HomeHero.svelte';
+	import HomeHero from '$components/@frame/Hero/HomeHero/HomeHero.svelte';
 	import MainTitle from '$components/@ui/Block/MainTitle.svelte';
 	import ThickDivider from '$components/@ui/Block/ThickDivider.svelte';
 	import BestArtcles from '$components/Article/BestArtcles.svelte';

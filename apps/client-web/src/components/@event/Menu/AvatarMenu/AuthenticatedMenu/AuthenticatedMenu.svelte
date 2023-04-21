@@ -5,6 +5,7 @@
 	import CommunityIcon from '~icons/ri/community-line';
 	import QuillPenIcon from '~icons/ri/quill-pen-line';
 	import AccountIcon from '~icons/ri/account-pin-circle-line';
+	import FeedIcon from '~icons/ri/rss-fill';
 
 	import type { User } from '$lib/types/api';
 	import { logout } from '$api/auth';
@@ -21,9 +22,10 @@
 	};
 
 	const navData = [
-		{ name: '마이 프로필', to: '/me/profile', icon: AccountIcon },
 		{ name: '내 블로그', to: `/@${user.username}`, icon: CommunityIcon },
-		{ name: '글쓰기', to: `/write/draft/${latestDraftId}`, icon: QuillPenIcon }
+		{ name: '글쓰기', to: `/write/draft/${latestDraftId}`, icon: QuillPenIcon },
+		{ name: '나의 피드', to: '/feed', icon: FeedIcon },
+		{ name: '프로필 설정', to: '/me/profile', icon: AccountIcon }
 	];
 
 	const queryClient = useQueryClient();

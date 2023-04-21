@@ -7,18 +7,18 @@
 	import AuthenticatedMenu from './AuthenticatedMenu/AuthenticatedMenu.svelte';
 
 	const meQuery = createQuery({
-		queryKey: ['me'],
+		queryKey: ['users', 'me'],
 		queryFn: findMe
 	});
 
 	const myDraftsQuery = createQuery({
-		queryKey: ['myDrafts'],
+		queryKey: ['drafts', 'me'],
 		queryFn: findMyDrafts
 	});
 </script>
 
-{#if $meQuery.data && $myDraftsQuery.data}
-	<AuthenticatedMenu user={$meQuery.data} latestDraftId={$myDraftsQuery.data[0].id} />
-{:else}
+{#if !$meQuery.data || !$myDraftsQuery.data}
 	<AnonymousMenu />
+{:else}
+	<AuthenticatedMenu user={$meQuery.data} latestDraftId={$myDraftsQuery.data[0].id} />
 {/if}

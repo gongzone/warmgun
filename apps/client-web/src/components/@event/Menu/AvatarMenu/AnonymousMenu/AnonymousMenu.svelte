@@ -2,6 +2,9 @@
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import UserIcon from '~icons/ri/user-line';
 
+	import { anonymousLinks } from '$lib/constants/nav';
+	import NavLink from '$components/@ui/Link/NavLink/NavLink.svelte';
+
 	const menuKey = 'anonymous-menu';
 	const settings: PopupSettings = {
 		event: 'click',
@@ -9,11 +12,6 @@
 		placement: 'bottom',
 		closeQuery: '.list-nav li'
 	};
-
-	const navData = [
-		{ name: '로그인', to: '/auth/login' },
-		{ name: '회원가입', to: '/auth/signup' }
-	];
 </script>
 
 <div>
@@ -28,11 +26,9 @@
 	<div class="relative card w-52 p-4 shadow-xl z-50" data-popup={menuKey}>
 		<nav class="list-nav">
 			<ul>
-				{#each navData as nav (nav.to)}
+				{#each anonymousLinks as link (link.to)}
 					<li>
-						<a href={nav.to}>
-							<span class="py-1">{nav.name}</span>
-						</a>
+						<NavLink {link} textClasses="py-1" />
 					</li>
 				{/each}
 			</ul>

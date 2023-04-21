@@ -20,31 +20,9 @@ export const defaultLinks: NavLink[] = [
 	}
 ];
 
-export const communities: NavLink[] = [
-	{
-		name: 'Frontend',
-		to: '/community/frontend'
-	},
-	{
-		name: 'Backend',
-		to: '/community/backend'
-	},
-	{
-		name: 'Dev-Ops',
-		to: '/community/dev-ops'
-	},
-	{
-		name: 'Mobile',
-		to: '/community/mobile'
-	},
-	{
-		name: 'Game',
-		to: '/community/game'
-	},
-	{
-		name: 'Data Science',
-		to: '/community/data-science'
-	}
+export const anonymousLinks: NavLink[] = [
+	{ name: '로그인', to: '/auth/login' },
+	{ name: '회원가입', to: '/auth/signup' }
 ];
 
 export interface NavLink {

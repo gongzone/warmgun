@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import HamburgerIcon from '~icons/ri/menu-2-line';
+	import PistolGunIcon from '~icons/game-icons/pistol-gun';
 
 	import { openNavSidebar } from '$components/@event/@singleton/Drawer/drawer';
-
-	import MainLogo from './MainLogo/MainLogo.svelte';
-	import AvatarMenu from '../@AvatarMenu/AvatarMenu.svelte';
+	import AvatarMenu from '$components/@event/Menu/AvatarMenu/AvatarMenu.svelte';
 </script>
 
 <AppBar
@@ -23,7 +22,16 @@
 		</button>
 	</svelte:fragment>
 
-	<MainLogo name="Warmgun" description="개발 커뮤니티 & 블로그 서비스" />
+	<a href="/" class="unstyled inline-block">
+		<div class="flex items-center gap-2">
+			<PistolGunIcon class="w-[42px] h-[42px] md:w-[58px] md:h-[58px]" />
+
+			<div class="hidden sm:block">
+				<h2 class="unstyled font-logo text-2xl md:text-4xl">Warmgun</h2>
+				<span>개발 커뮤니티 & 블로그 서비스</span>
+			</div>
+		</div>
+	</a>
 
 	<svelte:fragment slot="trail">
 		<AvatarMenu />

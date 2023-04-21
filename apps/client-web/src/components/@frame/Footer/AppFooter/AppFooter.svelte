@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { defaultLinks, communities } from '$lib/constants/nav';
+	import { defaultLinks } from '$lib/constants/nav';
 </script>
 
 <footer class="px-[5vw]">
@@ -37,13 +37,13 @@
 			<div class="text-lg font-bold mb-4">Community</div>
 			<nav class="">
 				<ul class="flex flex-col gap-4">
-					{#each communities as community (community.name)}
+					<!-- {#each communities as community (community.name)}
 						<li>
 							<a class="unstyled flex items-center gap-2" href={community.to}>
 								<span class="flex-auto text-surface-300">{community.name}</span>
 							</a>
 						</li>
-					{/each}
+					{/each} -->
 				</ul>
 			</nav>
 		</div>
