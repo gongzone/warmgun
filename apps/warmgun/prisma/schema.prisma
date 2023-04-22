@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  role       Role      @default(USER)
+  profile    Profile?
+  tokens     Token[]
+  drafts     Draft[]
+  articles   Article[]
+  comments   Comment[]
+  likes      Like[]
+  followedBy Follows[] @relation("following")
+  following  Follows[] @relation("follower")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Profile {
+  id       Int     @id @default(autoincrement())
+  nickname String  @unique
+  bio      String  @default("")
+  avatar   String?
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @unique
+}
+
+model Token {
+  id           Int      @id @default(autoincrement())
+  refreshToken String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+}
+
+model Follows {
+  follower    User @relation("follower", fields: [followerId], references: [id])
+  followerId  Int
+  following   User @relation("following", fields: [followingId], references: [id])
+  followingId Int
+
+  @@id([followerId, followingId])
+}
+
+model Draft {
+  id        Int      @id @default(autoincrement())
+  title     String   @default("")
+  subTitle  String   @default("")
+  body      Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
+}
+
+model Article {
+  id            Int      @id @default(autoincrement())
+  title         String
+  subTitle      String
+  body          Json
+  coverImage    String?
+  slug          String   @unique
+  trendingScore Float    @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
+  comments Comment[]
+  tags     Tag[]
+  likes    Like[]
+
+  @@unique(fields: [id, authorId], name: "id_authorId")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  article   Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId Int
+  parent    Comment?  @relation("NestedComments", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  Int?
+  children  Comment[] @relation("NestedComments")
+}
+
+model Tag {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  articles Article[]
+}
+
+model Like {
+  id Int @id @default(autoincrement())
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId Int
+
+  @@unique(fields: [userId, articleId], name: "userId_articleId")
+}

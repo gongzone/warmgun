@@ -12,8 +12,8 @@ export async function findMyFollowingUsers({ pageParam = 0 }: QueryFunctionConte
 		.json<PaginationData<User>>();
 }
 
-export async function findMe() {
-	return await api.get(`api/users/me`).json<User>();
+export async function findMe(fetch?: any) {
+	return await api.get(`api/users/me`, { fetch }).json<User | null>();
 }
 
 export async function findOneUser(username: string) {

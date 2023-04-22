@@ -5,17 +5,17 @@
 	import UserIcon from '~icons/ri/user-line';
 	import PasswordIcon from '~icons/ri/lock-password-line';
 
-	import { login, type LoginDTO } from '$api/auth';
+	import { login, type LoginDto } from '$api/auth';
 	import Alert from '$components/Message/Alert.svelte';
 	import LabelInput from '$components/@Base/Input/LabelInput.svelte';
 
 	const queryClient = useQueryClient();
 
 	const loginMutation = createMutation({
-		mutationFn: (signupDTO: LoginDTO) => login(signupDTO),
+		mutationFn: (signupDTO: LoginDto) => login(signupDTO),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['me'] });
-			queryClient.invalidateQueries({ queryKey: ['myDrafts'] });
+			queryClient.invalidateQueries({ queryKey: ['users', 'me'] });
+			queryClient.invalidateQueries({ queryKey: ['drafts', 'me'] });
 			goto('/');
 		}
 	});
@@ -24,7 +24,7 @@
 		const loginDTO = {
 			username: e.target.username.value,
 			password: e.target.password.value
-		} satisfies LoginDTO;
+		} satisfies LoginDto;
 
 		$loginMutation.mutate(loginDTO);
 	};

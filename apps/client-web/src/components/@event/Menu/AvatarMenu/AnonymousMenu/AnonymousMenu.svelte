@@ -3,7 +3,8 @@
 	import UserIcon from '~icons/ri/user-line';
 
 	import { anonymousLinks } from '$lib/constants/nav';
-	import NavLink from '$components/@ui/Link/NavLink/NavLink.svelte';
+
+	import NavLink from '$components/@ui/Link/NavLink.svelte';
 
 	const menuKey = 'anonymous-menu';
 	const settings: PopupSettings = {

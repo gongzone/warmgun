@@ -38,6 +38,7 @@ export class UserController {
     if (!userId) {
       return null;
     }
+    console.log('요청발생!');
 
     return await this.userService.findMe(userId);
   }

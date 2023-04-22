@@ -1,4 +1,4 @@
-import ky, { type AfterResponseHook } from 'ky-universal';
+import ky from 'ky-universal';
 
 const prefixUrl = import.meta.env.MODE === 'development' ? 'http://localhost:3000' : '';
 
@@ -8,23 +8,8 @@ export const refresh = async () => {
 	});
 };
 
-// const responseHandler: AfterResponseHook = async (request, options, response) => {
-// 	if (response.status === 401) {
-// 		try {
-// 			await refresh();
-// 			return ky(request);
-// 		} catch (err) {
-// 			return response;
-// 		}
-// 	}
-// 	return response;
-// };
-
 export const api = ky.extend({
 	prefixUrl,
 	retry: 0,
 	credentials: 'include'
-	// hooks: {
-	// 	afterResponse: [responseHandler]
-	// }
 });

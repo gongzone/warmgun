@@ -1,19 +1,14 @@
 <script lang="ts">
-	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
+	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import { createMutation, useQueryClient } from '@tanstack/svelte-query';
-	import CommunityIcon from '~icons/ri/community-line';
-	import QuillPenIcon from '~icons/ri/quill-pen-line';
-	import AccountIcon from '~icons/ri/account-pin-circle-line';
-	import FeedIcon from '~icons/ri/rss-fill';
-
-	import { authenticatedLinks } from '$lib/constants/nav';
-	import NavLink from '$components/@ui/Link/NavLink/NavLink.svelte';
 
 	import type { User } from '$lib/types/api';
 	import { logout } from '$api/auth';
+	import { authenticatedLinks } from '$lib/constants/nav';
 
-	import UserAvatar from '$components/@ui/Block/UserAvatar.svelte';
+	import NavLink from '$components/@ui/Link/NavLink.svelte';
+	import UserAvatar from '$components/@ui/Element/UserAvatar.svelte';
 
 	export let user: User;
 	export let latestDraftId: number;
@@ -24,20 +19,13 @@
 		target: menuKey
 	};
 
-	const navData = [
-		{ name: '내 블로그', to: `/@${user.username}`, icon: CommunityIcon },
-		{ name: '글쓰기', to: `/write/draft/${latestDraftId}`, icon: QuillPenIcon },
-		{ name: '나의 피드', to: '/feed', icon: FeedIcon },
-		{ name: '프로필 설정', to: '/me/profile', icon: AccountIcon }
-	];
-
 	const queryClient = useQueryClient();
 
 	const logoutMutation = createMutation({
 		mutationFn: logout,
 		onSuccess: () => {
-			queryClient.setQueryData(['me'], null);
-			queryClient.setQueryData(['myDrafts'], null);
+			queryClient.setQueryData(['users', 'me'], null);
+			queryClient.setQueryData(['drafts', 'me'], null);
 			goto('/auth/login');
 		}
 	});

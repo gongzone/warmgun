@@ -4,7 +4,8 @@
 	import CloseIcon from '~icons/ri/close-line';
 
 	import { defaultLinks } from '$lib/constants/nav';
-	import NavLink from '$components/@ui/Link/NavLink/NavLink.svelte';
+
+	import NavLink from '$components/@ui/Link/NavLink.svelte';
 </script>
 
 <header class="flex justify-between items-center border-b border-b-surface-500 px-3 py-3">
