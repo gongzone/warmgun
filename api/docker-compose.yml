@@ -19,5 +19,3 @@ services:
       - MEILI_ENV=${MEILI_ENV:-development}
     ports:
       - ${MEILI_PORT:-7700}:${MEILI_PORT:-7700}
-    volumes:
-      - ./meili_data:/meili_data
