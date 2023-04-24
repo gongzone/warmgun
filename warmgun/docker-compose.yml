@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: warmgun-postgres
+    image: postgres:latest
+    ports:
+      - "${DATABASE_PORT:-5432}:${DATABASE_PORT:-5432}"
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+
+  meilisearch:
+    container_name: warmgun-meilisearch
+    image: getmeili/meilisearch:latest
+    environment:
+      - MEILI_MASTER_KEY=${MEILISEARCH_MASTER_KEY}
+      - MEILI_ENV=${MEILI_ENV:-development}
+    ports:
+      - ${MEILI_PORT:-7700}:${MEILI_PORT:-7700}
