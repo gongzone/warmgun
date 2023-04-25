@@ -3,36 +3,27 @@
 </script>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 items-center">
-	<div class="mx-auto shadow-xl overflow-hidden max-w-[400px] text-token">
+	<div class="card mx-auto shadow-xl overflow-hidden max-w-[400px] text-token">
 		<header>
-			<img
-				src="https://source.unsplash.com/vjUokUWbFOs/400x175"
-				class="bg-black/50 w-full aspect-[21/9]"
-				alt="hero-card"
-			/>
+			<img src="/skeleton.jfif" class="bg-black/50 w-full aspect-[21/9]" alt="hero-card" />
 		</header>
 		<div class="p-4 space-y-2">
-			<h6 class="text-primary-500">For Developers</h6>
+			<h6 class="text-primary-500">개발 커뮤니티 & 블로그 서비스</h6>
 			<div class="flex items-center gap-1">
-				<GunShotIcon />
-				<h3 class="unstyled font-logo text-2xl">Warmgun</h3>
+				<GunShotIcon class="w-6 h-6" />
+				<h3 class="unstyled font-logo text-3xl">Warmgun</h3>
 			</div>
-			<article>
-				<p class="opacity-75 font-thin !text-sm">개발 커뮤니티 & 블로그 서비스</p>
-			</article>
+			<blockquote>
+				<p class="opacity-75">터무니없는 것들도</p>
+				<p class="opacity-75">언젠가는 빛을 발하겠지...</p>
+			</blockquote>
 		</div>
+
 		<hr class="opacity-50" />
+
 		<footer class="p-4 flex justify-center items-center space-x-4">
 			<div class="flex justify-center space-x-2">
-				<span class="chip variant-soft hover:variant-filled"
-					><i class="fa-solid fa-heart" /> <span>Like</span></span
-				>
-				<span class="chip variant-soft hover:variant-filled"
-					><i class="fa-solid fa-paperclip" /> <span>Save</span></span
-				>
-				<span class="chip variant-soft hover:variant-filled"
-					><i class="fa-solid fa-share" /> <span>Share</span></span
-				>
+				<span class="chip variant-filled-surface hover:variant-filled">뭐하는 곳인가요?</span>
 			</div>
 		</footer>
 	</div>

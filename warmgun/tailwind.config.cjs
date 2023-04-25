@@ -10,6 +10,8 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
+				sans: ['Nanum Square Neo', ...fontFamily.sans],
+				heading: ['Tenada', ...fontFamily.sans],
 				logo: ['Concert One', ...fontFamily.sans]
 			}
 		}
