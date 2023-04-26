@@ -24,6 +24,8 @@ model User {
   likes      Like[]
   followedBy Follows[] @relation("following")
   following  Follows[] @relation("follower")
+
+  @@unique(fields: [username, email], name: "username_email")
 }
 
 enum Role {
@@ -43,7 +45,7 @@ model Profile {
 }
 
 model Token {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(cuid())
   refreshToken String
   expiresIn    DateTime
   createdAt    DateTime @default(now())

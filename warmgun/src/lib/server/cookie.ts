@@ -3,18 +3,27 @@ import { env } from '$env/dynamic/private';
 
 import { tokenExpires } from '$lib/server/jwt';
 
+export const COOKIE_TOKEN_ID = 'token_id';
 export const COOKIE_ACCESS_TOKEN = 'access_token';
 export const COOKIE_REFRESH_TOKEN = 'refresh_token';
 
 export function setAuthCookies(
 	cookies: Cookies,
 	tokens: {
+		tokenId: string;
 		accessToken: string;
 		refreshToken: string;
 	}
 ) {
-	const { accessToken, refreshToken } = tokens;
+	const { tokenId, accessToken, refreshToken } = tokens;
 
+	cookies.set(COOKIE_TOKEN_ID, tokenId, {
+		path: '/',
+		httpOnly: true,
+		sameSite: 'strict',
+		secure: env.NODE_ENV === 'production',
+		maxAge: tokenExpires['refresh'] / 1000
+	});
 	cookies.set(COOKIE_ACCESS_TOKEN, accessToken, {
 		path: '/',
 		httpOnly: true,

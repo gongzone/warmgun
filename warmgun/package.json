@@ -17,6 +17,8 @@
 	"dependencies": {
 		"@floating-ui/dom": "^1.2.6",
 		"@prisma/client": "^4.13.0",
+		"argon2": "^0.30.3",
+		"dayjs": "^1.11.7",
 		"fast-jwt": "^2.2.1",
 		"zod": "^3.21.4"
 	},

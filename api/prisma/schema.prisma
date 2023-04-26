@@ -28,6 +28,8 @@ model User {
   likes      Like[]
   followedBy Follows[] @relation("following")
   following  Follows[] @relation("follower")
+
+  @@unique(fields: [id, email], name: "id_email")
 }
 
 enum Role {

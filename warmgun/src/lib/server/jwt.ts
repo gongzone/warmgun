@@ -1,5 +1,6 @@
 import type { Role } from '@prisma/client';
 import { createSigner, createVerifier, createDecoder } from 'fast-jwt';
+import dayjs from 'dayjs';
 import { JWT_ACCESS_KEY, JWT_REFRESH_KEY } from '$env/static/private';
 
 export type TokenMode = 'access' | 'refresh';
@@ -9,6 +10,11 @@ export interface TokenPayload {
 	username: string;
 	email: string;
 	role: Role;
+}
+
+export interface TokenPayloadRetun extends TokenPayload {
+	iat: Date;
+	exp: Date;
 }
 
 export const tokenExpires = {
@@ -28,24 +34,27 @@ export async function generateTokens(payload: TokenPayload): Promise<{
 	return { accessToken, refreshToken };
 }
 
-export async function verifyToken(mode: TokenMode, token: string): Promise<TokenPayload | null> {
+export async function verifyToken(
+	mode: TokenMode,
+	token: string
+): Promise<TokenPayloadRetun | null> {
 	const verifier = createVerifier({
 		key: async () => (mode === 'access' ? JWT_ACCESS_KEY : JWT_REFRESH_KEY),
 		cache: 1000
 	});
 
 	try {
-		const payload: TokenPayload = await verifier(token);
+		const payload: TokenPayloadRetun = await verifier(token);
 		return payload;
 	} catch (err) {
 		return null;
 	}
 }
 
-export async function decodeToken(token: string): Promise<TokenPayload | null> {
+export async function decodeToken(token: string): Promise<TokenPayloadRetun> {
 	const decoder = createDecoder();
 
-	const payload: TokenPayload = decoder(token);
+	const payload: TokenPayloadRetun = decoder(token);
 	return payload;
 }
 
@@ -55,6 +64,10 @@ async function generateToken(mode: TokenMode, payload: TokenPayload): Promise<st
 		expiresIn: tokenExpires[mode]
 	});
 
-	const token = await signer(payload);
+	const token = await signer({
+		...payload,
+		iat: dayjs(),
+		exp: dayjs().add(tokenExpires[mode], 'millisecond')
+	});
 	return token;
 }
