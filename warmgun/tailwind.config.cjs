@@ -11,6 +11,7 @@ module.exports = {
 		extend: {
 			fontFamily: {
 				sans: ['Nanum Square Neo', ...fontFamily.sans],
+				serif: ['Noto Serif KR', ...fontFamily.serif],
 				heading: ['Tenada', ...fontFamily.sans],
 				logo: ['Concert One', ...fontFamily.sans]
 			}

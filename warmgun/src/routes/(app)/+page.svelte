@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Seo from '$components/Seo.svelte';
-	import HomeHero from './HomeHero.svelte';
+	import HomeHero from '$components/Hero/HomeHero/HomeHero.svelte';
 </script>
 
 <Seo title="Warmgun" description="개발 커뮤니티 & 블로그 서비스">
@@ -8,7 +8,7 @@
 </Seo>
 
 <div>
-	<section class="hero-gradient">
+	<section class="">
 		<div class="section-container">
 			<HomeHero />
 		</div>

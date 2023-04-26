@@ -1,8 +1,8 @@
 <script lang="ts">
-	import './theme.postcss';
+	import '../styles/theme.postcss';
 	import '@skeletonlabs/skeleton/styles/all.css';
-	import './font.postcss';
-	import './global.postcss';
+	import '../styles/font.postcss';
+	import '../styles/global.postcss';
 </script>
 
 <slot />
