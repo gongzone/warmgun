@@ -17,7 +17,8 @@
 	"dependencies": {
 		"@floating-ui/dom": "^1.2.6",
 		"@prisma/client": "^4.13.0",
-		"fast-jwt": "^2.2.1"
+		"fast-jwt": "^2.2.1",
+		"zod": "^3.21.4"
 	},
 	"devDependencies": {
 		"@iconify-json/game-icons": "^1.1.2",
