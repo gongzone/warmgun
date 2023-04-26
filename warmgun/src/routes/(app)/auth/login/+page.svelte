@@ -1,5 +1,5 @@
 <script lang="ts">
-	import FormInput from '$components/FormInput.svelte';
+	import FormInput from '$components/@ui-elements/FormInput.svelte';
 	import UserIcon from '~icons/ri/user-line';
 	import PasswordIcon from '~icons/ri/lock-password-line';
 </script>

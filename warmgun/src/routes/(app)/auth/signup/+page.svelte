@@ -4,10 +4,10 @@
 	import CheckIcon from '~icons/ri/shield-check-line';
 	import EmailIcon from '~icons/ri/mail-line';
 
-	import FormInput from '$components/FormInput.svelte';
+	import FormInput from '$components/@ui-elements/FormInput.svelte';
 </script>
 
-<form>
+<form method="POST">
 	<div class="space-y-5 mb-8">
 		<FormInput
 			type="text"
