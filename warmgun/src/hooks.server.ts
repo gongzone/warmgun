@@ -9,7 +9,12 @@ import {
 	COOKIE_REFRESH_TOKEN,
 	setAuthCookies
 } from '$lib/server/cookie';
-import { generateTokens, verifyToken, type TokenPayload, decodeToken } from '$lib/server/jwt';
+import {
+	generateTokens,
+	verifyToken,
+	type TokenPayload,
+	type TokenPayloadRetun
+} from '$lib/server/jwt';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const tokenId = event.cookies.get(COOKIE_TOKEN_ID);
@@ -49,8 +54,8 @@ async function authByAccessToken(
 		refreshToken: string;
 	}
 ) {
-	const verifiedAccessToken = await verifyToken('access', accessToken);
-	if (!verifiedAccessToken) {
+	const payload = await verifyToken('access', accessToken);
+	if (!payload) {
 		return refreshAuth(cookies, {
 			tokenId,
 			refreshToken
@@ -59,7 +64,7 @@ async function authByAccessToken(
 
 	const user = await db.user.findUnique({
 		where: {
-			id: verifiedAccessToken.userId
+			id: payload.userId
 		},
 		select: {
 			id: true,
@@ -86,8 +91,8 @@ async function refreshAuth(
 		refreshToken: string;
 	}
 ) {
-	const verifiedRefreshToken = await verifyToken('refresh', refreshToken);
-	if (!verifiedRefreshToken) {
+	const payload = await verifyToken('refresh', refreshToken);
+	if (!payload) {
 		return null;
 	}
 
@@ -97,7 +102,7 @@ async function refreshAuth(
 			accessToken: newAccessToken,
 			refreshToken: newRefreshToken,
 			user
-		} = await rotateRefreshToken(tokenId, verifiedRefreshToken.userId, refreshToken);
+		} = await rotateRefreshToken(tokenId, refreshToken, payload);
 
 		setAuthCookies(cookies, {
 			tokenId: newTokenId,
@@ -111,12 +116,16 @@ async function refreshAuth(
 	}
 }
 
-async function rotateRefreshToken(tokenId: string, userId: number, refreshToken: string) {
+async function rotateRefreshToken(
+	tokenId: string,
+	refreshToken: string,
+	payload: TokenPayloadRetun
+) {
 	const token = await db.token.findUnique({
 		where: {
 			id_userId: {
 				id: tokenId,
-				userId
+				userId: payload.userId
 			}
 		},
 		include: {
@@ -138,7 +147,7 @@ async function rotateRefreshToken(tokenId: string, userId: number, refreshToken:
 	const match = await argon2.verify(token.refreshToken, refreshToken);
 	if (!match) {
 		// leaway
-		if (dayjs().diff(token.updatedAt, 'seconds') < 60) {
+		if (dayjs().diff(new Date(payload.iat * 1000), 'seconds') < 60) {
 			return {
 				...(await updateToken(token.id, {
 					userId: token.user.id,
@@ -174,7 +183,6 @@ async function updateToken(tokenId: string, payload: TokenPayload) {
 		username
 	});
 	const hashedRefreshToken = await argon2.hash(refreshToken);
-	const decodedRefreshToken = await decodeToken(refreshToken);
 
 	const updatedToken = await db.token.update({
 		where: {
@@ -183,11 +191,7 @@ async function updateToken(tokenId: string, payload: TokenPayload) {
 				userId
 			}
 		},
-		data: {
-			refreshToken: hashedRefreshToken,
-			expiresIn: decodedRefreshToken.exp,
-			updatedAt: decodedRefreshToken.iat
-		}
+		data: { refreshToken: hashedRefreshToken }
 	});
 
 	return {

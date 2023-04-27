@@ -5,7 +5,9 @@ declare namespace App {
 	interface Locals {
 		user: import('$lib/types/user').CurrentUser;
 	}
-	// interface PageData {}
+	interface PageData {
+		user: import('$lib/types/user').CurrentUser;
+	}
 	// interface Error {}
 	// interface Platform {}
 }

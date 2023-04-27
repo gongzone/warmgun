@@ -1,5 +1,4 @@
 import { createSigner, createVerifier, createDecoder } from 'fast-jwt';
-import dayjs from 'dayjs';
 import { JWT_ACCESS_KEY, JWT_REFRESH_KEY } from '$env/static/private';
 
 export type TokenMode = 'access' | 'refresh';
@@ -10,8 +9,8 @@ export interface TokenPayload {
 }
 
 export interface TokenPayloadRetun extends TokenPayload {
-	iat: Date;
-	exp: Date;
+	iat: number;
+	exp: number;
 }
 
 export const tokenExpires = {
@@ -61,10 +60,6 @@ async function generateToken(mode: TokenMode, payload: TokenPayload): Promise<st
 		expiresIn: tokenExpires[mode]
 	});
 
-	const token = await signer({
-		...payload,
-		iat: dayjs(),
-		exp: dayjs().add(tokenExpires[mode], 'millisecond')
-	});
+	const token = await signer(payload);
 	return token;
 }

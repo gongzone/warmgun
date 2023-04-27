@@ -5,7 +5,7 @@ import * as argon2 from 'argon2';
 import { db } from '$lib/server/db';
 import { signupSchema } from '$lib/server/schemas/signup-schema';
 import { validateFormData } from '$lib/server/validation';
-import { decodeToken, generateTokens } from '$lib/server/jwt';
+import { generateTokens } from '$lib/server/jwt';
 import { setAuthCookies } from '$lib/server/cookie';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -27,16 +27,13 @@ export const actions: Actions = {
 		const { username, password, email } = validated.data;
 
 		/* Core logic */
-		const foundUser = await db.user.findUnique({
+		const foundUser = await db.user.findFirst({
 			where: {
-				username_email: {
-					username,
-					email
-				}
+				OR: [{ username }, { email }]
 			}
 		});
 		if (foundUser) {
-			throw fail(409, { message: '해당 아이디 혹은 이메일을 가진 사용자가 이미 존재합니다.' });
+			return fail(409, { message: '해당 아이디 혹은 이메일을 가진 사용자가 이미 존재합니다.' });
 		}
 
 		const hashedPassword = await argon2.hash(password);
@@ -62,14 +59,10 @@ export const actions: Actions = {
 			username: user.username
 		});
 		const hashedRefreshToken = await argon2.hash(refreshToken);
-		const decodedRefreshToken = await decodeToken(refreshToken);
 
 		const token = await db.token.create({
 			data: {
 				refreshToken: hashedRefreshToken,
-				expiresIn: decodedRefreshToken.exp,
-				createdAt: decodedRefreshToken.iat,
-				updatedAt: decodedRefreshToken.iat,
 				user: { connect: { id: user.id } }
 			}
 		});

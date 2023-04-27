@@ -5,7 +5,7 @@ import * as argon2 from 'argon2';
 import { db } from '$lib/server/db';
 import { loginSchema } from '$lib/server/schemas/login-schema';
 import { validateFormData } from '$lib/server/validation';
-import { decodeToken, generateTokens } from '$lib/server/jwt';
+import { generateTokens } from '$lib/server/jwt';
 import { setAuthCookies } from '$lib/server/cookie';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -44,14 +44,10 @@ export const actions: Actions = {
 			username: foundUser.username
 		});
 		const hashedRefreshToken = await argon2.hash(refreshToken);
-		const decodedRefreshToken = await decodeToken(refreshToken);
 
 		const token = await db.token.create({
 			data: {
 				refreshToken: hashedRefreshToken,
-				expiresIn: decodedRefreshToken.exp,
-				createdAt: decodedRefreshToken.iat,
-				updatedAt: decodedRefreshToken.iat,
 				user: { connect: { id: foundUser.id } }
 			}
 		});

@@ -16,7 +16,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   role       Role      @default(USER)
-  profile    Profile   @relation(fields: [profileId], references: [id])
+  profile    Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId  Int       @unique
   tokens     Token[]
   drafts     Draft[]
@@ -25,8 +25,6 @@ model User {
   likes      Like[]
   followedBy Follows[] @relation("following")
   following  Follows[] @relation("follower")
-
-  @@unique(fields: [username, email], name: "username_email")
 }
 
 enum Role {
@@ -47,7 +45,6 @@ model Profile {
 model Token {
   id           String   @id @default(cuid())
   refreshToken String
-  expiresIn    DateTime
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
