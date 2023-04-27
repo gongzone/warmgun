@@ -8,7 +8,7 @@ import { validateFormData } from '$lib/server/validation';
 import { decodeToken, generateTokens } from '$lib/server/jwt';
 import { setAuthCookies } from '$lib/server/cookie';
 
-export const actions = {
+export const actions: Actions = {
 	default: async ({ cookies, request }) => {
 		/* Parse DTO */
 		const formData = await request.formData();
@@ -65,6 +65,7 @@ export const actions = {
 				refreshToken: hashedRefreshToken,
 				expiresIn: decodedRefreshToken.exp,
 				createdAt: decodedRefreshToken.iat,
+				updatedAt: decodedRefreshToken.iat,
 				user: {
 					connect: { id: user.id }
 				}
@@ -79,4 +80,4 @@ export const actions = {
 
 		throw redirect(303, '/');
 	}
-} satisfies Actions;
+};
