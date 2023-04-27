@@ -30,7 +30,7 @@
 			}
 
 			carouselIndex++;
-		}, 3000);
+		}, 3500);
 	}
 
 	function onClickPrev() {
@@ -48,7 +48,7 @@
 			}
 
 			carouselIndex++;
-		}, 3000);
+		}, 3500);
 	}
 
 	onMount(() => {
@@ -59,7 +59,7 @@
 			}
 
 			carouselIndex++;
-		}, 3000);
+		}, 3500);
 	});
 
 	onDestroy(() => {
@@ -97,7 +97,7 @@
 			<div
 				class="{carouselIndex === index
 					? 'visible opacity-100'
-					: 'invisible opacity-0 absolute top-0 translate-y-6 translate-x-4'} transition-all ease-in-out duration-[800ms]"
+					: 'invisible opacity-0 absolute top-0 translate-y-6 translate-x-4 pointer-events-none'} transition-all ease-in-out duration-[800ms]"
 			>
 				<BlogerCard
 					{username}
@@ -111,7 +111,7 @@
 			</div>
 		{/each}
 
-		<div class="absolute w-full grid grid-cols-[15%_70%_15%] items-center py-4 px-0 sm:px-4">
+		<div class="lg:absolute w-full grid grid-cols-[15%_70%_15%] items-center py-4 px-0 sm:px-4">
 			<button
 				class="btn-icon bg-surface-50 border border-surface-300 shadow-lg text-surface-900
 				hover:bg-surface-500 hover:text-surface-50 place-self-center"
@@ -127,7 +127,22 @@
 					active="border-0"
 				>
 					{#each Array.from({ length: topUsers.length }) as _, index (index)}
-						<Tab bind:group={carouselIndex} name="tab{index}" value={index}>
+						<Tab
+							bind:group={carouselIndex}
+							name="tab{index}"
+							value={index}
+							on:click={() => {
+								clearInterval(interval);
+								interval = setInterval(() => {
+									if (carouselIndex === topUsers.length - 1) {
+										carouselIndex = 0;
+										return;
+									}
+
+									carouselIndex++;
+								}, 3500);
+							}}
+						>
 							<div
 								class="w-2 h-2 rounded-full transition-colors ease-in duration-200 hover:bg-primary-500 {carouselIndex ===
 								index
