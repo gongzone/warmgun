@@ -26,7 +26,7 @@
 		"@iconify-json/game-icons": "^1.1.2",
 		"@iconify-json/ri": "^1.1.8",
 		"@playwright/test": "^1.28.1",
-		"@skeletonlabs/skeleton": "^1.2.0",
+		"@skeletonlabs/skeleton": "^1.2.5",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.15.8",
 		"@tailwindcss/forms": "^0.5.3",

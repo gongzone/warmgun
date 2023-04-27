@@ -31,7 +31,7 @@ export const actions: Actions = {
 			where: { username }
 		});
 		if (!foundUser) {
-			throw fail(401, { message: '잘못된 아이디입니다.' });
+			return fail(401, { message: '잘못된 아이디입니다.' });
 		}
 
 		const matched = await argon2.verify(foundUser.password, password);

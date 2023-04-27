@@ -1,10 +1,20 @@
 <script lang="ts">
-	import FormInput from '$components/@ui-elements/FormInput.svelte';
+	import type { ActionData } from './$types';
+	import { enhance } from '$app/forms';
 	import UserIcon from '~icons/ri/user-line';
 	import PasswordIcon from '~icons/ri/lock-password-line';
+
+	import { triggerToast } from '$components/@ui-singletons/Toast/toast';
+	import FormInput from '$components/@ui-elements/FormInput.svelte';
+
+	export let form: ActionData;
+
+	$: if (form?.message) {
+		triggerToast('warning', form.message);
+	}
 </script>
 
-<form method="POST">
+<form method="POST" use:enhance>
 	<div class="space-y-5 mb-8">
 		<FormInput type="text" name="username" labelText="아이디" placeholder="아이디를 입력하세요.">
 			<svelte:fragment slot="icon"><UserIcon /></svelte:fragment>

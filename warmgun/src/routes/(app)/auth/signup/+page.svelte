@@ -1,13 +1,22 @@
 <script lang="ts">
+	import type { ActionData } from './$types';
+	import { enhance } from '$app/forms';
 	import UserIcon from '~icons/ri/user-line';
 	import PasswordIcon from '~icons/ri/lock-password-line';
 	import CheckIcon from '~icons/ri/shield-check-line';
 	import EmailIcon from '~icons/ri/mail-line';
 
+	import { triggerToast } from '$components/@ui-singletons/Toast/toast';
 	import FormInput from '$components/@ui-elements/FormInput.svelte';
+
+	export let form: ActionData;
+
+	$: if (form?.message) {
+		triggerToast('warning', form.message);
+	}
 </script>
 
-<form method="POST">
+<form method="POST" use:enhance>
 	<div class="space-y-5 mb-8">
 		<FormInput
 			type="text"
