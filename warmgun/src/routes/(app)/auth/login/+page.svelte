@@ -4,7 +4,7 @@
 	import PasswordIcon from '~icons/ri/lock-password-line';
 </script>
 
-<form>
+<form method="POST">
 	<div class="space-y-5 mb-8">
 		<FormInput type="text" name="username" labelText="아이디" placeholder="아이디를 입력하세요.">
 			<svelte:fragment slot="icon"><UserIcon /></svelte:fragment>

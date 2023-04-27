@@ -1,4 +1,3 @@
-import type { Role } from '@prisma/client';
 import { createSigner, createVerifier, createDecoder } from 'fast-jwt';
 import dayjs from 'dayjs';
 import { JWT_ACCESS_KEY, JWT_REFRESH_KEY } from '$env/static/private';
@@ -8,8 +7,6 @@ export type TokenMode = 'access' | 'refresh';
 export interface TokenPayload {
 	userId: number;
 	username: string;
-	email: string;
-	role: Role;
 }
 
 export interface TokenPayloadRetun extends TokenPayload {

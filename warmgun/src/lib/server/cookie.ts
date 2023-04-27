@@ -41,6 +41,7 @@ export function setAuthCookies(
 }
 
 export function deleteAuthCookies(cookies: Cookies) {
+	cookies.delete(COOKIE_TOKEN_ID, { path: '/' });
 	cookies.delete(COOKIE_ACCESS_TOKEN, { path: '/' });
 	cookies.delete(COOKIE_REFRESH_TOKEN, { path: '/' });
 }

@@ -142,9 +142,7 @@ async function rotateRefreshToken(tokenId: string, userId: number, refreshToken:
 			return {
 				...(await updateToken(token.id, {
 					userId: token.user.id,
-					username: token.user.username,
-					email: token.user.email,
-					role: token.user.role
+					username: token.user.username
 				})),
 				user: token.user
 			};
@@ -163,21 +161,17 @@ async function rotateRefreshToken(tokenId: string, userId: number, refreshToken:
 	return {
 		...(await updateToken(token.id, {
 			userId: token.user.id,
-			username: token.user.username,
-			email: token.user.email,
-			role: token.user.role
+			username: token.user.username
 		})),
 		user: token.user
 	};
 }
 
 async function updateToken(tokenId: string, payload: TokenPayload) {
-	const { userId, username, email, role } = payload;
+	const { userId, username } = payload;
 	const { accessToken, refreshToken } = await generateTokens({
 		userId,
-		username,
-		email,
-		role
+		username
 	});
 	const hashedRefreshToken = await argon2.hash(refreshToken);
 	const decodedRefreshToken = await decodeToken(refreshToken);
