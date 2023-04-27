@@ -1,11 +1,17 @@
 <script lang="ts">
-	import HomeHero from '$components/Hero/HomeHero/HomeHero.svelte';
+	import type { PageServerData } from './$types';
+
+	import HomeHero from './HomeHero.svelte';
+
+	export let data: PageServerData;
+
+	$: ({ topUsers } = data);
 </script>
 
 <div>
 	<section class="">
 		<div class="section-container">
-			<HomeHero />
+			<HomeHero {topUsers} />
 		</div>
 	</section>
 </div>

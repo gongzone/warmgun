@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { CurrentUser } from '$lib/types/user';
+	import { enhance } from '$app/forms';
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import CommunityIcon from '~icons/ri/community-line';
 	import QuillPenIcon from '~icons/ri/quill-pen-line';
@@ -40,7 +41,7 @@
 				{/each}
 
 				<li>
-					<form method="POST" action="/auth/logout">
+					<form method="POST" action="/auth/logout" use:enhance>
 						<button type="submit" class="w-full option">로그아웃</button>
 					</form>
 				</li>
