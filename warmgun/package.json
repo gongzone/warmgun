@@ -15,9 +15,18 @@
 		"db:start": "docker compose --env-file .env up"
 	},
 	"dependencies": {
+		"@editorjs/editorjs": "^2.26.5",
+		"@editorjs/header": "^2.7.0",
+		"@editorjs/image": "^2.8.1",
+		"@editorjs/inline-code": "^1.4.0",
+		"@editorjs/marker": "^1.3.0",
+		"@editorjs/nested-list": "^1.3.0",
+		"@editorjs/quote": "^2.5.0",
+		"@editorjs/underline": "^1.1.0",
 		"@floating-ui/dom": "^1.2.6",
 		"@prisma/client": "^4.13.0",
 		"argon2": "^0.30.3",
+		"autosize": "^6.0.1",
 		"dayjs": "^1.11.7",
 		"fast-jwt": "^2.2.1",
 		"zod": "^3.21.4"
@@ -31,6 +40,7 @@
 		"@sveltejs/kit": "^1.15.8",
 		"@tailwindcss/forms": "^0.5.3",
 		"@tailwindcss/typography": "^0.5.9",
+		"@types/autosize": "^4.0.1",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"autoprefixer": "^10.4.14",

@@ -6,4 +6,4 @@
 	export let rounded: string | undefined = 'rounded-full';
 </script>
 
-<Avatar src={src ?? '/user-default.svg'} {width} {rounded} />
+<Avatar src={src ?? '/user-default.svg'} {width} {rounded} shadow="shadow-lg" />
