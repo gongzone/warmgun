@@ -8,10 +8,12 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 
 	import Toast from '$components/@ui-singletons/Toast/Toast.svelte';
+	import Drawer from '$components/@ui-singletons/Drawer/Drawer.svelte';
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
 <Toast />
+<Drawer />
 
 <slot />
