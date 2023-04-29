@@ -12,7 +12,7 @@
 	import UserAvatar from '$components/@ui-elements/UserAvatar.svelte';
 	import DraftCard from './_DraftCard/DraftCard.svelte';
 
-	let deleteForm: HTMLFormElement;
+	let deleteForms: HTMLFormElement[] = [];
 
 	$: drafts = $drawerStore.meta as DraftMeta;
 </script>
@@ -42,13 +42,13 @@
 
 				<svelte:fragment slot="content">
 					<ul class="flex flex-col gap-3">
-						{#each drafts as { id, title, subTitle, updatedAt } (id)}
+						{#each drafts as { id, title, subTitle, updatedAt }, index (id)}
 							<li class="flex items-center gap-4">
 								<DraftCard draftId={id} {title} {subTitle} {updatedAt} />
 								<form
 									method="POST"
 									action="?/deleteDraft"
-									bind:this={deleteForm}
+									bind:this={deleteForms[index]}
 									use:enhance={() => {
 										return async ({ result }) => {
 											if (result.type === 'success' || result.type === 'redirect') {
@@ -62,10 +62,10 @@
 									<button
 										type="button"
 										class="btn-icon w-9 h-9 px-0 variant-ringed-tertiary rounded-lg"
-										on:click={() =>
+										on:click={(e) =>
 											triggerConfirmModal('초고 삭제', '정말로 삭제하시겠습니까?', (r) => {
 												if (r) {
-													deleteForm.requestSubmit();
+													deleteForms[index].requestSubmit();
 												}
 											})}
 									>
