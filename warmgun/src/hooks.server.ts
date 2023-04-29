@@ -7,7 +7,8 @@ import {
 	COOKIE_TOKEN_ID,
 	COOKIE_ACCESS_TOKEN,
 	COOKIE_REFRESH_TOKEN,
-	setAuthCookies
+	setAuthCookies,
+	deleteAuthCookies
 } from '$lib/server/cookie';
 import {
 	generateTokens,
@@ -112,6 +113,7 @@ async function refreshAuth(
 
 		return user;
 	} catch {
+		deleteAuthCookies(cookies);
 		return null;
 	}
 }
@@ -140,6 +142,7 @@ async function rotateRefreshToken(
 			}
 		}
 	});
+
 	if (!token) {
 		throw error(401, '해당 인증 토큰을 찾을 수 없습니다.');
 	}
