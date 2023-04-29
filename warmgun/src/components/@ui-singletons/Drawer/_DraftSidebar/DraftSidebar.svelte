@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { invalidateAll } from '$app/navigation';
 	import { applyAction, enhance } from '$app/forms';
 	import { drawerStore, Accordion, AccordionItem, Avatar } from '@skeletonlabs/skeleton';
 	import CloseIcon from '~icons/ri/close-line';
@@ -50,10 +51,11 @@
 									bind:this={deleteForm}
 									use:enhance={() => {
 										return async ({ result }) => {
-											await applyAction(result);
 											if (result.type === 'success' || result.type === 'redirect') {
+												await invalidateAll();
 												drafts = drafts.filter((d) => d.id !== id);
 											}
+											await applyAction(result);
 										};
 									}}
 								>
