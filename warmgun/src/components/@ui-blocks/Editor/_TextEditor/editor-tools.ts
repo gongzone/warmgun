@@ -7,6 +7,8 @@ import Marker from '@editorjs/marker';
 import Underline from '@editorjs/underline';
 import InlineCode from '@editorjs/inline-code';
 
+import { uploadImage } from '$lib/client/upload-image';
+
 export const editorTools = {
 	header: {
 		class: Header,
@@ -22,7 +24,18 @@ export const editorTools = {
 	Marker: { class: Marker },
 	inlineCode: { class: InlineCode },
 	underline: { class: Underline },
-	image: { class: ImageTool }
+	image: {
+		class: ImageTool,
+		config: {
+			uploader: {
+				uploadByFile(file: File) {
+					return uploadImage(file)
+						.then((imageUrl) => ({ success: 1, file: { url: imageUrl } }))
+						.catch(() => Promise.resolve({ success: 0 }));
+				}
+			}
+		}
+	}
 	// alert: {
 	// 	class: Alert,
 	// 	inlineToolbar: true,
@@ -32,26 +45,4 @@ export const editorTools = {
 	// 		messagePlaceholder: 'Enter something'
 	// 	}
 	// },
-
-	// image: {
-	// 	class: ImageTool
-	// config: {
-	// 	uploader: {
-	// 		uploadByFile(file: File) {
-	// 			return uploadImage(file)
-	// 				.then((imageUrl) => ({
-	// 					success: 1,
-	// 					file: {
-	// 						url: imageUrl
-	// 					}
-	// 				}))
-	// 				.catch(() =>
-	// 					Promise.resolve({
-	// 						success: 0
-	// 					})
-	// 				);
-	// 		}
-	// 	}
-	// }
-	// }
 } satisfies EditorConfig['tools'];

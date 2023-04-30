@@ -10,7 +10,7 @@
 	import DraftIcon from '~icons/ri/article-line';
 
 	import { triggerToast } from '$components/@ui-singletons/Toast/toast';
-	import { openDraftSidebar } from '$components/@ui-singletons/Drawer/drawer';
+	import { openDraftSidebar, openPublishSidebar } from '$components/@ui-singletons/Drawer/drawer';
 	import Editor from '$components/@ui-blocks/Editor/Editor.svelte';
 
 	export let data: PageData;
@@ -60,7 +60,14 @@
 		>
 			<button type="submit" class="btn variant-filled-secondary">저장</button>
 		</form>
-		<button type="button" class="btn variant-filled-primary">글 등록</button>
+		<button
+			type="button"
+			class="btn variant-filled-primary"
+			on:click={async () => {
+				const { title, subTitle, body } = await getCurrentEditorData();
+				openPublishSidebar({ meta: { title, subTitle, body } });
+			}}>글 등록</button
+		>
 	</svelte:fragment>
 </AppBar>
 
