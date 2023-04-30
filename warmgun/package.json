@@ -31,6 +31,7 @@
 		"autosize": "^6.0.1",
 		"dayjs": "^1.11.7",
 		"fast-jwt": "^2.2.1",
+		"meilisearch": "^0.32.3",
 		"mime-types": "^2.1.35",
 		"nanoid": "^4.0.2",
 		"zod": "^3.21.4"

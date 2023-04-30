@@ -2,11 +2,12 @@
 	import CloseIcon from '~icons/ri/close-line';
 
 	import { debounce } from '$lib/utils/debounce';
-	import { searchTags, type SearchedTag } from '$api/tag';
+	import { search } from '$lib/client/search';
 
 	export let tags: string[] = [];
 	let input: string = '';
-	let fetchedTags: SearchedTag[] = [];
+	let fetchedTags: { name: string; _count: { articles: number } }[] = [];
+	let timer: NodeJS.Timer;
 
 	const clean = () => {
 		input = '';
@@ -14,14 +15,23 @@
 	};
 
 	const onChangeInput = (e: any) =>
-		debounce(async () => {
-			if (e.target.value === '') {
-				fetchedTags = [];
-				return;
-			}
+		debounce(
+			timer,
+			async () => {
+				if (e.target.value === '') {
+					fetchedTags = [];
+					return;
+				}
 
-			fetchedTags = await searchTags(e.target.value, tags.join());
-		}, 500);
+				const { data, nextCursor } = await search(e.target.value, {
+					mode: 'tags',
+					take: 10,
+					cursor: 0
+				});
+				fetchedTags = data;
+			},
+			500
+		);
 
 	const onKeypress = (e: any) => {
 		if (e.key === 'Enter') {
@@ -70,7 +80,7 @@
 							class="w-full h-full p-3 hover:bg-slate-700 text-left"
 						>
 							<span data-name={tag.name}>{tag.name}</span>
-							<span data-name={tag.name} class="text-sm font-bold">({tag.count})</span>
+							<span data-name={tag.name} class="text-sm font-bold">({tag._count.articles})</span>
 						</button>
 					</li>
 				{/each}
@@ -86,7 +96,6 @@
 						<button
 							on:click={(e) => {
 								const t = tags.filter((tag) => tag !== e.currentTarget.textContent?.trim());
-								console.log(t, e.currentTarget.textContent);
 								tags = t;
 							}}
 							type="button"

@@ -5,6 +5,6 @@
 </script>
 
 <div class="flex items-center gap-2 mb-3">
-	<span><AwardIcon class="text-surface-300" /></span>
+	<AwardIcon class="text-surface-300" />
 	<span class="text-surface-300">{text}</span>
 </div>

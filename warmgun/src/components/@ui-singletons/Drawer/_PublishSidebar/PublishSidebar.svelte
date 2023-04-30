@@ -1,13 +1,19 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { applyAction, enhance } from '$app/forms';
 	import { drawerStore } from '@skeletonlabs/skeleton';
 	import CloseIcon from '~icons/ri/close-line';
 
 	import type { PublishMeta } from '$components/@ui-singletons/Drawer/drawer';
-	import type { OutputData } from '@editorjs/editorjs';
+	import IconText from './_IconText/IconText.svelte';
+	import CoverImagePreview from './_CoverImagePreview/CoverImagePreview.svelte';
+	import TagSelector from './_TagSelector/TagSelector.svelte';
+
+	let coverImage: string | null;
+	let tags: string[];
 
 	$: ({ title, subTitle, body } = $drawerStore.meta as PublishMeta);
+
+	$: console.log(tags);
 </script>
 
 <header class="flex justify-between px-3 sm:px-5 py-4">
@@ -16,23 +22,37 @@
 		<span>닫기</span>
 	</button>
 
-	<button type="button" class="btn variant-filled-primary">출간하기</button>
+	<form
+		method="POST"
+		action="?/publish"
+		use:enhance={({ data }) => {
+			console.log('?');
+			data.append('title', title);
+			data.append('subTitle', subTitle);
+			data.append('body', JSON.stringify(body));
+			coverImage && data.append('coverImage', coverImage);
+			data.append('tags', tags.join());
+
+			return async ({ result }) => {
+				await applyAction(result);
+			};
+		}}
+	>
+		<button type="submit" class="btn variant-filled-primary">출간하기</button>
+	</form>
 </header>
 
 <hr />
 
 <ul class="space-y-10 px-8 py-8 sm:px-12">
 	<li>
-		<div class="flex flex-col justify-center items-center" />
+		<IconText text="커버 이미지" />
+		<CoverImagePreview bind:coverImage />
 	</li>
 
-	<li>s</li>
-
 	<li>
-		<div class="input-group input-group-divider grid-cols-[auto_1fr_auto] rounded-md">
-			<div class="input-group-shim">/</div>
-			<input type="text" name="slug" />
-		</div>
+		<IconText text="태그 선택" />
+		<TagSelector bind:tags />
 	</li>
 
 	<div class="h-40" />
