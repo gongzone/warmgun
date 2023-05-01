@@ -3,9 +3,9 @@ import { toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 type ToastPreset = 'success' | 'warning' | 'error';
 
 const toastPresetStyles = {
-	success: `variant-ghost-success`,
-	warning: `variant-ghost-warning`,
-	error: `variant-ghost-error`
+	success: `variant-filled-success`,
+	warning: `variant-filled-warning`,
+	error: `variant-filled-error`
 };
 
 export function triggerToast(preset: ToastPreset, message: string): void {
