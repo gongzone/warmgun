@@ -7,4 +7,4 @@
 	export let border: string | undefined = 'border-0';
 </script>
 
-<Avatar src={src ?? '/user-default.svg'} {width} {rounded} {border} shadow="shadow-lg" />
+<Avatar src={src ?? '/user-default.svg'} {width} {rounded} {border} />

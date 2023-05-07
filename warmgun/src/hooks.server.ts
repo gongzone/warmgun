@@ -11,7 +11,7 @@ import {
 	deleteAuthCookies
 } from '$lib/server/cookie';
 import { generateTokens, verifyToken, type TokenPayloadReturn } from '$lib/server/jwt';
-import type { Prisma } from '@prisma/client';
+import { currentUserSelect } from '$lib/server/population/user';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const tokenId = event.cookies.get(COOKIE_TOKEN_ID);
@@ -26,7 +26,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (accessToken) {
 		const payload = await verifyToken('access', accessToken);
 		event.locals.user = payload
-			? await getCurrentUser(payload.userId)
+			? await findCurrentUser(payload.userId)
 			: await refreshAuth(event.cookies, { tokenId, refreshToken });
 		return await resolve(event);
 	}
@@ -34,14 +34,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.user = await refreshAuth(event.cookies, { tokenId, refreshToken });
 	return await resolve(event);
 };
-
-const currentUserSelect = {
-	id: true,
-	username: true,
-	email: true,
-	role: true,
-	profile: true
-} satisfies Prisma.UserSelect;
 
 async function refreshAuth(
 	cookies: Cookies,
@@ -111,14 +103,11 @@ async function rotateRefreshToken(
 	};
 }
 
-async function getCurrentUser(userId: number) {
+export async function findCurrentUser(userId: number) {
 	const user = await db.user.findUnique({
 		where: { id: userId },
 		select: currentUserSelect
 	});
-	if (!user) {
-		return null;
-	}
 
 	return user;
 }

@@ -4,8 +4,8 @@
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import CommunityIcon from '~icons/ri/community-line';
 	import QuillPenIcon from '~icons/ri/quill-pen-line';
-	// import AccountIcon from '~icons/ri/account-pin-circle-line';
-	// import FeedIcon from '~icons/ri/rss-fill';
+	import AccountIcon from '~icons/ri/account-pin-circle-line';
+	import FeedIcon from '~icons/ri/rss-fill';
 
 	import NavLink from '$components/@ui-elements/NavLink.svelte';
 	import UserAvatar from '$components/@ui-elements/UserAvatar.svelte';
@@ -20,9 +20,9 @@
 
 	$: links = [
 		{ name: '내 블로그', to: `/@${user?.username}`, icon: CommunityIcon },
-		{ name: '글쓰기', to: `/write/draft`, icon: QuillPenIcon }
-		// { name: '나의 피드', to: '/feed', icon: FeedIcon },
-		// { name: '프로필 설정', to: '/me/profile', icon: AccountIcon }
+		{ name: '글쓰기', to: `/write/draft`, icon: QuillPenIcon },
+		{ name: '나의 피드', to: '/feed', icon: FeedIcon },
+		{ name: '프로필 설정', to: '/me/profile', icon: AccountIcon }
 	];
 </script>
 

@@ -1,38 +1,65 @@
-import type { Prisma } from '@prisma/client';
 import type { PageServerLoad } from './$types';
 
 import { db } from '$lib/server/db';
-import { findTopUsers } from '$lib/server/services/user';
+import { userSelect } from '$lib/server/population/user';
+import { articlesInclude } from '$lib/server/population/article';
 import { buildPaginationData } from '$lib/server/pagination';
-
-const articleInclude = {
-	tags: true,
-	author: {
-		include: { profile: true }
-	},
-	_count: {
-		select: { likes: true, comments: true }
-	}
-} satisfies Prisma.ArticleInclude;
 
 export const load: PageServerLoad = async ({ url }) => {
 	const topUsers = await findTopUsers();
-
-	const filter = url.searchParams.get('filter') ?? 'trending';
-	const cursor = url.searchParams.get('cursor') ?? 0;
-
-	const articles = await db.article.findMany({
-		take: 12,
-		skip: 12 * +cursor,
-		include: articleInclude,
-		orderBy: filter === 'trending' ? { trendingScore: 'desc' } : { createdAt: 'desc' }
-	});
-
-	const { data, nextCursor } = buildPaginationData(articles, 12, +cursor);
+	const popularTags = (await findPopularTags()).map((tag) => tag.name);
 
 	return {
 		topUsers,
-		articles: data,
-		nextCursor
+		popularTags
 	};
 };
+
+async function findTopUsers() {
+	const take = 10;
+	const users = await db.user.findMany({
+		take,
+		select: userSelect,
+		orderBy: { followedBy: { _count: 'desc' } }
+	});
+
+	return users;
+}
+
+async function findPopularTags() {
+	const take = 8;
+	const popularTags = await db.tag.findMany({
+		take,
+		where: {
+			articles: { some: { createdAt: { gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14) } } }
+		},
+		orderBy: { articles: { _count: 'desc' } }
+	});
+
+	if (popularTags.length < take) {
+		const excludes = popularTags.map((tag) => tag.name);
+
+		const fallbackTags = await db.tag.findMany({
+			take: take - popularTags.length,
+			where: { name: { notIn: excludes } },
+			orderBy: { articles: { _count: 'desc' } }
+		});
+
+		return popularTags.concat(fallbackTags);
+	}
+
+	return popularTags;
+}
+
+// async function findHomeArticles(filter: string, cursor: number) {
+// 	const take = 12;
+// 	const articles = await db.article.findMany({
+// 		take,
+// 		skip: take * cursor,
+// 		include: articlesInclude,
+// 		orderBy: filter === 'trending' ? { trendingScore: 'desc' } : { createdAt: 'desc' }
+// 	});
+
+// 	const paginatedArticles = buildPaginationData(articles, take, +cursor);
+// 	return paginatedArticles;
+// }

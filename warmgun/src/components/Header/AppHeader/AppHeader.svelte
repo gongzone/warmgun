@@ -4,7 +4,7 @@
 	import HamburgerIcon from '~icons/ri/menu-2-line';
 	import GunShotIcon from '~icons/game-icons/gunshot';
 
-	import AvatarPopover from '$components/@ui-blocks/AvatarPopover.svelte';
+	import AvatarPopover from '$components/@ui-blocks/Popover/AvatarPopover.svelte';
 </script>
 
 <AppBar padding="px-[5vw] py-6">
