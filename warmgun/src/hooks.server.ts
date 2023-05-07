@@ -10,12 +10,8 @@ import {
 	setAuthCookies,
 	deleteAuthCookies
 } from '$lib/server/cookie';
-import {
-	generateTokens,
-	verifyToken,
-	type TokenPayload,
-	type TokenPayloadRetun
-} from '$lib/server/jwt';
+import { generateTokens, verifyToken, type TokenPayloadReturn } from '$lib/server/jwt';
+import type { Prisma } from '@prisma/client';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const tokenId = event.cookies.get(COOKIE_TOKEN_ID);
@@ -28,69 +24,28 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	if (accessToken) {
-		event.locals.user = await authByAccessToken(event.cookies, {
-			tokenId,
-			accessToken,
-			refreshToken
-		});
+		const payload = await verifyToken('access', accessToken);
+		event.locals.user = payload
+			? await getCurrentUser(payload.userId)
+			: await refreshAuth(event.cookies, { tokenId, refreshToken });
 		return await resolve(event);
 	}
 
-	event.locals.user = await refreshAuth(event.cookies, {
-		tokenId,
-		refreshToken
-	});
+	event.locals.user = await refreshAuth(event.cookies, { tokenId, refreshToken });
 	return await resolve(event);
 };
 
-async function authByAccessToken(
-	cookies: Cookies,
-	{
-		tokenId,
-		accessToken,
-		refreshToken
-	}: {
-		tokenId: string;
-		accessToken: string;
-		refreshToken: string;
-	}
-) {
-	const payload = await verifyToken('access', accessToken);
-	if (!payload) {
-		return refreshAuth(cookies, {
-			tokenId,
-			refreshToken
-		});
-	}
-
-	const user = await db.user.findUnique({
-		where: {
-			id: payload.userId
-		},
-		select: {
-			id: true,
-			username: true,
-			email: true,
-			role: true,
-			profile: true
-		}
-	});
-	if (!user) {
-		return null;
-	}
-
-	return user;
-}
+const currentUserSelect = {
+	id: true,
+	username: true,
+	email: true,
+	role: true,
+	profile: true
+} satisfies Prisma.UserSelect;
 
 async function refreshAuth(
 	cookies: Cookies,
-	{
-		tokenId,
-		refreshToken
-	}: {
-		tokenId: string;
-		refreshToken: string;
-	}
+	{ tokenId, refreshToken }: { tokenId: string; refreshToken: string }
 ) {
 	const payload = await verifyToken('refresh', refreshToken);
 	if (!payload) {
@@ -99,48 +54,32 @@ async function refreshAuth(
 
 	try {
 		const {
-			tokenId: newTokenId,
 			accessToken: newAccessToken,
 			refreshToken: newRefreshToken,
 			user
 		} = await rotateRefreshToken(tokenId, refreshToken, payload);
 
 		setAuthCookies(cookies, {
-			tokenId: newTokenId,
+			tokenId,
 			accessToken: newAccessToken,
 			refreshToken: newRefreshToken
 		});
 
 		return user;
-	} catch {
+	} catch (err) {
 		deleteAuthCookies(cookies);
-		return null;
+		throw err;
 	}
 }
 
 async function rotateRefreshToken(
 	tokenId: string,
 	refreshToken: string,
-	payload: TokenPayloadRetun
+	payload: TokenPayloadReturn
 ) {
 	const token = await db.token.findUnique({
-		where: {
-			id_userId: {
-				id: tokenId,
-				userId: payload.userId
-			}
-		},
-		include: {
-			user: {
-				select: {
-					id: true,
-					username: true,
-					email: true,
-					role: true,
-					profile: true
-				}
-			}
-		}
+		where: { id_userId: { id: tokenId, userId: payload.userId } },
+		include: { user: { select: currentUserSelect } }
 	});
 
 	if (!token) {
@@ -148,58 +87,38 @@ async function rotateRefreshToken(
 	}
 
 	const match = await argon2.verify(token.refreshToken, refreshToken);
-	if (!match) {
-		// leaway
-		if (dayjs().diff(new Date(payload.iat * 1000), 'seconds') < 60) {
-			return {
-				...(await updateToken(token.id, {
-					userId: token.user.id,
-					username: token.user.username
-				})),
-				user: token.user
-			};
-		}
 
-		// block
-		await db.token.deleteMany({
-			where: {
-				userId: token.userId
-			}
-		});
-
+	if (!match && dayjs().diff(new Date(payload.iat * 1000), 'seconds') > 60) {
+		await db.token.deleteMany({ where: { userId: token.userId } });
 		throw error(403, '비정상적인 인증 토큰 갱신 요청으로 강제 로그아웃 됩니다.');
 	}
 
-	return {
-		...(await updateToken(token.id, {
-			userId: token.user.id,
-			username: token.user.username
-		})),
-		user: token.user
-	};
-}
-
-async function updateToken(tokenId: string, payload: TokenPayload) {
-	const { userId, username } = payload;
-	const { accessToken, refreshToken } = await generateTokens({
-		userId,
-		username
+	const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await generateTokens({
+		userId: token.user.id,
+		username: token.user.username
 	});
-	const hashedRefreshToken = await argon2.hash(refreshToken);
+	const hashedRefreshToken = await argon2.hash(newRefreshToken);
 
-	const updatedToken = await db.token.update({
-		where: {
-			id_userId: {
-				id: tokenId,
-				userId
-			}
-		},
+	await db.token.update({
+		where: { id_userId: { id: tokenId, userId: token.user.id } },
 		data: { refreshToken: hashedRefreshToken }
 	});
 
 	return {
-		tokenId: updatedToken.id,
-		accessToken,
-		refreshToken
+		accessToken: newAccessToken,
+		refreshToken: newRefreshToken,
+		user: token.user
 	};
+}
+
+async function getCurrentUser(userId: number) {
+	const user = await db.user.findUnique({
+		where: { id: userId },
+		select: currentUserSelect
+	});
+	if (!user) {
+		return null;
+	}
+
+	return user;
 }

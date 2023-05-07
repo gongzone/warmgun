@@ -15,7 +15,7 @@
 </script>
 
 <div>
-	<section>
+	<section class="px-[5vw]">
 		<div class="section-container">
 			<HomeHero {topUsers} />
 		</div>
@@ -66,7 +66,7 @@
 
 <style lang="postcss">
 	.section-container {
-		@apply w-full max-w-7xl mx-auto px-[5vw] py-16 md:py-24;
+		@apply w-full max-w-7xl mx-auto py-16 md:py-24;
 	}
 
 	.hero-gradient {

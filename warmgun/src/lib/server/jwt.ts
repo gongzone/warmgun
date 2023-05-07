@@ -8,7 +8,7 @@ export interface TokenPayload {
 	username: string;
 }
 
-export interface TokenPayloadRetun extends TokenPayload {
+export interface TokenPayloadReturn extends TokenPayload {
 	iat: number;
 	exp: number;
 }
@@ -33,24 +33,24 @@ export async function generateTokens(payload: TokenPayload): Promise<{
 export async function verifyToken(
 	mode: TokenMode,
 	token: string
-): Promise<TokenPayloadRetun | null> {
+): Promise<TokenPayloadReturn | null> {
 	const verifier = createVerifier({
 		key: async () => (mode === 'access' ? JWT_ACCESS_KEY : JWT_REFRESH_KEY),
 		cache: 1000
 	});
 
 	try {
-		const payload: TokenPayloadRetun = await verifier(token);
+		const payload: TokenPayloadReturn = await verifier(token);
 		return payload;
 	} catch (err) {
 		return null;
 	}
 }
 
-export async function decodeToken(token: string): Promise<TokenPayloadRetun> {
+export async function decodeToken(token: string): Promise<TokenPayloadReturn> {
 	const decoder = createDecoder();
 
-	const payload: TokenPayloadRetun = decoder(token);
+	const payload: TokenPayloadReturn = decoder(token);
 	return payload;
 }
 
