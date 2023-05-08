@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button"
+import Link from "next/link"
+
+import { buttonVariants } from "@/components/ui/button"
 import { Carousel } from "@/components/ui/carousel"
 import { Icons } from "@/components/ui/icons"
 
@@ -30,6 +32,31 @@ export function HomeHero() {
             />
           ))}
         </Carousel>
+      </div>
+
+      {/* <div class="space-y-2">
+		<div class="flex items-center gap-2">
+			<TagIcon class="w-6 h-6" />
+			<span class="text-xl">인기 태그</span>
+		</div>
+
+		<ul class="flex flex-wrap gap-2">
+			{#each popularTags as tag (tag)}
+				<li>
+					<a href="/" class="btn variant-ringed-tertiary btn-sm">{tag}</a>
+				</li>
+			{/each}
+		</ul>
+	</div> */}
+
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <Icons.tags className="h-6 w-6" />
+          <span className="text-xl">인기 태그</span>
+        </div>
+        <PopupularTags
+          tags={["React", "Svelte", "Vue", "Next.js", "TypeScript", "AI"]}
+        />
       </div>
     </div>
   )
@@ -85,28 +112,31 @@ function HeroGradient() {
   )
 }
 
-// width: 360px;
-// height: 400px;
-// z-index: -1;
-// top: -43px;
-// left: 0;
-// position: absolute;
-// filter: blur(45px);
-// transform: translateZ(0);
-// transform: translateY(0%);
-// background: conic-gradient(
-// 	from 180deg at 67% 67%,
-// 	rgb(var(--color-primary-400) / 0.16) 0deg,
-// 	rgb(var(--color-primary-700) / 0.25) 55deg,
-// 	rgb(var(--color-tertiary-600) / 0.35) 120deg,
-// 	rgb(var(--color-error-700) / 0.26) 160deg,
-// 	transparent 360deg
-// );
-
 function TopBlogerBadge() {
   return (
     <span className="bg-primary text-primary-foreground absolute -right-12 -top-4 z-10 rotate-[30deg] rounded-2xl p-6 text-lg font-extralight">
       Top Bloger
     </span>
+  )
+}
+
+interface PopularTagsProps {
+  tags: string[]
+}
+
+function PopupularTags({ tags }: PopularTagsProps) {
+  return (
+    <ul className="flex flex-wrap gap-2">
+      {tags.map((tag, index) => (
+        <li>
+          <Link
+            href={`/tags/${tag}`}
+            className={buttonVariants({ variant: "outline" })}
+          >
+            {tag}
+          </Link>
+        </li>
+      ))}
+    </ul>
   )
 }

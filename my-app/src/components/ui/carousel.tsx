@@ -59,7 +59,7 @@ export const Carousel = React.forwardRef<
       {items?.map((item, index) => (
         <div
           className={cn(
-            "duration-800 h-full w-full transition-all ease-in-out",
+            "duration-800 w-full transition-all ease-in-out",
             `${
               activeItem === index
                 ? "visible opacity-100"

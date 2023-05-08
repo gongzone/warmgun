@@ -1,11 +1,11 @@
 import {
   ArrowLeft,
   ArrowRight,
-  ArrowRightCircle,
   Crosshair,
   LucideProps,
   Moon,
   SunMedium,
+  Tags,
   Twitter,
   User,
   type Icon as LucideIcon,
@@ -21,6 +21,7 @@ export const Icons = {
   user: User,
   arrowLeft: ArrowLeft,
   ArrowRight: ArrowRight,
+  tags: Tags,
   arrowRightIn: (props: LucideProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <path
