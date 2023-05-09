@@ -51,14 +51,14 @@ export function ArticleItem({
         <Image
           src={coverImage ? coverImage : ""}
           alt="cover"
-          width={480}
-          height={360}
+          width={560}
+          height={420}
           className="rounded-2xl shadow-xl"
         />
       </Link>
       <div className="flex flex-col gap-1">
         <Link href={slug}>
-          <h3 className="line-clamp-2 text-xl font-thin">{title}</h3>
+          <h3 className="line-clamp-2 text-xl">{title}</h3>
         </Link>
         <Link href={slug}>
           <p className="line-clamp-3 font-thin">{subTitle}</p>

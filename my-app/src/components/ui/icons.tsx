@@ -1,6 +1,8 @@
 import {
   ArrowLeft,
   ArrowRight,
+  Boxes,
+  Carrot,
   Crosshair,
   LucideProps,
   Moon,
@@ -18,10 +20,12 @@ export const Icons = {
   moon: Moon,
   twitter: Twitter,
   crosshair: Crosshair,
+  carrot: Carrot,
   user: User,
   arrowLeft: ArrowLeft,
   ArrowRight: ArrowRight,
   tags: Tags,
+  boxes: Boxes,
   heart: (props: LucideProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <path
