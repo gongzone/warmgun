@@ -102,13 +102,13 @@ export default function IndexPage() {
               </ul>
             </div>
 
-            <div className="inline-flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="flex flex-wrap gap-4">
               <Link
                 href="/articles"
                 className={buttonVariants({ variant: "default" })}
               >
                 <Icons.ArrowRight className="mr-2" />
-                <span className="text-lg">아티클 페이지</span>
+                <span className="text-base">아티클 페이지</span>
               </Link>
 
               <Link
@@ -116,7 +116,7 @@ export default function IndexPage() {
                 className={buttonVariants({ variant: "secondary" })}
               >
                 <Icons.ArrowRight className="mr-2" />
-                <span className="text-lg">태그 페이지</span>
+                <span className="text-base">태그 페이지</span>
               </Link>
             </div>
           </div>

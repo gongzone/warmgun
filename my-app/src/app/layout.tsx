@@ -4,8 +4,6 @@ import { Metadata } from "next"
 import { siteConfig } from "@/config/site"
 import { fontHeading, fontSans } from "@/lib/fonts/fonts"
 import { cn } from "@/lib/utils"
-import { SiteFooter } from "@/components/Footer/SiteFooter"
-import { SiteHeader } from "@/components/Header/SiteHeader/SiteHeader"
 
 export const metadata: Metadata = {
   title: {
@@ -40,9 +38,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontHeading.variable
           )}
         >
-          <SiteHeader />
-          <div>{children}</div>
-          <SiteFooter />
+          {children}
         </body>
       </html>
     </>

@@ -4,7 +4,7 @@ import { siteConfig } from "@/config/site"
 
 export function SiteFooter() {
   return (
-    <footer className="container mt-40 border-t py-12">
+    <footer className="container mt-32 border-t py-12">
       <div className="grid grid-cols-4 gap-2 sm:grid-cols-7 lg:grid-cols-8">
         <div className="col-span-3 hidden sm:block">
           <span className="text-2xl font-bold">Warmgun</span>
