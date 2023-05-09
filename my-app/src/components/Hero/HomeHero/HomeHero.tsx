@@ -128,7 +128,7 @@ function PopupularTags({ tags }: PopularTagsProps) {
   return (
     <ul className="flex flex-wrap gap-2">
       {tags.map((tag, index) => (
-        <li>
+        <li key={index}>
           <Link
             href={`/tags/${tag}`}
             className={buttonVariants({ variant: "outline" })}

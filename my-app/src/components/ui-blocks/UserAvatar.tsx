@@ -4,7 +4,7 @@ import { Icons } from "@/components/ui/icons"
 
 interface UserAvatarProps {
   src: string | null
-  alt: string
+  alt?: string
   avatarClassName?: string
   imageClassName?: string
   fallbackClassName?: string
@@ -22,7 +22,7 @@ export function UserAvatar({
       <AvatarImage
         className={cn(imageClassName)}
         src={src ? src : undefined}
-        alt={alt}
+        alt={alt ? alt : "user-avatar"}
       />
       <AvatarFallback className={cn("text-foreground", fallbackClassName)}>
         <Icons.user className="h-[52%] w-[52%]" />
