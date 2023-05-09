@@ -13,6 +13,10 @@ export const siteConfig = {
       title: "태그",
       href: "/",
     },
+    {
+      title: "장르",
+      href: "/",
+    },
   ],
   genre: [
     {
