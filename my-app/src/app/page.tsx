@@ -102,7 +102,7 @@ export default function IndexPage() {
               </ul>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="inline-flex flex-col gap-4 sm:flex-row sm:items-center">
               <Link
                 href="/articles"
                 className={buttonVariants({ variant: "default" })}
