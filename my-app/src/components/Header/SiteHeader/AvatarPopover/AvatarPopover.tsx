@@ -24,7 +24,7 @@ export function AvatarPopover({
   avatar,
 }: AvatarPopoverProps) {
   const userNav = [
-    { title: "내 블로그", href: `/@${username}`, icon: Icons.clover },
+    { title: "내 블로그", href: `/blog/@${username}`, icon: Icons.clover },
     { title: "글쓰기", href: `/write`, icon: Icons.clipboard },
   ]
 
