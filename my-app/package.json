@@ -25,6 +25,7 @@
     "@radix-ui/react-avatar": "^1.0.2",
     "@radix-ui/react-popover": "^1.0.5",
     "@radix-ui/react-separator": "^1.0.2",
+    "@radix-ui/react-tabs": "^1.0.3",
     "@types/autosize": "^4.0.1",
     "autosize": "^6.0.1",
     "class-variance-authority": "^0.6.0",

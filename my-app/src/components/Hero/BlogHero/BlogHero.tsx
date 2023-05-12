@@ -1,7 +1,7 @@
 import Image from "next/image"
 
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { Separator } from "@/components/ui/seperator"
 import { UserAvatar } from "@/components/ui-blocks/UserAvatar"
@@ -25,10 +25,11 @@ export function BlogHero() {
               <div className="flex flex-col gap-1">
                 <span className="text-2xl font-extralight">Frontend</span>
                 <p className="line-clamp-4 break-all text-base font-thin">
-                  다양한 개발 방법론을 공부하고 있습니다.
+                  다양한 개발 방법론을 공부하고 있습니다. 다양한 개발 방법론을
+                  공부하고 있습니다. 다양한 개발 방법론을 공부하고 있습니다.
                 </p>
-                <span className="text-base font-thin"></span>
               </div>
+              <Button variant="default">구독하기</Button>
             </div>
 
             <div className="mt-4 flex items-center gap-6">
@@ -36,21 +37,21 @@ export function BlogHero() {
                 <span className="bg-muted absolute -left-3 -top-3 rounded-full p-2">
                   <Icons.hearts className="h-4 w-4" />
                 </span>
-                <span className="font-extralight md:text-lg">구독자</span>
+                <span className="text-sm font-extralight">구독자</span>
                 <span className="text-sm">250</span>
               </div>
               <div className="relative inline-flex flex-col rounded-md border p-4">
                 <span className="bg-muted absolute -left-3 -top-3 rounded-full p-2">
                   <Icons.following className="h-4 w-4" />
                 </span>
-                <span className="font-extralight md:text-lg">팔로잉</span>
+                <span className="text-sm font-extralight">팔로잉</span>
                 <span className="text-sm">16</span>
               </div>
               <div className="relative inline-flex flex-col rounded-md border p-4">
                 <span className="bg-muted absolute -left-3 -top-3 rounded-full p-2">
                   <Icons.book className="h-4 w-4" />
                 </span>
-                <span className="font-extralight md:text-lg">아티클</span>
+                <span className="text-sm font-extralight">아티클</span>
                 <span className="text-sm">36</span>
               </div>
             </div>

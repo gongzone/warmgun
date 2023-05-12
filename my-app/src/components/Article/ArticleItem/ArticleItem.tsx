@@ -19,7 +19,7 @@ interface ArticleItemProps {
     username: string
     avatar: string | null
     field: string
-  }
+  } | null
 }
 
 export function ArticleItem({
@@ -35,17 +35,19 @@ export function ArticleItem({
 }: ArticleItemProps) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <UserAvatar src={user.avatar} avatarClassName="w-12 h-12" />
-          <div className="flex flex-col">
-            <span>{user.username}</span>
-            <span className="text-muted-foreground font-extralight">
-              {user.field}
-            </span>
+      {user && (
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <UserAvatar src={user.avatar} avatarClassName="w-12 h-12" />
+            <div className="flex flex-col">
+              <span>{user.username}</span>
+              <span className="text-muted-foreground font-extralight">
+                {user.field}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <Link href={slug}>
         <Image
