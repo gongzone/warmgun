@@ -9,7 +9,7 @@ import {
 import { TOKENS_CONFIGS } from 'src/lib/constants/token';
 
 interface SetAuthCookiesData {
-  tokenId: number;
+  tokenId: string;
   accessToken: string;
   refreshToken: string;
 }

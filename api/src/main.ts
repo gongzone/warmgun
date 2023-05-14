@@ -8,7 +8,7 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV === 'development') {
     app.enableCors({
-      origin: 'http://localhost:5173',
+      origin: 'http://localhost:3000',
       allowedHeaders: ['Cookie', 'Content-Type'],
       credentials: true,
     });
@@ -24,6 +24,6 @@ async function bootstrap() {
       enableDebugMessages: true,
     }),
   );
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();

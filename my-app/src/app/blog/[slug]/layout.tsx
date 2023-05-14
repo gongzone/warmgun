@@ -7,6 +7,7 @@ export default function BlogLayout({
 }) {
   return (
     <>
+      {/* @ts-expect-error Async Server Component */}
       <SiteHeader />
       {children}
     </>

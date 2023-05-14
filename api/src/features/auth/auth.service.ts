@@ -44,7 +44,11 @@ export class AuthService {
         password: hashedPassword,
         email,
         profile: {
-          create: { nickname: username, bio: `안녕하세요. ${username}입니다.` },
+          create: {
+            nickname: username,
+            field: '블로거',
+            bio: `반갑습니다. ${username}입니다.`,
+          },
         },
         drafts: {
           create: {},
@@ -61,9 +65,7 @@ export class AuthService {
     const token = await this.prismaService.token.create({
       data: {
         refreshToken: hashedRefreshToken,
-        user: {
-          connect: { id: user.id },
-        },
+        user: { connect: { id: user.id } },
       },
     });
 
@@ -113,7 +115,7 @@ export class AuthService {
     });
   }
 
-  async refresh(tokenId: number, refreshToken: string) {
+  async refresh(tokenId: string, refreshToken: string) {
     let payload: JwtPayload;
 
     try {
@@ -126,9 +128,9 @@ export class AuthService {
       );
     }
 
-    const token = await this.prismaService.token.findFirst({
+    const token = await this.prismaService.token.findUnique({
       where: {
-        AND: [{ id: tokenId }, { userId: payload.sub }],
+        id_userId: { id: tokenId, userId: payload.sub },
       },
     });
 
@@ -168,7 +170,7 @@ export class AuthService {
   }
 
   private async rotateRefreshToken(
-    tokenId: number,
+    tokenId: string,
     userId: number,
     username: string,
   ) {

@@ -1,11 +1,11 @@
-version: '3.9'
+version: "3.9"
 
 services:
   postgres:
     container_name: warmgun-postgres
     image: postgres:latest
     ports:
-      - '${DATABASE_PORT:-5432}:${DATABASE_PORT:-5432}'
+      - "${DATABASE_PORT:-5432}:${DATABASE_PORT:-5432}"
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USERNAME}

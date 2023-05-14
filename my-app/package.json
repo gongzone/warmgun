@@ -11,7 +11,8 @@
     "preview": "next build && next start",
     "typecheck": "tsc --noEmit",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "db:start": "docker compose --env-file .env up"
   },
   "dependencies": {
     "@editorjs/editorjs": "^2.26.5",
@@ -22,10 +23,12 @@
     "@editorjs/nested-list": "^1.3.0",
     "@editorjs/quote": "^2.5.0",
     "@editorjs/underline": "^1.1.0",
+    "@prisma/client": "4.14.0",
     "@radix-ui/react-avatar": "^1.0.2",
     "@radix-ui/react-popover": "^1.0.5",
     "@radix-ui/react-separator": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.3",
+    "@radix-ui/react-toast": "^1.1.3",
     "@types/autosize": "^4.0.1",
     "autosize": "^6.0.1",
     "class-variance-authority": "^0.6.0",
@@ -58,6 +61,7 @@
     "eslint-plugin-tailwindcss": "^3.8.0",
     "postcss": "^8.4.23",
     "prettier": "^2.7.1",
+    "prisma": "^4.14.0",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4"
   }

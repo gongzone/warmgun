@@ -31,7 +31,7 @@ export class ReqUserInterceptor implements NestInterceptor {
     const req = context.switchToHttp().getRequest();
     const res = context.switchToHttp().getResponse();
 
-    const tokenId = parseInt(req.cookies?.[TOKEN_ID]);
+    const tokenId = req.cookies?.[TOKEN_ID];
     const accessToken = req.cookies?.[ACCESS_TOKEN];
     const refreshToken = req.cookies?.[REFRESH_TOKEN];
 
@@ -68,7 +68,7 @@ export class ReqUserInterceptor implements NestInterceptor {
   private async refreshFlow(
     req: Request,
     res: Response,
-    tokenId: number,
+    tokenId: string,
     refreshToken: string,
   ) {
     const {

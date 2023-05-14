@@ -4,6 +4,7 @@ import { Metadata } from "next"
 import { siteConfig } from "@/config/site"
 import { fontHeading, fontSans } from "@/lib/fonts/fonts"
 import { cn } from "@/lib/utils"
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: {
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           {children}
+          <Toaster />
         </body>
       </html>
     </>

@@ -35,10 +35,10 @@ export class UserController {
   @Get('/me')
   @HttpCode(HttpStatus.OK)
   async findMe(@GetUser('id') userId: number) {
+    console.log('요청발생!');
     if (!userId) {
       return null;
     }
-    console.log('요청발생!');
 
     return await this.userService.findMe(userId);
   }

@@ -8,6 +8,7 @@ export default function BaseLayout({
 }) {
   return (
     <>
+      {/* @ts-expect-error Async Server Component */}
       <SiteHeader />
       {children}
       <SiteFooter />
