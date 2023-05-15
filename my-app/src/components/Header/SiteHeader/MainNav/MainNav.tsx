@@ -1,41 +1,29 @@
 import * as React from "react"
 import Link from "next/link"
 
-import { NavItem } from "@/types/nav"
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/ui/icons"
+import { siteConfig } from "@/lib/site"
+import { LogoIcon } from "@/components/@icons/LogoIcon"
 
-interface MainNavProps {
-  items?: NavItem[]
-}
-
-export function MainNav({ items }: MainNavProps) {
+export function MainNav() {
   return (
-    <div className="flex items-center gap-10">
+    <nav className="flex items-center gap-10">
       <Link href="/" className="flex items-center gap-2">
-        <Icons.logo className="h-6 w-6" />
-        <span className="font-bold">{siteConfig.name}</span>
+        <LogoIcon className="h-6 w-6" />
+        <h2 className="hidden font-bold md:block">{siteConfig.name}</h2>
       </Link>
-      {items?.length ? (
-        <nav className="hidden gap-6 md:flex">
-          {items?.map(
-            (item, index) =>
-              item.href && (
-                <Link
-                  key={index}
-                  href={item.href}
-                  className={cn(
-                    "text-muted-foreground flex items-center text-sm font-semibold",
-                    item.disabled && "cursor-not-allowed opacity-80"
-                  )}
-                >
-                  {item.title}
-                </Link>
-              )
-          )}
-        </nav>
-      ) : null}
-    </div>
+
+      <ul className="hidden md:flex md:gap-6">
+        {siteConfig.mainNav.map((item, index) => (
+          <li key={index}>
+            <Link
+              href={item.href}
+              className="text-muted-foreground flex items-center text-sm font-semibold"
+            >
+              {item.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   )
 }

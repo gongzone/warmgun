@@ -9,13 +9,6 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -80,9 +73,32 @@ module.exports = {
       },
     },
   },
+  corePlugins: {
+    container: false,
+  },
   plugins: [
     require("tailwindcss-animate"),
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
+    function ({ addComponents }) {
+      addComponents({
+        ".container": {
+          paddingRight: "1rem",
+          paddingLeft: "1rem",
+          maxWidth: "100%",
+          "@screen sm": {
+            paddingRight: "2rem",
+            paddingLeft: "2rem",
+          },
+          "@screen md": {},
+          "@screen lg": {},
+          "@screen xl": {
+            maxWidth: "1400px",
+            marginLeft: "auto",
+            marginRight: "auto",
+          },
+        },
+      })
+    },
   ],
 }
