@@ -1,17 +1,31 @@
 "use client"
 
-import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast"
 import { FormInput } from "@/components/ui-blocks/FormInput"
 
+import { signup } from "./_action"
+
 export default function Signupage() {
   const { toast } = useToast()
 
+  async function signupAction(formData: FormData) {
+    try {
+      await signup(formData)
+    } catch (err) {
+      return toast({
+        title: "회원가입 과정에서 문제가 발생하였습니다.",
+        description: err.message,
+      })
+    }
+
+    redirect("/")
+  }
+
   return (
-    <form>
+    <form action={signupAction}>
       <div className="mb-8 flex flex-col gap-4">
         <FormInput
           type="text"
@@ -41,9 +55,7 @@ export default function Signupage() {
         />
       </div>
 
-      <Button type="submit" className="w-full">
-        회원가입
-      </Button>
+      <Button className="w-full">회원가입</Button>
     </form>
   )
 }

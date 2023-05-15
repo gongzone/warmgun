@@ -16,8 +16,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   role       Role      @default(USER)
-  profile    Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  profileId  Int       @unique
+  profile    Profile?
   tokens     Token[]
   drafts     Draft[]
   articles   Article[]
@@ -39,7 +38,8 @@ model Profile {
   bio      String  @default("")
   avatar   String?
 
-  user User?
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @unique
 }
 
 model Token {
