@@ -31,7 +31,7 @@ export function setAuthCookies({
     secure: process.env.NODE_ENV === "production",
     maxAge: tokenExpires["access"] / 1000,
   })
-  // @ts-ignore
+
   cookies().set(COOKIE_REFRESH_TOKEN, refreshToken, {
     path: "/",
     httpOnly: true,
@@ -43,9 +43,9 @@ export function setAuthCookies({
 
 export function deleteAuthCookies() {
   // @ts-ignore
-  cookies().set(COOKIE_TOKEN_ID, { path: "/", maxAge: 0 })
+  cookies().set(COOKIE_TOKEN_ID, "", { path: "/", maxAge: 0 })
   // @ts-ignore
-  cookies().set(COOKIE_ACCESS_TOKEN, { path: "/", maxAge: 0 })
+  cookies().set(COOKIE_ACCESS_TOKEN, "", { path: "/", maxAge: 0 })
   // @ts-ignore
-  cookies().set(COOKIE_REFRESH_TOKEN, { path: "/", maxAge: 0 })
+  cookies().set(COOKIE_REFRESH_TOKEN, "", { path: "/", maxAge: 0 })
 }

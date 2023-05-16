@@ -21,7 +21,7 @@ export default function Signupage() {
       })
     }
 
-    redirect("/")
+    // redirect("/")
   }
 
   return (

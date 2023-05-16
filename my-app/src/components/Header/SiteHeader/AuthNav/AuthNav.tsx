@@ -14,7 +14,10 @@ import { buttonVariants } from "@/components/@ui/Button"
 import { UserAvatar } from "@/components/ui-blocks/UserAvatar"
 
 export async function AuthNav() {
-  const res = await fetchClient("/api/users/me", { next: { tags: ["me"] } })
+  const res = await fetchClient("/api/users/me", {
+    next: { tags: ["me"], revalidate: 0 },
+  })
+  console.log(res)
   const me: Me = await res.json()
 
   if (!me) {
