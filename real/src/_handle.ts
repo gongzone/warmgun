@@ -1,5 +1,5 @@
 import { prisma } from '$lib/server/db';
-import { error, type Cookies } from '@sveltejs/kit';
+import { error, type Cookies, redirect } from '@sveltejs/kit';
 import argon2 from 'argon2';
 import dayjs from 'dayjs';
 
@@ -39,7 +39,8 @@ export async function refreshAuth(
 		return user;
 	} catch (err) {
 		deleteAuthCookies(cookies);
-		throw err;
+		/* Todo: 커스텀 에러 페이지로 리다이렉트 */
+		throw redirect(301, '/');
 	}
 }
 
