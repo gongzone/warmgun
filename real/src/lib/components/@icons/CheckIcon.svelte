@@ -1,6 +1,3 @@
-<script lang="ts">
-</script>
-
 <svg class="w-6 h-6 {$$props.class ?? ''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 	<path
 		fill="currentColor"

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import HamburgerIcon from '$lib/components/@icons/HamburgerIcon.svelte';
 	import MainNav from './MainNav/MainNav.svelte';
-	import UserPopover from './UserPopover/UserPopover.svelte';
+	import UserPopup from './UserPopup/UserPopup.svelte';
 </script>
 
 <header class="bg-background sticky top-0 z-40 w-full border-b border-b-surface-600">
@@ -14,7 +14,7 @@
 		</div>
 
 		<div>
-			<UserPopover />
+			<UserPopup />
 		</div>
 	</div>
 </header>
