@@ -7,6 +7,7 @@ declare namespace App {
 	}
 	interface PageData {
 		user: import('$lib/types/user').CurrentUser;
+		drafts: import('$lib/types/draft').Draft[];
 	}
 	// interface Error {}
 	// interface Platform {}

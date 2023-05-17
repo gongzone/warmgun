@@ -8,7 +8,7 @@
 
 <a {href}>
 	{#if icon}
-		<span class="badge-icon variant-filled w-7 h-7">
+		<span class="badge-icon">
 			<svelte:component this={icon} class="w-4 h-4" />
 		</span>
 	{/if}

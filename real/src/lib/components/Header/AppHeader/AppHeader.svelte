@@ -13,7 +13,7 @@
 			<MainNav />
 		</div>
 
-		<div>
+		<div class="flex items-center">
 			<UserPopup />
 		</div>
 	</div>
