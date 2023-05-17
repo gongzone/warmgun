@@ -3,9 +3,12 @@
 	import { goto } from '$app/navigation';
 	import { AppBar } from '@skeletonlabs/skeleton';
 
+	import type { CurrentEditorData } from '$lib/types/editor';
 	import { openDraftSidebar } from '$lib/components/@ui/Drawer/drawer';
 	import ArrowLeftIcon from '$lib/components/@icons/ArrowLeftIcon.svelte';
 	import DraftIcon from '$lib/components/@icons/DraftIcon.svelte';
+
+	export let getCurrentEditorData: () => Promise<CurrentEditorData>;
 </script>
 
 <AppBar padding="px-2 py-4 sm:px-6" background="bg-transparent" slotLead="space-x-2">
@@ -23,7 +26,20 @@
 	</svelte:fragment>
 
 	<svelte:fragment slot="trail">
-		<form method="POST" action="?/saveDraft" use:enhance>
+		<form
+			method="POST"
+			action="?/saveDraft"
+			use:enhance={async ({ data }) => {
+				const { title, body } = await getCurrentEditorData();
+				console.log(body);
+				data.append('title', title);
+				data.append('body', JSON.stringify(body));
+
+				return async ({ update }) => {
+					update();
+				};
+			}}
+		>
 			<button type="submit" class="btn variant-filled-secondary">저장</button>
 		</form>
 		<button type="button" class="btn variant-filled-primary">글 등록</button>

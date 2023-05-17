@@ -69,11 +69,40 @@ export const actions: Actions = {
 
 			throw redirect(303, `/write/draft/${latestDraftId}`);
 		}
+	},
+	saveDraft: async ({ request, params }) => {
+		/* Parse DTO */
+		const formData = await request.formData();
+
+		const validated = validate(formData, saveDraftSchema());
+
+		if (!validated.success) {
+			return fail(400, { isSuccess: false, message: validated.errorMessage });
+		}
+
+		const { title, body } = {
+			...validated.data,
+			body: JSON.parse(validated.data.body)
+		};
+
+		await prisma.draft.update({
+			where: { id: +params.draftId },
+			data: { title, body }
+		});
+
+		return { isSuccess: true, message: '초고를 성공적으로 저장했습니다. 🎉' };
 	}
 };
 
 function deleteDraftSchema() {
 	return z.object({
 		draftId: z.string()
+	});
+}
+
+function saveDraftSchema() {
+	return z.object({
+		title: z.string(),
+		body: z.string()
 	});
 }
