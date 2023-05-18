@@ -13,7 +13,7 @@
 </script>
 
 <a
-	href={`/write/draft/${id}`}
+	href={`/write/${id}?mode=draft`}
 	class="w-full px-6 py-3 bg-surface-700 rounded-lg hover:bg-surface-600 truncate {activeClass}"
 	on:click={() => drawerStore.close()}
 >

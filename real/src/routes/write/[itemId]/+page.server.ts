@@ -7,17 +7,52 @@ import { z } from 'zod';
 
 export const ssr = false;
 
-export const load: PageServerLoad = async ({ params, parent }) => {
-	const { drafts } = await parent();
-
-	const foundDraft = drafts.find((draft) => draft.id === +params.draftId);
-
-	if (!foundDraft) {
-		throw error(404, '해당 페이지를 찾을 수 없습니다.');
+export const load: PageServerLoad = async ({ locals, params, url }) => {
+	if (!locals.user) {
+		throw error(401, '제한된 접근입니다.');
 	}
 
-	return { draft: foundDraft };
+	const mode = url.searchParams.get('mode');
+
+	if (mode === 'draft') {
+		const drafts = await findDrafts(locals.user.id);
+		const currentDraft = drafts.find((draft) => draft.id === +params.itemId);
+
+		if (!currentDraft) throw error(404, '해당 페이지를 찾을 수 없습니다.');
+
+		return {
+			draft: currentDraft,
+			drafts
+		};
+	} else if (mode === 'edit') {
+		const article = await findOneArticle(locals.user.id, +params.itemId);
+
+		return {
+			article
+		};
+	}
+
+	throw error(404, '접근 불가능한 페이지입니다.');
 };
+
+async function findDrafts(userId: number) {
+	const drafts = await prisma.draft.findMany({
+		where: { authorId: userId },
+		orderBy: { updatedAt: 'desc' }
+	});
+
+	return drafts;
+}
+
+async function findOneArticle(userId: number, articleId: number) {
+	const article = await prisma.article.findUnique({
+		where: {
+			id_authorId: { id: articleId, authorId: userId }
+		}
+	});
+
+	return article;
+}
 
 export const actions: Actions = {
 	createDraft: async ({ locals }) => {
@@ -58,7 +93,7 @@ export const actions: Actions = {
 
 		await prisma.draft.delete({ where: { id: +draftId } });
 
-		if (draftId === params.draftId) {
+		if (draftId === params.itemId) {
 			const latestDraftId = (
 				await prisma.draft.findFirst({
 					where: { authorId: locals.user?.id },
@@ -71,9 +106,7 @@ export const actions: Actions = {
 		}
 	},
 	saveDraft: async ({ request, params }) => {
-		/* Parse DTO */
 		const formData = await request.formData();
-
 		const validated = validate(formData, saveDraftSchema());
 
 		if (!validated.success) {
@@ -86,7 +119,7 @@ export const actions: Actions = {
 		};
 
 		await prisma.draft.update({
-			where: { id: +params.draftId },
+			where: { id: +params.itemId },
 			data: { title, body }
 		});
 

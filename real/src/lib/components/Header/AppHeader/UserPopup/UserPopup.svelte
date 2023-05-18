@@ -19,7 +19,7 @@
 
 	$: userNav = [
 		{ title: '내 블로그', href: `/@${$page.data.user?.username}`, icon: BlogIcon },
-		{ title: '글쓰기', href: `/write/draft`, icon: DraftIcon },
+		{ title: '글쓰기', href: `/write`, icon: DraftIcon },
 		{ title: '나의 피드', href: '/feed', icon: FeedIcon },
 		{ title: '설정', href: '/me/profile', icon: SettingIcon }
 	];

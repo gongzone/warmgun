@@ -14,7 +14,7 @@
 	let deleteForms: HTMLFormElement[] = [];
 </script>
 
-{#if !$page.data.user}
+{#if !$page.data.user || !$page.data.drafts}
 	<p>No Data...</p>
 {:else}
 	<header class="flex justify-end p-5">

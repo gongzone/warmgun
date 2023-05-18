@@ -4,7 +4,7 @@
 	import { AppBar } from '@skeletonlabs/skeleton';
 
 	import type { CurrentEditorData } from '$lib/types/editor';
-	import { openDraftSidebar } from '$lib/components/@ui/Drawer/drawer';
+	import { openDraftSidebar, openPublishSidebar } from '$lib/components/@ui/Drawer/drawer';
 	import ArrowLeftIcon from '$lib/components/@icons/ArrowLeftIcon.svelte';
 	import DraftIcon from '$lib/components/@icons/DraftIcon.svelte';
 
@@ -42,6 +42,11 @@
 		>
 			<button type="submit" class="btn variant-filled-secondary">저장</button>
 		</form>
-		<button type="button" class="btn variant-filled-primary">글 등록</button>
+		<button
+			type="button"
+			class="btn variant-filled-primary"
+			on:click={async () => openPublishSidebar({ meta: await getCurrentEditorData() })}
+			>글 등록</button
+		>
 	</svelte:fragment>
 </AppBar>

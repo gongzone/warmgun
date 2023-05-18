@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import type { ActionData, PageData } from './$types';
 
 	import type { CurrentEditorData } from '$lib/types/editor';
@@ -11,7 +12,9 @@
 
 	let getCurrentEditorData: () => Promise<CurrentEditorData>;
 
-	$: ({ title, body } = data.draft);
+	$: title =
+		$page.url.searchParams.get('mode') === 'draft' ? data.draft?.title : data.article?.title;
+	$: body = $page.url.searchParams.get('mode') === 'draft' ? data.draft?.body : data.article?.body;
 
 	$: if (form?.message) {
 		triggerToast(`${form.isSuccess ? 'success' : 'warning'}`, form.message);
