@@ -1,7 +1,7 @@
 import type { ZodSchema } from 'zod';
 
 export function validate<T>(
-	formData: FormData,
+	formData: FormData | URLSearchParams,
 	schema: ZodSchema<T>
 ):
 	| {

@@ -1,65 +1,77 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
+	import { createInfiniteQuery } from '@tanstack/svelte-query';
+
+	import type { Tag } from '$lib/types/Tag';
+	import { search } from '$lib/client-fetch/search';
+
 	import CloseIcon from '$lib/components/@icons/CloseIcon.svelte';
 
-	// import { debounce } from '$lib/utils/debounce';
-	// import { search } from '$lib/client/search';
-
 	export let tags: string[] = [];
+
 	let input: string = '';
-	let fetchedTags: { name: string; _count: { articles: number } }[] = [];
+	let debouncedInput: string = '';
+	let fetchedTags: Tag[] = [];
 	let timer: NodeJS.Timer;
 
-	const clean = () => {
+	$: searchTagQuery = createInfiniteQuery({
+		queryKey: ['search', 'tags', debouncedInput],
+		queryFn: () =>
+			search<Tag[]>(debouncedInput, {
+				mode: 'tags',
+				take: 10,
+				cursor: 0
+			}),
+		getNextPageParam: (lastPage) => lastPage.nextCursor,
+		keepPreviousData: true,
+		enabled: !!debouncedInput
+	});
+
+	$: console.log($searchTagQuery.data);
+
+	const cleanInput = () => {
 		input = '';
-		fetchedTags = [];
+		debouncedInput = '';
 	};
 
-	// const onChangeInput = (e: any) =>
-	// 	debounce(
-	// 		timer,
-	// 		async () => {
-	// 			if (e.target.value === '') {
-	// 				fetchedTags = [];
-	// 				return;
-	// 			}
+	const debounce = (cb: () => Promise<void> | void, delay: number) => {
+		clearTimeout(timer);
+		timer = setTimeout(cb, delay);
+	};
 
-	// 			const { data, nextCursor } = await search(e.target.value, {
-	// 				mode: 'tags',
-	// 				take: 10,
-	// 				cursor: 0
-	// 			});
-	// 			fetchedTags = data;
-	// 		},
-	// 		500
-	// 	);
+	const onChangeInput = (e: any) =>
+		debounce(() => {
+			debouncedInput = e.target.value;
+		}, 500);
 
 	const onKeypress = (e: any) => {
-		if (e.key === 'Enter') {
-			if (input) {
-				if (tags.find((tag) => tag === input)) {
-					return clean();
-				}
-
-				tags = [...tags, input];
-				clean();
+		if (e.key === 'Enter' && !!e.target.value) {
+			if (tags.find((tag) => tag === e.target.value)) {
+				return cleanInput();
 			}
+
+			tags = [...tags, e.target.value];
+			cleanInput();
 		}
 	};
 
 	const onClickFetchedTag = (e: any) => {
-		console.log(fetchedTags, e.target);
-
 		if (tags.find((tag) => tag === e.target.dataset.name)) {
-			return clean();
+			return cleanInput();
 		}
+
 		tags = [...tags, e.target.dataset.name];
-		clean();
+		e.target.value();
 	};
+
+	onDestroy(() => {
+		clearTimeout(timer);
+	});
 </script>
 
 <div class="relative">
 	<input
-		on:input
+		on:input={onChangeInput}
 		on:keypress={onKeypress}
 		bind:value={input}
 		type="text"
@@ -68,10 +80,10 @@
 		class="input rounded-md"
 	/>
 
-	{#if fetchedTags.length > 0}
-		<div class="absolute w-full bg-surface-500 rounded-sm shadow-lg">
-			<ul>
-				{#each fetchedTags as tag, index (tag.name)}
+	{#if $searchTagQuery.isSuccess}
+		<ul>
+			{#each $searchTagQuery.data.pages as { data }}
+				{#each data as tag (tag.id)}
 					<li>
 						<button
 							type="button"
@@ -84,8 +96,8 @@
 						</button>
 					</li>
 				{/each}
-			</ul>
-		</div>
+			{/each}
+		</ul>
 	{/if}
 
 	{#if tags.length > 0}

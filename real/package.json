@@ -26,6 +26,7 @@
 		"@editorjs/quote": "^2.5.0",
 		"@editorjs/underline": "^1.1.0",
 		"@prisma/client": "4.14.0",
+		"@tanstack/svelte-query": "^4.29.7",
 		"argon2": "^0.30.3",
 		"autosize": "^6.0.1",
 		"dayjs": "^1.11.7",
