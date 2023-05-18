@@ -12,9 +12,7 @@
 
 	let getCurrentEditorData: () => Promise<CurrentEditorData>;
 
-	$: title =
-		$page.url.searchParams.get('mode') === 'draft' ? data.draft?.title : data.article?.title;
-	$: body = $page.url.searchParams.get('mode') === 'draft' ? data.draft?.body : data.article?.body;
+	$: isDraftMode = $page.url.searchParams.get('mode') === 'draft';
 
 	$: if (form?.message) {
 		triggerToast(`${form.isSuccess ? 'success' : 'warning'}`, form.message);
@@ -24,5 +22,9 @@
 <WriteHeader {getCurrentEditorData} />
 
 <main class="max-w-[700px] mx-auto py-2 px-2 md:my-4">
-	<FullEditor {title} {body} bind:getCurrentEditorData />
+	<FullEditor
+		title={isDraftMode ? data.draft?.title : data.article?.title}
+		body={isDraftMode ? data.draft?.body : data.article?.body}
+		bind:getCurrentEditorData
+	/>
 </main>
