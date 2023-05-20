@@ -107,15 +107,17 @@
 					<li>
 						<button
 							on:click={(e) => {
-								const t = tags.filter((tag) => tag !== e.currentTarget.textContent?.trim());
-								tags = t;
+								const filteredTags = tags.filter(
+									(tag) => tag !== e.currentTarget.textContent?.trim()
+								);
+								tags = filteredTags;
 							}}
 							type="button"
 							data-index={index}
 							class="chip variant-filled-tertiary"
 						>
 							<span>{tag}</span>
-							<span><CloseIcon /></span>
+							<CloseIcon class="w-4 h-4" />
 						</button>
 					</li>
 				{/each}

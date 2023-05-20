@@ -77,7 +77,7 @@ model Draft {
 model Article {
   id            Int      @id @default(autoincrement())
   title         String
-  subTitle      String
+  excerpt       String
   body          Json
   coverImage    String?
   slug          String   @unique
@@ -85,6 +85,7 @@ model Article {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  genre    Genre     @default(ETC)
   author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId Int
   comments Comment[]
@@ -92,6 +93,16 @@ model Article {
   likes    Like[]
 
   @@unique(fields: [id, authorId], name: "id_authorId")
+}
+
+enum Genre {
+  FRONTEND
+  BAKCEND
+  DEVOPS
+  MOBILE
+  DATA_SCIENCE
+  GAME
+  ETC
 }
 
 model Comment {

@@ -15,6 +15,7 @@
 		e: CustomEvent<{
 			coverImage: string | null;
 			tags: string[];
+			genre: string;
 		}>
 	) {
 		publishStorage.set(publishStorageKey, e.detail);
@@ -28,6 +29,7 @@
 		<PublishSidebar
 			coverImage={publishStorage.get(publishStorageKey)?.coverImage ?? null}
 			tags={publishStorage.get(publishStorageKey)?.tags ?? []}
+			genre={publishStorage.get(publishStorageKey)?.tags ?? 'ETC'}
 			on:close={setPublishStorage}
 		/>
 	{/if}

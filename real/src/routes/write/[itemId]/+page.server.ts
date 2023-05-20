@@ -1,9 +1,14 @@
 import type { PageServerLoad, Actions } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
+import { z } from 'zod';
+import { nanoid } from 'nanoid';
 
 import { prisma } from '$lib/server/db';
+import { meilisearch } from '$lib/server/meilisearch';
 import { validate } from '$lib/server/validation';
-import { z } from 'zod';
+import type { Genre } from '@prisma/client';
+import { siteConfig } from '$lib/configs/site';
+import { generateExcerpt } from '$lib/utils/editor-utils';
 
 export const ssr = false;
 
@@ -124,6 +129,74 @@ export const actions: Actions = {
 		});
 
 		return { isSuccess: true, message: '초고를 성공적으로 저장했습니다. 🎉' };
+	},
+	createArticle: async ({ request, locals }) => {
+		const formData = await request.formData();
+		const validated = validate(formData, createArticleSchema());
+
+		if (!validated.success) {
+			return fail(400, { isSuccess: false, message: validated.errorMessage });
+		}
+
+		const { title, body, coverImage, tags, genre } = {
+			...validated.data,
+			coverImage: validated.data.coverImage ?? null,
+			body: JSON.parse(validated.data.body),
+			tags: validated.data.tags.split(','),
+			genre: validated.data.genre as Genre
+		};
+
+		if (body.blocks.length === 0) {
+			return fail(400, { isSuccess: false, message: '본문을 작성하여 주세요.' });
+		}
+
+		if (siteConfig.genre.filter((g) => g.enum === genre).length === 0) {
+			throw error(400, '장르 설정이 올바르게 되지 않았습니다.');
+		}
+
+		const slug = `@${locals.user?.username}/${title
+			.trim()
+			.toLowerCase()
+			.replace(' ', '-')}-${nanoid()}`;
+
+		const excerpt = generateExcerpt(body);
+
+		const article = await prisma.article.create({
+			data: {
+				title,
+				excerpt,
+				body,
+				coverImage,
+				tags: {
+					connectOrCreate: tags.map((tag: string) => ({
+						where: { name: tag },
+						create: { name: tag }
+					}))
+				},
+				genre,
+				slug,
+				author: { connect: { id: locals.user?.id } }
+			},
+			include: { tags: true }
+		});
+
+		await meilisearch.index('articles').addDocuments([
+			{
+				id: article.id,
+				title: article.title,
+				tags: article.tags.map((tag) => tag.name)
+			}
+		]);
+
+		await meilisearch.index('tags').addDocuments(
+			article.tags.map((tag) => ({
+				id: tag.id,
+				name: tag.name
+			}))
+		);
+	},
+	updateArticle: async ({ request, params }) => {
+		return;
 	}
 };
 
@@ -137,5 +210,15 @@ function saveDraftSchema() {
 	return z.object({
 		title: z.string(),
 		body: z.string()
+	});
+}
+
+function createArticleSchema() {
+	return z.object({
+		title: z.string().min(1, '제목 작성은 필수입니다.'),
+		body: z.string(),
+		coverImage: z.string().optional(),
+		tags: z.string(),
+		genre: z.string()
 	});
 }

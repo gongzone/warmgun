@@ -33,30 +33,37 @@ export const siteConfig = {
 	genre: [
 		{
 			title: '프론트엔드',
+			enum: 'FRONTEND',
 			href: '/genre/frontend'
 		},
 		{
 			title: '백엔드',
+			enum: 'BACKEND',
 			href: '/genre/backend'
 		},
 		{
 			title: '데브옵스',
+			enum: 'DEVOPS',
 			href: '/genre/devops'
 		},
 		{
 			title: '모바일',
+			enum: 'MOBILE',
 			href: '/genre/mobile'
 		},
 		{
-			title: 'AI / 데이터 사이언스',
+			title: '데이터 사이언스',
+			enum: 'DATA_SCIENCE',
 			href: '/genre/data-science'
 		},
 		{
 			title: '게임',
+			enum: 'GAME',
 			href: '/genre/game'
 		},
 		{
 			title: '기타',
+			enum: 'ETC',
 			href: '/genre/etc'
 		}
 	]

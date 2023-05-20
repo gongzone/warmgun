@@ -14,7 +14,7 @@
 	let editor: EditorJS;
 	let isEditorReady: boolean = false;
 
-	// $: console.log(body);
+	$: console.log(body);
 
 	$: if (isEditorReady) {
 		body && body.blocks.length > 0 ? editor.render(body) : editor.clear();

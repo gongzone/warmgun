@@ -8,16 +8,18 @@
 	import PublishTitle from './PublishTitle.svelte/PublishTitle.svelte';
 	import CoverImagePreview from './CoverImagePreview/CoverImagePreview.svelte';
 	import TagSelector from './TagSelector/TagSelector.svelte';
+	import GenreSelector from './GenreSelector/GenreSelector.svelte';
 
 	export let coverImage: string | null;
 	export let tags: string[];
+	export let genre: string;
 
 	$: ({ title, body } = $drawerStore.meta as PublishMeta);
 
 	const dispatch = createEventDispatcher();
 
 	onDestroy(() => {
-		dispatch('close', { coverImage, tags });
+		dispatch('close', { coverImage, tags, genre });
 	});
 </script>
 
@@ -29,12 +31,13 @@
 
 	<form
 		method="POST"
-		action="?/publish"
+		action="?/createArticle"
 		use:enhance={({ data }) => {
 			data.append('title', title);
-			data.append('body', JSON.stringify(body));
+			data.append('body', JSON.stringify(body ?? ''));
 			coverImage && data.append('coverImage', coverImage);
 			data.append('tags', tags.join());
+			data.append('genre', genre);
 
 			return async ({ update }) => {
 				update();
@@ -56,6 +59,15 @@
 	<li>
 		<PublishTitle text="태그 선택" />
 		<TagSelector bind:tags />
+		<p class="text-xs opacity-50 mt-2">
+			* 검색하여 태그를 찾거나, 엔터키를 눌러 태그로 설정하세요.
+		</p>
+	</li>
+
+	<li>
+		<PublishTitle text="장르 선택" />
+		<GenreSelector bind:genre />
+		<p class="text-xs opacity-50 mt-2">* 적합한 장르가 없다면 기타를 선택하여 주십시오.</p>
 	</li>
 
 	<div class="h-40" />

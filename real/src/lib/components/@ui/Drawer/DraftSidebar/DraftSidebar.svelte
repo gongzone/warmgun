@@ -50,7 +50,7 @@
 										<input type="hidden" name="draftId" value={id} />
 										<button
 											type="button"
-											class="btn-icon btn-icon-lg variant-ringed-tertiary rounded-lg"
+											class="btn-icon variant-ringed-tertiary rounded-lg"
 											on:click={() =>
 												triggerConfirmModal('초고 삭제', '정말로 삭제하시겠습니까?', (confirm) => {
 													if (confirm) deleteForms[id].requestSubmit();

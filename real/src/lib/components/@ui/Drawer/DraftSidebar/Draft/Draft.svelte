@@ -8,8 +8,7 @@
 	export let title: string;
 	export let updatedAt: Date;
 
-	$: activeClass =
-		+$page.params.draftId === id ? '!bg-surface-600 border-2 border-surface-300' : '';
+	$: activeClass = +$page.params.itemId === id ? '!bg-surface-600 border-2 border-surface-300' : '';
 </script>
 
 <a
