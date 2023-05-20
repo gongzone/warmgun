@@ -3,11 +3,11 @@
 	import { enhance } from '$app/forms';
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 
-	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import BlogIcon from '$components/@icons/BlogIcon.svelte';
 	import DraftIcon from '$components/@icons/DraftIcon.svelte';
 	import FeedIcon from '$components/@icons/FeedIcon.svelte';
 	import SettingIcon from '$components/@icons/SettingIcon.svelte';
+	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import NavItem from '$components/@ui/NavItem.svelte';
 
 	const popupKey = 'user-popup';
@@ -32,7 +32,7 @@
 		<UserAvatar src={$page.data.user.profile?.avatar} />
 	</button>
 
-	<div class="relative card w-52 p-4 shadow-xl z-40" data-popup={popupKey}>
+	<div class="card w-52 p-4 shadow-xl z-40" data-popup={popupKey}>
 		<nav class="list-nav">
 			<ul>
 				{#each userNav as nav (nav.title)}

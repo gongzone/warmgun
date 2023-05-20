@@ -4,7 +4,7 @@
 	.hero-gradient {
 		width: 360px;
 		height: 400px;
-		z-index: -1;
+		z-index: -9999;
 		top: -43px;
 		left: 0;
 		position: absolute;
