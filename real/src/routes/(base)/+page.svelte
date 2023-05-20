@@ -7,8 +7,8 @@
 	$: ({ topUsers, popularTags } = data);
 </script>
 
-<div class="container">
-	<section class="py-16 md:py-20">
+<div class="container py-12 md:py-20">
+	<section>
 		<HomeHero {topUsers} {popularTags} />
 	</section>
 </div>

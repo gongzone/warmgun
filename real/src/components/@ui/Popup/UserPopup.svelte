@@ -32,7 +32,7 @@
 		<UserAvatar src={$page.data.user.profile?.avatar} />
 	</button>
 
-	<div class="relative card w-52 p-4 shadow-xl" data-popup={popupKey}>
+	<div class="relative card w-52 p-4 shadow-xl z-40" data-popup={popupKey}>
 		<nav class="list-nav">
 			<ul>
 				{#each userNav as nav (nav.title)}

@@ -20,6 +20,7 @@ export type BlogUser = {
 	id: number;
 	username: string;
 	email: string;
+	role: Role;
 	createdAt: Date;
 	profile: {
 		id: number;
@@ -41,6 +42,7 @@ export const blogUserSelect = {
 	id: true,
 	username: true,
 	email: true,
+	role: true,
 	createdAt: true,
 	profile: {
 		select: {
@@ -61,7 +63,3 @@ export const blogUserSelect = {
 		}
 	}
 } satisfies Prisma.UserSelect;
-
-export const topUserSelect = {
-	id: true.valueOf
-};
