@@ -2,10 +2,10 @@
 	import type { ActionData } from './$types';
 	import { enhance } from '$app/forms';
 
-	import { triggerToast } from '$lib/components/@ui/Toast/toast';
-	import UserIcon from '$lib/components/@icons/UserIcon.svelte';
-	import PasswordIcon from '$lib/components/@icons/PasswordIcon.svelte';
-	import FormInput from '$lib/components/@ui/FormInput.svelte';
+	import { triggerToast } from '$components/@ui/Toast/toast';
+	import UserIcon from '$components/@icons/UserIcon.svelte';
+	import PasswordIcon from '$components/@icons/PasswordIcon.svelte';
+	import FormInput from '$components/@ui/FormInput.svelte';
 
 	export let form: ActionData;
 

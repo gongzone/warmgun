@@ -4,8 +4,8 @@
 
 	import { findBlogArticles } from '$lib/client-fetch/article';
 
-	import ArticleItem from '$lib/components/Article/ArticleItem/ArticleItem.svelte';
-	import InfiniteScroll from '$lib/components/@utils/InfiniteScroll.svelte';
+	import ArticleItem from '$components/Article/ArticleItem/ArticleItem.svelte';
+	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 
 	const blogArticlesQuery = createInfiniteQuery({
 		queryKey: ['articles', $page.params.page.slice(1)],

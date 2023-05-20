@@ -1,7 +1,7 @@
-import HomeIcon from '$lib/components/@icons/HomeIcon.svelte';
-import ArticleIcon from '$lib/components/@icons/ArticleIcon.svelte';
-import TagIcon from '$lib/components/@icons/TagIcon.svelte';
-import GenreIcon from '$lib/components/@icons/GenreIcon.svelte';
+import HomeIcon from '$components/@icons/HomeIcon.svelte';
+import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
+import TagIcon from '$components/@icons/TagIcon.svelte';
+import GenreIcon from '$components/@icons/GenreIcon.svelte';
 
 export type SiteConfig = typeof siteConfig;
 

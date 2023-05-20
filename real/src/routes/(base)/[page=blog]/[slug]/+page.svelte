@@ -3,16 +3,14 @@
 	import { goto } from '$app/navigation';
 	import { createMutation, createQuery } from '@tanstack/svelte-query';
 	import type { PageData, PageServerData } from './$types';
-	import HeartIcon from '$lib/components/@icons/HeartIcon.svelte';
-	import MoreIcon from '$lib/components/@icons/MoreIcon.svelte';
+	import HeartIcon from '$components/@icons/HeartIcon.svelte';
+	import MoreIcon from '$components/@icons/MoreIcon.svelte';
 
 	import { Avatar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
-	import UserAvatar from '$lib/components/@ui/UserAvatar.svelte';
-	import TextEditor from '$lib/components/Editor/TextEditor.svelte';
-	import BottomBar from '$lib/components/@ui/BottomBar/BottomBar.svelte';
-	import BottomBarItem from '$lib/components/@ui/BottomBar/BottomBarItem.svelte';
+	import UserAvatar from '$components/@ui/UserAvatar.svelte';
+	import TextEditor from '$components/Editor/TextEditor.svelte';
 	// import Comment from '$components/Comment/Comment.svelte';
-	import { triggerConfirmModal } from '$lib/components/@ui/Modal/modal';
+	import { triggerConfirmModal } from '$components/@ui/Modal/modal';
 
 	export let data: PageData;
 

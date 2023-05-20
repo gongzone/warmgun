@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import ServiceIcon from '$lib/components/@icons/ServiceIcon.svelte';
+	import ServiceIcon from '$components/@icons/ServiceIcon.svelte';
 
 	$: isLoginPage = $page.url.pathname === '/auth/login';
 </script>

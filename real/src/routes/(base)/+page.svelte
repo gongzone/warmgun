@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import HomeHero from '$lib/components/Hero/HomeHero/HomeHero.svelte';
+	import HomeHero from '$components/Hero/HomeHero/HomeHero.svelte';
 
 	export let data: PageData;
 
