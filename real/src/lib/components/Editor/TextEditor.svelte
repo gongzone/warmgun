@@ -6,7 +6,8 @@
 
 	import { editorTools } from './editor-tools';
 
-	export let body: OutputData | null;
+	export let body: any;
+	export let readOnly: true | false = false;
 	export const getCurrentBody = async () => {
 		return await editor.save();
 	};
@@ -25,6 +26,7 @@
 			holder: 'editor',
 			placeholder: '당신의 이야기를 들려주세요.',
 			tools: editorTools,
+			readOnly: readOnly,
 			onReady: () => {
 				isEditorReady = true;
 			}

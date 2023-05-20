@@ -154,10 +154,7 @@ export const actions: Actions = {
 			throw error(400, '장르 설정이 올바르게 되지 않았습니다.');
 		}
 
-		const slug = `@${locals.user?.username}/${title
-			.trim()
-			.toLowerCase()
-			.replace(' ', '-')}-${nanoid()}`;
+		const slug = `${title.trim().toLowerCase().replace(' ', '-')}-${nanoid()}`;
 
 		const excerpt = generateExcerpt(body);
 

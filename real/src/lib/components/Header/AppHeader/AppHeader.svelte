@@ -1,5 +1,6 @@
 <script lang="ts">
 	import HamburgerIcon from '$lib/components/@icons/HamburgerIcon.svelte';
+	import SearchIcon from '$lib/components/@icons/SearchIcon.svelte';
 	import MainNav from './MainNav/MainNav.svelte';
 	import UserPopup from './UserPopup/UserPopup.svelte';
 </script>
@@ -13,7 +14,10 @@
 			<MainNav />
 		</div>
 
-		<div class="flex items-center">
+		<div class="flex items-center gap-3">
+			<a href="/search" class="btn-icon">
+				<SearchIcon class="w-6 h-6" />
+			</a>
 			<UserPopup />
 		</div>
 	</div>

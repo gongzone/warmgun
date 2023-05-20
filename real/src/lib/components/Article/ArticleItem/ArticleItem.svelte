@@ -7,6 +7,8 @@
 	import CommentIcon from '$lib/components/@icons/CommentIcon.svelte';
 
 	export let article: Article;
+
+	$: articleSlug = `/@${article.author.username}/${article.slug}`;
 </script>
 
 <div class="flex flex-col gap-4">
@@ -22,7 +24,7 @@
 		</div>
 	</div>
 
-	<a href={article.slug}>
+	<a href={articleSlug}>
 		<img
 			src={article.coverImage ? `${article.coverImage}?w=560&h=420&q=80&f=webp` : ''}
 			alt="cover"
@@ -30,10 +32,10 @@
 		/>
 	</a>
 	<div class="flex flex-col gap-1">
-		<a href={article.slug}>
+		<a href={articleSlug}>
 			<h3 class="line-clamp-2 text-xl">{article.title}</h3>
 		</a>
-		<a href={article.slug}>
+		<a href={articleSlug}>
 			<p class="line-clamp-3 font-thin">{article.excerpt}</p>
 		</a>
 	</div>

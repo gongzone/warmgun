@@ -61,3 +61,7 @@ export const blogUserSelect = {
 		}
 	}
 } satisfies Prisma.UserSelect;
+
+export const topUserSelect = {
+	id: true.valueOf
+};

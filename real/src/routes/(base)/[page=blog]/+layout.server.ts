@@ -7,7 +7,7 @@ import { error } from '@sveltejs/kit';
 export const load: LayoutServerLoad = async ({ locals, params }) => {
 	const blogUser = await findBlogUser(params.page.slice(1, params.page.length));
 
-	return { blogUser };
+	return { blogUser, isOwner: blogUser.id === locals.user?.id };
 };
 
 async function findBlogUser(username: string) {
