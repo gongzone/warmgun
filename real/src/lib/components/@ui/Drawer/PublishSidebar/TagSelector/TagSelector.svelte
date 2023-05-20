@@ -2,7 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
-	import type { Tag } from '$lib/types/Tag';
+	import type { Tag } from '$lib/types/tag';
 	import { search } from '$lib/client-fetch/search';
 
 	import CloseIcon from '$lib/components/@icons/CloseIcon.svelte';

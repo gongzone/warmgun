@@ -32,14 +32,29 @@ enum Role {
 }
 
 model Profile {
-  id       Int     @id @default(autoincrement())
-  nickname String  @unique
-  field    String  @default("")
-  bio      String  @default("")
-  avatar   String?
+  id        Int     @id @default(autoincrement())
+  nickname  String  @unique
+  field     String  @default("")
+  bio       String  @default("")
+  avatar    String?
+  blogImage String?
 
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int  @unique
+  profileLinks ProfileLinks?
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int           @unique
+}
+
+model ProfileLinks {
+  id        Int    @id @default(autoincrement())
+  website   String @default("")
+  github    String @default("")
+  instagram String @default("")
+  facebook  String @default("")
+  twitter   String @default("")
+  youtube   String @default("")
+
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId Int     @unique
 }
 
 model Token {

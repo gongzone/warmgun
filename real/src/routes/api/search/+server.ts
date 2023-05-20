@@ -32,7 +32,7 @@ export const GET = (async ({ locals, url }) => {
 				orderBy: { articles: { _count: 'desc' } }
 			});
 
-			return json(buildInfinityData(searchedTags, +take, +cursor));
+			return json(buildInfinityData(searchedTags, take, cursor));
 		}
 	} catch {
 		return json({
