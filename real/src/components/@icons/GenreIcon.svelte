@@ -1,5 +1,5 @@
 <svg
-	class="w-6 h-6 {$$props.class ?? ''}"
+	class={$$props.class ?? 'w-6 h-6'}
 	xmlns="http://www.w3.org/2000/svg"
 	viewBox="0 0 24 24"
 	fill="none"

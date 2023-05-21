@@ -20,7 +20,7 @@
 		<div class="col-span-2 space-y-2">
 			<span class="opacity-50 line-clamp-1 sm:text-lg">{profile?.field}</span>
 			<span class="font-semibold line-clamp-1 text-lg sm:text-2xl">{profile?.nickname}</span>
-			<p class="font-light line-clamp-2 break-all">{profile?.bio}</p>
+			<p class="font-light line-clamp-1 break-all sm:line-clamp-2">{profile?.bio}</p>
 		</div>
 	</header>
 
