@@ -45,6 +45,11 @@
 			<hr class="my-2" />
 
 			<ul>
+				{#if $page.data.user.role === 'ADMIN'}
+					<li>
+						<a href="/admin">관리자 페이지</a>
+					</li>
+				{/if}
 				<li>
 					<form method="POST" action="/auth/logout" use:enhance>
 						<button type="submit" class="w-full">로그아웃</button>
