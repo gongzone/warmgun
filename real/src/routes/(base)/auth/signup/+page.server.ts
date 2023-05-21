@@ -7,6 +7,7 @@ import { validate } from '$lib/server/validation';
 import { prisma } from '$lib/server/db';
 import { generateTokens } from '$lib/server/jwt';
 import { setAuthCookies } from '$lib/server/cookie';
+import { meilisearch } from '$lib/server/meilisearch';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -49,8 +50,6 @@ export const actions: Actions = {
 			}
 		});
 
-		/* Todo: meilisearch Add Index */
-
 		const { accessToken, refreshToken } = await generateTokens({
 			userId: user.id,
 			username: user.username
@@ -70,6 +69,13 @@ export const actions: Actions = {
 			accessToken,
 			refreshToken
 		});
+
+		await meilisearch.index('users').addDocuments([
+			{
+				id: user.id,
+				nickname: user.username
+			}
+		]);
 
 		throw redirect(303, '/');
 	}

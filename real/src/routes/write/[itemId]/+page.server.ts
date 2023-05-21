@@ -181,7 +181,8 @@ export const actions: Actions = {
 			{
 				id: article.id,
 				title: article.title,
-				tags: article.tags.map((tag) => tag.name)
+				tags: article.tags.map((tag) => tag.name),
+				genre: article.genre
 			}
 		]);
 
