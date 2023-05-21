@@ -2,9 +2,12 @@
 	import type { Article } from '$lib/types/article';
 
 	import { formatDate } from '$lib/utils/format';
-	import UserAvatar from '$components/@ui/UserAvatar.svelte';
-	import HeartIcon from '$components/@icons/HeartIcon.svelte';
-	import CommentIcon from '$components/@icons/CommentIcon.svelte';
+	import ArticleItemHeader from './ArticleItemHeader/ArticleItemHeader.svelte';
+	import ArticleItemImage from './ArticleItemImage/ArticleItemImage.svelte';
+	import ArticleItemTitle from './ArticleItemTitle/ArticleItemTitle.svelte';
+	import ArticleItemExcerpt from './ArticleItemExcerpt/ArticleItemExcerpt.svelte';
+	import ArticleItemTag from './ArticleItemTag/ArticleItemTag.svelte';
+	import ArticleItemFooter from './ArticleItemFooter/ArticleItemFooter.svelte';
 
 	export let article: Article;
 
@@ -12,59 +15,31 @@
 </script>
 
 <div class="flex flex-col gap-4">
-	<div class="flex items-center justify-between">
-		<div class="flex items-center gap-2">
-			<UserAvatar src={article.author.profile?.avatar} width="w-12" />
-			<div class="flex flex-col">
-				<span>{article.author.profile?.nickname}</span>
-				<span class="text-muted-foreground font-extralight">
-					{article.author.profile?.field}
-				</span>
-			</div>
-		</div>
-	</div>
+	<ArticleItemHeader
+		username={article.author.username}
+		nickname={article.author.profile?.nickname}
+		field={article.author.profile?.field}
+		avatar={article.author.profile?.avatar}
+	/>
 
-	<a href={articleSlug}>
-		<img
-			src={article.coverImage ? `${article.coverImage}?w=560&h=420&q=80&f=webp` : ''}
-			alt="cover"
-			class="aspect-[560/420] rounded-2xl shadow-xl"
-		/>
-	</a>
+	<ArticleItemImage slug={articleSlug} coverImage={article.coverImage} />
+
 	<div class="flex flex-col gap-1">
-		<a href={articleSlug}>
-			<h3 class="line-clamp-2 text-xl">{article.title}</h3>
-		</a>
-		<a href={articleSlug}>
-			<p class="line-clamp-3 font-thin">{article.excerpt}</p>
-		</a>
+		<ArticleItemTitle slug={articleSlug} title={article.title} />
+		<ArticleItemExcerpt slug={articleSlug} excerpt={article.excerpt} />
 	</div>
 
 	<ul class="flex list-none flex-wrap gap-2">
 		{#each article.tags as tag (tag.id)}
 			<li>
-				<a href={`/tags/${tag.name}`}>
-					{tag.name}
-				</a>
+				<ArticleItemTag name={tag.name} />
 			</li>
 		{/each}
 	</ul>
 
-	<div class="flex items-center justify-between">
-		<div class="space-x-2">
-			<span class="text-sm font-thin">On {formatDate(article.createdAt)}</span>
-		</div>
-		<div class="flex gap-2">
-			<div class="flex items-center gap-1">
-				<HeartIcon class="h-5 w-5 text-red-500" />
-				<span class="text-sm font-thin">{article._count.likes}</span>
-			</div>
-			<div>
-				<div class="flex items-center gap-1">
-					<CommentIcon class="h-5 w-5" />
-					<span class="text-sm font-thin">{article._count.comments}</span>
-				</div>
-			</div>
-		</div>
-	</div>
+	<ArticleItemFooter
+		createdAt={article.createdAt}
+		likeCount={article._count.likes}
+		commentCount={article._count.comments}
+	/>
 </div>

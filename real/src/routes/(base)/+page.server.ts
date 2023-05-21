@@ -2,18 +2,23 @@ import type { PageServerLoad } from './$types';
 
 import { prisma } from '$lib/server/db';
 import { blogUserSelect } from '$lib/types/user';
+import { articleInclude } from '$lib/types/article';
 
-export const load: PageServerLoad = async ({ url }) => {
-	const topUsers = await findTopUsers();
-	const popularTags = (await findPopularTags()).map((tag) => tag.name);
+export const load: PageServerLoad = async () => {
+	const [topUsers, popularTags, trendingArticles] = await Promise.all([
+		findTopBlogUsers(),
+		findPopularTags(),
+		findSomeTrendingArticles()
+	]);
 
 	return {
 		topUsers,
-		popularTags
+		popularTags: popularTags.map((tag) => tag.name),
+		trendingArticles
 	};
 };
 
-async function findTopUsers() {
+async function findTopBlogUsers() {
 	const users = await prisma.user.findMany({
 		take: 10,
 		select: blogUserSelect,
@@ -48,15 +53,12 @@ async function findPopularTags() {
 	return popularTags;
 }
 
-// async function findHomeArticles(filter: string, cursor: number) {
-// 	const take = 12;
-// 	const articles = await db.article.findMany({
-// 		take,
-// 		skip: take * cursor,
-// 		include: articlesInclude,
-// 		orderBy: filter === 'trending' ? { trendingScore: 'desc' } : { createdAt: 'desc' }
-// 	});
+async function findSomeTrendingArticles() {
+	const articles = await prisma.article.findMany({
+		take: 9,
+		include: articleInclude,
+		orderBy: { trendingScore: 'desc' }
+	});
 
-// 	const paginatedArticles = buildPaginationData(articles, take, +cursor);
-// 	return paginatedArticles;
-// }
+	return articles;
+}
