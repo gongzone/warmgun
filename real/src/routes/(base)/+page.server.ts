@@ -3,17 +3,18 @@ import type { PageServerLoad } from './$types';
 import { prisma } from '$lib/server/db';
 import { blogUserSelect } from '$lib/types/user';
 import { articleInclude } from '$lib/types/article';
+import { tagInclude } from '$lib/types/tag';
 
 export const load: PageServerLoad = async () => {
 	const [topUsers, popularTags, trendingArticles] = await Promise.all([
 		findTopBlogUsers(),
 		findPopularTags(),
-		findSomeTrendingArticles()
+		findTrendingArticles()
 	]);
 
 	return {
 		topUsers,
-		popularTags: popularTags.map((tag) => tag.name),
+		popularTags,
 		trendingArticles
 	};
 };
@@ -35,6 +36,7 @@ async function findPopularTags() {
 		where: {
 			articles: { some: { createdAt: { gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14) } } }
 		},
+		include: tagInclude,
 		orderBy: { articles: { _count: 'desc' } }
 	});
 
@@ -44,6 +46,7 @@ async function findPopularTags() {
 		const fallbackTags = await prisma.tag.findMany({
 			take: take - popularTags.length,
 			where: { name: { notIn: excludes } },
+			include: tagInclude,
 			orderBy: { articles: { _count: 'desc' } }
 		});
 
@@ -53,7 +56,7 @@ async function findPopularTags() {
 	return popularTags;
 }
 
-async function findSomeTrendingArticles() {
+async function findTrendingArticles() {
 	const articles = await prisma.article.findMany({
 		take: 9,
 		include: articleInclude,

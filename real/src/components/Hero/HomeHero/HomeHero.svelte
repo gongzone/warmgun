@@ -1,18 +1,21 @@
 <script lang="ts">
 	import type { BlogUser } from '$lib/types/user';
+	import type { Tag } from '$lib/types/tag';
 
 	import TagIcon from '$components/@icons/TagIcon.svelte';
 	import Carousel from '$components/@ui/Carousel.svelte';
 	import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
+	import NoDataCard from '$components/@ui/NoDataCard.svelte';
 	import HeroLogo from './HeroLogo/HeroLogo.svelte';
 	import MainWords from './MainWords/MainWords.svelte';
 	import SubWords from './SubWords/SubWords.svelte';
 	import HeroGradient from './HeroGradient/HeroGradient.svelte';
 	import TopBlogerBadge from './TopBlogerBadge/TopBlogerBadge.svelte';
 	import TopBlogerCard from './TopBlogerCard/TopBlogerCard.svelte';
+	import PopularTags from './PopularTags/PopularTags.svelte';
 
 	export let topUsers: BlogUser[];
-	export let popularTags: string[];
+	export let popularTags: Tag[];
 </script>
 
 <div class="grid grid-cols-1 gap-8 items-center md:gap-10 lg:grid-cols-2">
@@ -22,23 +25,24 @@
 		<SubWords />
 	</section>
 
-	<section class="relative max-w-[640px] mx-auto">
+	<section class="relative w-full h-full max-w-[640px] mx-auto">
 		<HeroGradient />
-		<TopBlogerBadge />
-		<Carousel items={topUsers} bottomClass="lg:absolute" let:item>
-			<TopBlogerCard topBloger={item} />
-		</Carousel>
+		{#if topUsers.length > 0}
+			<TopBlogerBadge />
+			<Carousel items={topUsers} bottomClass="lg:absolute" let:item>
+				<TopBlogerCard topBloger={item} />
+			</Carousel>
+		{:else}
+			<NoDataCard text="유저 데이터가 존재하지 않습니다!" />
+		{/if}
 	</section>
 
 	<div class="space-y-3">
 		<TextWithIcon icon={TagIcon} size="lg">인기태그</TextWithIcon>
-
-		<ul class="flex flex-wrap gap-2">
-			{#each popularTags as tag (tag)}
-				<li>
-					<a href="/" class="btn variant-ringed-tertiary text-sm">{tag}</a>
-				</li>
-			{/each}
-		</ul>
+		{#if popularTags.length > 0}
+			<PopularTags {popularTags} />
+		{:else}
+			<NoDataCard text="태그 데이터가 존재하지 않습니다!" />
+		{/if}
 	</div>
 </div>

@@ -40,4 +40,6 @@
 	});
 </script>
 
-<div id="editor" />
+<article class="prose">
+	<div id="editor" />
+</article>
