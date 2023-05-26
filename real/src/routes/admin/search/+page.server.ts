@@ -83,8 +83,7 @@ export const actions: Actions = {
 				minWordSizeForTypos: {
 					oneTypo: 5,
 					twoTypos: 9
-				},
-				disableOnAttributes: ['title']
+				}
 			},
 			pagination: {
 				maxTotalHits: 1000
@@ -102,8 +101,7 @@ export const actions: Actions = {
 				minWordSizeForTypos: {
 					oneTypo: 5,
 					twoTypos: 9
-				},
-				disableOnAttributes: ['name']
+				}
 			},
 			pagination: {
 				maxTotalHits: 1000
@@ -121,8 +119,7 @@ export const actions: Actions = {
 				minWordSizeForTypos: {
 					oneTypo: 5,
 					twoTypos: 9
-				},
-				disableOnAttributes: ['nickname']
+				}
 			},
 			pagination: {
 				maxTotalHits: 1000

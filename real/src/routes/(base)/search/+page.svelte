@@ -11,7 +11,7 @@
 	$: q = $page.url.searchParams.get('q');
 
 	$: searchAritclesQuery = createInfiniteQuery({
-		queryKey: ['search', 'articles', q],
+		queryKey: ['search', 'users', q],
 		queryFn: () =>
 			search<Article[]>(q, {
 				mode: 'articles',
@@ -25,7 +25,7 @@
 	$: console.log($searchAritclesQuery.data);
 </script>
 
-{#if $searchAritclesQuery.isSuccess && $searchAritclesQuery.data.pages}
+{#if $searchAritclesQuery.isSuccess && $searchAritclesQuery.data.pages.length > 0}
 	{#each $searchAritclesQuery.data.pages as { data }}
 		<ArticleGrid items={data} let:item>
 			<ArticleItem article={item} />

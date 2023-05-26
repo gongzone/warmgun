@@ -23,17 +23,18 @@ export const GET = (async ({ locals, url }) => {
 	};
 
 	try {
-		const searchResult = await meilisearch
-			.index(mode)
-			.search(`${q}?limit=${take}&offset=${cursor * take}`);
+		const searchResult = await meilisearch.index(mode).search(q, {
+			limit: take,
+			offset: cursor * take
+		});
+
+		console.log(searchResult);
 
 		if (mode === 'articles') {
 			const searchedArticles = await prisma.article.findMany({
 				where: { id: { in: searchResult.hits.map((hit) => hit.id) } },
 				include: articleInclude
 			});
-
-			console.log(searchedArticles);
 
 			return json(buildInfinityData(searchedArticles, take, cursor));
 		}
@@ -44,8 +45,6 @@ export const GET = (async ({ locals, url }) => {
 				include: { _count: { select: { articles: true } } }
 			});
 
-			console.log(searchedTags);
-
 			return json(buildInfinityData(searchedTags, take, cursor));
 		}
 
@@ -54,8 +53,6 @@ export const GET = (async ({ locals, url }) => {
 				where: { id: { in: searchResult.hits.map((hit) => hit.id) } },
 				select: blogUserSelect
 			});
-
-			console.log(searchedUsers);
 
 			return json(buildInfinityData(searchedUsers, take, cursor));
 		}
@@ -75,7 +72,7 @@ export const GET = (async ({ locals, url }) => {
 function searchSchema() {
 	return z.object({
 		q: z.string({ required_error: '필수 값입니다.' }),
-		mode: z.enum(['articles', 'tags']),
+		mode: z.enum(['articles', 'tags', 'users']),
 		take: z.string({ required_error: '필수 값입니다.' }),
 		cursor: z.string({ required_error: '필수 값입니다.' })
 	});

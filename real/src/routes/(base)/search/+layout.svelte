@@ -5,8 +5,13 @@
 
 	let tabSet: string = '/search';
 
+	$: q = $page.url.searchParams.get('q');
+
 	function routeToPage(route: string) {
-		goto(route, { noScroll: true });
+		const newRoute = `${route}${q ? `?q=${q}` : ''}`;
+
+		console.log(newRoute);
+		goto(newRoute, { noScroll: true });
 	}
 
 	function onEnter(e: any) {
