@@ -7,6 +7,7 @@ import { meilisearch } from '$lib/server/meilisearch';
 import { validate } from '$lib/server/validation';
 import { buildInfinityData } from '$lib/utils/infinity-data';
 import { articleInclude } from '$lib/types/article';
+import { blogUserSelect } from '$lib/types/user';
 
 export const GET = (async ({ locals, url }) => {
 	const validated = validate(url.searchParams, searchSchema());
@@ -26,26 +27,37 @@ export const GET = (async ({ locals, url }) => {
 			.index(mode)
 			.search(`${q}?limit=${take}&offset=${cursor * take}`);
 
-		if (mode === 'tags') {
-			const searchedTags = await prisma.tag.findMany({
-				where: { id: { in: searchResult.hits.map((hit) => hit.id) } },
-				include: { _count: { select: { articles: true } } },
-				orderBy: { articles: { _count: 'desc' } }
-			});
-
-			return json(buildInfinityData(searchedTags, take, cursor));
-		}
-
 		if (mode === 'articles') {
 			const searchedArticles = await prisma.article.findMany({
 				where: { id: { in: searchResult.hits.map((hit) => hit.id) } },
-				include: articleInclude,
-				orderBy: { createdAt: 'desc' }
+				include: articleInclude
 			});
 
 			console.log(searchedArticles);
 
 			return json(buildInfinityData(searchedArticles, take, cursor));
+		}
+
+		if (mode === 'tags') {
+			const searchedTags = await prisma.tag.findMany({
+				where: { id: { in: searchResult.hits.map((hit) => hit.id) } },
+				include: { _count: { select: { articles: true } } }
+			});
+
+			console.log(searchedTags);
+
+			return json(buildInfinityData(searchedTags, take, cursor));
+		}
+
+		if (mode === 'users') {
+			const searchedUsers = await prisma.user.findMany({
+				where: { id: { in: searchResult.hits.map((hit) => hit.id) } },
+				select: blogUserSelect
+			});
+
+			console.log(searchedUsers);
+
+			return json(buildInfinityData(searchedUsers, take, cursor));
 		}
 	} catch {
 		return json({

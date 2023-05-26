@@ -8,7 +8,7 @@ import { meilisearch } from '$lib/server/meilisearch';
 import { validate } from '$lib/server/validation';
 import type { Genre } from '@prisma/client';
 import { siteConfig } from '$lib/configs/site';
-import { generateExcerpt } from '$lib/utils/editor-utils';
+import { bodyToString, generateExcerpt } from '$lib/utils/editor-utils';
 
 export const ssr = false;
 
@@ -155,7 +155,6 @@ export const actions: Actions = {
 		}
 
 		const slug = `${title.trim().toLowerCase().replace(' ', '-')}-${nanoid()}`;
-
 		const excerpt = generateExcerpt(body);
 
 		const article = await prisma.article.create({
@@ -167,7 +166,7 @@ export const actions: Actions = {
 				tags: {
 					connectOrCreate: tags.map((tag: string) => ({
 						where: { name: tag },
-						create: { name: tag }
+						create: { name: tag, slug: `` }
 					}))
 				},
 				genre,
@@ -181,8 +180,9 @@ export const actions: Actions = {
 			{
 				id: article.id,
 				title: article.title,
+				body: bodyToString(body),
 				tags: article.tags.map((tag) => tag.name),
-				genre: article.genre
+				createdAt: article.createdAt
 			}
 		]);
 

@@ -1,35 +1,32 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { derived } from 'svelte/store';
-	import { AppShell, AppBar, AppRail, AppRailTile } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, AppRail, AppRailTile, AppRailAnchor } from '@skeletonlabs/skeleton';
 
-	import ArrowLeftIcon from '$components/@icons/ArrowLeftIcon.svelte';
-	import SearchIcon from '$components/@icons/SearchIcon.svelte';
-
-	const selected = derived(page, ($page) => $page.url.pathname);
+	import AdminHeader from '$components/Header/AdminHeader/AdminHeader.svelte';
+	import AdminRail from '$components/Rail/AdminRail/AdminRail.svelte';
 </script>
 
 <AppShell>
 	<svelte:fragment slot="header">
-		<AppBar>
-			<svelte:fragment slot="lead">
-				<a href="/">
-					<ArrowLeftIcon />
-				</a>
-			</svelte:fragment>
-			관리자 페이지 - {$page.data.user?.profile?.nickname}
-		</AppBar>
+		<AdminHeader />
 	</svelte:fragment>
 
 	<svelte:fragment slot="sidebarLeft">
-		<AppRail {selected} background="bg-surface-300-600-token">
-			<AppRailTile label="Search" href="/admin"><SearchIcon /></AppRailTile>
-			<AppRailTile label="About" href="/about">(icon)</AppRailTile>
-			<AppRailTile label="Login" href="/login">(icon)</AppRailTile>
-		</AppRail>
+		<AdminRail />
 	</svelte:fragment>
 
-	<main class="max-w-[1200px] mx-auto py-20">
-		<slot />
-	</main>
+	<div class="p-20">
+		<h2 class="text-4xl self-start border-b pb-4 mb-8">
+			{#if $page.url.pathname === '/admin'}
+				관리자 메인페이지
+			{:else if $page.url.pathname === '/admin/search'}
+				관리자 검색페이지
+			{/if}
+		</h2>
+
+		<main class="card min-h-[300px] p-12">
+			<slot />
+		</main>
+	</div>
 </AppShell>

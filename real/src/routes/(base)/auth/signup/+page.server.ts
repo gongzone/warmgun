@@ -3,6 +3,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 import argon2 from 'argon2';
 
+import { currentUserSelect } from '$lib/types/user';
 import { validate } from '$lib/server/validation';
 import { prisma } from '$lib/server/db';
 import { generateTokens } from '$lib/server/jwt';
@@ -47,7 +48,8 @@ export const actions: Actions = {
 					create: { nickname: username, field: '블로거', bio: `안녕하세요. ${username}입니다.` }
 				},
 				drafts: { create: {} }
-			}
+			},
+			select: currentUserSelect
 		});
 
 		const { accessToken, refreshToken } = await generateTokens({
@@ -73,7 +75,8 @@ export const actions: Actions = {
 		await meilisearch.index('users').addDocuments([
 			{
 				id: user.id,
-				nickname: user.username
+				nickname: user.profile?.nickname,
+				bio: user.profile?.bio
 			}
 		]);
 

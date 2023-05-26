@@ -5,7 +5,7 @@ export async function search<T>(
 		take,
 		cursor
 	}: {
-		mode: 'articles' | 'tags';
+		mode: 'articles' | 'tags' | 'users';
 		take: number;
 		cursor: number;
 	}
@@ -17,8 +17,6 @@ export async function search<T>(
 			headers: { 'Content-Type': 'application/json' }
 		}
 	).then((res) => res.json());
-
-	console.log(data);
 
 	return { data: data as T, nextCursor };
 }

@@ -20,3 +20,19 @@ export function generateExcerpt(body: OutputData | null) {
 
 	return excerpt;
 }
+
+export function bodyToString(body: OutputData | null) {
+	if (!body) return '';
+
+	let bodyString = '';
+
+	for (const item of body.blocks) {
+		if (item.type === 'paragraph' || item.type === 'header') {
+			bodyString = bodyString + ' ' + item.data.text;
+		} else {
+			continue;
+		}
+	}
+
+	return bodyString;
+}
