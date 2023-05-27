@@ -1,0 +1,26 @@
+<script lang="ts">
+	import { openNavSidebar } from '$components/@ui/Drawer/drawer';
+
+	import HamburgerIcon from '$components/@icons/HamburgerIcon.svelte';
+	import SearchIcon from '$components/@icons/SearchIcon.svelte';
+	import MainNav from './MainNav/MainNav.svelte';
+	import UserPopup from '$components/@ui/Popup/UserPopup.svelte';
+</script>
+
+<header class="bg-background sticky top-0 z-40 w-full border-b border-b-surface-600">
+	<div class="container h-16 flex items-center justify-between">
+		<div class="flex items-center gap-2">
+			<button class="btn-icon md:hidden" on:click={() => openNavSidebar()}>
+				<HamburgerIcon class="w-6 h-6" />
+			</button>
+			<MainNav />
+		</div>
+
+		<div class="flex items-center gap-2">
+			<a href="/search" class="btn-icon">
+				<SearchIcon class="w-6 h-6" />
+			</a>
+			<UserPopup />
+		</div>
+	</div>
+</header>

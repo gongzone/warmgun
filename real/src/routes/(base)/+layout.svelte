@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { AppShell } from '@skeletonlabs/skeleton';
 
-	import AppHeader from '$components/Header/AppHeader/AppHeader.svelte';
+	import AppHeader from './_AppHeader/AppHeader.svelte';
 	import AppFooter from '$components/Footer/AppFooter.svelte';
 </script>
 

@@ -139,7 +139,7 @@
 	</div>
 
 	<div class="mt-32 space-y-6">
-		<span class="font-bold text-2xl">{0}개의 댓글</span>
+		<span class="font-bold text-2xl">{data.article._count.comments}개의 댓글</span>
 
 		<div class="space-y-12">
 			<CommentTextarea articleId={data.article.id} parentId={null} />

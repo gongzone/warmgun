@@ -1,3 +1,5 @@
+import type { NavItem } from '$lib/types/nav';
+
 import HomeIcon from '$components/@icons/HomeIcon.svelte';
 import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
 import TagIcon from '$components/@icons/TagIcon.svelte';
@@ -12,59 +14,59 @@ export const siteConfig = {
 		{
 			title: 'Home',
 			href: '/',
-			Icon: HomeIcon
+			icon: HomeIcon
 		},
 		{
 			title: '아티클',
 			href: '/articles',
-			Icon: ArticleIcon
+			icon: ArticleIcon
 		},
 		{
 			title: '태그',
 			href: '/tags',
-			Icon: TagIcon
+			icon: TagIcon
 		},
 		{
 			title: '장르',
-			href: '/genre',
-			Icon: GenreIcon
+			href: '/genres',
+			icon: GenreIcon
 		}
-	],
+	] satisfies NavItem[],
 	genre: [
 		{
 			title: '프론트엔드',
 			enum: 'FRONTEND',
-			href: '/genre/frontend'
+			href: '/genres/frontend'
 		},
 		{
 			title: '백엔드',
 			enum: 'BACKEND',
-			href: '/genre/backend'
+			href: '/genres/backend'
 		},
 		{
 			title: '데브옵스',
 			enum: 'DEVOPS',
-			href: '/genre/devops'
+			href: '/genres/devops'
 		},
 		{
 			title: '모바일',
 			enum: 'MOBILE',
-			href: '/genre/mobile'
+			href: '/genres/mobile'
 		},
 		{
 			title: '데이터 사이언스',
 			enum: 'DATA_SCIENCE',
-			href: '/genre/data-science'
+			href: '/genres/data-science'
 		},
 		{
 			title: '게임',
 			enum: 'GAME',
-			href: '/genre/game'
+			href: '/genres/game'
 		},
 		{
 			title: '기타',
 			enum: 'ETC',
-			href: '/genre/etc'
+			href: '/genres/etc'
 		}
-	]
+	] satisfies NavItem[]
 };
