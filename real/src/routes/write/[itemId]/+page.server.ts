@@ -9,6 +9,7 @@ import { validate } from '$lib/server/validation';
 import type { Genre } from '@prisma/client';
 import { siteConfig } from '$lib/configs/site';
 import { bodyToString, generateExcerpt } from '$lib/utils/editor-utils';
+import { tagToSlug } from '$lib/utils/format';
 
 export const ssr = false;
 
@@ -166,7 +167,7 @@ export const actions: Actions = {
 				tags: {
 					connectOrCreate: tags.map((tag: string) => ({
 						where: { name: tag },
-						create: { name: tag, slug: `` }
+						create: { name: tag, slug: tagToSlug(tag) }
 					}))
 				},
 				genre,
@@ -192,6 +193,8 @@ export const actions: Actions = {
 				name: tag.name
 			}))
 		);
+
+		throw redirect(303, `/@${locals.user?.username}/${article.slug}`);
 	},
 	updateArticle: async ({ request, params }) => {
 		return;

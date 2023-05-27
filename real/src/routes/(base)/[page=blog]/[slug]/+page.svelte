@@ -11,10 +11,9 @@
 	import TextEditor from '$components/Editor/TextEditor.svelte';
 	// import Comment from '$components/Comment/Comment.svelte';
 	import { triggerConfirmModal } from '$components/@ui/Modal/modal';
+	import { enhance } from '$app/forms';
 
 	export let data: PageData;
-
-	let isLiked: boolean | undefined = false;
 
 	let popupSettings: PopupSettings = {
 		// Set the event as: click | hover | hover-click | focus | focus-click
@@ -35,7 +34,20 @@
 			</div>
 		</div>
 
-		<div>
+		<div class="flex items-center gap-4">
+			<form method="POST" use:enhance class="flex items-center gap-1">
+				<input type="hidden" name="articleId" value={data.article.id} />
+				{#if !data.isLiked}
+					<button type="submit" formaction="?/like" class="">
+						<HeartIcon class="w-6 h-6" />
+					</button>
+				{:else}
+					<button type="submit" formaction="?/unlike" class="">
+						<HeartIcon class="w-6 h-6 text-red-500" />
+					</button>
+				{/if}
+				<span>{data.article._count.likes}</span>
+			</form>
 			{#if data.isOwner}
 				<button class="btn-icon variant-ringed-tertiary" use:popup={popupSettings}>
 					<MoreIcon />

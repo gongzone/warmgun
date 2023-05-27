@@ -1,7 +1,10 @@
 import { prisma } from '$lib/server/db';
+import { validate } from '$lib/server/validation';
 import { articleInclude } from '$lib/types/article';
-import type { PageServerLoad } from './$types';
-import { error, redirect } from '@sveltejs/kit';
+import { z } from 'zod';
+import type { PageServerLoad, Actions } from './$types';
+import { error, fail, redirect } from '@sveltejs/kit';
+import { calculateTrendingScore } from '$lib/utils/calculate-trending-score';
 
 export const ssr = false;
 
@@ -26,4 +29,125 @@ async function findOneArticle(slug: string) {
 	}
 
 	return article;
+}
+
+export const actions: Actions = {
+	like: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw error(401, '수행할 수 없습니다.');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, likesSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { articleId } = { ...validated.data, articleId: +validated.data.articleId };
+
+		const foundLike = await prisma.like.findUnique({
+			where: {
+				userId_articleId: {
+					userId: locals.user.id,
+					articleId
+				}
+			}
+		});
+
+		if (foundLike) {
+			fail(400, { message: '이미 좋아요한 아티클입니다.' });
+		}
+
+		const like = await prisma.like.create({
+			data: {
+				user: {
+					connect: { id: locals.user.id }
+				},
+				article: {
+					connect: { id: articleId }
+				}
+			},
+			include: {
+				article: {
+					select: {
+						createdAt: true,
+						_count: {
+							select: {
+								likes: true
+							}
+						}
+					}
+				}
+			}
+		});
+
+		const trendingScore = calculateTrendingScore(like.article._count.likes, like.article.createdAt);
+
+		await prisma.article.update({
+			where: {
+				id: articleId
+			},
+			data: {
+				trendingScore
+			}
+		});
+	},
+	unlike: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw error(401, '수행할 수 없습니다.');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, likesSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { articleId } = { ...validated.data, articleId: +validated.data.articleId };
+
+		const like = await prisma.like.delete({
+			where: {
+				userId_articleId: {
+					userId: locals.user.id,
+					articleId
+				}
+			},
+			include: {
+				article: {
+					select: {
+						createdAt: true,
+						_count: {
+							select: {
+								likes: true
+							}
+						}
+					}
+				}
+			}
+		});
+
+		const trendingScore = calculateTrendingScore(
+			like.article._count.likes - 1,
+			like.article.createdAt
+		);
+
+		await prisma.article.update({
+			where: {
+				id: articleId
+			},
+			data: {
+				trendingScore
+			}
+		});
+	}
+};
+
+function likesSchema() {
+	return z.object({
+		articleId: z.string()
+	});
 }

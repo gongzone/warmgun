@@ -9,8 +9,8 @@ export function generateExcerpt(body: OutputData | null) {
 		if (item.type === 'paragraph' || item.type === 'header') {
 			excerpt = excerpt + ' ' + item.data.text;
 
-			if (excerpt.length >= 100) {
-				excerpt = excerpt.slice(0, 100);
+			if (excerpt.length >= 120) {
+				excerpt = excerpt.slice(0, 120);
 				break;
 			}
 		} else {
