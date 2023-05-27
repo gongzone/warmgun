@@ -143,11 +143,49 @@ export const actions: Actions = {
 				trendingScore
 			}
 		});
+	},
+	createComment: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw error(401, '수행할 수 없습니다.');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, createCommentSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { articleId, parentId, content } = {
+			...validated.data,
+			articleId: +validated.data.articleId,
+			parentId: +validated.data.parentId
+		};
+
+		console.log(content);
+
+		await prisma.comment.create({
+			data: {
+				content,
+				parent: parentId ? { connect: { id: parentId } } : undefined,
+				user: { connect: { id: locals.user.id } },
+				article: { connect: { id: articleId } }
+			}
+		});
 	}
 };
 
 function likesSchema() {
 	return z.object({
 		articleId: z.string()
+	});
+}
+
+function createCommentSchema() {
+	return z.object({
+		articleId: z.string(),
+		parentId: z.string(),
+		content: z.string()
 	});
 }
