@@ -7,7 +7,7 @@
 	export let data: PageData;
 </script>
 
-<BlogHero blogUser={data.blogUser} />
+<BlogHero blogUser={data.blogUser} isOwner={data.isOwner} isFollowing={data.isFollowing} />
 
 <main class="container mt-16 space-y-12">
 	<BlogTab />

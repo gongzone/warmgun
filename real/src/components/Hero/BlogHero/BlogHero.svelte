@@ -5,8 +5,11 @@
 	import HeartIcon from '$components/@icons/HeartIcon.svelte';
 	import FollowingIcon from '$components/@icons/FollowingIcon.svelte';
 	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
+	import { enhance } from '$app/forms';
 
 	export let blogUser: BlogUser;
+	export let isOwner: boolean;
+	export let isFollowing: boolean;
 </script>
 
 <div class="">
@@ -24,7 +27,20 @@
 							{blogUser.profile?.bio}
 						</p>
 					</div>
-					<button class="btn variant-filled-primary">구독하기</button>
+					<form method="POST" use:enhance>
+						<input type="hidden" name="blogUserId" value={blogUser.id} />
+						{#if !isOwner}
+							{#if !isFollowing}
+								<button type="submit" formaction="?/follow" class="btn variant-filled-primary"
+									>구독하기</button
+								>
+							{:else}
+								<button type="submit" formaction="?/unFollow" class="btn variant-filled-primary"
+									>구독취소</button
+								>
+							{/if}
+						{/if}
+					</form>
 				</div>
 
 				<div class="mt-4 flex items-center gap-6">
