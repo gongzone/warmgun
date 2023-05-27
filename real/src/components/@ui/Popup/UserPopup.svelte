@@ -3,12 +3,14 @@
 	import { enhance } from '$app/forms';
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 
+	import type { NavItem } from '$lib/types/nav';
+
 	import BlogIcon from '$components/@icons/BlogIcon.svelte';
 	import DraftIcon from '$components/@icons/DraftIcon.svelte';
 	import FeedIcon from '$components/@icons/FeedIcon.svelte';
 	import SettingIcon from '$components/@icons/SettingIcon.svelte';
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
-	import NavItem from '$components/@ui/NavItem.svelte';
+	import Navigation from '$components/@ui/Navigation.svelte';
 
 	const popupKey = 'user-popup';
 	const userPopup: PopupSettings = {
@@ -22,7 +24,7 @@
 		{ title: '글쓰기', href: `/write`, icon: DraftIcon },
 		{ title: '나의 피드', href: '/feed', icon: FeedIcon },
 		{ title: '설정', href: '/settings', icon: SettingIcon }
-	];
+	] satisfies NavItem[];
 </script>
 
 {#if !$page.data.user}
@@ -33,29 +35,21 @@
 	</button>
 
 	<div class="card w-52 p-4 shadow-xl z-40" data-popup={popupKey}>
-		<nav class="list-nav">
-			<ul>
-				{#each userNav as nav (nav.title)}
+		<Navigation items={userNav}>
+			<svelte:fragment slot="subItems">
+				<ul>
+					{#if $page.data.user.role === 'ADMIN'}
+						<li>
+							<a href="/admin">관리자 페이지</a>
+						</li>
+					{/if}
 					<li>
-						<NavItem title={nav.title} href={nav.href} icon={nav.icon} />
+						<form method="POST" action="/auth/logout" use:enhance>
+							<button type="submit" class="w-full">로그아웃</button>
+						</form>
 					</li>
-				{/each}
-			</ul>
-
-			<hr class="my-2" />
-
-			<ul>
-				{#if $page.data.user.role === 'ADMIN'}
-					<li>
-						<a href="/admin">관리자 페이지</a>
-					</li>
-				{/if}
-				<li>
-					<form method="POST" action="/auth/logout" use:enhance>
-						<button type="submit" class="w-full">로그아웃</button>
-					</form>
-				</li>
-			</ul>
-		</nav>
+				</ul>
+			</svelte:fragment>
+		</Navigation>
 	</div>
 {/if}

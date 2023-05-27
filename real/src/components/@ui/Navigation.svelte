@@ -23,4 +23,9 @@
 			</li>
 		{/each}
 	</ul>
+
+	{#if $$slots.subItems}
+		<hr class="my-2" />
+		<slot name="subItems" />
+	{/if}
 </nav>
