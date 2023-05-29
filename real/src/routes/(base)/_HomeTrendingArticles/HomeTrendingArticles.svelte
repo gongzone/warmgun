@@ -3,7 +3,6 @@
 
 	import FireIcon from '$components/@icons/FireIcon.svelte';
 	import TextSection from '$components/@ui/TextSection.svelte';
-	import ArticleGrid from '$components/Article/ArticleGrid.svelte';
 	import ArticleItem from '$components/Article/ArticleItem/ArticleItem.svelte';
 	import NoDataCard from '$components/@ui/NoDataCard.svelte';
 
@@ -18,9 +17,11 @@
 	/>
 
 	{#if trendingArticles.length > 0}
-		<ArticleGrid items={trendingArticles} let:item>
-			<ArticleItem article={item} />
-		</ArticleGrid>
+		<ul class="article-grid">
+			{#each trendingArticles as article (article.id)}
+				<li><ArticleItem {article} /></li>
+			{/each}
+		</ul>
 	{:else}
 		<NoDataCard text="아티클 데이터가 존재하지 않습니다!" />
 	{/if}
