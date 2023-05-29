@@ -51,8 +51,8 @@
 	{#each items as item, index (index)}
 		<li
 			class="w-full transition-all ease-in-out duration-[800ms] {carouselIndex === index
-				? 'relative visible opacity-100 -z-10'
-				: 'invisible opacity-0 absolute top-0 translate-y-6 translate-x-4 pointer-events-none -z-10'}"
+				? 'visible opacity-100'
+				: 'invisible opacity-0 absolute top-0 translate-y-6 translate-x-4 pointer-events-none'}"
 		>
 			<slot {item} />
 		</li>

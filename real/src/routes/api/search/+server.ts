@@ -2,15 +2,23 @@ import type { RequestHandler } from './$types';
 import { z } from 'zod';
 import { error, json } from '@sveltejs/kit';
 
+import { articleInclude } from '$lib/types/article';
+import { tagInclude } from '$lib/types/tag';
+import { blogUserSelect } from '$lib/types/user';
 import { prisma } from '$lib/server/db';
 import { meilisearch } from '$lib/server/meilisearch';
 import { validate } from '$lib/server/validation';
 import { buildInfinityData } from '$lib/utils/infinity-data';
-import { articleInclude } from '$lib/types/article';
-import { blogUserSelect } from '$lib/types/user';
 
-export const GET = (async ({ locals, url }) => {
-	const validated = validate(url.searchParams, searchSchema());
+const searchSchema = z.object({
+	q: z.string(),
+	mode: z.enum(['articles', 'tags', 'users']),
+	take: z.string(),
+	cursor: z.string()
+});
+
+export const GET = (async ({ url }) => {
+	const validated = validate(url.searchParams, searchSchema);
 
 	if (!validated.success) {
 		throw error(400, validated.errorMessage);
@@ -36,16 +44,22 @@ export const GET = (async ({ locals, url }) => {
 				include: articleInclude
 			});
 
-			return json(buildInfinityData(searchedArticles, take, cursor));
+			return json({
+				...buildInfinityData(searchedArticles, take, cursor),
+				totalHits: searchResult.estimatedTotalHits
+			});
 		}
 
 		if (mode === 'tags') {
 			const searchedTags = await prisma.tag.findMany({
 				where: { id: { in: searchResult.hits.map((hit) => hit.id) } },
-				include: { _count: { select: { articles: true } } }
+				include: tagInclude
 			});
 
-			return json(buildInfinityData(searchedTags, take, cursor));
+			return json({
+				...buildInfinityData(searchedTags, take, cursor),
+				totalHits: searchResult.estimatedTotalHits
+			});
 		}
 
 		if (mode === 'users') {
@@ -54,7 +68,10 @@ export const GET = (async ({ locals, url }) => {
 				select: blogUserSelect
 			});
 
-			return json(buildInfinityData(searchedUsers, take, cursor));
+			return json({
+				...buildInfinityData(searchedUsers, take, cursor),
+				totalHits: searchResult.estimatedTotalHits
+			});
 		}
 	} catch {
 		return json({
@@ -68,12 +85,3 @@ export const GET = (async ({ locals, url }) => {
 		nextCusor: undefined
 	});
 }) satisfies RequestHandler;
-
-function searchSchema() {
-	return z.object({
-		q: z.string({ required_error: '필수 값입니다.' }),
-		mode: z.enum(['articles', 'tags', 'users']),
-		take: z.string({ required_error: '필수 값입니다.' }),
-		cursor: z.string({ required_error: '필수 값입니다.' })
-	});
-}

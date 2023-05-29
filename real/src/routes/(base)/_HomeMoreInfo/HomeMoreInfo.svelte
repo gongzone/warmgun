@@ -38,11 +38,6 @@
 					<span class="text-sm">아티클 보러가기</span>
 					<span><ArrowRightIcon class="w-4 h-4" /></span>
 				</a>
-
-				<a href="/tags" class="btn variant-filled-secondary rounded-md">
-					<span class="text-sm">태그 보러가기</span>
-					<span><ArrowRightIcon class="w-4 h-4" /></span>
-				</a>
 			</div>
 		</div>
 	</div>

@@ -1,43 +1,54 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import type { PageData } from './$types';
+	import { browser } from '$app/environment';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
-	import type { Article } from '$lib/types/article';
-	import { search } from '$lib/client-fetch/search';
-	import ArticleGrid from '$components/Article/ArticleGrid.svelte';
-	import ArticleItem from '$components/Article/ArticleItem/ArticleItem.svelte';
-	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 	import type { Tag } from '$lib/types/tag';
+	import { search } from '$lib/client-fetch/search';
 
-	$: q = $page.url.searchParams.get('q');
+	import NoSearchResults from '../_NoSearchResults/NoSearchResults.svelte';
+	import SearchTotal from '../_SearchTotal/SearchTotal.svelte';
+	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 
-	$: searchTagQuery = createInfiniteQuery({
+	export let data: PageData;
+
+	$: ({ q } = data);
+
+	$: searchTagsQuery = createInfiniteQuery({
 		queryKey: ['search', 'tags', q],
 		queryFn: () =>
 			search<Tag[]>(q, {
-				mode: 'articles',
+				mode: 'tags',
 				take: 12,
 				cursor: 0
 			}),
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
-		keepPreviousData: true
+		keepPreviousData: true,
+		enabled: browser && !!q
 	});
 
-	$: console.log($searchTagQuery.data);
+	$: console.log($searchTagsQuery.data);
 </script>
 
-{#if $searchTagQuery.isSuccess && $searchTagQuery.data.pages.length > 0}
-	{#each $searchTagQuery.data.pages as { data }}
-		<ul>
-			{#each $searchTagQuery.data.pages as { data }}
+{#if $searchTagsQuery.isSuccess && $searchTagsQuery.data.pages[0].totalHits > 0}
+	<div>
+		<SearchTotal totalHits={$searchTagsQuery.data.pages[0].totalHits} />
+		<ul class="flex flex-wrap gap-3">
+			{#each $searchTagsQuery.data.pages as { data }}
 				{#each data as tag (tag.id)}
-					<li>{tag.name}</li>
+					<li>
+						<a href={`/tags/${tag.slug}`} class="btn variant-ringed-tertiary text-sm"
+							>{tag.name} ({tag._count.articles})</a
+						>
+					</li>
 				{/each}
 			{/each}
 		</ul>
-	{/each}
-	<InfiniteScroll
-		fetchFn={$searchTagQuery.fetchNextPage}
-		hasNextPage={$searchTagQuery.hasNextPage}
-	/>
+		<InfiniteScroll
+			fetchFn={$searchTagsQuery.fetchNextPage}
+			hasNextPage={$searchTagsQuery.hasNextPage}
+		/>
+	</div>
+{:else}
+	<NoSearchResults />
 {/if}

@@ -22,11 +22,6 @@ export const siteConfig = {
 			icon: ArticleIcon
 		},
 		{
-			title: '태그',
-			href: '/tags',
-			icon: TagIcon
-		},
-		{
 			title: '장르',
 			href: '/genres',
 			icon: GenreIcon

@@ -6,12 +6,11 @@
 	import Carousel from '$components/@ui/Carousel.svelte';
 	import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
 	import NoDataCard from '$components/@ui/NoDataCard.svelte';
+	import TopBlogerCard from '$components/User/TopBlogerCard/TopBlogerCard.svelte';
 	import HeroLogo from './HeroLogo/HeroLogo.svelte';
 	import MainWords from './MainWords/MainWords.svelte';
 	import SubWords from './SubWords/SubWords.svelte';
 	import HeroGradient from './HeroGradient/HeroGradient.svelte';
-	import TopBlogerBadge from './TopBlogerBadge/TopBlogerBadge.svelte';
-	import TopBlogerCard from './TopBlogerCard/TopBlogerCard.svelte';
 	import PopularTags from './PopularTags/PopularTags.svelte';
 
 	export let topUsers: BlogUser[];
@@ -28,7 +27,6 @@
 	<section class="relative w-full h-full max-w-[640px] mx-auto">
 		<HeroGradient />
 		{#if topUsers.length > 0}
-			<TopBlogerBadge />
 			<Carousel items={topUsers} bottomClass="lg:absolute" let:item>
 				<TopBlogerCard topBloger={item} />
 			</Carousel>

@@ -1,5 +1,5 @@
 export async function search<T>(
-	q: string | null,
+	q: string | null | undefined,
 	{
 		mode,
 		take,
@@ -10,7 +10,7 @@ export async function search<T>(
 		cursor: number;
 	}
 ) {
-	const { data, nextCursor } = await fetch(
+	const { data, nextCursor, totalHits } = await fetch(
 		`/api/search?q=${q}&mode=${mode}&take=${take}&cursor=${cursor}`,
 		{
 			method: 'GET',
@@ -18,5 +18,9 @@ export async function search<T>(
 		}
 	).then((res) => res.json());
 
-	return { data: data as T, nextCursor };
+	return {
+		data: data as T,
+		nextCursor: nextCursor as number | undefined,
+		totalHits: totalHits as number
+	};
 }

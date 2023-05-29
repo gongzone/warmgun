@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { BlogUser } from '$lib/types/user';
+
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import ArrowRightTwoIcon from '$components/@icons/ArrowRightTwoIcon.svelte';
 
