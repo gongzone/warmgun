@@ -1,19 +1,18 @@
 <script lang="ts">
-	import type { LayoutData } from './$types';
+	import { page } from '$app/stores';
 
 	import SearchInput from './_SearchInput/SearchInput.svelte';
 	import SearchTab from './_SearchTab/SearchTab.svelte';
 
-	export let data: LayoutData;
-
-	$: ({ q } = data);
+	$: q = $page.url.searchParams.get('q') ?? undefined;
 </script>
 
 <div class="container py-12 md:py-20">
-	<div class="space-y-12 mb-8">
-		<div class="max-w-[720px] mx-auto">
-			<SearchInput {q} />
-		</div>
+	<div class="max-w-[720px] mx-auto">
+		<SearchInput {q} />
+	</div>
+
+	<div class="my-12">
 		<SearchTab {q} />
 	</div>
 

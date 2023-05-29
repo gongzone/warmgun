@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
@@ -10,24 +10,20 @@
 	import SearchTotal from '../_SearchTotal/SearchTotal.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 
-	export let data: PageData;
-
-	$: ({ q } = data);
+	$: q = $page.url.searchParams.get('q');
 
 	$: searchTagsQuery = createInfiniteQuery({
 		queryKey: ['search', 'tags', q],
 		queryFn: () =>
 			search<Tag[]>(q, {
 				mode: 'tags',
-				take: 12,
+				take: 30,
 				cursor: 0
 			}),
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
 		keepPreviousData: true,
 		enabled: browser && !!q
 	});
-
-	$: console.log($searchTagsQuery.data);
 </script>
 
 {#if $searchTagsQuery.isSuccess && $searchTagsQuery.data.pages[0].totalHits > 0}

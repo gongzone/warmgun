@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
@@ -12,9 +11,7 @@
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 	import SearchTotal from '../_SearchTotal/SearchTotal.svelte';
 
-	export let data: PageData;
-
-	$: ({ q } = data);
+	$: q = $page.url.searchParams.get('q');
 
 	$: searchUsersQuery = createInfiniteQuery({
 		queryKey: ['search', 'users', q],
@@ -28,13 +25,11 @@
 		keepPreviousData: true,
 		enabled: browser && !!q
 	});
-
-	$: console.log($searchUsersQuery.data);
 </script>
 
 {#if $searchUsersQuery.isSuccess && $searchUsersQuery.data.pages[0].totalHits > 0}
 	<SearchTotal totalHits={$searchUsersQuery.data.pages[0].totalHits} />
-	<ul class="grid grid-cols-4 gap-7">
+	<ul class="user-grid">
 		{#each $searchUsersQuery.data.pages as { data }}
 			{#each data as user (user.id)}
 				<li><UserItem {user} /></li>

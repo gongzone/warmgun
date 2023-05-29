@@ -1,20 +1,17 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
 	import type { Article } from '$lib/types/article';
 	import { search } from '$lib/client-fetch/search';
 
-	import ArticleGrid from '$components/Article/ArticleGrid.svelte';
 	import ArticleItem from '$components/Article/ArticleItem/ArticleItem.svelte';
 	import SearchTotal from './_SearchTotal/SearchTotal.svelte';
 	import NoSearchResults from './_NoSearchResults/NoSearchResults.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 
-	export let data: PageData;
-
-	$: ({ q } = data);
+	$: q = $page.url.searchParams.get('q');
 
 	$: searchAritclesQuery = createInfiniteQuery({
 		queryKey: ['search', 'articles', q],
@@ -28,22 +25,22 @@
 		keepPreviousData: true,
 		enabled: browser && !!q
 	});
-
-	$: console.log($searchAritclesQuery.data);
 </script>
 
 {#if $searchAritclesQuery.isSuccess && $searchAritclesQuery.data.pages[0].totalHits > 0}
 	<div>
 		<SearchTotal totalHits={$searchAritclesQuery.data.pages[0].totalHits} />
-		{#each $searchAritclesQuery.data.pages as { data }}
-			<ArticleGrid items={data} let:item>
-				<ArticleItem article={item} />
-			</ArticleGrid>
-		{/each}
-		<InfiniteScroll
-			fetchFn={$searchAritclesQuery.fetchNextPage}
-			hasNextPage={$searchAritclesQuery.hasNextPage}
-		/>
+		<ul class="article-grid">
+			{#each $searchAritclesQuery.data.pages as { data }}
+				{#each data as article (article.id)}
+					<li><ArticleItem {article} /></li>
+				{/each}
+			{/each}
+			<InfiniteScroll
+				fetchFn={$searchAritclesQuery.fetchNextPage}
+				hasNextPage={$searchAritclesQuery.hasNextPage}
+			/>
+		</ul>
 	</div>
 {:else}
 	<NoSearchResults />
