@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { createInfiniteQuery } from '@tanstack/svelte-query';
+	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query';
 
 	import type { Tag } from '$lib/types/tag';
 	import { search } from '$lib/client-fetch/search';
 
 	import CloseIcon from '$components/@icons/CloseIcon.svelte';
+	import { triggerToast } from '$components/@ui/Toast/toast';
 
 	export let tags: string[] = [];
 
@@ -14,20 +15,19 @@
 	let fetchedTags: Tag[] = [];
 	let timer: NodeJS.Timer;
 
-	$: searchTagQuery = createInfiniteQuery({
-		queryKey: ['search', 'tags', debouncedInput],
+	$: searchTagQuery = createQuery({
+		queryKey: ['search', 'tag', debouncedInput],
 		queryFn: () =>
 			search<Tag[]>(debouncedInput, {
 				mode: 'tags',
 				take: 10,
 				cursor: 0
 			}),
-		getNextPageParam: (lastPage) => lastPage.nextCursor,
 		keepPreviousData: true,
 		enabled: !!debouncedInput
 	});
 
-	$: console.log($searchTagQuery.data);
+	$: console.log(tags);
 
 	const cleanInput = () => {
 		input = '';
@@ -50,7 +50,14 @@
 				return cleanInput();
 			}
 
-			tags = [...tags, e.target.value];
+			if (!/^[0-9가-힣A-Za-z\s\-]+$/.test(e.target.value)) {
+				return triggerToast(
+					'warning',
+					'태그는 오직 문자와 숫자, 그리고 대쉬와 공백으로만 설정할 수 있습니다.'
+				);
+			}
+
+			tags = [...tags, e.target.value.replace(/  +/g, ' ').trim()];
 			cleanInput();
 		}
 	};
@@ -61,7 +68,7 @@
 		}
 
 		tags = [...tags, e.target.dataset.name];
-		e.target.value();
+		cleanInput();
 	};
 
 	onDestroy(() => {
@@ -81,21 +88,19 @@
 	/>
 
 	{#if $searchTagQuery.isSuccess}
-		<ul>
-			{#each $searchTagQuery.data.pages as { data }}
-				{#each data as tag (tag.id)}
-					<li>
-						<button
-							type="button"
-							data-name={tag.name}
-							on:click={onClickFetchedTag}
-							class="w-full h-full p-3 hover:bg-slate-700 text-left"
-						>
-							<span data-name={tag.name}>{tag.name}</span>
-							<span data-name={tag.name} class="text-sm font-bold">({tag._count.articles})</span>
-						</button>
-					</li>
-				{/each}
+		<ul class="absolute w-full bg-surface-500 rounded-lg shadow-lg overflow-hidden z-20">
+			{#each $searchTagQuery.data.data as tag (tag.id)}
+				<li>
+					<button
+						type="button"
+						data-name={tag.name}
+						on:click={onClickFetchedTag}
+						class="w-full h-full p-3 hover:bg-secondary-700 text-left"
+					>
+						<span data-name={tag.name}>{tag.name}</span>
+						<span data-name={tag.name} class="text-sm">({tag._count.articles})</span>
+					</button>
+				</li>
 			{/each}
 		</ul>
 	{/if}

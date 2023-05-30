@@ -33,13 +33,14 @@
 		method="POST"
 		action="?/createArticle"
 		use:enhance={({ data }) => {
-			data.append('title', title);
+			data.append('title', title.replace(/  +/g, ' ').trim());
 			data.append('body', JSON.stringify(body ?? ''));
 			coverImage && data.append('coverImage', coverImage);
 			data.append('tags', tags.join());
 			data.append('genre', genre);
 
-			return async ({ update }) => {
+			return async ({ update, result }) => {
+				if (!(result.type === 'failure')) drawerStore.close();
 				update();
 			};
 		}}

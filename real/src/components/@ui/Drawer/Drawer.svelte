@@ -32,7 +32,7 @@
 		<PublishSidebar
 			coverImage={publishStorage.get(publishStorageKey)?.coverImage ?? null}
 			tags={publishStorage.get(publishStorageKey)?.tags ?? []}
-			genre={publishStorage.get(publishStorageKey)?.tags ?? 'ETC'}
+			genre={publishStorage.get(publishStorageKey)?.genre ?? 'ETC'}
 			on:close={setPublishStorage}
 		/>
 	{/if}

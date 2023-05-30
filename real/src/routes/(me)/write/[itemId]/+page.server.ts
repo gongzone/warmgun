@@ -150,7 +150,7 @@ export const actions: Actions = {
 			genre: validated.data.genre as Genre
 		};
 
-		if (body.blocks.length === 0) {
+		if (body.blocks.length === 1 && !body.blocks[0].data.text) {
 			return fail(400, { isSuccess: false, message: '본문을 작성하여 주세요.' });
 		}
 
