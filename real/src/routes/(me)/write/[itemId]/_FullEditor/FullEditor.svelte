@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { OutputData } from '@editorjs/editorjs';
+	import type { CurrentEditorData } from '$lib/types/editor';
 
 	import AutosizedTextarea from '$components/@ui/AutosizeTextarea.svelte';
-	import TextEditor from './TextEditor.svelte';
-	import type { CurrentEditorData } from '$lib/types/editor';
+	import TextEditor from '$components/Editor/TextEditor.svelte';
 
 	export let title: string = '';
 	export let body: any;
@@ -14,15 +14,11 @@
 	let getCurrentBody: () => Promise<OutputData>;
 </script>
 
-<div class="space-y-4">
+<div class="max-w-[650px] mx-auto py-2 px-2 space-y-4 md:my-4">
 	<div>
 		<AutosizedTextarea name="title" placeholder="제목을 입력하세요" bind:value={title} size="xl" />
-		<div class="px-3">
-			<hr />
-		</div>
+		<hr />
 	</div>
 
-	<div class="px-3">
-		<TextEditor {body} bind:getCurrentBody />
-	</div>
+	<TextEditor {body} bind:getCurrentBody />
 </div>

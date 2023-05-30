@@ -1,29 +1,39 @@
 import type { EditorConfig } from '@editorjs/editorjs';
+import Paragraph from '@editorjs/paragraph';
 import Header from '@editorjs/header';
 import Quote from '@editorjs/quote';
 import NestedList from '@editorjs/nested-list';
 import ImageTool from '@editorjs/image';
 import Marker from '@editorjs/marker';
 import Underline from '@editorjs/underline';
-import InlineCode from '@editorjs/inline-code';
 
 import { uploadImage } from '$lib/client-fetch/upload-image';
 
 export const editorTools = {
+	/* Block Tools */
+	paragraph: {
+		class: Paragraph,
+		inlineToolbar: true,
+
+		config: { preserveBlank: true }
+	},
 	header: {
 		class: Header,
 		inlineToolbar: true,
-		config: { placeholder: 'Enter a header', levels: [2, 3, 4], defaultLevel: 2 }
+		config: { placeholder: '제목을 입력하세요.', levels: [1, 2, 3], defaultLevel: 1 }
 	},
 	list: {
 		class: NestedList,
 		inlineToolbar: true,
 		config: { defaultStyle: 'unordered' }
 	},
-	quote: { class: Quote, inlineToolbar: true },
-	Marker: { class: Marker },
-	inlineCode: { class: InlineCode },
-	underline: { class: Underline },
+	quote: {
+		class: Quote,
+		inlineToolbar: true,
+		config: {
+			quotePlaceholder: '인용구를 입력하세요.'
+		}
+	},
 	image: {
 		class: ImageTool,
 		config: {
@@ -35,5 +45,10 @@ export const editorTools = {
 				}
 			}
 		}
-	}
+	},
+	/* Inline Tools */
+	underline: { class: Underline },
+	marker: { class: Marker }
 } satisfies EditorConfig['tools'];
+
+export const editorTunes = [];

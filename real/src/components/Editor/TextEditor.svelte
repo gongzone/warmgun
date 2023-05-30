@@ -2,9 +2,10 @@
 	import './editor.postcss';
 
 	import { onMount, onDestroy } from 'svelte';
-	import EditorJS, { type OutputData, type EditorConfig } from '@editorjs/editorjs';
+	import EditorJS, { type EditorConfig } from '@editorjs/editorjs';
 
 	import { editorTools } from './editor-tools';
+	import { editorInternationalization } from './editor-i18n';
 
 	export let body: any;
 	export let readOnly: true | false = false;
@@ -15,8 +16,6 @@
 	let editor: EditorJS;
 	let isEditorReady: boolean = false;
 
-	$: console.log(body);
-
 	$: if (isEditorReady) {
 		body && body.blocks.length > 0 ? editor.render(body) : editor.clear();
 	}
@@ -26,6 +25,8 @@
 			holder: 'editor',
 			placeholder: '당신의 이야기를 들려주세요.',
 			tools: editorTools,
+			i18n: editorInternationalization,
+			defaultBlock: 'paragraph',
 			readOnly: readOnly,
 			onReady: () => {
 				isEditorReady = true;
@@ -40,6 +41,8 @@
 	});
 </script>
 
-<article class="prose">
+<article
+	class="prose prose-headings:font-token prose-code:!text-base prose-a:!underline-offset-[8px]"
+>
 	<div id="editor" />
 </article>

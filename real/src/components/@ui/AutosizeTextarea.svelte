@@ -19,7 +19,7 @@
 </script>
 
 <textarea
-	class="w-full resize-none border-0 bg-transparent focus:!outline-none focus:ring-0 {sizeStyles[
+	class="w-full resize-none border-0 bg-transparent px-0 focus:!outline-none focus:ring-0 {sizeStyles[
 		size
 	]}"
 	{name}

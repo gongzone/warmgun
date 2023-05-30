@@ -4,8 +4,9 @@
 
 	import type { CurrentEditorData } from '$lib/types/editor';
 	import { triggerToast } from '$components/@ui/Toast/toast';
-	import WriteHeader from '$components/Header/WriteHeader/WriteHeader.svelte';
-	import FullEditor from '$components/Editor/FullEditor.svelte';
+
+	import WriteHeader from './_WriteHeader/WriteHeader.svelte';
+	import FullEditor from './_FullEditor/FullEditor.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -21,10 +22,8 @@
 
 <WriteHeader {getCurrentEditorData} />
 
-<main class="max-w-[700px] mx-auto py-2 px-2 md:my-4">
-	<FullEditor
-		title={isDraftMode ? data.draft?.title : data.article?.title}
-		body={isDraftMode ? data.draft?.body : data.article?.body}
-		bind:getCurrentEditorData
-	/>
-</main>
+<FullEditor
+	title={isDraftMode ? data.draft?.title : data.article?.title}
+	body={isDraftMode ? data.draft?.body : data.article?.body}
+	bind:getCurrentEditorData
+/>

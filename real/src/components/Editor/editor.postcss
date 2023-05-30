@@ -9,9 +9,10 @@
 
 .ce-toolbar {
 	& .ce-toolbar__actions {
+		@apply gap-1 max-[730px]:right-auto;
 		& .ce-toolbar__plus,
 		& .ce-toolbar__settings-btn {
-			@apply min-[650px]:text-primary-700 min-[650px]:hover:bg-surface-500;
+			@apply bg-surface-100 w-8 h-8 rounded-full text-surface-900 min-[650px]:hover:text-primary-700 min-[650px]:hover:bg-surface-500;
 		}
 	}
 }
@@ -63,8 +64,40 @@
 	}
 }
 
+.codex-editor--narrow .ce-toolbar__actions {
+	@apply min-[731px]:-right-10;
+}
+
+.image-tool--withBackground .image-tool__image {
+	@apply !bg-surface-500;
+}
+
+.image-tool__caption {
+	@apply hidden;
+}
+
+.cdx-quote__caption {
+	@apply hidden;
+}
+
+.ce-inline-tool-input {
+	@apply bg-surface-500 text-surface-50;
+}
+
 .ce-paragraph[data-placeholder]:empty::before {
 	@apply !text-surface-400;
+}
+
+.cdx-underline {
+	@apply underline-offset-[8px];
+}
+
+.ce-header {
+	@apply !p-0;
+}
+
+.cdx-marker {
+	@apply !bg-primary-500 !px-1;
 }
 
 /* viewer styles */

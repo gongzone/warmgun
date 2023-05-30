@@ -33,6 +33,8 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	} else if (mode === 'edit') {
 		const article = await findOneArticle(locals.user.id, +params.itemId);
 
+		if (!article) throw error(404, '해당 페이지를 찾을 수 없습니다.');
+
 		return {
 			article
 		};
@@ -76,18 +78,18 @@ export const actions: Actions = {
 			}
 		});
 
-		throw redirect(303, `/write/draft/${draft.id}`);
+		throw redirect(303, `/write/${draft.id}?mode=draft`);
 	},
 	deleteDraft: async ({ request, locals, params }) => {
 		const formData = await request.formData();
-
 		const validated = validate(formData, deleteDraftSchema());
 
 		if (!validated.success) {
 			return fail(400, { isSuccess: false, message: validated.errorMessage });
 		}
 
-		const { draftId } = validated.data;
+		const { draftId } = { ...validated.data, draftId: +validated.data.draftId };
+		const currentDraftId = +params.itemId;
 
 		const draftCount = await prisma.draft.count({
 			where: { authorId: locals.user?.id }
@@ -97,9 +99,9 @@ export const actions: Actions = {
 			return fail(400, { isSuccess: false, message: '마지막 초고는 삭제하실 수 없습니다.' });
 		}
 
-		await prisma.draft.delete({ where: { id: +draftId } });
+		await prisma.draft.delete({ where: { id: draftId } });
 
-		if (draftId === params.itemId) {
+		if (draftId === currentDraftId) {
 			const latestDraftId = (
 				await prisma.draft.findFirst({
 					where: { authorId: locals.user?.id },
@@ -108,7 +110,7 @@ export const actions: Actions = {
 				})
 			)?.id;
 
-			throw redirect(303, `/write/draft/${latestDraftId}`);
+			throw redirect(303, `/write/${latestDraftId}?mode=draft`);
 		}
 	},
 	saveDraft: async ({ request, params }) => {
@@ -123,9 +125,10 @@ export const actions: Actions = {
 			...validated.data,
 			body: JSON.parse(validated.data.body)
 		};
+		const currentDraftId = +params.itemId;
 
 		await prisma.draft.update({
-			where: { id: +params.itemId },
+			where: { id: currentDraftId },
 			data: { title, body }
 		});
 

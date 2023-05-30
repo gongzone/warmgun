@@ -10,6 +10,8 @@ export function triggerConfirmModal(
 		type: 'confirm',
 		title,
 		body,
+		buttonTextCancel: '취소',
+		buttonTextConfirm: '확인',
 		response
 	};
 	modalStore.trigger(confirm);
