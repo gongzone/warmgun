@@ -5,6 +5,7 @@ import { z } from 'zod';
 import type { PageServerLoad, Actions } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { calculateTrendingScore } from '$lib/utils/calculate-trending-score';
+import { meilisearch } from '$lib/server/meilisearch';
 
 export const ssr = false;
 
@@ -173,6 +174,32 @@ export const actions: Actions = {
 				article: { connect: { id: articleId } }
 			}
 		});
+	},
+	deleteArticle: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw error(401, '수행할 수 없습니다.');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, deleteArticleSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { articleId } = {
+			...validated.data,
+			articleId: +validated.data.articleId
+		};
+
+		await prisma.article.delete({
+			where: { id: articleId }
+		});
+
+		await meilisearch.index('articles').deleteDocument(articleId);
+
+		throw redirect(302, `/@${locals.user.username}`);
 	}
 };
 
@@ -187,5 +214,11 @@ function createCommentSchema() {
 		articleId: z.string(),
 		parentId: z.string(),
 		content: z.string()
+	});
+}
+
+function deleteArticleSchema() {
+	return z.object({
+		articleId: z.string()
 	});
 }

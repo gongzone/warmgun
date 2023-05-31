@@ -4,8 +4,11 @@
 	import { triggerConfirmModal } from '$components/@ui/Modal/modal';
 
 	import MoreIcon from '$components/@icons/MoreIcon.svelte';
+	import { enhance } from '$app/forms';
 
 	export let articleId: number;
+
+	let deleteForm: HTMLFormElement;
 
 	const popupKey = 'article-control-popup';
 	const popupSettings: PopupSettings = {
@@ -25,18 +28,21 @@
 			<a href={`/write/${articleId}?mode=edit`}>수정하기</a>
 		</li>
 		<li>
-			<button
-				class="w-full"
-				on:click={() =>
-					triggerConfirmModal(
-						'아티클 삭제',
-						'정말로 삭제하시겠습니까? 이 행동은 돌이킬 수 없습니다!',
-						(confirm) => {
-							if (confirm) {
+			<form method="POST" action="?/deleteArticle" bind:this={deleteForm} use:enhance>
+				<input type="hidden" name="articleId" value={articleId} />
+				<button
+					type="button"
+					class="w-full"
+					on:click={() =>
+						triggerConfirmModal(
+							'아티클 삭제',
+							'정말로 해당 아티클을 삭제하시겠습니까?',
+							(confirm) => {
+								if (confirm) deleteForm.requestSubmit();
 							}
-						}
-					)}>삭제하기</button
-			>
+						)}>삭제하기</button
+				>
+			</form>
 		</li>
 	</ul>
 	<div class="arrow bg-surface-800" />
