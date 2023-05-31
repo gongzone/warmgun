@@ -20,7 +20,7 @@ export const editorTools = {
 	header: {
 		class: Header,
 		inlineToolbar: true,
-		config: { placeholder: '제목을 입력하세요.', levels: [1, 2, 3], defaultLevel: 1 }
+		config: { placeholder: '제목을 입력하세요.', levels: [1, 2, 3], defaultLevel: 2 }
 	},
 	list: {
 		class: NestedList,
