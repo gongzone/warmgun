@@ -167,12 +167,15 @@ export const actions: Actions = {
 				excerpt,
 				body,
 				coverImage,
-				tags: {
-					connectOrCreate: tags.map((tag: string) => ({
-						where: { name: tag },
-						create: { name: tag, slug: tagToSlug(tag) }
-					}))
-				},
+				tags:
+					tags.length > 0
+						? {
+								connectOrCreate: tags.map((tag: string) => ({
+									where: { name: tag },
+									create: { name: tag, slug: tagToSlug(tag) }
+								}))
+						  }
+						: {},
 				genre,
 				slug,
 				author: { connect: { id: locals.user?.id } }
@@ -190,12 +193,14 @@ export const actions: Actions = {
 			}
 		]);
 
-		await meilisearch.index('tags').addDocuments(
-			article.tags.map((tag) => ({
-				id: tag.id,
-				name: tag.name
-			}))
-		);
+		if (tags.length > 0) {
+			await meilisearch.index('tags').addDocuments(
+				article.tags.map((tag) => ({
+					id: tag.id,
+					name: tag.name
+				}))
+			);
+		}
 
 		throw redirect(303, `/@${locals.user?.username}/${article.slug}`);
 	},
