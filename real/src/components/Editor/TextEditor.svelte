@@ -42,7 +42,7 @@
 </script>
 
 <article
-	class="prose prose-headings:font-token prose-code:!text-base prose-a:!underline-offset-[8px]"
+	class="!prose dark:!prose-invert prose-headings:font-token prose-blockquote:!border-l-secondary-500 prose-code:!text-base prose-a:!underline-offset-[8px] mx-auto"
 >
 	<div id="editor" />
 </article>

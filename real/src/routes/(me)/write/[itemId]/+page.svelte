@@ -14,13 +14,19 @@
 	let getCurrentEditorData: () => Promise<CurrentEditorData>;
 
 	$: isDraftMode = $page.url.searchParams.get('mode') === 'draft';
-
+	$: articleMeta = isDraftMode
+		? undefined
+		: {
+				coverImage: data.article!.coverImage,
+				tags: data.article!.tags.map((tag) => tag.name),
+				genre: data.article!.genre
+		  };
 	$: if (form?.message) {
 		triggerToast(`${form.isSuccess ? 'success' : 'warning'}`, form.message);
 	}
 </script>
 
-<WriteHeader {getCurrentEditorData} />
+<WriteHeader mode={isDraftMode ? 'draft' : 'edit'} {articleMeta} {getCurrentEditorData} />
 
 <FullEditor
 	title={isDraftMode ? data.draft?.title : data.article?.title}

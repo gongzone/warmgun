@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { drawerStore } from '@skeletonlabs/skeleton';
-	import { createEventDispatcher, onDestroy } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	import type { PublishMeta } from '$components/@ui/Drawer/drawer';
 	import CloseIcon from '$components/@icons/CloseIcon.svelte';
@@ -14,9 +14,18 @@
 	export let tags: string[];
 	export let genre: string;
 
-	$: ({ title, body } = $drawerStore.meta as PublishMeta);
+	$: ({ title, body, mode, articleMeta } = $drawerStore.meta as PublishMeta);
+	$: publishAction = mode === 'draft' ? '?/createArticle' : '?/updateArticle';
 
 	const dispatch = createEventDispatcher();
+
+	onMount(() => {
+		if (articleMeta) {
+			coverImage = articleMeta.coverImage;
+			tags = articleMeta.tags;
+			genre = articleMeta.genre;
+		}
+	});
 
 	onDestroy(() => {
 		dispatch('close', { coverImage, tags, genre });
@@ -31,12 +40,15 @@
 
 	<form
 		method="POST"
-		action="?/createArticle"
+		action={publishAction}
 		use:enhance={({ data }) => {
 			data.append('title', title.replace(/  +/g, ' ').trim());
 			data.append('body', JSON.stringify(body ?? ''));
 			coverImage && data.append('coverImage', coverImage);
-			data.append('tags', tags.join());
+			console.log(tags);
+			if (tags.length > 0) {
+				data.append('tags', tags.join());
+			}
 			data.append('genre', genre);
 
 			return async ({ update, result }) => {

@@ -1,3 +1,4 @@
+import type { ArticleMeta } from '$lib/types/editor';
 import type { OutputData } from '@editorjs/editorjs';
 import { drawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
 
@@ -26,8 +27,10 @@ export function openDraftSidebar() {
 }
 
 export type PublishMeta = {
+	mode: 'draft' | 'edit';
 	title: string;
 	body: OutputData;
+	articleMeta: ArticleMeta | undefined;
 };
 
 export function openPublishSidebar({ meta }: { meta: PublishMeta }) {
