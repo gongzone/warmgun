@@ -1,11 +1,14 @@
 <script lang="ts">
 	import type { SvelteComponent } from 'svelte';
 
+	export let value: string = '';
+
 	export let type: string = 'text';
 	export let name: string;
 	export let placeholder: string = '';
 	export let labelText: string = '';
 	export let helperText: string = '';
+	export let required: boolean = true;
 	export let icon: typeof SvelteComponent | undefined = undefined;
 </script>
 
@@ -21,10 +24,10 @@
 			</div>
 		{/if}
 
-		<input {type} {name} id={name} {placeholder} required />
+		<input {type} {name} id={name} {value} {placeholder} {required} />
 	</div>
 
 	{#if helperText}
-		<p class="text-sm opacity-75">{helperText}</p>
+		<p class="text-sm text-error-600">{helperText}</p>
 	{/if}
 </label>

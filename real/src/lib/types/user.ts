@@ -5,7 +5,16 @@ export type CurrentUser = {
 	username: string;
 	email: string;
 	role: Role;
-	profile: Profile | null;
+	createdAt: Date;
+	profile: {
+		id: number;
+		nickname: string;
+		avatar: string | null;
+		blogImage: string | null;
+		field: string;
+		bio: string;
+		profileLinks: ProfileLinks | null;
+	} | null;
 } | null;
 
 export const currentUserSelect = {
@@ -13,7 +22,18 @@ export const currentUserSelect = {
 	username: true,
 	email: true,
 	role: true,
-	profile: true
+	createdAt: true,
+	profile: {
+		select: {
+			id: true,
+			nickname: true,
+			avatar: true,
+			blogImage: true,
+			field: true,
+			bio: true,
+			profileLinks: true
+		}
+	}
 } satisfies Prisma.UserSelect;
 
 export type BlogUser = {

@@ -48,9 +48,4 @@ export const siteConfig = {
       href: "/genre/etc",
     },
   ],
-  links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/shadcn/ui",
-    docs: "https://ui.shadcn.com",
-  },
 }

@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { TabGroup, Tab } from '@skeletonlabs/skeleton';
 
-	let tabSet: string = `/${$page.params.page}`;
+	$: tabSet = `/${$page.params.page}`;
 
 	function routeToPage(route: string) {
 		goto(route, { noScroll: true });

@@ -1,11 +1,13 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 
 	import type { BlogUser } from '$lib/types/user';
+	import { siteConfig } from '$lib/configs/site';
+
 	import HeartIcon from '$components/@icons/HeartIcon.svelte';
 	import FollowingIcon from '$components/@icons/FollowingIcon.svelte';
 	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
-	import { enhance } from '$app/forms';
 
 	export let blogUser: BlogUser;
 	export let isOwner: boolean;
@@ -14,7 +16,7 @@
 
 <div class="">
 	<div class="min-h-[400px] w-full">
-		<div class="container grid grid-cols-1 gap-9 py-12 lg:grid-cols-2">
+		<div class="container grid grid-cols-1 gap-9 pt-12 pb-6 lg:grid-cols-2">
 			<div class="max-w-[650px]">
 				<div class="">
 					<div class="space-y-2">
@@ -24,10 +26,6 @@
 						<h3 class="text-4xl font-bold">{blogUser.profile?.nickname}</h3>
 						<div class="flex flex-col gap-1">
 							<span class="text-xl font-thin">{blogUser.profile?.field}</span>
-							<!-- <p class="line-clamp-4 break-all text-base font-thin">
-							{blogUser.profile?.bio} 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-							안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-						</p> -->
 						</div>
 					</div>
 
@@ -90,7 +88,8 @@
 				>
 					<div class="h-[420px] overflow-hidden rounded-2xl shadow-xl">
 						<img
-							src="https://picsum.photos/id/2/1240/800"
+							src={`${blogUser.profile?.blogImage}?w=1240&h=800&q=80&f=webp` ??
+								'https://picsum.photos/id/2/1240/800'}
 							alt="blog-cover"
 							class="h-full w-full rounded-xl object-cover"
 						/>
@@ -101,7 +100,7 @@
 	</div>
 
 	<div class="container">
-		<div class="relative flex gap-4">
+		<div class="relative flex gap-3 min-h-[43px]">
 			<div
 				class="bg-primary-600 absolute right-0 top-[50%] h-4 w-4 -translate-y-1/2 rounded-full"
 			/>
@@ -112,7 +111,16 @@
 				class="bg-tertiary-600 absolute right-[50px] top-[50%] h-4 w-4 -translate-y-1/2 rounded-full"
 			/>
 
-			<!-- <div class="border-b-foreground absolute top-0 -z-50 h-[50%] w-full border-b" /> -->
+			{#each siteConfig.socials as social (social.title)}
+				{#if blogUser.profile?.profileLinks?.[social.enum]}
+					<a
+						href={blogUser.profile?.profileLinks?.[social.enum]}
+						class="btn-icon variant-ringed-tertiary"
+					>
+						<svelte:component this={social.icon} />
+					</a>
+				{/if}
+			{/each}
 		</div>
 	</div>
 </div>

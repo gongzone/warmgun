@@ -1,9 +1,21 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+
+	import SettingTab from './_SettingTab/SettingTab.svelte';
+
+	$: settingTitle =
+		$page.url.pathname === '/settings'
+			? '프로필 설정'
+			: $page.url.pathname === '/settings/blog'
+			? '블로그 설정'
+			: '계정 설정';
 </script>
 
-<main class="container py-16 md:py-20">
-	<h3 class="text-4xl font-bold">프로필 설정</h3>
-	<hr class="my-6" />
+<main class="container max-w-[700px] mx-auto py-16 md:py-20">
+	<div class="space-y-6 mb-8">
+		<h3 class="text-4xl font-bold">{settingTitle}</h3>
+		<SettingTab />
+	</div>
+
 	<slot />
 </main>

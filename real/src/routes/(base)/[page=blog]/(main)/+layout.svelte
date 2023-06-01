@@ -9,7 +9,7 @@
 
 <BlogHero blogUser={data.blogUser} isOwner={data.isOwner} isFollowing={data.isFollowing} />
 
-<main class="container mt-16 space-y-12">
+<main class="container mt-16 space-y-8">
 	<BlogTab />
 	<slot />
 </main>
