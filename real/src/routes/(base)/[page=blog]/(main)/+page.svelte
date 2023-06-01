@@ -14,7 +14,7 @@
 	});
 </script>
 
-{#if $blogArticlesQuery.isSuccess}
+{#if $blogArticlesQuery.isSuccess && $blogArticlesQuery.data.pages[0].data.length > 0}
 	<ul class="grid list-none grid-cols-1 gap-9 sm:grid-cols-2 lg:grid-cols-3">
 		{#each $blogArticlesQuery.data.pages as { data }}
 			{#each data as article (article.id)}
@@ -29,4 +29,8 @@
 		fetchFn={$blogArticlesQuery.fetchNextPage}
 		hasNextPage={$blogArticlesQuery.hasNextPage}
 	/>
+{:else}
+	<div>
+		<span>작성된 글이 없습니다.</span>
+	</div>
 {/if}

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 
-	import BlogHero from '$components/Hero/BlogHero/BlogHero.svelte';
-	import BlogTab from '$components/@ui/Tab/BlogTab.svelte';
+	import BlogHero from './_BlogHero/BlogHero.svelte';
+	import BlogTab from './_BlogTab/BlogTab.svelte';
 
 	export let data: PageData;
 </script>

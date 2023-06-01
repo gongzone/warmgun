@@ -15,11 +15,12 @@
 		bind:group={tabSet}
 		name="tab1"
 		value="/{$page.params.page}"
-		active="variant-filled-secondary"
-		rounded="rounded-lg"
-		border=""
-		padding="px-4 py-4"
-		class="text-xl font-bold"
-		on:click={() => routeToPage(`/${$page.params.page}`)}>Home</Tab
+		on:click={() => routeToPage(`/${$page.params.page}`)}>아티클</Tab
+	>
+	<Tab
+		bind:group={tabSet}
+		name="tab1"
+		value="/{$page.params.page}/about"
+		on:click={() => routeToPage(`/${$page.params.page}/about`)}>소개</Tab
 	>
 </TabGroup>
