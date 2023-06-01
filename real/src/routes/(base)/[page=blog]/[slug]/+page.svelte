@@ -23,6 +23,8 @@
 	import type { InfiniteData } from '$lib/types/Infinite-data';
 	import type { Comment } from '$lib/types/comment';
 	import ArticleDetail from './_ArticleDetail/ArticleDetail.svelte';
+	import UserDisplay from '$components/User/UserDisplay/UserDisplay.svelte';
+	import ArticleStatsTwo from './_ArticleStatsTwo/_ArticleStatsTwo.svelte';
 
 	export let data: PageData;
 
@@ -67,9 +69,14 @@
 			/>
 		</section>
 
-		<div class="viewer-container">
+		<section class="viewer-container">
 			<TextEditor readOnly={true} body={data.article.body} />
-		</div>
+			<ArticleStatsTwo article={data.article} isLiked={data.isLiked} />
+		</section>
+
+		<section>
+			<UserDisplay user={data.blogUser} />
+		</section>
 
 		<div id="comment-container" class="mt-32 space-y-6">
 			<span class="font-bold text-2xl">{data.article._count.comments}개의 댓글</span>
