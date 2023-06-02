@@ -113,7 +113,7 @@ model Article {
 
 enum Genre {
   FRONTEND
-  BAKCEND
+  BACKEND
   DEVOPS
   MOBILE
   DATA_SCIENCE

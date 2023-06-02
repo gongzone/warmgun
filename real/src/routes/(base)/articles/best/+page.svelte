@@ -7,16 +7,16 @@
 	import ArticleItem from '$components/Article/ArticleItem/ArticleItem.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 
-	$: trendingArticleQuery = createInfiniteQuery({
-		queryKey: ['articles', 'trending', $page.url.searchParams.get('genre')?.toUpperCase() ?? 'ALL'],
+	$: bestArticleQuery = createInfiniteQuery({
+		queryKey: ['articles', 'best', $page.url.searchParams.get('genre')?.toUpperCase() ?? 'ALL'],
 		queryFn: findArticles,
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	});
 </script>
 
-{#if $trendingArticleQuery.isSuccess && $trendingArticleQuery.data.pages[0].data.length > 0}
+{#if $bestArticleQuery.isSuccess && $bestArticleQuery.data.pages[0].data.length > 0}
 	<ul class="grid list-none grid-cols-1 gap-9 sm:grid-cols-2 lg:grid-cols-3">
-		{#each $trendingArticleQuery.data.pages as { data }}
+		{#each $bestArticleQuery.data.pages as { data }}
 			{#each data as article (article.id)}
 				<li>
 					<ArticleItem {article} />
@@ -26,8 +26,8 @@
 	</ul>
 
 	<InfiniteScroll
-		fetchFn={$trendingArticleQuery.fetchNextPage}
-		hasNextPage={$trendingArticleQuery.hasNextPage}
+		fetchFn={$bestArticleQuery.fetchNextPage}
+		hasNextPage={$bestArticleQuery.hasNextPage}
 	/>
 {:else}
 	<div>
