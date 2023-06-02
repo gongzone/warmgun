@@ -15,3 +15,27 @@ export async function findBlogArticles({ queryKey, pageParam = 0 }: QueryFunctio
 
 	return { data, nextCursor };
 }
+
+export async function findFeedArticles({ queryKey, pageParam = 0 }: QueryFunctionContext) {
+	const { data, nextCursor }: InfiniteData<Article> = await fetch(
+		`/api/articles/feed?take=${12}&cursor=${pageParam}`,
+		{
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
+		}
+	).then((res) => res.json());
+
+	return { data, nextCursor };
+}
+
+export async function findLikeArticles({ queryKey, pageParam = 0 }: QueryFunctionContext) {
+	const { data, nextCursor }: InfiniteData<Article> = await fetch(
+		`/api/articles/like?take=${12}&cursor=${pageParam}`,
+		{
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
+		}
+	).then((res) => res.json());
+
+	return { data, nextCursor };
+}
