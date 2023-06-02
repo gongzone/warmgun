@@ -16,7 +16,7 @@
 
 <div class="">
 	<div class="min-h-[400px] w-full">
-		<div class="container grid grid-cols-1 gap-9 pt-12 pb-6 lg:grid-cols-2">
+		<div class="container grid grid-cols-1 gap-9 pt-12 pb-6 lg:grid-cols-2 relative">
 			<div class="max-w-[650px]">
 				<div class="">
 					<div class="space-y-2">
@@ -86,13 +86,16 @@
 				<div
 					class="absolute left-0 top-0 -z-50 w-screen brightness-[0.17] lg:static lg:w-full lg:brightness-100"
 				>
-					<div class="h-[420px] overflow-hidden rounded-2xl shadow-xl">
-						<img
-							src={`${blogUser.profile?.blogImage}?w=1240&h=800&q=80&f=webp` ??
-								'https://picsum.photos/id/2/1240/800'}
-							alt="blog-cover"
-							class="h-full w-full rounded-xl object-cover"
-						/>
+					<div class="h-[350px] lg:h-[420px] overflow-hidden shadow-xl lg:rounded-xl">
+						{#if blogUser.profile?.blogImage}
+							<img
+								src={`${blogUser.profile?.blogImage}?w=1240&h=800&q=80&f=webp`}
+								alt="blog-cover"
+								class="h-full w-full object-cover"
+							/>
+						{:else}
+							<div class="bg-surface-800 h-full w-full rounded-xl object-cover hidden lg:block" />
+						{/if}
 					</div>
 				</div>
 			</div>
@@ -102,13 +105,13 @@
 	<div class="container">
 		<div class="relative flex gap-3 min-h-[43px]">
 			<div
-				class="bg-primary-600 absolute right-0 top-[50%] h-4 w-4 -translate-y-1/2 rounded-full"
+				class="bg-primary-600 absolute right-0 top-[50%] h-4 w-4 -translate-y-1/2 rounded-full hidden min-[385px]:block"
 			/>
 			<div
-				class="bg-secondary-600 absolute right-[25px] top-[50%] h-4 w-4 -translate-y-1/2 rounded-full"
+				class="bg-secondary-600 absolute right-[25px] top-[50%] h-4 w-4 -translate-y-1/2 rounded-full hidden min-[385px]:block"
 			/>
 			<div
-				class="bg-tertiary-600 absolute right-[50px] top-[50%] h-4 w-4 -translate-y-1/2 rounded-full"
+				class="bg-tertiary-600 absolute right-[50px] top-[50%] h-4 w-4 -translate-y-1/2 rounded-full hidden min-[385px]:block"
 			/>
 
 			{#each siteConfig.socials as social (social.title)}
