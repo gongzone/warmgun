@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
+	import { triggerConfirmModal } from '$components/@ui/Modal/modal';
 
-	let coverImage: string | null;
+	let deleteForm: HTMLFormElement;
 </script>
 
 {#if $page.data.user}
-	<form method="POST" action="?/deleteUser" use:enhance>
+	<form method="POST" bind:this={deleteForm} use:enhance>
 		<div class="card p-5">
 			<div class="space-y-2">
 				<span class="block text-lg text-warning-600">회원 탈퇴</span>
@@ -16,7 +17,14 @@
 				</p>
 			</div>
 			<div class="flex justify-end mt-3">
-				<button type="submit" class="btn variant-filled-error">탈퇴하기</button>
+				<button
+					type="button"
+					class="btn variant-filled-error"
+					on:click={() =>
+						triggerConfirmModal('회원 탈퇴', '정말로 탈퇴하시겠습니까?', (confirm) => {
+							if (confirm) deleteForm.requestSubmit();
+						})}>탈퇴하기</button
+				>
 			</div>
 		</div>
 	</form>
