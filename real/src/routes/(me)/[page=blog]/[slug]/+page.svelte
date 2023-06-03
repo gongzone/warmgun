@@ -1,23 +1,10 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
-	import {
-		createInfiniteQuery,
-		createMutation,
-		createQueries,
-		createQuery
-	} from '@tanstack/svelte-query';
-	import type { PageData, PageServerData } from './$types';
-	import HeartIcon from '$components/@icons/HeartIcon.svelte';
-	import MoreIcon from '$components/@icons/MoreIcon.svelte';
+	import type { PageData } from './$types';
+	import { createInfiniteQuery, createQueries } from '@tanstack/svelte-query';
 
 	import CommentContent from '$components/Comment/CommentContent.svelte';
 	import CommentTextarea from '$components/Comment/CommentTextarea.svelte';
-	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import TextEditor from '$components/Editor/TextEditor.svelte';
-	// import Comment from '$components/Comment/Comment.svelte';
-	import { triggerConfirmModal } from '$components/@ui/Modal/modal';
-	import { enhance } from '$app/forms';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 	import { findComments } from '$lib/client-fetch/comment';
 	import type { InfiniteData } from '$lib/types/Infinite-data';

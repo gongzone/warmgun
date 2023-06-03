@@ -25,11 +25,6 @@ export const siteConfig = {
 			title: '아티클',
 			href: '/articles',
 			icon: ArticleIcon
-		},
-		{
-			title: '장르',
-			href: '/genres',
-			icon: GenreIcon
 		}
 	] satisfies NavItem[],
 	genre: [
