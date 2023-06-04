@@ -1,12 +1,43 @@
-import type { Actions, PageServerLoad } from './$types';
-import { error, fail, redirect } from '@sveltejs/kit';
+import type { PageServerLoad, Actions } from './$types';
+import { error, fail } from '@sveltejs/kit';
 import { z } from 'zod';
-import argon2 from 'argon2';
 
 import { prisma } from '$lib/server/db';
 import { validate } from '$lib/server/validation';
-import { generateTokens } from '$lib/server/jwt';
-import { setAuthCookies } from '$lib/server/cookie';
+import { articleInclude } from '$lib/types/article';
+import { buildInfinityData } from '$lib/utils/infinity-data';
+
+export const load: PageServerLoad = async ({ url, params }) => {
+	const username = params.page?.slice(1);
+
+	if (!username) {
+		throw error(404, '접근할 수 없는 페이지입니다.');
+	}
+
+	const take = url.searchParams.get('take') ?? 12;
+	const cursor = url.searchParams.get('cursor') ?? 0;
+
+	const articles = await findBlogArticles(username, +take, +cursor);
+
+	const { data, nextCursor } = buildInfinityData(articles, +take, +cursor);
+
+	return {
+		articles: data,
+		nextCursor
+	};
+};
+
+async function findBlogArticles(username: string, take: number, cursor: number) {
+	const articles = await prisma.article.findMany({
+		take: take,
+		skip: take * cursor,
+		where: { author: { username: username } },
+		include: articleInclude,
+		orderBy: { createdAt: 'desc' }
+	});
+
+	return articles;
+}
 
 export const actions: Actions = {
 	follow: async ({ locals, request }) => {

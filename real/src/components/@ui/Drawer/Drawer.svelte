@@ -2,11 +2,17 @@
 	import { page } from '$app/stores';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 
-	import { NAV_SIDEBAR_ID, DRAFT_SIDEBAR_ID, PUBLISH_SIDEBAR_ID } from './drawer';
+	import {
+		NAV_SIDEBAR_ID,
+		DRAFT_SIDEBAR_ID,
+		PUBLISH_SIDEBAR_ID,
+		COMMENT_SIDEBAR_ID
+	} from './drawer';
 
 	import NavSidebar from './NavSidebar/NavSidebar.svelte';
 	import DraftSidebar from './DraftSidebar/DraftSidebar.svelte';
 	import PublishSidebar from './PublishSidebar/PublishSidebar.svelte';
+	import CommentSidebar from './CommentSidebar/CommentSidebar.svelte';
 
 	let publishStorage = new Map();
 
@@ -35,5 +41,7 @@
 			genre={publishStorage.get(publishStorageKey)?.genre ?? 'ETC'}
 			on:close={setPublishStorage}
 		/>
+	{:else if $drawerStore.id === COMMENT_SIDEBAR_ID}
+		<CommentSidebar />
 	{/if}
 </Drawer>

@@ -1,7 +1,7 @@
-import type { Prisma, Profile, Comment as PrismaComment } from '@prisma/client';
+import type { Prisma, Profile, Comment as PrismaComment, User } from '@prisma/client';
 
 export type Comment = PrismaComment & {
-	user: {
+	user: User & {
 		profile: Profile | null;
 	};
 	_count: {

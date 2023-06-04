@@ -6,6 +6,7 @@
 	import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
 	import HeartIcon from '$components/@icons/HeartIcon.svelte';
 	import CommentIcon from '$components/@icons/CommentIcon.svelte';
+	import { openCommentSidebar } from '$components/@ui/Drawer/drawer';
 
 	export let article: Article;
 	export let isLiked: boolean;
@@ -27,7 +28,14 @@
 				>
 			</button>
 		</form>
-		<button type="button" class="btn variant-filled">
+		<button
+			type="button"
+			class="btn variant-filled"
+			on:click={() =>
+				openCommentSidebar({
+					meta: { articleId: article.id, totalCount: article._count.comments }
+				})}
+		>
 			<TextWithIcon icon={CommentIcon} textClass="!text-sm" size="xl" gap={1}
 				>댓글 {article._count.comments}</TextWithIcon
 			>

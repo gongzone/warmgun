@@ -6,6 +6,8 @@ export async function findComments({ queryKey, pageParam = 0 }: QueryFunctionCon
 	const articleId = queryKey[1];
 	const parentId = queryKey[2] ?? null;
 
+	console.log(parentId);
+
 	const { data, nextCursor }: InfiniteData<Comment> = await fetch(
 		`/api/comments/${articleId}?take=${10}&cursor=${pageParam}${
 			parentId ? `&parentId=${parentId}` : ''

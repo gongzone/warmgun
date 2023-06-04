@@ -4,10 +4,14 @@
 	import { AppShell } from '@skeletonlabs/skeleton';
 </script>
 
-<AppShell>
+<!-- <AppShell>
 	<svelte:fragment slot="header">
 		<BlogHeader />
 	</svelte:fragment>
 
 	<slot />
-</AppShell>
+</AppShell> -->
+
+<BlogHeader />
+
+<slot />

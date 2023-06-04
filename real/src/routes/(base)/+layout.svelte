@@ -6,14 +6,8 @@
 	import AppFooter from './_AppFooter/AppFooter.svelte';
 </script>
 
-<AppShell>
-	<svelte:fragment slot="header">
-		<AppHeader />
-	</svelte:fragment>
+<AppHeader />
 
-	<slot />
+<slot />
 
-	<svelte:fragment slot="pageFooter">
-		<AppFooter />
-	</svelte:fragment>
-</AppShell>
+<AppFooter />

@@ -5,7 +5,7 @@
 	import { siteConfig } from '$lib/configs/site';
 </script>
 
-<header class="bg-background sticky top-0 z-40 w-full border-b border-b-surface-600">
+<header class="sticky top-0 z-30 w-full bg-surface-50-900-token border-b border-b-surface-600">
 	<div class="container h-16 flex items-center justify-between">
 		<div class="flex items-center gap-2">
 			<a href="/" class="flex items-center gap-2">

@@ -26,22 +26,22 @@
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
-	function scrollHeadingIntoView(): void {
-		if (!window.location.hash) return;
-		const elemTarget: HTMLElement | null = document.querySelector(window.location.hash);
-		console.log(elemTarget, window.location.hash);
-		if (elemTarget) elemTarget.scrollIntoView({ behavior: 'smooth' });
-	}
+	// function scrollHeadingIntoView(): void {
+	// 	if (!window.location.hash) return;
+	// 	const elemTarget: HTMLElement | null = document.querySelector(window.location.hash);
+	// 	console.log(elemTarget, window.location.hash);
+	// 	if (elemTarget) elemTarget.scrollIntoView({ behavior: 'smooth' });
+	// }
 
-	afterNavigate((params: any) => {
-		const isNewPage: boolean =
-			params.from && params.to && params.from.route.id !== params.to.route.id;
-		const elemPage = document.querySelector('#page');
-		if (isNewPage && elemPage !== null) {
-			elemPage.scrollTop = 0;
-		}
-		scrollHeadingIntoView();
-	});
+	// afterNavigate((params: any) => {
+	// 	const isNewPage: boolean =
+	// 		params.from && params.to && params.from.route.id !== params.to.route.id;
+	// 	const elemPage = document.querySelector('#page');
+	// 	if (isNewPage && elemPage !== null) {
+	// 		elemPage.scrollTop = 0;
+	// 	}
+	// 	scrollHeadingIntoView();
+	// });
 </script>
 
 <QueryClientProvider client={queryClient}>

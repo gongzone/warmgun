@@ -4,6 +4,7 @@
 
 	export let fetchFn: any;
 	export let hasNextPage: boolean | undefined;
+	export let root: Element | null = null;
 
 	let observer: IntersectionObserver;
 	let observable: Element;
@@ -12,19 +13,22 @@
 		if (browser) {
 			observer = new IntersectionObserver(
 				(entries, observer) => {
-					console.log(hasNextPage);
 					if (!hasNextPage) {
 						observer.unobserve(observable);
 					}
+
+					console.log(entries[0], entries[0].isIntersecting);
 
 					if (entries[0].isIntersecting && hasNextPage) {
 						console.log('Infinite fetch!');
 						fetchFn();
 					}
 				},
+
 				{
+					root: root,
 					threshold: 0.5,
-					rootMargin: '-100% 0% 100%'
+					rootMargin: '0px'
 				}
 			);
 
