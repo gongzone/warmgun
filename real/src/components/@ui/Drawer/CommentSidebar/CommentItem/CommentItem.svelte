@@ -9,6 +9,7 @@
 	import HeartIcon from '$components/@icons/HeartIcon.svelte';
 	import CommentIcon from '$components/@icons/CommentIcon.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
+	import CommentTextarea from '../CommentTextarea/CommentTextarea.svelte';
 
 	export let articleId: number;
 	export let parentId: number | null;
@@ -19,6 +20,7 @@
 	export let childrenCount: number;
 
 	let isChildCommentOpen: boolean = false;
+	let isReplyTextareaOpen: boolean = false;
 
 	$: childrenCommentQuery = createInfiniteQuery({
 		queryKey: ['comments', articleId, parentId],
@@ -62,7 +64,13 @@
 						</button>
 					{/if}
 				</div>
-				<button type="button" class="btn btn-sm variant-filled text-sm">답글 달기</button>
+				<button
+					type="button"
+					class="btn btn-sm variant-filled text-sm"
+					on:click={() => {
+						isReplyTextareaOpen = !isReplyTextareaOpen;
+					}}>답글 달기</button
+				>
 			</div>
 		</div>
 	</div>
@@ -100,6 +108,20 @@
 				{root}
 				fetchFn={() => $childrenCommentQuery.fetchNextPage()}
 				hasNextPage={$childrenCommentQuery.hasNextPage}
+			/>
+		</div>
+	{/if}
+
+	{#if isReplyTextareaOpen}
+		<div class="pl-4 ml-4 py-3 border-l-4 border-l-secondary-700">
+			<CommentTextarea
+				{articleId}
+				{parentId}
+				userDisplay={false}
+				cb={() => {
+					isChildCommentOpen = true;
+					isReplyTextareaOpen = false;
+				}}
 			/>
 		</div>
 	{/if}

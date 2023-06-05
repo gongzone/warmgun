@@ -11,7 +11,6 @@ export const ssr = false;
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const article = await findOneArticle(params.slug);
-
 	const isLiked = article.likes.find((like) => like.userId === locals.user?.id);
 
 	return { article, isLiked: !!isLiked };

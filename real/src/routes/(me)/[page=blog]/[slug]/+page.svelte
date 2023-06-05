@@ -1,14 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { createInfiniteQuery, createQueries } from '@tanstack/svelte-query';
 
-	import CommentContent from '$components/Comment/CommentContent.svelte';
-	import CommentTextarea from '$components/Comment/CommentTextarea.svelte';
 	import TextEditor from '$components/Editor/TextEditor.svelte';
-	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
-	import { findComments } from '$lib/client-fetch/comment';
-	import type { InfiniteData } from '$lib/types/Infinite-data';
-	import type { Comment } from '$lib/types/comment';
 	import ArticleDetail from './_ArticleDetail/ArticleDetail.svelte';
 	import UserDisplay from '$components/User/UserDisplay/UserDisplay.svelte';
 	import ArticleStatsTwo from './_ArticleStatsTwo/_ArticleStatsTwo.svelte';
@@ -31,8 +24,6 @@
 			<TextEditor readOnly={true} body={data.article.body} />
 			<ArticleStatsTwo article={data.article} isLiked={data.isLiked} />
 		</section>
-
-		<section>comment</section>
 
 		<section>
 			<UserDisplay user={data.blogUser} />
