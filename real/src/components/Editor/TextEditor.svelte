@@ -2,6 +2,7 @@
 	import './editor.postcss';
 
 	import { onMount, onDestroy } from 'svelte';
+	import { browser } from '$app/environment';
 	import EditorJS, { type EditorConfig } from '@editorjs/editorjs';
 
 	import { editorTools } from './editor-tools';
@@ -15,12 +16,23 @@
 
 	let editor: EditorJS;
 	let isEditorReady: boolean = false;
+	let bodyCache: any = null;
 
-	$: if (isEditorReady) {
-		body && body.blocks.length > 0 ? editor.render(body) : editor.clear();
+	$: {
+		if (!body) {
+			bodyCache = null;
+		} else if (!bodyCache) {
+			bodyCache = body;
+		} else if (JSON.stringify(body.blocks) !== JSON.stringify(bodyCache.blocks)) {
+			bodyCache = body;
+		}
 	}
 
-	onMount(async () => {
+	$: if (isEditorReady) {
+		bodyCache && bodyCache.blocks.length > 0 ? editor.render(bodyCache) : editor.clear();
+	}
+
+	onMount(() => {
 		const editorConfig = {
 			holder: 'editor',
 			placeholder: '당신의 이야기를 들려주세요.',
