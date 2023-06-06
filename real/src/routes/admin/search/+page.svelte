@@ -8,7 +8,7 @@
 <div class="space-y-12">
 	<section class="space-y-3">
 		<span class="text-2xl font-bold">Indexes</span>
-		<ul class="flex items-center gap-2">
+		<ul class="flex flex-wrap items-center gap-2">
 			{#each data.indexes as searchIndex (searchIndex)}
 				<li>
 					<form method="POST" action="?/deleteIndex" use:enhance>
@@ -33,7 +33,7 @@
 	<section class="space-y-3">
 		<span class="text-2xl font-bold">Documents</span>
 		<div class="text-lg font-bold opacity-75">Articles</div>
-		<ul class="flex items-center gap-2">
+		<ul class="flex flex-wrap items-center gap-2">
 			{#each data.articles as article (article.id)}
 				<li>
 					<form method="POST" action="?/deleteArticle" use:enhance>
@@ -48,7 +48,7 @@
 		</form>
 
 		<div class="text-lg font-bold opacity-75">Tags</div>
-		<ul class="flex items-center gap-2">
+		<ul class="flex flex-wrap items-center gap-2">
 			{#each data.tags as tag (tag.id)}
 				<li>
 					<form method="POST" action="?/deleteTag" use:enhance>
@@ -63,7 +63,7 @@
 		</form>
 
 		<div class="text-lg font-bold opacity-75">Users</div>
-		<ul class="flex items-center gap-2">
+		<ul class="flex flex-wrap items-center gap-2">
 			{#each data.users as user (user.id)}
 				<li>
 					<form method="POST" action="?/deleteArticle" use:enhance>
