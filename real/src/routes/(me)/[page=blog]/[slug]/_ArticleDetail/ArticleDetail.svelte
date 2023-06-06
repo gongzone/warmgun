@@ -24,13 +24,13 @@
 
 <div class="mb-4 space-y-4">
 	<div class="flex items-center flex-wrap gap-3 md:gap-4">
-		<div class="flex items-center gap-2">
+		<a href="/@{blogUser.username}" class="flex items-center gap-2">
 			<UserAvatar src={blogUser.profile?.avatar} />
 			<div class="flex flex-col">
 				<span class="font-bold">{blogUser.profile?.nickname}</span>
 				<span class="text-sm font-thin">{blogUser.profile?.field}</span>
 			</div>
-		</div>
+		</a>
 
 		<span class="opacity-70 font-thin">|</span>
 
