@@ -17,6 +17,9 @@
 			<img
 				src={`${coverImage}?w=300&h=200&f=webp`}
 				class="w-full h-full object-cover"
+				loading="lazy"
+				width={300}
+				height={200}
 				alt="cover"
 			/>
 			<button

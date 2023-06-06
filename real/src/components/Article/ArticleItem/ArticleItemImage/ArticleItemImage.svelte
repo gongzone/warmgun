@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ImageIcon from '$components/@icons/ImageIcon.svelte';
+	import Image from '$components/@ui/Image.svelte';
 
 	export let slug: string;
 	export let coverImage: string | null | undefined;
@@ -7,10 +8,13 @@
 
 <a href={slug}>
 	{#if coverImage}
-		<img
+		<Image
+			loading="lazy"
 			src={`${coverImage}?w=560&h=420&q=80&f=webp`}
 			alt="cover"
 			class="aspect-[560/420] rounded-2xl shadow-xl"
+			width={560}
+			height={420}
 		/>
 	{:else}
 		<div

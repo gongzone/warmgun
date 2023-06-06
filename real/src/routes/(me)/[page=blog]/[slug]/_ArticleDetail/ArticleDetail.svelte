@@ -10,10 +10,8 @@
 	import CalendarIcon from '$components/@icons/CalendarIcon.svelte';
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
-	import HeartIcon from '$components/@icons/HeartIcon.svelte';
-	import CommentIcon from '$components/@icons/CommentIcon.svelte';
-	import ArticleControlPopup from '$components/@ui/Popup/ArticleControlPopup.svelte';
 	import ArticleStats from '../_ArticleStats/ArticleStats.svelte';
+	import Image from '$components/@ui/Image.svelte';
 
 	export let blogUser: BlogUser;
 	export let article: Article;
@@ -71,10 +69,12 @@
 
 <div class="flex flex-col gap-6">
 	<div class="aspect-[1200/840] overflow-hidden rounded-lg">
-		<img
-			class="w-full h-full rounded-lg object-cover object-center"
-			src={`${article.coverImage}?w=1200&h=840&q=80&f=webp`}
-			alt={article.title}
-		/>
+		{#if article.coverImage}
+			<Image
+				class="w-full h-full rounded-lg object-cover object-center"
+				src={`${article.coverImage}?w=1200&h=840&q=80&f=webp`}
+				alt={article.title}
+			/>
+		{/if}
 	</div>
 </div>

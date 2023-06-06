@@ -8,6 +8,7 @@
 	import HeartIcon from '$components/@icons/HeartIcon.svelte';
 	import FollowingIcon from '$components/@icons/FollowingIcon.svelte';
 	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
+	import Image from '$components/@ui/Image.svelte';
 
 	export let blogUser: BlogUser;
 	export let isOwner: boolean;
@@ -88,7 +89,7 @@
 				>
 					<div class="h-[350px] lg:h-[420px] overflow-hidden shadow-xl lg:rounded-xl">
 						{#if blogUser.profile?.blogImage}
-							<img
+							<Image
 								src={`${blogUser.profile?.blogImage}?w=1240&h=800&q=80&f=webp`}
 								alt="blog-cover"
 								class="h-full w-full object-cover"
