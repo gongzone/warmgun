@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { drawerStore } from '@skeletonlabs/skeleton';
 
-	import { siteConfig } from '$lib/configs/site';
+	import { navs } from '$lib/configs/nav';
 
 	import LogoIcon from '$components/@icons/LogoIcon.svelte';
 	import CloseIcon from '$components/@icons/CloseIcon.svelte';
@@ -20,5 +20,5 @@
 </header>
 
 <div class="px-3 py-6">
-	<Navigation items={siteConfig.mainNav} on:click={() => drawerStore.close()} />
+	<Navigation items={navs.mainNav} on:click={() => drawerStore.close()} />
 </div>

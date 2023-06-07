@@ -1,7 +1,7 @@
-import dayjs from 'dayjs';
+import { dateClient } from './date';
 
 export function formatDate(date: Date) {
-	return dayjs(date).format('YYYY. MM. DD');
+	return dateClient(date).fromNow();
 }
 
 export function tagToSlug(tag: string) {

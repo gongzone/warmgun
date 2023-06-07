@@ -5,7 +5,7 @@
 	export let src: string | undefined | null;
 	export let rounded: string = 'rounded-full';
 	export let border: string = '';
-	export let cursor: string = 'cursor-pointer';
+	export let cursor: string = '';
 	export let background: string = 'bg-surface-400-500-token';
 </script>
 

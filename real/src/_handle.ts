@@ -1,7 +1,7 @@
 import { prisma } from '$lib/server/db';
 import { error, type Cookies, redirect } from '@sveltejs/kit';
 import argon2 from 'argon2';
-import dayjs from 'dayjs';
+import { dateClient } from '$lib/utils/date';
 
 import { verifyToken, type TokenPayloadReturn, generateTokens } from '$lib/server/jwt';
 import { currentUserSelect } from '$lib/types/user';
@@ -60,7 +60,7 @@ async function rotateRefreshToken(
 
 	const match = await argon2.verify(foundToken.refreshToken, refreshToken);
 
-	if (!match && dayjs().diff(new Date(payload.iat * 1000), 'seconds') > 60) {
+	if (!match && dateClient().diff(new Date(payload.iat * 1000), 'seconds') > 60) {
 		await prisma.token.deleteMany({ where: { userId: payload.userId } });
 		throw error(403, '비정상적인 인증 토큰 갱신 요청으로 강제 로그아웃 됩니다.');
 	}

@@ -35,12 +35,12 @@
 		{/if}
 	</section>
 
-	<div class="space-y-3">
+	<section class="space-y-3">
 		<TextWithIcon icon={TagIcon} size="lg">인기태그</TextWithIcon>
 		{#if popularTags.length > 0}
 			<PopularTags {popularTags} />
 		{:else}
 			<NoDataCard text="태그 데이터가 존재하지 않습니다!" />
 		{/if}
-	</div>
+	</section>
 </div>

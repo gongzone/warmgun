@@ -11,7 +11,7 @@
 	$: ({ topUsers, popularTags, trendingArticles } = data);
 </script>
 
-<div class="container py-12 space-y-28 md:py-20 md:space-y-40">
+<div class="page-container space-y-28 md:space-y-40">
 	<section>
 		<HomeHero {topUsers} {popularTags} />
 	</section>

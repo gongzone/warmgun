@@ -8,14 +8,16 @@
 
 <a href={slug}>
 	{#if coverImage}
-		<Image
-			loading="lazy"
-			src={`${coverImage}?w=560&h=420&q=80&f=webp`}
-			alt="cover"
-			class="aspect-[560/420] rounded-2xl shadow-xl"
-			width={560}
-			height={420}
-		/>
+		<div class="w-full h-full rounded-2xl shadow-xl overflow-hidden">
+			<Image
+				loading="lazy"
+				src={`${coverImage}?w=560&h=420&q=80&f=webp`}
+				alt="cover"
+				class="aspect-[560/420] transition-all duration-500 ease-in-out hover:saturate-150 hover:scale-105"
+				width={560}
+				height={420}
+			/>
+		</div>
 	{:else}
 		<div
 			class="flex items-center justify-center aspect-[560/420] rounded-2xl shadow-xl bg-surface-700"

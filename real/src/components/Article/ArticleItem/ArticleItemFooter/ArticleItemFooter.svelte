@@ -11,7 +11,7 @@
 </script>
 
 <div class="flex items-center justify-between">
-	<span class="text-sm font-thin">On {formatDate(createdAt)}</span>
+	<span class="badge variant-filled">{formatDate(createdAt)}</span>
 
 	<div class="flex items-center gap-2">
 		<TextWithIcon icon={HeartIcon} size="sm" gap={1} iconClass="text-red-500" textClass="font-thin"

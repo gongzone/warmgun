@@ -1,6 +1,6 @@
 <script lang="ts">
 	import programmingImage from '$lib/images/programming.svg';
-	import { siteConfig } from '$lib/configs/site';
+	import { genre } from '$lib/configs/genre';
 
 	import ContrastIcon from '$components/@icons/ContrastIcon.svelte';
 	import GenreIcon from '$components/@icons/GenreIcon.svelte';
@@ -20,12 +20,12 @@
 		<img src={programmingImage} class="max-w-[480px] lg:max-w-full mx-auto" alt="programming" />
 		<div class="space-y-8">
 			<div>
-				<TextWithIcon icon={GenreIcon} size="3xl" class="!items-end" textClass="font-heading-token"
-					>Genre</TextWithIcon
-				>
+				<TextWithIcon icon={GenreIcon} size="3xl" class="!items-end" textClass="font-heading-token">
+					Genre
+				</TextWithIcon>
 				<hr class="mt-3 mb-6 !border-surface-300" />
 				<ul class="flex flex-wrap gap-3">
-					{#each siteConfig.genre as genre (genre.title)}
+					{#each genre as genre (genre.title)}
 						<li>
 							<a href={genre.href} class="btn variant-filled text-sm">{genre.title}</a>
 						</li>
