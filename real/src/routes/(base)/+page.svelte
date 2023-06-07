@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 
-	/* Home Frames */
+	import Seo from '$components/@utils/Seo.svelte';
 	import HomeHero from './_HomeHero/HomeHero.svelte';
 	import HomeTrendingArticles from './_HomeTrendingArticles/HomeTrendingArticles.svelte';
 	import HomeMoreInfo from './_HomeMoreInfo/HomeMoreInfo.svelte';
@@ -10,6 +10,8 @@
 
 	$: ({ topUsers, popularTags, trendingArticles } = data);
 </script>
+
+<Seo />
 
 <div class="page-container space-y-28 md:space-y-40">
 	<section>
