@@ -14,11 +14,16 @@ export const load: PageServerLoad = async ({ locals }) => {
 	}
 };
 
+const loginSchema = z.object({
+	username: z.string().min(1, '아이디를 입력해주세요.'),
+	password: z.string().min(1, '비밀번호를 입력해주세요.')
+});
+
 export const actions: Actions = {
 	default: async ({ cookies, request }) => {
 		const formData = await request.formData();
+		const validated = validate(formData, loginSchema);
 
-		const validated = validate(formData, loginSchema());
 		if (!validated.success) {
 			return fail(400, { message: validated.errorMessage });
 		}
@@ -60,10 +65,3 @@ export const actions: Actions = {
 		throw redirect(303, '/');
 	}
 };
-
-function loginSchema() {
-	return z.object({
-		username: z.string().min(1, '아이디를 입력해주세요.'),
-		password: z.string().min(1, '비밀번호를 입력해주세요.')
-	});
-}

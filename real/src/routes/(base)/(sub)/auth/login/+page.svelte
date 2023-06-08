@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ActionData } from './$types';
+	import type { SubmitFunction } from './$types';
 	import { enhance } from '$app/forms';
 
 	import { triggerToast } from '$components/@ui/Toast/toast';
@@ -7,14 +7,18 @@
 	import PasswordIcon from '$components/@icons/PasswordIcon.svelte';
 	import FormInput from '$components/@ui/FormInput.svelte';
 
-	export let form: ActionData;
+	const loginHandler: SubmitFunction = () => {
+		return async ({ result, update }) => {
+			if (result.type === 'failure' && result.data) {
+				return triggerToast('warning', result.data.message);
+			}
 
-	$: if (form?.message) {
-		triggerToast('warning', form.message);
-	}
+			await update();
+		};
+	};
 </script>
 
-<form method="POST" use:enhance>
+<form method="POST" use:enhance={loginHandler}>
 	<div class="space-y-5 mb-8">
 		<FormInput
 			type="text"

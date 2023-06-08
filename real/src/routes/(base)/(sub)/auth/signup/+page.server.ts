@@ -16,10 +16,31 @@ export const load: PageServerLoad = async ({ locals }) => {
 	}
 };
 
+const signupSchema = z
+	.object({
+		username: z.string().regex(/^[A-Za-z]{1}[A-Za-z0-9]{4,19}$/, {
+			message: '아이디 생성 규칙을 확인하세요.'
+		}),
+		password: z
+			.string()
+			.regex(
+				/^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{8,20}$/,
+				{
+					message: '비밀번호 생성 규칙을 확인하세요.'
+				}
+			),
+		confirm: z.string(),
+		email: z.string().email({ message: '이메일 규칙에 따라 작성하여 주십시오.' })
+	})
+	.refine((data) => data.password === data.confirm, {
+		message: '비밀번호가 일치하지 않습니다.',
+		path: ['confirm']
+	});
+
 export const actions: Actions = {
 	default: async ({ cookies, request }) => {
 		const formData = await request.formData();
-		const validated = validate(formData, signupSchema());
+		const validated = validate(formData, signupSchema);
 
 		if (!validated.success) {
 			return fail(400, { message: validated.errorMessage });
@@ -83,26 +104,3 @@ export const actions: Actions = {
 		throw redirect(303, '/');
 	}
 };
-
-function signupSchema() {
-	return z
-		.object({
-			username: z.string().regex(/^[A-Za-z]{1}[A-Za-z0-9]{4,19}$/, {
-				message: '아이디 생성 규칙을 확인하세요.'
-			}),
-			password: z
-				.string()
-				.regex(
-					/^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{8,20}$/,
-					{
-						message: '비밀번호 생성 규칙을 확인하세요.'
-					}
-				),
-			confirm: z.string(),
-			email: z.string().email({ message: '이메일 규칙에 따라 작성하여 주십시오.' })
-		})
-		.refine((data) => data.password === data.confirm, {
-			message: '비밀번호가 일치하지 않습니다.',
-			path: ['confirm']
-		});
-}
