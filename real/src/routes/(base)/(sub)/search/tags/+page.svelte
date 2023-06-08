@@ -1,50 +1,42 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
+	import type { PageData } from './$types';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
 	import type { Tag } from '$lib/types/tag';
-	import { search } from '$lib/client-fetch/search';
+	import { api } from '$lib/api/api';
 
 	import NoSearchResults from '../_NoSearchResults/NoSearchResults.svelte';
-	import SearchTotal from '../_SearchTotal/SearchTotal.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 
-	$: q = $page.url.searchParams.get('q');
+	export let data: PageData;
+
+	$: ({ q } = data);
 
 	$: searchTagsQuery = createInfiniteQuery({
-		queryKey: ['search', 'tags', q],
-		queryFn: () =>
-			search<Tag[]>(q, {
-				mode: 'tags',
-				take: 30,
-				cursor: 0
-			}),
+		queryKey: ['search', 'tags', q, 30],
+		queryFn: api().search<Tag>,
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
 		keepPreviousData: true,
-		enabled: browser && !!q
+		enabled: !!q
 	});
 </script>
 
-{#if $searchTagsQuery.isSuccess && $searchTagsQuery.data.pages[0].totalHits > 0}
-	<div>
-		<SearchTotal totalHits={$searchTagsQuery.data.pages[0].totalHits} />
-		<ul class="flex flex-wrap gap-3">
-			{#each $searchTagsQuery.data.pages as { data }}
-				{#each data as tag (tag.id)}
-					<li>
-						<a href={`/tags/${tag.slug}`} class="btn variant-ringed-tertiary text-sm"
-							>{tag.name} ({tag._count.articles})</a
-						>
-					</li>
-				{/each}
+{#if $searchTagsQuery.isSuccess && $searchTagsQuery.data.pages[0].data.length > 0}
+	<ul class="flex flex-wrap gap-3">
+		{#each $searchTagsQuery.data.pages as { data }}
+			{#each data as tag (tag.id)}
+				<li>
+					<a href={`/tags/${tag.slug}`} class="btn variant-ringed-tertiary text-sm"
+						>{tag.name} ({tag._count.articles})</a
+					>
+				</li>
 			{/each}
-		</ul>
-		<InfiniteScroll
-			fetchFn={$searchTagsQuery.fetchNextPage}
-			hasNextPage={$searchTagsQuery.hasNextPage}
-		/>
-	</div>
+		{/each}
+	</ul>
+	<InfiniteScroll
+		fetchFn={$searchTagsQuery.fetchNextPage}
+		hasNextPage={$searchTagsQuery.hasNextPage}
+	/>
 {:else}
 	<NoSearchResults />
 {/if}

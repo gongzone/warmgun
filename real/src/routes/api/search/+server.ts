@@ -44,10 +44,7 @@ export const GET = (async ({ url }) => {
 				include: articleInclude
 			});
 
-			return json({
-				...buildInfinityData(searchedArticles, take, cursor),
-				totalHits: searchResult.estimatedTotalHits
-			});
+			return json(buildInfinityData(searchedArticles, take, cursor));
 		}
 
 		if (mode === 'tags') {
@@ -56,10 +53,7 @@ export const GET = (async ({ url }) => {
 				include: tagInclude
 			});
 
-			return json({
-				...buildInfinityData(searchedTags, take, cursor),
-				totalHits: searchResult.estimatedTotalHits
-			});
+			return json(buildInfinityData(searchedTags, take, cursor));
 		}
 
 		if (mode === 'users') {
@@ -68,10 +62,7 @@ export const GET = (async ({ url }) => {
 				select: blogUserSelect
 			});
 
-			return json({
-				...buildInfinityData(searchedUsers, take, cursor),
-				totalHits: searchResult.estimatedTotalHits
-			});
+			return json(buildInfinityData(searchedUsers, take, cursor));
 		}
 	} catch {
 		return json({

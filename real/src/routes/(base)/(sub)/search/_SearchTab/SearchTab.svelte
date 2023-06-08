@@ -7,26 +7,29 @@
 
 	$: tabSet = $page.url.pathname;
 
-	function routeToPage(route: string) {
-		const newRoute = `${route}${q ? `?q=${q}` : ''}`;
-		goto(newRoute, { noScroll: true });
-	}
+	const routeToPage = (route: string) => {
+		goto(`${route}${q ? `?q=${q}` : ''}`, { noScroll: true });
+	};
 </script>
 
-<TabGroup>
-	<Tab bind:group={tabSet} name="article" value="/search" on:click={() => routeToPage('/search')}
-		>아티클</Tab
-	>
+<TabGroup justify="justify-center md:justify-start">
+	<Tab bind:group={tabSet} name="articles" value="/search" on:click={() => routeToPage('/search')}>
+		아티클
+	</Tab>
 	<Tab
 		bind:group={tabSet}
-		name="tag"
+		name="tags"
 		value="/search/tags"
-		on:click={() => routeToPage('/search/tags')}>태그</Tab
+		on:click={() => routeToPage('/search/tags')}
 	>
+		태그
+	</Tab>
 	<Tab
 		bind:group={tabSet}
-		name="bloger"
+		name="users"
 		value="/search/users"
-		on:click={() => routeToPage('/search/users')}>블로거</Tab
+		on:click={() => routeToPage('/search/users')}
 	>
+		블로거
+	</Tab>
 </TabGroup>

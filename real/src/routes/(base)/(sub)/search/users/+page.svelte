@@ -1,34 +1,28 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
+	import type { PageData } from './$types';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
 	import type { BlogUser } from '$lib/types/user';
-	import { search } from '$lib/client-fetch/search';
+	import { api } from '$lib/api/api';
 
 	import UserItem from '$components/User/UserItem/UserItem.svelte';
 	import NoSearchResults from '../_NoSearchResults/NoSearchResults.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
-	import SearchTotal from '../_SearchTotal/SearchTotal.svelte';
 
-	$: q = $page.url.searchParams.get('q');
+	export let data: PageData;
+
+	$: ({ q } = data);
 
 	$: searchUsersQuery = createInfiniteQuery({
-		queryKey: ['search', 'users', q],
-		queryFn: () =>
-			search<BlogUser[]>(q, {
-				mode: 'users',
-				take: 12,
-				cursor: 0
-			}),
+		queryKey: ['search', 'users', q, 12],
+		queryFn: api().search<BlogUser>,
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
 		keepPreviousData: true,
-		enabled: browser && !!q
+		enabled: !!q
 	});
 </script>
 
-{#if $searchUsersQuery.isSuccess && $searchUsersQuery.data.pages[0].totalHits > 0}
-	<SearchTotal totalHits={$searchUsersQuery.data.pages[0].totalHits} />
+{#if $searchUsersQuery.isSuccess && $searchUsersQuery.data.pages[0].data.length > 0}
 	<ul class="user-grid">
 		{#each $searchUsersQuery.data.pages as { data }}
 			{#each data as user (user.id)}

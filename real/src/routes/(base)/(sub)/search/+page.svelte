@@ -1,47 +1,39 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
+	import type { PageData } from './$types';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
 	import type { Article } from '$lib/types/article';
-	import { search } from '$lib/client-fetch/search';
+	import { api } from '$lib/api/api';
 
 	import ArticleItem from '$components/Article/ArticleItem/ArticleItem.svelte';
-	import SearchTotal from './_SearchTotal/SearchTotal.svelte';
 	import NoSearchResults from './_NoSearchResults/NoSearchResults.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 
-	$: q = $page.url.searchParams.get('q');
+	export let data: PageData;
+
+	$: ({ q } = data);
 
 	$: searchAritclesQuery = createInfiniteQuery({
-		queryKey: ['search', 'articles', q],
-		queryFn: () =>
-			search<Article[]>(q, {
-				mode: 'articles',
-				take: 12,
-				cursor: 0
-			}),
+		queryKey: ['search', 'articles', q, 12],
+		queryFn: api().search<Article>,
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
 		keepPreviousData: true,
-		enabled: browser && !!q
+		enabled: !!q
 	});
 </script>
 
-{#if $searchAritclesQuery.isSuccess && $searchAritclesQuery.data.pages[0].totalHits > 0}
-	<div>
-		<SearchTotal totalHits={$searchAritclesQuery.data.pages[0].totalHits} />
-		<ul class="article-grid">
-			{#each $searchAritclesQuery.data.pages as { data }}
-				{#each data as article (article.id)}
-					<li><ArticleItem {article} /></li>
-				{/each}
+{#if $searchAritclesQuery.isSuccess && $searchAritclesQuery.data.pages[0].data.length > 0}
+	<ul class="article-grid">
+		{#each $searchAritclesQuery.data.pages as { data }}
+			{#each data as article (article.id)}
+				<li><ArticleItem {article} /></li>
 			{/each}
-			<InfiniteScroll
-				fetchFn={$searchAritclesQuery.fetchNextPage}
-				hasNextPage={$searchAritclesQuery.hasNextPage}
-			/>
-		</ul>
-	</div>
+		{/each}
+		<InfiniteScroll
+			fetchFn={$searchAritclesQuery.fetchNextPage}
+			hasNextPage={$searchAritclesQuery.hasNextPage}
+		/>
+	</ul>
 {:else}
 	<NoSearchResults />
 {/if}

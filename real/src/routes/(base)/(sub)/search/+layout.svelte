@@ -1,20 +1,27 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import type { LayoutServerData } from './$types';
 
+	import Seo from '$components/@utils/Seo.svelte';
 	import SearchInput from './_SearchInput/SearchInput.svelte';
+	import SearchWords from './_SearchWords/SearchWords.svelte';
 	import SearchTab from './_SearchTab/SearchTab.svelte';
 
-	$: q = $page.url.searchParams.get('q') ?? undefined;
+	export let data: LayoutServerData;
+
+	$: ({ q } = data);
 </script>
 
-<div class="container py-12 md:py-20">
-	<div class="max-w-[720px] mx-auto">
+<Seo title="검색" />
+
+<div class="page-container space-y-8">
+	<div class="max-w-[720px] mx-auto space-y-8">
 		<SearchInput {q} />
+		<SearchWords {q} />
 	</div>
 
-	<div class="my-12">
-		<SearchTab {q} />
-	</div>
+	<SearchTab {q} />
 
-	<slot />
+	<div class="min-h-[180px]">
+		<slot />
+	</div>
 </div>
