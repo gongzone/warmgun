@@ -11,16 +11,19 @@
 </script>
 
 <TabGroup justify="justify-center">
-	<Tab bind:group={tabSet} name="feed" value="/feed" on:click={() => routeToPage('/feed')}>
+	<Tab bind:group={tabSet} name="feed" value="/feeds" on:click={() => routeToPage('/feeds')}>
 		마이 피드
 	</Tab>
-	<Tab bind:group={tabSet} name="like" value="/feed/like" on:click={() => routeToPage('/feed/like')}
-		>좋아요한 아티클</Tab
+	<Tab
+		bind:group={tabSet}
+		name="like"
+		value="/feeds/like"
+		on:click={() => routeToPage('/feeds/like')}>좋아요한 아티클</Tab
 	>
 	<Tab
 		bind:group={tabSet}
 		name="following"
-		value="/feed/following"
-		on:click={() => routeToPage('/feed/following')}>구독중인 블로거</Tab
+		value="/feeds/following"
+		on:click={() => routeToPage('/feeds/following')}>구독중인 블로거</Tab
 	>
 </TabGroup>

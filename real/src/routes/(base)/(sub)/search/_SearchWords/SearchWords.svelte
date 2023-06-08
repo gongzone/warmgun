@@ -3,7 +3,7 @@
 </script>
 
 <div class="text-center">
-	<h2 class="font-heading-token text-3xl">
+	<h2 class="font-heading-token text-2xl md:text-3xl">
 		{#if !!q}
 			"{q}"에 대한 검색결과
 		{:else}

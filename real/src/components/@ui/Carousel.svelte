@@ -62,7 +62,7 @@
 <div class="w-full grid grid-cols-[15%_70%_15%] items-center py-4 px-0 sm:px-4 {bottomClass}">
 	<button
 		class="btn-icon variant-filled-primary place-self-center"
-		on:click={() => intervalAction(carouselIndex + 1)}
+		on:click={() => intervalAction(carouselIndex - 1)}
 	>
 		<ArrowLeftSmall />
 	</button>
@@ -82,7 +82,7 @@
 
 	<button
 		class="btn-icon variant-filled-primary place-self-center"
-		on:click={() => intervalAction(carouselIndex - 1)}
+		on:click={() => intervalAction(carouselIndex + 1)}
 	>
 		<ArrowRightSmall />
 	</button>
