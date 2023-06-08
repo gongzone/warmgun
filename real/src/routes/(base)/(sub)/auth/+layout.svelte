@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
+	import Seo from '$components/@utils/Seo.svelte';
 	import ServiceIcon from '$components/@icons/ServiceIcon.svelte';
 
 	$: isLoginPage = $page.url.pathname === '/auth/login';
 </script>
+
+<Seo title={isLoginPage ? '로그인' : '회원가입'} />
 
 <div class="page-container">
 	<div class="max-w-[438px] mx-auto space-y-6">
