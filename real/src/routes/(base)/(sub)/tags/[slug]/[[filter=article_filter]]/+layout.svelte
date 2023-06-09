@@ -9,6 +9,7 @@
 	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
 	import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
 	import TagTab from './_TagTab/TagTab.svelte';
+	import Seo from '$components/@utils/Seo.svelte';
 
 	export let data: LayoutServerData;
 
@@ -16,6 +17,8 @@
 
 	$: followTagAction = !isFollowing ? '?/followTag' : '?/unFollowTag';
 </script>
+
+<Seo title="태그" />
 
 <div class="page-container space-y-8">
 	<section class="space-y-3">
