@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
 
-	import { formatDate } from '$lib/utils/format';
 	import ArticleItemHeader from './ArticleItemHeader/ArticleItemHeader.svelte';
 	import ArticleItemImage from './ArticleItemImage/ArticleItemImage.svelte';
 	import ArticleItemTitle from './ArticleItemTitle/ArticleItemTitle.svelte';
@@ -10,17 +9,20 @@
 	import ArticleItemFooter from './ArticleItemFooter/ArticleItemFooter.svelte';
 
 	export let article: Article;
+	export let displayUserInfo: boolean = true;
 
 	$: articleSlug = `/@${article.author.username}/${article.slug}`;
 </script>
 
 <div class="flex flex-col gap-4">
-	<ArticleItemHeader
-		username={article.author.username}
-		nickname={article.author.profile?.nickname}
-		field={article.author.profile?.field}
-		avatar={article.author.profile?.avatar}
-	/>
+	{#if displayUserInfo}
+		<ArticleItemHeader
+			username={article.author.username}
+			nickname={article.author.profile?.nickname}
+			field={article.author.profile?.field}
+			avatar={article.author.profile?.avatar}
+		/>
+	{/if}
 
 	<ArticleItemImage slug={articleSlug} coverImage={article.coverImage} />
 

@@ -32,7 +32,7 @@
 	<ul class="article-grid">
 		{#each articles as article (article.id)}
 			<li>
-				<ArticleItem {article} />
+				<ArticleItem {article} displayUserInfo={false} />
 			</li>
 		{/each}
 	</ul>

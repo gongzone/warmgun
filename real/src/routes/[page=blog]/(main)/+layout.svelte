@@ -7,9 +7,13 @@
 	export let data: PageData;
 </script>
 
-<BlogHero blogUser={data.blogUser} isOwner={data.isOwner} isFollowing={data.isFollowing} />
+<div class="page-container space-y-14 !pt-12">
+	<BlogHero blogUser={data.blogUser} isOwner={data.isOwner} isFollowing={data.isFollowing} />
 
-<main class="container mt-16 space-y-8">
-	<BlogTab />
-	<slot />
-</main>
+	<main class="space-y-8">
+		<BlogTab />
+		<div class="min-h-[200px]">
+			<slot />
+		</div>
+	</main>
+</div>

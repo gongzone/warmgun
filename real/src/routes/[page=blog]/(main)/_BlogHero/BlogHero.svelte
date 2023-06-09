@@ -17,7 +17,7 @@
 
 <div class="">
 	<div class="min-h-[400px] w-full">
-		<div class="container grid grid-cols-1 gap-9 pt-12 pb-6 lg:grid-cols-2 relative">
+		<div class="grid grid-cols-1 gap-9 pb-6 lg:grid-cols-2 relative">
 			<div class="max-w-[650px]">
 				<div class="">
 					<div class="space-y-2">
@@ -103,7 +103,7 @@
 		</div>
 	</div>
 
-	<div class="container">
+	<div class="">
 		<div class="relative flex gap-3 min-h-[43px]">
 			<div
 				class="bg-primary-600 absolute right-0 top-[50%] h-4 w-4 -translate-y-1/2 rounded-full hidden min-[385px]:block"

@@ -4,6 +4,7 @@
 	import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
 	import HeartIcon from '$components/@icons/HeartIcon.svelte';
 	import CommentIcon from '$components/@icons/CommentIcon.svelte';
+	import { formatCount } from '$lib/utils/format';
 
 	export let createdAt: Date;
 	export let likeCount: number;
@@ -15,10 +16,10 @@
 
 	<div class="flex items-center gap-2">
 		<TextWithIcon icon={HeartIcon} size="sm" gap={1} iconClass="text-red-500" textClass="font-thin"
-			>{likeCount}</TextWithIcon
+			>{formatCount(likeCount)}</TextWithIcon
 		>
 		<TextWithIcon icon={CommentIcon} size="sm" gap={1} textClass="font-thin"
-			>{commentCount}</TextWithIcon
+			>{formatCount(commentCount)}</TextWithIcon
 		>
 	</div>
 </div>
