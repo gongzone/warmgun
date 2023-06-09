@@ -2,6 +2,7 @@ import type { QueryFunctionContext } from '@tanstack/svelte-query';
 
 import type { InfiniteData } from '$lib/types/infinite-data';
 import type { Article } from '$lib/types/article';
+import type { BlogUser } from '$lib/types/user';
 
 export const api = (customFetch = fetch) => ({
 	search: async <T>({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
@@ -31,10 +32,19 @@ export const api = (customFetch = fetch) => ({
 			subPath = `/tags/${key}`;
 		}
 
+		if (mode === 'feeds') {
+			subPath = key === 'like' ? `/me/like` : key === 'feed' ? `/me/feed` : '';
+		}
+
 		const response = await customFetch(
 			`/api/articles${subPath}?filter=${filter}&take=${take}&cursor=${pageParam}${addedQueryParams}`
 		);
 		const data = (await response.json()) as InfiniteData<Article>;
+		return data;
+	},
+	findFollowingUsers: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
+		const response = await customFetch(`/api/users/following?take=${12}&cursor=${pageParam}`);
+		const data = (await response.json()) as InfiniteData<BlogUser>;
 		return data;
 	}
 });

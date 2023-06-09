@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
+	import { api } from '$lib/api/api';
+
 	import ArticleItem from '$components/Article/ArticleItem/ArticleItem.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
-	import { findFeedArticles, findLikeArticles } from '$lib/client-fetch/article';
 
 	$: likeArticleQuery = createInfiniteQuery({
-		queryKey: ['articles', 'like'],
-		queryFn: findLikeArticles,
+		queryKey: ['articles', 'feeds', 'like', '', 12],
+		queryFn: api().findArticles,
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
 		keepPreviousData: true
 	});
@@ -21,11 +22,11 @@
 					<li><ArticleItem {article} /></li>
 				{/each}
 			{/each}
-			<InfiniteScroll
-				fetchFn={$likeArticleQuery.fetchNextPage}
-				hasNextPage={$likeArticleQuery.hasNextPage}
-			/>
 		</ul>
+		<InfiniteScroll
+			fetchFn={$likeArticleQuery.fetchNextPage}
+			hasNextPage={$likeArticleQuery.hasNextPage}
+		/>
 	</div>
 {:else}
 	<p class="text-center">관심있는 글에 좋아요를 눌러보세요.</p>

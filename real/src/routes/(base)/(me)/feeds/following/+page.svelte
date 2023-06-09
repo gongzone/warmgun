@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 
+	import { api } from '$lib/api/api';
 	import UserItem from '$components/User/UserItem/UserItem.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
-	import { findFollowingUsers } from '$lib/client-fetch/users';
 
 	$: findFollowingUsersQuery = createInfiniteQuery({
 		queryKey: ['users', 'following'],
-		queryFn: findFollowingUsers,
+		queryFn: api().findFollowingUsers,
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
 		keepPreviousData: true
 	});

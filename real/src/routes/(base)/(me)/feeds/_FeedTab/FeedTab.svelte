@@ -10,7 +10,7 @@
 	}
 </script>
 
-<TabGroup justify="justify-center">
+<TabGroup>
 	<Tab bind:group={tabSet} name="feed" value="/feeds" on:click={() => routeToPage('/feeds')}>
 		마이 피드
 	</Tab>

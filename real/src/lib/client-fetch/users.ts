@@ -1,4 +1,4 @@
-import type { InfiniteData } from '$lib/types/Infinite-data';
+import type { InfiniteData } from '$lib/types/infinite-data';
 import type { BlogUser } from '$lib/types/user';
 import type { QueryFunctionContext } from '@tanstack/svelte-query';
 
