@@ -21,13 +21,18 @@ export const api = (customFetch = fetch) => ({
 		const filter = queryKey[3] ?? 'trending';
 		const take = queryKey[4] ?? 12;
 		let subPath = '';
+		let addedQueryParams = '';
+
+		if (mode === 'genre') {
+			addedQueryParams = `&genre=${key}`;
+		}
 
 		if (mode === 'tags') {
 			subPath = `/tags/${key}`;
 		}
 
 		const response = await customFetch(
-			`/api/articles${subPath}?filter=${filter}&take=${take}&cursor=${pageParam}`
+			`/api/articles${subPath}?filter=${filter}&take=${take}&cursor=${pageParam}${addedQueryParams}`
 		);
 		const data = (await response.json()) as InfiniteData<Article>;
 		return data;

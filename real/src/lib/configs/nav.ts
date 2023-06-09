@@ -12,7 +12,7 @@ export const navs = {
 		},
 		{
 			title: '아티클',
-			href: '/articles',
+			href: '/articles/trending',
 			icon: ArticleIcon
 		}
 	] satisfies NavItem[]
