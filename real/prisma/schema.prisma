@@ -22,6 +22,7 @@ model User {
   articles   Article[]
   comments   Comment[]
   likes      Like[]
+  tagLikes   TagLike[]
   followedBy Follows[] @relation("following")
   following  Follows[] @relation("follower")
 }
@@ -136,14 +137,6 @@ model Comment {
   children  Comment[] @relation("NestedComments")
 }
 
-model Tag {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  slug String @unique
-
-  articles Article[]
-}
-
 model Like {
   id Int @id @default(autoincrement())
 
@@ -153,4 +146,24 @@ model Like {
   articleId Int
 
   @@unique(fields: [userId, articleId], name: "userId_articleId")
+}
+
+model Tag {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  slug String @unique
+
+  articles Article[]
+  tagLikes TagLike[]
+}
+
+model TagLike {
+  id Int @id @default(autoincrement())
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId  Int
+
+  @@unique(fields: [userId, tagId], name: "userId_tagId")
 }

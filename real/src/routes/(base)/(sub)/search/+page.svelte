@@ -29,11 +29,11 @@
 				<li><ArticleItem {article} /></li>
 			{/each}
 		{/each}
-		<InfiniteScroll
-			fetchFn={$searchAritclesQuery.fetchNextPage}
-			hasNextPage={$searchAritclesQuery.hasNextPage}
-		/>
 	</ul>
+	<InfiniteScroll
+		fetchFn={$searchAritclesQuery.fetchNextPage}
+		hasNextPage={$searchAritclesQuery.hasNextPage}
+	/>
 {:else}
 	<NoSearchResults />
 {/if}

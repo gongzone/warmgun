@@ -2,7 +2,7 @@
 	import type { SvelteComponent } from 'svelte';
 
 	export let icon: typeof SvelteComponent;
-	export let size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' = 'md';
+	export let size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' = 'md';
 	export let gap: 1 | 2 | 3 | 4 | 5 = 2;
 	export let textClass: string = '';
 	export let iconClass: string = '';
@@ -14,7 +14,8 @@
 		lg: 'text-lg',
 		xl: 'text-lg',
 		'2xl': 'text-2xl',
-		'3xl': 'text-3xl'
+		'3xl': 'text-3xl',
+		'4xl': 'text-4xl'
 	};
 
 	$: iconSizeClass = {
@@ -24,7 +25,8 @@
 		lg: 'w-5 h-5',
 		xl: 'w-6 h-6',
 		'2xl': 'w-7 h-7',
-		'3xl': 'w-10 h-10'
+		'3xl': 'w-8 h-8',
+		'4xl': 'w-9 h-9'
 	};
 
 	$: gapClass = {

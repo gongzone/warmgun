@@ -32,7 +32,7 @@
 	<ul class="flex list-none flex-wrap gap-2">
 		{#each article.tags as tag (tag.id)}
 			<li>
-				<ArticleItemTag name={tag.name} />
+				<ArticleItemTag name={tag.name} slug={tag.slug} />
 			</li>
 		{/each}
 	</ul>

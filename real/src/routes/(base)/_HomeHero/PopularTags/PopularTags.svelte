@@ -7,7 +7,7 @@
 <ul class="flex flex-wrap gap-2">
 	{#each popularTags as tag (tag.name)}
 		<li>
-			<a href="/{tag.slug}" class="btn variant-ringed-tertiary text-sm">{tag.name}</a>
+			<a href="tags/{tag.slug}" class="btn variant-ringed-tertiary text-sm">{tag.name}</a>
 		</li>
 	{/each}
 </ul>
