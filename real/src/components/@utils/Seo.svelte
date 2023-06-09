@@ -6,13 +6,13 @@
 
 	export let title: string | undefined = undefined;
 	export let description: string | undefined = metaDefaults.description;
-	export let image: string | undefined = metaDefaults.image;
+	export let image: string | undefined | null = metaDefaults.image;
 	export let keywords: string | undefined =
 		'개발, 커뮤니티, 블로그, 웹, development, community, blog, web';
 	export let author: string | undefined = 'gongzone';
 	export let article:
 		| {
-				author: string;
+				author: string | undefined;
 				publishTime: Date;
 				modifiedTime: Date;
 		  }
@@ -20,6 +20,7 @@
 
 	$: {
 		title = title ? `${title} - ${metaDefaults.title}` : metaDefaults.title;
+		image = image ? image : metaDefaults.image;
 	}
 </script>
 

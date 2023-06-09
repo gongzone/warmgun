@@ -7,6 +7,7 @@
 	import HeartIcon from '$components/@icons/HeartIcon.svelte';
 	import CommentIcon from '$components/@icons/CommentIcon.svelte';
 	import ArticleControlPopup from '$components/@ui/Popup/ArticleControlPopup.svelte';
+	import { openCommentSidebar } from '$components/@ui/Drawer/drawer';
 
 	export let article: Article;
 	export let isOwner: boolean;
@@ -29,11 +30,17 @@
 				>
 			</button>
 		</form>
-		<a href="#comment-container">
+		<button
+			type="button"
+			on:click={() =>
+				openCommentSidebar({
+					meta: { articleId: article.id, totalCount: article._count.comments }
+				})}
+		>
 			<TextWithIcon icon={CommentIcon} textClass="!text-sm" size="xl" gap={1}
 				>{article._count.comments}</TextWithIcon
 			>
-		</a>
+		</button>
 	</div>
 
 	<div>

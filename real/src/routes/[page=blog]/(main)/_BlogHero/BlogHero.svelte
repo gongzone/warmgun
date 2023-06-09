@@ -72,11 +72,7 @@
 									>
 								{/if}
 							{:else}
-								<button
-									type="submit"
-									formaction="?/follow"
-									class="btn variant-filled-primary text-sm">프로필 설정</button
-								>
+								<a href="/settings" class="btn variant-filled-primary text-sm">프로필 설정</a>
 							{/if}
 						</form>
 					</div>

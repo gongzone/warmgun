@@ -7,6 +7,7 @@
 
 	import WriteHeader from './_WriteHeader/WriteHeader.svelte';
 	import FullEditor from './_FullEditor/FullEditor.svelte';
+	import Seo from '$components/@utils/Seo.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -25,6 +26,8 @@
 		triggerToast(`${form.isSuccess ? 'success' : 'warning'}`, form.message);
 	}
 </script>
+
+<Seo title={isDraftMode ? '글 작성' : '글 수정'} />
 
 <WriteHeader mode={isDraftMode ? 'draft' : 'edit'} {articleMeta} {getCurrentEditorData} />
 

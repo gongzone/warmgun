@@ -5,9 +5,22 @@
 	import ArticleDetail from './_ArticleDetail/ArticleDetail.svelte';
 	import UserDisplay from '$components/User/UserDisplay/UserDisplay.svelte';
 	import ArticleStatsTwo from './_ArticleStatsTwo/_ArticleStatsTwo.svelte';
+	import Seo from '$components/@utils/Seo.svelte';
 
 	export let data: PageData;
 </script>
+
+<Seo
+	title={data.article.title}
+	description={data.article.excerpt}
+	image={data.blogUser.profile?.blogImage}
+	author={data.blogUser.profile?.nickname}
+	article={{
+		author: data.blogUser.profile?.nickname,
+		publishTime: data.article.createdAt,
+		modifiedTime: data.article.updatedAt
+	}}
+/>
 
 <div class="container">
 	<main class="max-w-[800px] mx-auto py-12 space-y-16">
