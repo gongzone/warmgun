@@ -8,6 +8,7 @@
 	import ArticleFilterPopup from '$components/@ui/Popup/ArticleFilterPopup.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 	import ArticlesTab from './_ArticlesTab/ArticlesTab.svelte';
+	import Seo from '$components/@utils/Seo.svelte';
 
 	$: articlesQuery = createInfiniteQuery({
 		queryKey: [
@@ -24,6 +25,8 @@
 	$: classesActive = (href: string) =>
 		$page.url.pathname.startsWith(href) ? 'variant-filled' : '';
 </script>
+
+<Seo title="아티클" />
 
 <main class="container py-12 md:py-20">
 	<div class="flex flex-col gap-1 items-center justify-center mb-12">
