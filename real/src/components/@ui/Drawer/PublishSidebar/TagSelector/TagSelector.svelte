@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query';
+	import { createQuery } from '@tanstack/svelte-query';
 
 	import type { Tag } from '$lib/types/tag';
-	import { search } from '$lib/client-fetch/search';
 
 	import CloseIcon from '$components/@icons/CloseIcon.svelte';
 	import { triggerToast } from '$components/@ui/Toast/toast';
+	import { api } from '$lib/api/api';
 
 	export let tags: string[] = [];
 
@@ -16,13 +16,8 @@
 	let timer: NodeJS.Timer;
 
 	$: searchTagQuery = createQuery({
-		queryKey: ['search', 'tag', debouncedInput],
-		queryFn: () =>
-			search<Tag[]>(debouncedInput, {
-				mode: 'tags',
-				take: 10,
-				cursor: 0
-			}),
+		queryKey: ['search', 'tags', debouncedInput, 5],
+		queryFn: api().search<Tag>,
 		keepPreviousData: true,
 		enabled: !!debouncedInput
 	});
@@ -57,7 +52,13 @@
 				);
 			}
 
-			tags = [...tags, e.target.value.replace(/  +/g, ' ').trim()];
+			const value = e.target.value.replace(/  +/g, ' ').trim().toLowerCase() as string;
+			const newTag = value
+				.split(' ')
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+				.join(' ');
+
+			tags = [...tags, newTag];
 			cleanInput();
 		}
 	};
