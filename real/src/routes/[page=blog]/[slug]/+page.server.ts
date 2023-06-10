@@ -1,15 +1,16 @@
+import type { PageServerLoad, Actions } from './$types';
+import { error, fail, redirect } from '@sveltejs/kit';
+import { z } from 'zod';
+
 import { prisma } from '$lib/server/db';
 import { validate } from '$lib/server/validation';
 import { articleInclude } from '$lib/types/article';
-import { z } from 'zod';
-import type { PageServerLoad, Actions } from './$types';
-import { error, fail, redirect } from '@sveltejs/kit';
 import { calculateTrendingScore } from '$lib/utils/calculate-trending-score';
 import { meilisearch } from '$lib/server/meilisearch';
 
 export const ssr = false;
 
-export const load: PageServerLoad = async ({ locals, params, url }) => {
+export const load: PageServerLoad = async ({ locals, params }) => {
 	const article = await findOneArticle(params.slug);
 	const isLiked = article.likes.find((like) => like.userId === locals.user?.id);
 
@@ -200,6 +201,115 @@ export const actions: Actions = {
 		await meilisearch.index('articles').deleteDocument(articleId);
 
 		throw redirect(302, `/@${locals.user.username}`);
+	},
+	follow: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw error(401, '수행할 수 없습니다.');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, followsSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { blogUserId } = { ...validated.data, blogUserId: +validated.data.blogUserId };
+
+		await prisma.follows.create({
+			data: {
+				followerId: locals.user.id,
+				followingId: blogUserId
+			}
+		});
+	},
+	unFollow: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw error(401, '수행할 수 없습니다.');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, followsSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { blogUserId } = { ...validated.data, blogUserId: +validated.data.blogUserId };
+
+		await prisma.follows.delete({
+			where: {
+				followerId_followingId: {
+					followerId: locals.user.id,
+					followingId: blogUserId
+				}
+			}
+		});
+	},
+	likeComment: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw error(401, '수행할 수 없습니다.');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, commentLikesSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { commentId } = { ...validated.data, commentId: +validated.data.commentId };
+
+		const foundLike = await prisma.commentLike.findUnique({
+			where: {
+				userId_commentId: {
+					userId: locals.user.id,
+					commentId
+				}
+			}
+		});
+
+		if (foundLike) {
+			fail(400, { message: '이미 좋아요한 댓글입니다.' });
+		}
+
+		await prisma.commentLike.create({
+			data: {
+				user: {
+					connect: { id: locals.user.id }
+				},
+				comment: {
+					connect: { id: commentId }
+				}
+			}
+		});
+	},
+	unlikeComment: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw error(401, '수행할 수 없습니다.');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, commentLikesSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { commentId } = { ...validated.data, commentId: +validated.data.commentId };
+
+		await prisma.commentLike.delete({
+			where: {
+				userId_commentId: {
+					userId: locals.user.id,
+					commentId
+				}
+			}
+		});
 	}
 };
 
@@ -220,5 +330,17 @@ function createCommentSchema() {
 function deleteArticleSchema() {
 	return z.object({
 		articleId: z.string()
+	});
+}
+
+function followsSchema() {
+	return z.object({
+		blogUserId: z.string()
+	});
+}
+
+function commentLikesSchema() {
+	return z.object({
+		commentId: z.string()
 	});
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createInfiniteQuery, createQueries } from '@tanstack/svelte-query';
+	import { createInfiniteQuery, createQueries, useQueryClient } from '@tanstack/svelte-query';
 
 	import { findComments } from '$lib/client-fetch/comment';
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
@@ -10,6 +10,7 @@
 	import CommentIcon from '$components/@icons/CommentIcon.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 	import CommentTextarea from '../CommentTextarea/CommentTextarea.svelte';
+	import { enhance } from '$app/forms';
 
 	export let articleId: number;
 	export let parentId: number | null;
@@ -17,10 +18,14 @@
 	export let avatar: string | null | undefined;
 	export let createdAt: Date;
 	export let message: string;
+	export let isLiked: boolean;
+	export let likeCount: number;
 	export let childrenCount: number;
 
 	let isChildCommentOpen: boolean = false;
 	let isReplyTextareaOpen: boolean = false;
+
+	const queryClient = useQueryClient();
 
 	$: childrenCommentQuery = createInfiniteQuery({
 		queryKey: ['comments', articleId, parentId],
@@ -33,6 +38,7 @@
 	let root: Element;
 
 	$: console.log($childrenCommentQuery.data);
+	$: likeAction = !isLiked ? '?/likeComment' : '?/unlikeComment';
 </script>
 
 <div>
@@ -48,9 +54,23 @@
 			<p class="font-extralight">{message}</p>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center gap-4">
-					<button type="button" class="flex items-center gap-1"
-						><HeartIcon class="w-5 h-5" /><span class="text-sm">0</span></button
+					<form
+						method="POST"
+						action={likeAction}
+						use:enhance={({ formElement, formData, action, cancel, submitter }) => {
+							return async ({ result, update }) => {
+								await queryClient.invalidateQueries({ queryKey: ['comments', articleId, null] });
+								update();
+							};
+						}}
 					>
+						<input type="hidden" name="commentId" value={parentId} />
+						<button type="submit" class="flex items-center gap-1">
+							<HeartIcon class="w-5 h-5 {isLiked ? 'text-red-500' : ''}" /><span class="text-sm"
+								>{likeCount}</span
+							>
+						</button>
+					</form>
 					{#if childrenCount > 0}
 						<button
 							type="button"
@@ -93,9 +113,26 @@
 									<p class="font-extralight">{comment.content}</p>
 									<div class="flex items-center justify-between">
 										<div class="flex items-center gap-4">
-											<button type="button" class="flex items-center gap-1"
-												><HeartIcon class="w-5 h-5" /><span class="text-sm">0</span></button
+											<form
+												method="POST"
+												action={!comment.isLiked ? '?/likeComment' : '?/unlikeComment'}
+												use:enhance={({ formElement, formData, action, cancel, submitter }) => {
+													return async ({ result, update }) => {
+														await queryClient.invalidateQueries({
+															queryKey: ['comments', articleId, parentId]
+														});
+														update();
+													};
+												}}
 											>
+												<input type="hidden" name="commentId" value={comment.id} />
+												<button type="submit" class="flex items-center gap-1">
+													<HeartIcon class="w-5 h-5 {comment.isLiked ? 'text-red-500' : ''}" />
+													<span class="text-sm">
+														{comment._count.likes}
+													</span>
+												</button>
+											</form>
 										</div>
 									</div>
 								</div>

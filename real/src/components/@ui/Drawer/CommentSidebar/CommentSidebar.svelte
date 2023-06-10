@@ -43,6 +43,8 @@
 							avatar={comment.user.profile?.avatar}
 							createdAt={comment.createdAt}
 							message={comment.content}
+							isLiked={comment.isLiked}
+							likeCount={comment._count.likes}
 							childrenCount={comment._count.children}
 						/>
 						<hr />

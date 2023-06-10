@@ -1,8 +1,15 @@
 <script lang="ts">
-	import UserAvatar from '$components/@ui/UserAvatar.svelte';
+	import { enhance } from '$app/forms';
+
 	import type { BlogUser } from '$lib/types/user';
 
+	import UserAvatar from '$components/@ui/UserAvatar.svelte';
+
 	export let user: BlogUser;
+	export let isFollowing: boolean;
+	export let isOwner: boolean;
+
+	$: followAction = !isFollowing ? '?/follow' : '?/unFollow';
 </script>
 
 <div class="border-t border-t-surface-600 py-12">
@@ -23,9 +30,15 @@
 			<div class="space-y-4">
 				<p class="text-sm">{user.profile?.bio}</p>
 			</div>
-			<div class="flex justify-end">
-				<button class="btn variant-ringed-tertiary text-sm">구독하기</button>
-			</div>
+
+			{#if !isOwner}
+				<form method="POST" action={followAction} class="flex justify-end" use:enhance>
+					<input type="hidden" name="blogUserId" value={user.id} />
+					<button type="submit" class="btn variant-ringed-tertiary text-sm">
+						{!isFollowing ? '구독하기' : '구독 중'}
+					</button>
+				</form>
+			{/if}
 		</div>
 	</div>
 </div>

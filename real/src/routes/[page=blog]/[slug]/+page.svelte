@@ -39,7 +39,7 @@
 		</section>
 
 		<section>
-			<UserDisplay user={data.blogUser} />
+			<UserDisplay user={data.blogUser} isFollowing={data.isFollowing} isOwner={data.isOwner} />
 		</section>
 	</main>
 </div>

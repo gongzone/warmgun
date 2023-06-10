@@ -3,10 +3,8 @@ import { z } from 'zod';
 import { error, json } from '@sveltejs/kit';
 
 import { prisma } from '$lib/server/db';
-import { meilisearch } from '$lib/server/meilisearch';
 import { validate } from '$lib/server/validation';
 import { buildInfinityData } from '$lib/utils/infinity-data';
-import { articleInclude } from '$lib/types/article';
 import { commentInclude } from '$lib/types/comment';
 
 export const GET = (async ({ locals, url, params }) => {
@@ -22,7 +20,7 @@ export const GET = (async ({ locals, url, params }) => {
 		cursor: +validated.data.cursor
 	};
 
-	const comments = await findComments(+params.articleId, parentId, take, cursor);
+	const comments = await findComments(+params.articleId, parentId, take, cursor, locals.user?.id);
 
 	return json(buildInfinityData(comments, take, cursor));
 }) satisfies RequestHandler;
@@ -31,7 +29,8 @@ async function findComments(
 	articleId: number,
 	parentId: number | null,
 	take: number,
-	cursor: number
+	cursor: number,
+	userId: number | undefined
 ) {
 	const comments = await prisma.comment.findMany({
 		take: take,
@@ -39,13 +38,18 @@ async function findComments(
 		where: {
 			AND: [{ articleId }, { parentId }]
 		},
-		include: commentInclude,
+		include: { ...commentInclude, likes: true },
 		orderBy: {
 			createdAt: 'desc'
 		}
 	});
 
-	return comments;
+	const newComments = comments.map((comment) => ({
+		...comment,
+		isLiked: !!comment.likes.find((like) => like.userId === userId)
+	}));
+
+	return newComments;
 }
 
 function getCommentsSchema() {
