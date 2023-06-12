@@ -12,7 +12,7 @@ export function bodyToString(body: OutputData | null) {
 				bodyString +
 				' ' +
 				item.data.text.replace(
-					/<b>|<\/b>|<i>|<\/i>|<u class="cdx-underline">|<\/u>|<mark class="cdx-marker">|<\/mark>/g,
+					/<b>|<\/b>|<i>|<\/i>|<u class="cdx-underline">|<\/u>|<mark class="cdx-marker">|<\/mark>|&nbsp;/g,
 					''
 				);
 		} else {

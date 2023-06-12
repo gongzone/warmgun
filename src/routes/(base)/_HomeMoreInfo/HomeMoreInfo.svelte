@@ -27,14 +27,16 @@
 				<ul class="flex flex-wrap gap-3">
 					{#each genre as genre (genre.title)}
 						<li>
-							<a href={genre.href} class="btn variant-filled text-sm">{genre.title}</a>
+							<a href="/articles/trending/{genre.slug}" class="btn variant-filled text-sm"
+								>{genre.title}</a
+							>
 						</li>
 					{/each}
 				</ul>
 			</div>
 
 			<div class="flex flex-wrap gap-3">
-				<a href="/articles" class="btn variant-filled-primary rounded-md">
+				<a href="/articles/trending" class="btn variant-filled-primary rounded-md">
 					<span class="text-sm">아티클 보러가기</span>
 					<span><ArrowRightIcon class="w-4 h-4" /></span>
 				</a>
