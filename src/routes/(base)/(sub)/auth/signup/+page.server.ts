@@ -2,6 +2,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 import argon2 from 'argon2';
+import { SIGNUP_SECRET_KEY } from '$env/static/private';
 
 import { currentUserSelect } from '$lib/types/user';
 import { validate } from '$lib/server/validation';
@@ -30,7 +31,8 @@ const signupSchema = z
 				}
 			),
 		confirm: z.string(),
-		email: z.string().email({ message: '이메일 규칙에 따라 작성하여 주십시오.' })
+		email: z.string().email({ message: '이메일 규칙에 따라 작성하여 주십시오.' }),
+		secret: z.string().min(1, '회원가입 키를 입력해주세요.')
 	})
 	.refine((data) => data.password === data.confirm, {
 		message: '비밀번호가 일치하지 않습니다.',
@@ -46,7 +48,11 @@ export const actions: Actions = {
 			return fail(400, { message: validated.errorMessage });
 		}
 
-		const { username, password, email } = validated.data;
+		const { username, password, email, secret } = validated.data;
+
+		if (secret !== SIGNUP_SECRET_KEY) {
+			return fail(400, { message: '관리자에게 부여받은 올바른 회원가입 키가 아닙니다.' });
+		}
 
 		const foundUser = await prisma.user.findFirst({
 			where: {

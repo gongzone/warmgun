@@ -3,11 +3,15 @@
 	import { enhance } from '$app/forms';
 
 	import { triggerToast } from '$components/@ui/Toast/toast';
+	import CloseIcon from '$components/@icons/CloseIcon.svelte';
 	import UserIcon from '$components/@icons/UserIcon.svelte';
+	import KeyIcon from '$components/@icons/KeyIcon.svelte';
 	import PasswordIcon from '$components/@icons/PasswordIcon.svelte';
 	import CheckIcon from '$components/@icons/CheckIcon.svelte';
 	import EmailIcon from '$components/@icons/EmailIcon.svelte';
 	import FormInput from '$components/@ui/FormInput.svelte';
+
+	let visible: boolean = true;
 
 	const signupHandler: SubmitFunction = () => {
 		return async ({ result, update }) => {
@@ -19,6 +23,33 @@
 		};
 	};
 </script>
+
+{#if visible}
+	<aside class="alert variant-filled-error">
+		<!-- Icon -->
+		<div class="text-3xl">⚠️</div>
+		<!-- Message -->
+		<div class="alert-message">
+			<h3 class="h3">현재 Warmgun은 공식 배포 버전이 아닙니다.</h3>
+			<p>
+				관리자에게 회원가입 키를 받은 일부 사용자에 한해 가입이 가능합니다. 공식 배포 전 생성된
+				사용자 계정과 작성된 글들은 언제라도 삭제가 이뤄질 수 있습니다.
+			</p>
+		</div>
+		<!-- Actions -->
+		<div class="alert-actions">
+			<button
+				type="button"
+				class="btn-icon btn-icon-sm variant-filled"
+				on:click={() => {
+					visible = false;
+				}}
+			>
+				<CloseIcon />
+			</button>
+		</div>
+	</aside>
+{/if}
 
 <form method="POST" use:enhance={signupHandler}>
 	<div class="space-y-5 mb-8">
@@ -45,12 +76,20 @@
 			placeholder="앞선 비밀번호와 동일하게 작성하세요."
 			icon={CheckIcon}
 		/>
+
 		<FormInput
 			type="email"
 			name="email"
 			labelText="이메일"
 			placeholder="이메일을 입력하세요."
 			icon={EmailIcon}
+		/>
+		<FormInput
+			type="text"
+			name="secret"
+			labelText="회원가입 키"
+			placeholder="관리자에게 부여받은 회원가입 키를 입력하세요."
+			icon={KeyIcon}
 		/>
 	</div>
 
