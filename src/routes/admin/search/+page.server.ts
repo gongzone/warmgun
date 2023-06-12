@@ -1,24 +1,32 @@
-import { prisma } from '$lib/server/db';
 import type { PageServerLoad } from './$types';
 import { z } from 'zod';
-import { error, redirect, type Actions, fail } from '@sveltejs/kit';
+import { type Actions, fail } from '@sveltejs/kit';
 import { meilisearch } from '$lib/server/meilisearch';
 import { validate } from '$lib/server/validation';
 
-export const load: PageServerLoad = async ({ locals }) => {
-	const [indexes, articles, tags, users] = await Promise.all([
-		getAllIndexes(),
-		getArticlesDocuments(),
-		getTagsDocuments(),
-		getUsersDocuments()
-	]);
+export const load: PageServerLoad = async () => {
+	try {
+		const [indexes, articles, tags, users] = await Promise.all([
+			getAllIndexes(),
+			getArticlesDocuments(),
+			getTagsDocuments(),
+			getUsersDocuments()
+		]);
 
-	return {
-		indexes: indexes.map((index) => index.uid),
-		articles,
-		tags,
-		users
-	};
+		return {
+			indexes: indexes.map((index) => index.uid),
+			articles,
+			tags,
+			users
+		};
+	} catch {
+		return {
+			indexes: [],
+			articles: [],
+			tags: [],
+			users: []
+		};
+	}
 };
 
 async function getAllIndexes() {

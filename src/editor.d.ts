@@ -3,6 +3,11 @@ declare module '@editorjs/paragraph' {
 	export = Paragraph;
 }
 
+declare module '@editorjs/code' {
+	import CodeTool from '@editorjs/code';
+	export = CodeTool;
+}
+
 declare module '@editorjs/header' {
 	import Header from '@editorjs/header';
 	export = Header;

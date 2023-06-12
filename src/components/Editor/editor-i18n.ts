@@ -34,7 +34,7 @@ export const editorInternationalization = {
 			Marker: '마커',
 			Warning: 'Примечание',
 			Checklist: 'Чеклист',
-			Code: 'Код',
+			Code: '코드',
 			Delimiter: 'Разделитель',
 			'Raw HTML': 'HTML-фрагмент',
 			Table: 'Таблица'

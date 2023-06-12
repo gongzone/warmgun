@@ -38,6 +38,7 @@
 		"zod": "^3.21.4"
 	},
 	"devDependencies": {
+		"@editorjs/code": "^2.8.0",
 		"@editorjs/paragraph": "^2.9.0",
 		"@floating-ui/dom": "^1.2.8",
 		"@playwright/test": "^1.28.1",

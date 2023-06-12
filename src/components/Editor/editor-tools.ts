@@ -6,6 +6,7 @@ import NestedList from '@editorjs/nested-list';
 import ImageTool from '@editorjs/image';
 import Marker from '@editorjs/marker';
 import Underline from '@editorjs/underline';
+import CodeTool from '@editorjs/code';
 
 import { uploadImage } from '$lib/client-fetch/upload-image';
 
@@ -14,9 +15,9 @@ export const editorTools = {
 	paragraph: {
 		class: Paragraph,
 		inlineToolbar: true,
-
 		config: { preserveBlank: true }
 	},
+	code: CodeTool,
 	header: {
 		class: Header,
 		inlineToolbar: true,
