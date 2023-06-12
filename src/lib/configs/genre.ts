@@ -31,7 +31,7 @@ export const genre = [
 	},
 	{
 		title: '게임',
-		enum: '	GAME',
+		enum: 'GAME',
 		href: '/articles?genre=game',
 		slug: 'game'
 	},

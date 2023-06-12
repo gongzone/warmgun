@@ -8,7 +8,13 @@ export function bodyToString(body: OutputData | null) {
 	// TODO: MARKER 기울임체 볼드체 등 파싱 문제 해결 필요
 	for (const item of body.blocks) {
 		if (item.type === 'paragraph' || item.type === 'header') {
-			bodyString = bodyString + ' ' + item.data.text;
+			bodyString =
+				bodyString +
+				' ' +
+				item.data.text.replace(
+					/<b>|<\/b>|<i>|<\/i>|<u class="cdx-underline">|<\/u>|<mark class="cdx-marker">|<\/mark>/g,
+					''
+				);
 		} else {
 			continue;
 		}

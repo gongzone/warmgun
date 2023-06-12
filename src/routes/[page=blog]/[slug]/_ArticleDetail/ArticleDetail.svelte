@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-
 	import type { BlogUser } from '$lib/types/user';
 	import type { Article } from '$lib/types/article';
 	import { formatDate } from '$lib/utils/format';
@@ -19,7 +17,6 @@
 	export let isLiked: boolean;
 
 	$: genre = siteConfig.genre.find((genre) => genre.enum === article.genre);
-	$: likesAction = isLiked ? '?/unlike' : '?/like';
 </script>
 
 <div class="mb-4 space-y-4">
@@ -68,13 +65,13 @@
 </div>
 
 <div class="flex flex-col gap-6">
-	<div class="aspect-[1200/840] overflow-hidden rounded-lg">
-		{#if article.coverImage}
+	{#if article.coverImage}
+		<div class="aspect-[1200/840] overflow-hidden rounded-lg">
 			<Image
 				class="w-full h-full rounded-lg object-cover object-center"
 				src={`${article.coverImage}?w=1200&h=840&q=80&f=webp`}
 				alt={article.title}
 			/>
-		{/if}
-	</div>
+		</div>
+	{/if}
 </div>

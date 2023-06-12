@@ -41,6 +41,7 @@
 				action="?/saveDraft"
 				use:enhance={async ({ data }) => {
 					const { title, body } = await getCurrentEditorData();
+					console.log(body);
 					data.append('title', title);
 					data.append('body', JSON.stringify(body));
 

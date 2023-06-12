@@ -2,7 +2,6 @@
 	import './editor.postcss';
 
 	import { onMount, onDestroy } from 'svelte';
-	import { browser } from '$app/environment';
 	import EditorJS, { type EditorConfig } from '@editorjs/editorjs';
 
 	import { editorTools } from './editor-tools';
