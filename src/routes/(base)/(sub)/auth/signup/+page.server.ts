@@ -72,7 +72,12 @@ export const actions: Actions = {
 				password: hashedPassword,
 				email,
 				profile: {
-					create: { nickname: username, field: '블로거', bio: `안녕하세요. ${username}입니다.` }
+					create: {
+						nickname: username,
+						field: '블로거',
+						bio: `안녕하세요. ${username}입니다.`,
+						profileLinks: { create: {} }
+					}
 				},
 				drafts: { create: {} }
 			},
