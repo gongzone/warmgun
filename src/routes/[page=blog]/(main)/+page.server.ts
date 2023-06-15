@@ -1,5 +1,5 @@
 import type { PageServerLoad, Actions } from './$types';
-import { error, fail } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { prisma } from '$lib/server/db';
@@ -42,7 +42,7 @@ async function findBlogArticles(username: string, take: number, cursor: number) 
 export const actions: Actions = {
 	follow: async ({ locals, request }) => {
 		if (!locals.user) {
-			throw error(401, '수행할 수 없습니다.');
+			throw redirect(302, '/auth/login');
 		}
 
 		const formData = await request.formData();
@@ -64,7 +64,7 @@ export const actions: Actions = {
 	},
 	unFollow: async ({ locals, request }) => {
 		if (!locals.user) {
-			throw error(401, '수행할 수 없습니다.');
+			throw redirect(302, '/auth/login');
 		}
 
 		const formData = await request.formData();

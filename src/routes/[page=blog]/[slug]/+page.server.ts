@@ -36,7 +36,7 @@ async function findOneArticle(slug: string) {
 export const actions: Actions = {
 	like: async ({ locals, request }) => {
 		if (!locals.user) {
-			throw error(401, '수행할 수 없습니다.');
+			throw redirect(302, '/auth/login');
 		}
 
 		const formData = await request.formData();
@@ -98,7 +98,7 @@ export const actions: Actions = {
 	},
 	unlike: async ({ locals, request }) => {
 		if (!locals.user) {
-			throw error(401, '수행할 수 없습니다.');
+			throw redirect(302, '/auth/login');
 		}
 
 		const formData = await request.formData();
