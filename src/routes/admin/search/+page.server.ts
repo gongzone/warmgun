@@ -50,7 +50,7 @@ async function getUsersDocuments() {
 }
 
 export const actions: Actions = {
-	createIndex: async ({ request, locals }) => {
+	createIndex: async ({ request }) => {
 		const formData = await request.formData();
 		const validated = validate(formData, createIndexSchema());
 
@@ -62,7 +62,7 @@ export const actions: Actions = {
 
 		await meilisearch.createIndex(indexName, { primaryKey: 'id' });
 	},
-	deleteIndex: async ({ request, locals }) => {
+	deleteIndex: async ({ request }) => {
 		const formData = await request.formData();
 		const validated = validate(formData, deleteIndexSchema());
 

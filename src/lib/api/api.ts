@@ -42,7 +42,7 @@ export const api = (customFetch = fetch) => ({
 		const data = (await response.json()) as InfiniteData<Article>;
 		return data;
 	},
-	findFollowingUsers: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
+	findFollowingUsers: async ({ pageParam = 0 }: QueryFunctionContext) => {
 		const response = await customFetch(`/api/users/following?take=${12}&cursor=${pageParam}`);
 		const data = (await response.json()) as InfiniteData<BlogUser>;
 		return data;

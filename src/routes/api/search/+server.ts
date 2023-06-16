@@ -36,8 +36,6 @@ export const GET = (async ({ url }) => {
 			offset: cursor * take
 		});
 
-		console.log(searchResult);
-
 		if (mode === 'articles') {
 			const searchedArticles = await prisma.article.findMany({
 				where: { id: { in: searchResult.hits.map((hit) => hit.id) } },
