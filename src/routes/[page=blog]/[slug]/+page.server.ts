@@ -204,7 +204,7 @@ export const actions: Actions = {
 	},
 	follow: async ({ locals, request }) => {
 		if (!locals.user) {
-			throw error(401, '수행할 수 없습니다.');
+			throw redirect(302, '/auth/login');
 		}
 
 		const formData = await request.formData();
@@ -226,7 +226,7 @@ export const actions: Actions = {
 	},
 	unFollow: async ({ locals, request }) => {
 		if (!locals.user) {
-			throw error(401, '수행할 수 없습니다.');
+			throw redirect(302, '/auth/login');
 		}
 
 		const formData = await request.formData();
@@ -250,7 +250,7 @@ export const actions: Actions = {
 	},
 	likeComment: async ({ locals, request }) => {
 		if (!locals.user) {
-			throw error(401, '수행할 수 없습니다.');
+			throw redirect(302, '/auth/login');
 		}
 
 		const formData = await request.formData();
@@ -289,7 +289,7 @@ export const actions: Actions = {
 	},
 	unlikeComment: async ({ locals, request }) => {
 		if (!locals.user) {
-			throw error(401, '수행할 수 없습니다.');
+			throw redirect(302, '/auth/login');
 		}
 
 		const formData = await request.formData();
