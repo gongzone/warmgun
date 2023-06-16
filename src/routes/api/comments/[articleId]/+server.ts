@@ -39,9 +39,7 @@ async function findComments(
 			AND: [{ articleId }, { parentId }]
 		},
 		include: { ...commentInclude, likes: true },
-		orderBy: {
-			createdAt: 'desc'
-		}
+		orderBy: [{ createdAt: 'asc' }]
 	});
 
 	const newComments = comments.map((comment) => ({

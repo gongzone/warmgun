@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { createInfiniteQuery, createQueries, useQueryClient } from '@tanstack/svelte-query';
+	import { createInfiniteQuery, useQueryClient } from '@tanstack/svelte-query';
 
 	import { findComments } from '$lib/client-fetch/comment';
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
-	import { createEventDispatcher } from 'svelte';
-	import type { Comment } from '$lib/types/comment';
 	import { formatDate } from '$lib/utils/format';
 	import HeartIcon from '$components/@icons/HeartIcon.svelte';
 	import CommentIcon from '$components/@icons/CommentIcon.svelte';
@@ -155,7 +153,8 @@
 				{articleId}
 				{parentId}
 				userDisplay={false}
-				cb={() => {
+				cb={async () => {
+					await queryClient.invalidateQueries({ queryKey: ['comments', articleId, parentId] });
 					isChildCommentOpen = true;
 					isReplyTextareaOpen = false;
 				}}
