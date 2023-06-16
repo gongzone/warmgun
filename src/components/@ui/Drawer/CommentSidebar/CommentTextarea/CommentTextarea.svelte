@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import AutosizeTextarea from '$components/@ui/AutosizeTextarea.svelte';
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
+	import { drawerStore } from '@skeletonlabs/skeleton';
 	import { useQueryClient } from '@tanstack/svelte-query';
 
 	export let articleId: number;
@@ -36,6 +38,12 @@
 				method="POST"
 				action="?/createComment"
 				use:enhance={({ formElement, formData, action, cancel, submitter }) => {
+					if (!$page.data.user) {
+						cancel();
+						drawerStore.close();
+						return goto('/auth/login');
+					}
+
 					return async ({ result, update }) => {
 						await queryClient.invalidateQueries({ queryKey: ['comments', articleId, null] });
 						cb && cb();

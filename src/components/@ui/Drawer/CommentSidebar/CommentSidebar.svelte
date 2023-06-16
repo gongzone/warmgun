@@ -25,7 +25,7 @@
 
 <div id="comment-sidebar" class="px-8 py-8" bind:this={root}>
 	<div class="space-y-4">
-		<CommentHeader totalCount={$page.data.article._count.comments} />
+		<CommentHeader totalCount={$page.data?.article?._count.comments} />
 		<CommentTextarea {articleId} parentId={null} />
 	</div>
 

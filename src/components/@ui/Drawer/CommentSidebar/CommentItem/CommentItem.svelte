@@ -9,6 +9,9 @@
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 	import CommentTextarea from '../CommentTextarea/CommentTextarea.svelte';
 	import { enhance } from '$app/forms';
+	import { drawerStore } from '@skeletonlabs/skeleton';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	export let articleId: number;
 	export let parentId: number | null;
@@ -57,6 +60,11 @@
 						action={likeAction}
 						use:enhance={({ formElement, formData, action, cancel, submitter }) => {
 							return async ({ result, update }) => {
+								if (result.type === 'redirect') {
+									drawerStore.close();
+									return await update();
+								}
+
 								await queryClient.invalidateQueries({ queryKey: ['comments', articleId, null] });
 								update();
 							};
@@ -86,8 +94,13 @@
 					type="button"
 					class="btn btn-sm variant-filled text-sm"
 					on:click={() => {
+						if (!$page.data.user) {
+							drawerStore.close();
+							return goto('/auth/login');
+						}
+
 						isReplyTextareaOpen = !isReplyTextareaOpen;
-					}}>답글 달기</button
+					}}>{isReplyTextareaOpen ? '접기' : '답글 달기'}</button
 				>
 			</div>
 		</div>
@@ -116,6 +129,11 @@
 												action={!comment.isLiked ? '?/likeComment' : '?/unlikeComment'}
 												use:enhance={({ formElement, formData, action, cancel, submitter }) => {
 													return async ({ result, update }) => {
+														if (result.type === 'redirect') {
+															return drawerStore.close();
+															return await update();
+														}
+
 														await queryClient.invalidateQueries({
 															queryKey: ['comments', articleId, parentId]
 														});
