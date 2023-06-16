@@ -15,9 +15,9 @@
 	author={data.blogUser.profile?.nickname}
 />
 
-<div class="page-container space-y-14 !pt-12">
-	<BlogHero blogUser={data.blogUser} isOwner={data.isOwner} isFollowing={data.isFollowing} />
+<BlogHero blogUser={data.blogUser} isOwner={data.isOwner} isFollowing={data.isFollowing} />
 
+<div class="page-container !pt-14">
 	<main class="space-y-8">
 		<BlogTab />
 		<div class="min-h-[200px]">
