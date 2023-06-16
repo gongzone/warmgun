@@ -44,7 +44,8 @@ async function findComments(
 
 	const newComments = comments.map((comment) => ({
 		...comment,
-		isLiked: !!comment.likes.find((like) => like.userId === userId)
+		isLiked: !!comment.likes.find((like) => like.userId === userId),
+		isOwned: comment.userId === userId
 	}));
 
 	return newComments;

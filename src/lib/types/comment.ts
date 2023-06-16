@@ -2,6 +2,7 @@ import type { Prisma, Profile, Comment as PrismaComment, User } from '@prisma/cl
 
 export type Comment = PrismaComment & {
 	isLiked: boolean;
+	isOwned: boolean;
 	user: User & {
 		profile: Profile | null;
 	};

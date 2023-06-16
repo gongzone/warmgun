@@ -44,6 +44,7 @@
 							createdAt={comment.createdAt}
 							message={comment.content}
 							isLiked={comment.isLiked}
+							isOwned={comment.isOwned}
 							likeCount={comment._count.likes}
 							childrenCount={comment._count.children}
 						/>

@@ -310,6 +310,47 @@ export const actions: Actions = {
 				}
 			}
 		});
+	},
+	editComment: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw redirect(302, '/auth/login');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, commentEditSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { commentId, content } = { ...validated.data, commentId: +validated.data.commentId };
+
+		await prisma.comment.update({
+			where: { id: commentId },
+			data: {
+				content: content
+			}
+		});
+	},
+	deleteComment: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw redirect(302, '/auth/login');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, commentDeleteSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { commentId } = { ...validated.data, commentId: +validated.data.commentId };
+
+		await prisma.comment.delete({
+			where: { id: commentId }
+		});
 	}
 };
 
@@ -340,6 +381,19 @@ function followsSchema() {
 }
 
 function commentLikesSchema() {
+	return z.object({
+		commentId: z.string()
+	});
+}
+
+function commentEditSchema() {
+	return z.object({
+		commentId: z.string(),
+		content: z.string().min(1, '댓글을 작성하여 주십시오.')
+	});
+}
+
+function commentDeleteSchema() {
 	return z.object({
 		commentId: z.string()
 	});
