@@ -1,17 +1,10 @@
 <script lang="ts">
+	import type { LayoutData } from './$types';
 	import BlogHeader from './_BlogHeader/BlogHeader.svelte';
 
-	import { AppShell } from '@skeletonlabs/skeleton';
+	export let data: LayoutData;
 </script>
 
-<!-- <AppShell>
-	<svelte:fragment slot="header">
-		<BlogHeader />
-	</svelte:fragment>
-
-	<slot />
-</AppShell> -->
-
-<BlogHeader />
+<BlogHeader user={data.user} />
 
 <slot />

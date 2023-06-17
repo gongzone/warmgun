@@ -1,8 +1,12 @@
 <script lang="ts">
+	import { siteConfig } from '$lib/configs/site';
+	import type { CurrentUser } from '$lib/types/user';
+
 	import SearchIcon from '$components/@icons/SearchIcon.svelte';
 	import UserPopup from '$components/@ui/Popup/UserPopup.svelte';
 	import LogoIcon from '$components/@icons/LogoIcon.svelte';
-	import { siteConfig } from '$lib/configs/site';
+
+	export let user: CurrentUser;
 </script>
 
 <header class="sticky top-0 z-30 w-full bg-surface-50-900-token border-b border-b-surface-600">
@@ -18,7 +22,7 @@
 			<a href="/search" class="btn-icon">
 				<SearchIcon class="w-6 h-6" />
 			</a>
-			<UserPopup />
+			<UserPopup {user} />
 		</div>
 	</div>
 </header>

@@ -4,6 +4,7 @@
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 
 	import type { NavItem } from '$lib/types/nav';
+	import type { CurrentUser } from '$lib/types/user';
 
 	import BlogIcon from '$components/@icons/BlogIcon.svelte';
 	import DraftIcon from '$components/@icons/DraftIcon.svelte';
@@ -12,14 +13,14 @@
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import Navigation from '$components/@ui/Navigation.svelte';
 
+	export let user: CurrentUser;
+
 	const popupKey = 'user-popup';
 	const userPopup: PopupSettings = {
 		event: 'click',
 		target: popupKey,
 		placement: 'bottom'
 	};
-
-	$: ({ user } = $page.data);
 
 	$: userNav = [
 		{ title: '내 블로그', href: `/@${user?.username}`, icon: BlogIcon },
