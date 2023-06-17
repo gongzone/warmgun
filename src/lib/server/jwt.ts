@@ -14,7 +14,7 @@ export interface TokenPayloadReturn extends TokenPayload {
 }
 
 export const tokenExpires = {
-	access: 1000 * 60 * 10, // 10s
+	access: 1000 * 60 * 60 * 30, // 30m
 	refresh: 1000 * 60 * 60 * 24 * 7 // 7d
 } as const;
 

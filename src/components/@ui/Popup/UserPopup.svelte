@@ -19,26 +19,28 @@
 		placement: 'bottom'
 	};
 
+	$: ({ user } = $page.data);
+
 	$: userNav = [
-		{ title: '내 블로그', href: `/@${$page.data.user?.username}`, icon: BlogIcon },
+		{ title: '내 블로그', href: `/@${user?.username}`, icon: BlogIcon },
 		{ title: '글쓰기', href: `/write`, icon: DraftIcon },
 		{ title: '나의 피드', href: '/feeds', icon: FeedIcon },
 		{ title: '설정', href: '/settings', icon: SettingIcon }
 	] satisfies NavItem[];
 </script>
 
-{#if !$page.data.user}
+{#if !user}
 	<a href="/auth/login" class="btn btn-sm variant-filled md:btn">로그인</a>
 {:else}
 	<button use:popup={userPopup}>
-		<UserAvatar src={$page.data.user.profile?.avatar} />
+		<UserAvatar src={user.profile?.avatar} />
 	</button>
 
 	<div class="card w-52 p-4 shadow-xl z-40" data-popup={popupKey}>
 		<Navigation items={userNav}>
 			<svelte:fragment slot="subItems">
 				<ul>
-					{#if $page.data.user.role === 'ADMIN'}
+					{#if user.role === 'ADMIN'}
 						<li>
 							<a href="/admin">관리자 페이지</a>
 						</li>
