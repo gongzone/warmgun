@@ -4,8 +4,6 @@
 	import AppFooter from './_AppFooter/AppFooter.svelte';
 
 	export let data: LayoutData;
-
-	$: console.log(data.user);
 </script>
 
 <AppHeader user={data.user} />

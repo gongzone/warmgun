@@ -10,7 +10,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const accessToken = event.cookies.get(COOKIE_ACCESS_TOKEN);
 	const refreshToken = event.cookies.get(COOKIE_REFRESH_TOKEN);
 
-	console.log('hooks token', tokenId, accessToken, refreshToken);
+	console.log('tokens', tokenId, accessToken, refreshToken);
+	console.log('event', event, event.cookies.getAll());
 
 	if (!tokenId || !refreshToken) {
 		event.locals.user = null;
