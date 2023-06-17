@@ -58,7 +58,7 @@ async function findPopularTags() {
 
 async function findTrendingArticles() {
 	const articles = await prisma.article.findMany({
-		take: 9,
+		take: 12,
 		include: articleInclude,
 		orderBy: { trendingScore: 'desc' }
 	});
