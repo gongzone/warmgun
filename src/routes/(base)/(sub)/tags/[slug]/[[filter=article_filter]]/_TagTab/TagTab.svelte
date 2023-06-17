@@ -10,7 +10,7 @@
 	};
 </script>
 
-<TabGroup justify="justify-center md:justify-start">
+<TabGroup>
 	<Tab
 		bind:group={tabSet}
 		name="tags-trending"
