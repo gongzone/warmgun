@@ -20,21 +20,21 @@ export function setAuthCookies(
 	cookies.set(COOKIE_TOKEN_ID, tokenId, {
 		path: '/',
 		httpOnly: true,
-		sameSite: 'strict',
+		// sameSite: 'strict',
 		secure: env.NODE_ENV === 'production',
 		maxAge: tokenExpires['refresh'] / 1000
 	});
 	cookies.set(COOKIE_ACCESS_TOKEN, accessToken, {
 		path: '/',
 		httpOnly: true,
-		sameSite: 'strict',
+		// sameSite: 'strict',
 		secure: env.NODE_ENV === 'production',
 		maxAge: tokenExpires['access'] / 1000
 	});
 	cookies.set(COOKIE_REFRESH_TOKEN, refreshToken, {
 		path: '/',
 		httpOnly: true,
-		sameSite: 'strict',
+		// sameSite: 'strict',
 		secure: env.NODE_ENV === 'production',
 		maxAge: tokenExpires['refresh'] / 1000
 	});
