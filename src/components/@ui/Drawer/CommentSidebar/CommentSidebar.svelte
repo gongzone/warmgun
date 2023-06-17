@@ -7,7 +7,6 @@
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 	import CommentTextarea from './CommentTextarea/CommentTextarea.svelte';
 	import { findComments } from '$lib/client-fetch/comment';
-	import type { Comment } from '$lib/types/comment';
 	import type { CommentMeta } from '../drawer';
 	import CommentItem from './CommentItem/CommentItem.svelte';
 
@@ -36,18 +35,7 @@
 			{#each $parentCommentsQuery.data.pages as { data }}
 				{#each data as comment (comment.id)}
 					<li>
-						<CommentItem
-							{articleId}
-							parentId={comment.id}
-							nickname={comment.user.profile?.nickname}
-							avatar={comment.user.profile?.avatar}
-							createdAt={comment.createdAt}
-							message={comment.content}
-							isLiked={comment.isLiked}
-							isOwned={comment.isOwned}
-							likeCount={comment._count.likes}
-							childrenCount={comment._count.children}
-						/>
+						<CommentItem {articleId} {comment} />
 						<hr />
 					</li>
 				{/each}

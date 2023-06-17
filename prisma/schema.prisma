@@ -144,7 +144,7 @@ model Comment {
   userId    Int
   article   Article       @relation(fields: [articleId], references: [id], onDelete: Cascade)
   articleId Int
-  parent    Comment?      @relation("NestedComments", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parent    Comment?      @relation("NestedComments", fields: [parentId], references: [id], onDelete: Cascade)
   parentId  Int?
   children  Comment[]     @relation("NestedComments")
   likes     CommentLike[]

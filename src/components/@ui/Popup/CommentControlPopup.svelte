@@ -5,8 +5,11 @@
 
 	import MoreIcon from '$components/@icons/MoreIcon.svelte';
 	import { enhance } from '$app/forms';
+	import { useQueryClient } from '@tanstack/svelte-query';
 
+	export let articleId: number;
 	export let commentId: number | null;
+	export let parentId: number | null;
 
 	let deleteForm: HTMLFormElement;
 
@@ -16,6 +19,8 @@
 		target: popupKey,
 		placement: 'bottom'
 	};
+
+	const queryClient = useQueryClient();
 </script>
 
 <button class="btn-icon btn-icon-sm variant-ringed-tertiary" use:popup={popupSettings}>
@@ -28,7 +33,21 @@
 			<button class="w-full" type="button" on:click>수정하기</button>
 		</li>
 		<li>
-			<form method="POST" action="?/deleteComment" bind:this={deleteForm} use:enhance>
+			<form
+				method="POST"
+				action="?/deleteComment"
+				bind:this={deleteForm}
+				use:enhance={() => {
+					return async ({ result, update }) => {
+						if (parentId) {
+							await queryClient.invalidateQueries({ queryKey: ['comments', articleId, null] });
+						}
+						await queryClient.invalidateQueries({ queryKey: ['comments', articleId, parentId] });
+
+						await update();
+					};
+				}}
+			>
 				<input type="hidden" name="commentId" value={commentId} />
 				<button
 					type="button"

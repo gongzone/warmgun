@@ -71,7 +71,7 @@
 						}
 
 						return async ({ result, update }) => {
-							await queryClient.invalidateQueries({ queryKey: ['comments', articleId, null] });
+							await queryClient.invalidateQueries({ queryKey: ['comments', articleId, parentId] });
 							cb && cb();
 							update();
 						};
