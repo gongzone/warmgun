@@ -160,7 +160,7 @@ export const actions: Actions = {
 			throw error(400, '장르 설정이 올바르게 되지 않았습니다.');
 		}
 
-		const slug = `${title.trim().toLowerCase().replace(' ', '-')}-${nanoid()}`;
+		const slug = `${title.trim().replace(/\s+/g, '-').toLowerCase()}-${nanoid()}`;
 		const bodyString = bodyToString(body);
 		const excerpt = generateExcerpt(bodyString);
 		const readingTime = calculateReadingTime(bodyString);
