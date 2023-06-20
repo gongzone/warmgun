@@ -200,7 +200,7 @@ export const actions: Actions = {
 
 		await meilisearch.index('articles').deleteDocument(articleId);
 
-		throw redirect(302, `/@${locals.user.username}`);
+		throw redirect(301, `/@${locals.user.username}`);
 	},
 	follow: async ({ locals, request }) => {
 		if (!locals.user) {
