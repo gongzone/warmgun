@@ -1,6 +1,6 @@
 {
-	"name": "my-skeleton-app",
-	"version": "0.0.1",
+	"name": "warmgun",
+	"version": "0.10.0",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
