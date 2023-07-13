@@ -15,6 +15,7 @@
 	import MainWords from './MainWords.svelte';
 	import SubWords from './SubWords.svelte';
 	import TrendingArticlesShowcase from './TrendingArticlesShowcase.svelte';
+	import HeroGradient from './HeroGradient.svelte';
 
 	// export let topUsers: BlogUser[];
 	// export let popularTags: Tag[];
@@ -25,7 +26,8 @@
 	};
 
 	const PartTwo = {
-		TrendingArticlesShowcase
+		TrendingArticlesShowcase,
+		HeroGradient
 	};
 </script>
 
