@@ -11,8 +11,8 @@
 	export let as: 'button' | 'a' = 'button';
 	export let type: HTMLButtonAttributes['type'] = undefined;
 	export let href: HTMLAnchorAttributes['href'] = undefined;
-	export let variant: VariantProps<typeof buttonVariants>['variant'] = 'default';
-	export let size: VariantProps<typeof buttonVariants>['size'] = 'default';
+	export let variant: VariantProps<typeof buttonVariants>['variant'] = 'primary';
+	export let size: VariantProps<typeof buttonVariants>['size'] = 'md';
 </script>
 
 <svelte:element
