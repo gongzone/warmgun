@@ -110,7 +110,7 @@
 					</div>
 					<ul class="grid grid-cols-3 gap-7">
 						{#each trendingArticles as article, index (article.id)}
-							{#if index <= 5}
+							{#if index <= 8}
 								<li class="pb-4">
 									<Article {article} />
 								</li>
@@ -128,7 +128,7 @@
 					</div>
 					<ul class="grid grid-cols-3 gap-7">
 						{#each trendingArticles as article, index (article.id)}
-							{#if index <= 5}
+							{#if index <= 8}
 								<li class="pb-4">
 									<Article {article} />
 								</li>
@@ -146,7 +146,7 @@
 					</div>
 					<ul class="grid grid-cols-3 gap-7">
 						{#each trendingArticles as article, index (article.id)}
-							{#if index <= 5}
+							{#if index <= 8}
 								<li class="pb-4">
 									<Article {article} />
 								</li>
@@ -176,7 +176,7 @@
 				</div>
 			</div>
 
-			<div class="border rounded-lg p-4 space-y-2 shadow-2xl bg-[#151515] sticky top-[107px]">
+			<div class="border rounded-lg p-4 space-y-2 shadow-2xl bg-[#151515]">
 				<span class="font-semibold block">See More</span>
 				<ul class="">
 					<li
