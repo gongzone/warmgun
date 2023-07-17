@@ -3,6 +3,7 @@ import "../styles/globals.css"
 import type { Metadata } from "next"
 
 import { nanumSquareNeo } from "@/lib/assets/fonts/fonts"
+import { Layout } from "@/components/Layout"
 import { ThemeProvider } from "@/components/utils/ThemeProvider"
 
 export const metadata: Metadata = {
@@ -21,7 +22,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <head />
         <body className={nanumSquareNeo.variable}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            {children}
+            <Layout>{children}</Layout>
           </ThemeProvider>
         </body>
       </html>
