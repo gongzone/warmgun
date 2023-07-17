@@ -11,7 +11,7 @@
 </script>
 
 <header
-	class="sticky top-0 z-40 w-full bg-surface-50-900-token border-b border-b-surface-600 bg-background"
+	class="sticky top-0 z-30 w-full bg-surface-50-900-token border-b border-b-surface-600 bg-background"
 >
 	<div class="container h-16 flex items-center justify-between">
 		<div class="flex items-center gap-2">

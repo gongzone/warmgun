@@ -3,8 +3,7 @@
 	import { enhance } from '$app/forms';
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 
-	import type { NavItem } from '$lib/types/nav';
-	import type { CurrentUser } from '$lib/types/user';
+	import type { Nav } from '$lib/constants/navs';
 
 	import BlogIcon from '$components/@icons/BlogIcon.svelte';
 	import DraftIcon from '$components/@icons/DraftIcon.svelte';
@@ -13,8 +12,6 @@
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import Navigation from '$components/@ui/Navigation.svelte';
 
-	export let user: CurrentUser;
-
 	const popupKey = 'user-popup';
 	const userPopup: PopupSettings = {
 		event: 'click',
@@ -22,12 +19,14 @@
 		placement: 'bottom'
 	};
 
+	$: user = $page.data.user;
+
 	$: userNav = [
 		{ title: '내 블로그', href: `/@${user?.username}`, icon: BlogIcon },
 		{ title: '글쓰기', href: `/write`, icon: DraftIcon },
 		{ title: '나의 피드', href: '/feeds', icon: FeedIcon },
 		{ title: '설정', href: '/settings', icon: SettingIcon }
-	] satisfies NavItem[];
+	] satisfies Nav[];
 </script>
 
 {#if !user}

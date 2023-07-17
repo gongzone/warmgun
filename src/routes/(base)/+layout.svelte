@@ -6,6 +6,6 @@
 	export let data: LayoutData;
 </script>
 
-<AppHeader user={data.user} />
+<!-- <AppHeader user={data.user} /> -->
 <slot />
 <AppFooter />
