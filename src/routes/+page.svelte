@@ -5,8 +5,8 @@
 	import Button from '$components/@ui/Test/Button.svelte';
 	import PageContainer from '$components/@ui/Test/PageContainer.svelte';
 	import HomeHero from '$components/HomeHero/HomeHero.svelte';
-	import HomeTrendingArticles from './_HomeTrendingArticles/HomeTrendingArticles.svelte';
-	import HomeMoreInfo from './_HomeMoreInfo/HomeMoreInfo.svelte';
+	import HomeTrendingArticles from './(base)/_HomeTrendingArticles/HomeTrendingArticles.svelte';
+	import HomeMoreInfo from './(base)/_HomeMoreInfo/HomeMoreInfo.svelte';
 	import { categories } from '$lib/constants/categories';
 	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
 	import ArrowRightIcon from '$components/@icons/ArrowRightIcon.svelte';
