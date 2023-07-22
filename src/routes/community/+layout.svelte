@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CommunityTab from '$components/community/CommunityTab.svelte';
+	import CommunityTab from '$components/Community/CommunityTab.svelte';
 </script>
 
 <div class="container max-w-[700px] mx-auto py-16 md:py-20">

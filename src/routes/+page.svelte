@@ -3,7 +3,7 @@
 
 	import Seo from '$components/@utils/Seo.svelte';
 	import Button from '$components/@ui/Test/Button.svelte';
-	import HomeHero from '$components/home/HomeHero/HomeHero.svelte';
+	import HomeHero from '$components/Home/HomeHero/HomeHero.svelte';
 	import { categories } from '$lib/constants/categories';
 	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
 	import ArrowRightIcon from '$components/@icons/ArrowRightIcon.svelte';
@@ -13,6 +13,7 @@
 	import FeedIcon from '$components/@icons/FeedIcon.svelte';
 	import Avatar from '$components/@ui/Test/Avatar.svelte';
 	import Article from '$components/Article/Article/Article.svelte';
+	import Separator from '$components/@ui/Separator.svelte';
 
 	export let data: PageData;
 
@@ -21,14 +22,15 @@
 
 <Seo />
 
-<div class="">
-	<section class="">
-		<div class="container py-16 border-b">
-			<HomeHero />
-		</div>
+<div class="container py-16">
+	<section>
+		<HomeHero />
 	</section>
 
-	<div class="container grid grid-cols-12 gap-12 py-10 relative">
+	<Separator class="my-16" />
+
+	<!-- Todo: Refactoring -->
+	<div class="grid grid-cols-12 gap-12 relative">
 		<div class="col-span-9 flex flex-col gap-16">
 			<section class="">
 				<div class="space-y-8">

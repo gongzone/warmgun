@@ -16,6 +16,11 @@
 
 	export let data: LayoutData;
 
+	let layoutMode: 'default' | 'write' = 'default';
+
+	$: pathname = $page.url.pathname;
+	$: layoutMode = pathname.startsWith('/write') ? 'write' : 'default';
+
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 </script>
 
@@ -23,7 +28,7 @@
 	<Toast />
 	<Drawer />
 	<Modal />
-	<Layout>
+	<Layout mode={layoutMode}>
 		<slot />
 	</Layout>
 </QueryClientProvider>

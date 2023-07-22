@@ -1,12 +1,12 @@
 <script lang="ts">
-	import DefaultHeader from './DefaultHeader/DefaultHeader.svelte';
+	import DefaultHeader from './_DefaultHeader/DefaultHeader.svelte';
 
 	export let mode: 'default' | 'blog' | 'write' | 'admin' = 'default';
 </script>
 
-{#if mode === 'blog'}
-	s
-{:else}
+{#if mode === 'default'}
 	<DefaultHeader />
+{:else if mode === 'blog'}
+	s
 {/if}
 <slot />
