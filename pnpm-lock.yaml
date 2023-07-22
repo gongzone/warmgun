@@ -36,8 +36,8 @@ dependencies:
     specifier: ^1.1.0
     version: 1.1.0
   '@prisma/client':
-    specifier: 4.14.0
-    version: 4.14.0(prisma@4.16.2)
+    specifier: 5.0.0
+    version: 5.0.0(prisma@5.0.0)
   '@tanstack/svelte-query':
     specifier: ^4.29.19
     version: 4.29.19(svelte@4.0.5)
@@ -89,8 +89,8 @@ devDependencies:
     specifier: ^1.28.1
     version: 1.36.0
   '@skeletonlabs/skeleton':
-    specifier: ^1.9.0
-    version: 1.9.0(svelte@4.0.5)
+    specifier: ^1.10.0
+    version: 1.10.0(svelte@4.0.5)
   '@sveltejs/adapter-auto':
     specifier: ^2.1.0
     version: 2.1.0(@sveltejs/kit@1.22.2)
@@ -102,10 +102,10 @@ devDependencies:
     version: 1.22.2(svelte@4.0.5)(vite@4.4.3)
   '@tailwindcss/forms':
     specifier: ^0.5.3
-    version: 0.5.3(tailwindcss@3.3.2)
+    version: 0.5.3(tailwindcss@3.3.3)
   '@tailwindcss/typography':
     specifier: ^0.5.9
-    version: 0.5.9(tailwindcss@3.3.2)
+    version: 0.5.9(tailwindcss@3.3.3)
   '@types/autosize':
     specifier: ^4.0.1
     version: 4.0.1
@@ -143,8 +143,8 @@ devDependencies:
     specifier: ^2.10.1
     version: 2.10.1(prettier@2.8.8)(svelte@4.0.5)
   prisma:
-    specifier: ^4.14.0
-    version: 4.16.2
+    specifier: ^5.0.0
+    version: 5.0.0
   svelte:
     specifier: ^4.0.5
     version: 4.0.5
@@ -155,8 +155,8 @@ devDependencies:
     specifier: ^1.5.3
     version: 1.5.3
   tailwindcss:
-    specifier: ^3.3.2
-    version: 3.3.2
+    specifier: ^3.3.3
+    version: 3.3.3
   tslib:
     specifier: ^2.4.1
     version: 2.6.0
@@ -1278,9 +1278,9 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
-  /@prisma/client@4.14.0(prisma@4.16.2):
-    resolution: {integrity: sha512-MK/XaA2sFdfaOa7I9MjNKz6dxeIEdeZlnpNRoF2w3JuRLlFJLkpp6cD3yaqw2nUUhbrn3Iqe3ZpVV+VuGGil7Q==}
-    engines: {node: '>=14.17'}
+  /@prisma/client@5.0.0(prisma@5.0.0):
+    resolution: {integrity: sha512-XlO5ELNAQ7rV4cXIDJUNBEgdLwX3pjtt9Q/RHqDpGf43szpNJx2hJnggfFs7TKNx0cOFsl6KJCSfqr5duEU/bQ==}
+    engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:
       prisma: '*'
@@ -1288,16 +1288,16 @@ packages:
       prisma:
         optional: true
     dependencies:
-      '@prisma/engines-version': 4.14.0-67.d9a4c5988f480fa576d43970d5a23641aa77bc9c
-      prisma: 4.16.2
+      '@prisma/engines-version': 4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
+      prisma: 5.0.0
     dev: false
 
-  /@prisma/engines-version@4.14.0-67.d9a4c5988f480fa576d43970d5a23641aa77bc9c:
-    resolution: {integrity: sha512-3jum8/YSudeSN0zGW5qkpz+wAN2V/NYCQ+BPjvHYDfWatLWlQkqy99toX0GysDeaUoBIJg1vaz2yKqiA3CFcQw==}
+  /@prisma/engines-version@4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584:
+    resolution: {integrity: sha512-HHiUF6NixsldsP3JROq07TYBLEjXFKr6PdH8H4gK/XAoTmIplOJBCgrIUMrsRAnEuGyRoRLXKXWUb943+PFoKQ==}
     dev: false
 
-  /@prisma/engines@4.16.2:
-    resolution: {integrity: sha512-vx1nxVvN4QeT/cepQce68deh/Turxy5Mr+4L4zClFuK1GlxN3+ivxfuv+ej/gvidWn1cE1uAhW7ALLNlYbRUAw==}
+  /@prisma/engines@5.0.0:
+    resolution: {integrity: sha512-kyT/8fd0OpWmhAU5YnY7eP31brW1q1YrTGoblWrhQJDiN/1K+Z8S1kylcmtjqx5wsUGcP1HBWutayA/jtyt+sg==}
     requiresBuild: true
 
   /@rollup/pluginutils@4.2.1:
@@ -1308,8 +1308,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@skeletonlabs/skeleton@1.9.0(svelte@4.0.5):
-    resolution: {integrity: sha512-8dPp2l4d7p07FD4PXejY4p4my8SpurHwGPw2SCMvKPVde49js13BTvZ26dWo7pfPuPozrXsOzEF2mZxpSv2W+A==}
+  /@skeletonlabs/skeleton@1.10.0(svelte@4.0.5):
+    resolution: {integrity: sha512-6Cy1dzF6b2tMGxjFe60WOulN53tfvWMH+SDYoPMzNsRoa20vjlBMjLInWPJGn4dMuSJMiDrR9apniv16m0c9Rg==}
     peerDependencies:
       svelte: ^3.56.0 || ^4.0.0
     dependencies:
@@ -1788,16 +1788,16 @@ packages:
       - supports-color
     dev: true
 
-  /@tailwindcss/forms@0.5.3(tailwindcss@3.3.2):
+  /@tailwindcss/forms@0.5.3(tailwindcss@3.3.3):
     resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.3.2
+      tailwindcss: 3.3.3
     dev: true
 
-  /@tailwindcss/typography@0.5.9(tailwindcss@3.3.2):
+  /@tailwindcss/typography@0.5.9(tailwindcss@3.3.3):
     resolution: {integrity: sha512-t8Sg3DyynFysV9f4JDOVISGsjazNb48AeIYQwcL+Bsq5uf4RYL75C1giZ43KISjeDGBaTN3Kxh7Xj/vRSMJUUg==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
@@ -1806,7 +1806,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.3.2
+      tailwindcss: 3.3.3
     dev: true
 
   /@tanstack/query-core@4.29.19:
@@ -3475,13 +3475,13 @@ packages:
     hasBin: true
     dev: true
 
-  /prisma@4.16.2:
-    resolution: {integrity: sha512-SYCsBvDf0/7XSJyf2cHTLjLeTLVXYfqp7pG5eEVafFLeT0u/hLFz/9W196nDRGUOo1JfPatAEb+uEnTQImQC1g==}
-    engines: {node: '>=14.17'}
+  /prisma@5.0.0:
+    resolution: {integrity: sha512-KYWk83Fhi1FH59jSpavAYTt2eoMVW9YKgu8ci0kuUnt6Dup5Qy47pcB4/TLmiPAbhGrxxSz7gsSnJcCmkyPANA==}
+    engines: {node: '>=16.13'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 4.16.2
+      '@prisma/engines': 5.0.0
 
   /punycode@2.3.0:
     resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}
@@ -3852,8 +3852,8 @@ packages:
     resolution: {integrity: sha512-R2/nULkdg1VR/EL4RXg4dEohdoxNUJGLMnWIQnPKL+O9Twu7Cn3Rxi4dlXkDzZrEGtR+G+psSXFouWlpTyLhCQ==}
     dev: false
 
-  /tailwindcss@3.3.2:
-    resolution: {integrity: sha512-9jPkMiIBXvPc2KywkraqsUfbfj+dHDb+JPWtSJa9MLFdrPyazI7q6WX2sUrm7R9eVR7qqv3Pas7EvQFzxKnI6w==}
+  /tailwindcss@3.3.3:
+    resolution: {integrity: sha512-A0KgSkef7eE4Mf+nKJ83i75TMyq8HqY3qmFIJSWy8bNt0v1lG7jUcpGpoTFxAwYcWOphcTBLPPJg+bDfhDf52w==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -3877,7 +3877,6 @@ packages:
       postcss-load-config: 4.0.1(postcss@8.4.25)
       postcss-nested: 6.0.1(postcss@8.4.25)
       postcss-selector-parser: 6.0.13
-      postcss-value-parser: 4.2.0
       resolve: 1.22.2
       sucrase: 3.32.0
     transitivePeerDependencies:

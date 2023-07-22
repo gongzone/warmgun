@@ -3,10 +3,7 @@
 
 	import Seo from '$components/@utils/Seo.svelte';
 	import Button from '$components/@ui/Test/Button.svelte';
-	import PageContainer from '$components/@ui/Test/PageContainer.svelte';
-	import HomeHero from '$components/HomeHero/HomeHero.svelte';
-	import HomeTrendingArticles from './(base)/_HomeTrendingArticles/HomeTrendingArticles.svelte';
-	import HomeMoreInfo from './(base)/_HomeMoreInfo/HomeMoreInfo.svelte';
+	import HomeHero from '$components/home/HomeHero/HomeHero.svelte';
 	import { categories } from '$lib/constants/categories';
 	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
 	import ArrowRightIcon from '$components/@icons/ArrowRightIcon.svelte';
@@ -27,21 +24,7 @@
 <div class="">
 	<section class="">
 		<div class="container py-16 border-b">
-			<HomeHero
-				class="grid grid-cols-1 gap-8 items-center md:gap-10 lg:grid-cols-2"
-				let:PartOne
-				let:PartTwo
-			>
-				<div class="relative z-30 space-y-4 mx-auto md:space-y-6 lg:mx-0">
-					<PartOne.MainWords firstWord="당신의 개발 이야기" secondWord="기록하고 공유하세요" />
-					<PartOne.SubWords firstWord="Bring, Discover, Share" secondWord="Ideas & Stories" />
-				</div>
-
-				<div class="relative w-full h-full max-w-[640px] mx-auto">
-					<PartTwo.HeroGradient />
-					<PartTwo.TrendingArticlesShowcase articles={trendingArticles} />
-				</div>
-			</HomeHero>
+			<HomeHero />
 		</div>
 	</section>
 
