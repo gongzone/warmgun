@@ -65,6 +65,13 @@
 				Link,
 				History
 			],
+			editorProps: {
+				attributes: {
+					class: 'prose dark:prose-invert p-4 focus:outline-none'
+				}
+			},
+			autofocus: true,
+			editable: true,
 			content: `Hello world!`
 		});
 	});
