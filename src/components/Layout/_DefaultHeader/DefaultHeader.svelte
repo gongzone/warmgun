@@ -1,8 +1,8 @@
 <script lang="ts">
+	import UserPopup from '../@UserPopup/UserPopup.svelte';
 	import HamburgerButton from './_HamburgerButton.svelte';
 	import MainNav from './_MainNav.svelte';
 	import SearchLink from './_SearchLink.svelte';
-	import UserPopup from '$components/Auth/UserPopup.svelte';
 </script>
 
 <header class="sticky top-0 z-30 w-full border-b bg-surface-50-900-token border-b-surface-600">
