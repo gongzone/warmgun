@@ -8,6 +8,7 @@
 	import WriteHeader from './_WriteHeader/WriteHeader.svelte';
 	import FullEditor from './_FullEditor/FullEditor.svelte';
 	import Seo from '$components/@utils/Seo.svelte';
+	import Editor from '$components/Write/Editor/Editor.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -29,10 +30,14 @@
 
 <Seo title={isDraftMode ? '글 작성' : '글 수정'} />
 
-<WriteHeader mode={isDraftMode ? 'draft' : 'edit'} {articleMeta} {getCurrentEditorData} />
+<!-- <WriteHeader mode={isDraftMode ? 'draft' : 'edit'} {articleMeta} {getCurrentEditorData} /> -->
 
-<FullEditor
+<!-- <FullEditor
 	title={isDraftMode ? data.draft?.title : data.article?.title}
 	body={isDraftMode ? data.draft?.body : data.article?.body}
 	bind:getCurrentEditorData
-/>
+/> -->
+
+<div class="max-w-[700px] mx-auto my-4">
+	<Editor />
+</div>
