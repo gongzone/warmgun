@@ -9,6 +9,9 @@
 	import FullEditor from './_FullEditor/FullEditor.svelte';
 	import Seo from '$components/@utils/Seo.svelte';
 	import Editor from '$components/Write/Editor/Editor.svelte';
+	import WriteController from '$components/Write/WrtieController/WriteController.svelte';
+	import TitleTextarea from '$components/Write/TitleTextarea/TitleTextarea.svelte';
+	import Separator from '$components/@ui/Separator.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -30,14 +33,10 @@
 
 <Seo title={isDraftMode ? '글 작성' : '글 수정'} />
 
-<!-- <WriteHeader mode={isDraftMode ? 'draft' : 'edit'} {articleMeta} {getCurrentEditorData} /> -->
+<WriteController />
 
-<!-- <FullEditor
-	title={isDraftMode ? data.draft?.title : data.article?.title}
-	body={isDraftMode ? data.draft?.body : data.article?.body}
-	bind:getCurrentEditorData
-/> -->
-
-<div class="max-w-[700px] mx-auto my-4">
+<div class="max-w-[690px] mx-auto my-10 px-4">
+	<TitleTextarea />
+	<Separator class="my-1 mb-8" />
 	<Editor />
 </div>

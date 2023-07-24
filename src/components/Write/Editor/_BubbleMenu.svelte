@@ -3,6 +3,7 @@
 	import { BubbleMenuPlugin, type BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu';
 
 	import type { Editor } from './Editor';
+	import BubbleMenuButton from './_BubbleMenuButton.svelte';
 
 	export let editor: Editor;
 	export let tippyOptions: BubbleMenuPluginProps['tippyOptions'] = {};
@@ -35,5 +36,5 @@
 </script>
 
 <div bind:this={element} class={$$props.class} style="visibility: hidden;">
-	<slot />
+	<slot {BubbleMenuButton} />
 </div>
