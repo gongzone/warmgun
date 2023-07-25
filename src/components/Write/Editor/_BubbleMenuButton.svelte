@@ -4,7 +4,7 @@
 	export let isActive: boolean = false;
 
 	$: baseClasses = cn(
-		'p-2 m-1 rounded-full transition-colors duration-200 hover:bg-primary-500/50',
+		'p-2 m-[0.1rem] rounded-full transition-colors duration-200 hover:bg-primary-500/50',
 		isActive ? 'bg-primary-500/50' : '',
 		$$props.class
 	);

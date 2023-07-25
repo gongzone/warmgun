@@ -32,6 +32,7 @@
 		Gapcursor
 	} from './Editor';
 
+	import { uploadImage } from '$lib/client-fetch/upload-image';
 	import SvelteNodeViewRenderer from './NodeView/SvelteNodeViewRenderer';
 
 	import EditorContent from './_EditorContent.svelte';
@@ -50,7 +51,9 @@
 	import ImageIcon from '$components/@icons/ImageIcon.svelte';
 	import CodeBoxIcon from '$components/@icons/CodeBoxIcon.svelte';
 	import CodeBlockSelect from './_CodeBlockSelect.svelte';
-	import { uploadImage } from '$lib/client-fetch/upload-image';
+	import ListUnorderedIcon from '$components/@icons/ListUnorderedIcon.svelte';
+	import QuoteIcon from '$components/@icons/QuoteIcon.svelte';
+	import LinkIcon from '$components/@icons/LinkIcon.svelte';
 
 	let editor: Readable<Editor>;
 
@@ -135,7 +138,7 @@
 	<BubbleMenu
 		class="flex items-center bg-surface-900-50-token text-surface-50-900-token rounded-md shadow-xl"
 		editor={$editor}
-		tippyOptions={{ duration: 100 }}
+		tippyOptions={{ maxWidth: 350, duration: 100 }}
 		let:BubbleMenuButton
 	>
 		<BubbleMenuButton
@@ -189,6 +192,26 @@
 		>
 			<InlineCodeIcon class="w-4 h-4" />
 		</BubbleMenuButton>
+		<BubbleMenuButton
+			isActive={$editor.isActive('link')}
+			on:click={() => {
+				const previousUrl = $editor.getAttributes('link').href;
+
+				if (previousUrl) {
+					return $editor.chain().focus().toggleLink({ href: previousUrl }).run();
+				}
+
+				const url = window.prompt('URL을 입력해주세요.');
+
+				if (!url) {
+					return;
+				}
+
+				$editor.chain().focus().toggleLink({ href: url }).run();
+			}}
+		>
+			<LinkIcon class="w-4 h-4" />
+		</BubbleMenuButton>
 	</BubbleMenu>
 {/if}
 
@@ -225,16 +248,21 @@
 					}}
 				/>
 			</div>
-			<FloatingMenuButton
-				isActive={$editor.isActive('heading', { level: 3 })}
-				on:click={() => onButtonClick()}><ImageIcon class="w-4 h-4" /></FloatingMenuButton
+			<FloatingMenuButton isActive={$editor.isActive('image')} on:click={() => onButtonClick()}
+				><ImageIcon class="w-4 h-4" /></FloatingMenuButton
 			>
 		</div>
 
 		<FloatingMenuButton
-			isActive={$editor.isActive('codeBlock')}
-			on:click={() => $editor.chain().focus().toggleCodeBlock().run()}
-			><CodeBoxIcon class="w-4 h-4" /></FloatingMenuButton
+			isActive={$editor.isActive('bulletList')}
+			on:click={() => $editor.chain().focus().toggleBulletList().run()}
+			><ListUnorderedIcon class="w-4 h-4" /></FloatingMenuButton
+		>
+
+		<FloatingMenuButton
+			isActive={$editor.isActive('blockquote')}
+			on:click={() => $editor.chain().focus().toggleBlockquote().run()}
+			><QuoteIcon class="w-4 h-4" /></FloatingMenuButton
 		>
 
 		<FloatingMenuButton
