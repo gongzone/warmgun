@@ -3,9 +3,7 @@
 	import DraftIcon from '$components/@icons/DraftIcon.svelte';
 </script>
 
-<header
-	class="flex items-center justify-between px-2 py-4 sm:px-6 border-b bg-surface-50-900-token border-b-surface-600"
->
+<header class="flex items-center justify-between px-2 py-4 sm:px-6 bg-surface-50-900-token">
 	<div class="flex items-center gap-2">
 		<button type="button" class="btn-icon">
 			<ArrowLeftIcon class="w-6 h-6" />

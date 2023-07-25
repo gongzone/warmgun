@@ -24,3 +24,4 @@ export * from './link';
 export * from './history';
 export * from './drop-cursor';
 export * from './gap-cursor';
+export * from './placeholder';

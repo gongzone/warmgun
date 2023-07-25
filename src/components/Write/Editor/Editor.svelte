@@ -29,7 +29,8 @@
 		Link,
 		History,
 		Dropcursor,
-		Gapcursor
+		Gapcursor,
+		Placeholder
 	} from './Editor';
 
 	import { uploadImage } from '$lib/client-fetch/upload-image';
@@ -99,6 +100,9 @@
 					HTMLAttributes: {
 						class: '!border-t-surface-50'
 					}
+				}),
+				Placeholder.configure({
+					placeholder: '담고있는 이야기를 꺼내보세요...'
 				})
 			],
 			editorProps: {
