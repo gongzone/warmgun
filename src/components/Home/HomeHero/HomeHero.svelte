@@ -7,7 +7,7 @@
 	const articles = Array.from({ length: 10 }, (v, i) => ({
 		id: i + 1,
 		title: `스벨트킷은 훌륭합니다! ${i + 1}`,
-		coverImage: `https://picsum.photos/id/${(i + 1) * 7}/270/405`,
+		coverImage: `https://picsum.photos/id/${(i + 1) * 7}/360/580`,
 		author: {
 			nickname: 'Shadcn',
 			avatar: 'https://github.com/shadcn.png'

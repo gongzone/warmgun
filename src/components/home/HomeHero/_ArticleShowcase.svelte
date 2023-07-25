@@ -3,6 +3,7 @@
 	import ArrowRightSmall from '$components/@icons/ArrowRightSmall.svelte';
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import ArrowRightIcon from '$components/@icons/ArrowRightIcon.svelte';
+	import Separator from '$components/@ui/Separator.svelte';
 
 	export let articles: any;
 
@@ -35,7 +36,7 @@
 <div class="relative min-h-[405px] [perspective:1200px]">
 	{#each articles as article, index (article.id)}
 		<div
-			class="absolute top-0 left-0 flex-none transition-all duration-[1000ms] ease-in-out border border-foreground w-[200px] h-[300px] {page ===
+			class="absolute top-0 left-0 flex-none transition-all duration-[1000ms] ease-in-out border border-surface-900-50-token w-[200px] h-[300px] {page ===
 			index
 				? ''
 				: 'pointer-events-none'}"
@@ -81,12 +82,12 @@
 						<span class="text-sm">{article.author.nickname}</span>
 					</div>
 
-					<h3 class="text-lg break-all font-semibold line-clamp-3">
+					<h3 class="text-base font-medium break-all line-clamp-3">
 						{article.title} Next.js 보다 더 나은 점이 무엇일까요? 그 궁금증을 풀어드립니다.
 					</h3>
 
 					<div class="flex flex-wrap gap-2">
-						<span class="badge variant-filled-primary">{article.category}</span>
+						<span class="badge variant-filled-primary">프론트엔드</span>
 						<span class="badge variant-filled">{article.tags[0]}</span>
 					</div>
 				</div>
