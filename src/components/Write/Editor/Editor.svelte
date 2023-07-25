@@ -3,6 +3,7 @@
 
 	import { onMount } from 'svelte';
 	import type { Readable } from 'svelte/store';
+	import { isTextSelection } from '@tiptap/core';
 
 	import { lowlight } from 'lowlight';
 
@@ -26,7 +27,9 @@
 		TextStyle,
 		Underline,
 		Link,
-		History
+		History,
+		Dropcursor,
+		Gapcursor
 	} from './Editor';
 
 	import SvelteNodeViewRenderer from './NodeView/SvelteNodeViewRenderer';
@@ -47,8 +50,17 @@
 	import ImageIcon from '$components/@icons/ImageIcon.svelte';
 	import CodeBoxIcon from '$components/@icons/CodeBoxIcon.svelte';
 	import CodeBlockSelect from './_CodeBlockSelect.svelte';
+	import { uploadImage } from '$lib/client-fetch/upload-image';
 
 	let editor: Readable<Editor>;
+
+	let elemFileInput: HTMLElement;
+	let files: FileList | undefined = undefined;
+	let isLoading: boolean = false;
+
+	function onButtonClick(): void {
+		elemFileInput.click();
+	}
 
 	onMount(() => {
 		editor = createEditor({
@@ -78,14 +90,20 @@
 				TextStyle,
 				Underline,
 				Link,
-				History
+				History,
+				Dropcursor,
+				Gapcursor.configure({
+					HTMLAttributes: {
+						class: '!border-t-surface-50'
+					}
+				})
 			],
 			editorProps: {
 				attributes: {
 					class: 'prose dark:prose-invert focus:outline-none'
 				}
 			},
-			autofocus: true,
+			autofocus: false,
 			editable: true,
 			content: `
         <p>
@@ -112,6 +130,7 @@
 </script>
 
 <EditorContent editor={$editor} />
+
 {#if $editor}
 	<BubbleMenu
 		class="flex items-center bg-surface-900-50-token text-surface-50-900-token rounded-md shadow-xl"
@@ -171,7 +190,9 @@
 			<InlineCodeIcon class="w-4 h-4" />
 		</BubbleMenuButton>
 	</BubbleMenu>
+{/if}
 
+{#if $editor}
 	<FloatingMenu editor={$editor} let:FloatingMenuButton>
 		<FloatingMenuButton
 			isActive={$editor.isActive('heading', { level: 1 })}
@@ -189,16 +210,33 @@
 			><HeadingThreeIcon class="w-4 h-4" /></FloatingMenuButton
 		>
 
-		<FloatingMenuButton
-			isActive={$editor.isActive('heading', { level: 3 })}
-			on:click={() => $editor.chain().focus().toggleHeading({ level: 3 }).run()}
-			><ImageIcon class="w-4 h-4" /></FloatingMenuButton
-		>
+		<div>
+			<div class="w-0 h-0 overflow-hidden">
+				<input
+					type="file"
+					bind:this={elemFileInput}
+					bind:files
+					on:change={async () => {
+						if (!files) return;
+						isLoading = true;
+						const image = await uploadImage(files[0]);
+						$editor.chain().focus().setImage({ src: image }).run();
+						isLoading = false;
+					}}
+				/>
+			</div>
+			<FloatingMenuButton
+				isActive={$editor.isActive('heading', { level: 3 })}
+				on:click={() => onButtonClick()}><ImageIcon class="w-4 h-4" /></FloatingMenuButton
+			>
+		</div>
+
 		<FloatingMenuButton
 			isActive={$editor.isActive('codeBlock')}
 			on:click={() => $editor.chain().focus().toggleCodeBlock().run()}
 			><CodeBoxIcon class="w-4 h-4" /></FloatingMenuButton
 		>
+
 		<FloatingMenuButton
 			isActive={$editor.isActive('codeBlock')}
 			on:click={() => $editor.chain().focus().toggleCodeBlock().run()}

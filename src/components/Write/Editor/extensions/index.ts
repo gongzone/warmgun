@@ -22,3 +22,5 @@ export * from './link';
 
 /* Others */
 export * from './history';
+export * from './drop-cursor';
+export * from './gap-cursor';

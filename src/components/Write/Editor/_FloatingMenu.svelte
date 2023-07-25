@@ -36,6 +36,10 @@
 	});
 </script>
 
-<div bind:this={element} class={cn('space-x-1', $$props.class)} style="visibility: hidden;">
+<div
+	bind:this={element}
+	class={cn('flex items-center gap-2', $$props.class)}
+	style="visibility: hidden;"
+>
 	<slot {FloatingMenuButton} />
 </div>
