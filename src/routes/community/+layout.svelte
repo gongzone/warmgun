@@ -2,9 +2,11 @@
 	import CommunityTab from '$components/Community/CommunityTab.svelte';
 </script>
 
-<div class="container max-w-[700px] mx-auto py-16 md:py-20">
-	<div class="space-y-6 mb-8">
-		<h3 class="text-4xl font-bold">커뮤니티</h3>
+<div class="container max-w-[800px] mx-auto py-16 md:py-20">
+	<div class="space-y-6">
+		<div class="flex justify-center">
+			<h3 class="text-7xl font-bold">Community</h3>
+		</div>
 		<CommunityTab />
 	</div>
 	<slot />

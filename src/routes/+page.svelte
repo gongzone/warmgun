@@ -17,7 +17,8 @@
 
 	export let data: PageData;
 
-	$: ({ topUsers, popularTags, trendingArticles } = data);
+	$: ({ bestArticles } = data);
+	$: console.log(bestArticles);
 </script>
 
 <Seo />
@@ -30,7 +31,7 @@
 	<Separator class="my-16" />
 
 	<!-- Todo: Refactoring -->
-	<div class="grid grid-cols-12 gap-12 relative">
+	<!-- <div class="grid grid-cols-12 gap-12 relative">
 		<div class="col-span-9 flex flex-col gap-16">
 			<section class="">
 				<div class="space-y-8">
@@ -195,5 +196,5 @@
 				</ul>
 			</div>
 		</aside>
-	</div>
+	</div> -->
 </div>

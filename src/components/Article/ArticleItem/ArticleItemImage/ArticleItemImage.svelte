@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ImageIcon from '$components/@icons/ImageIcon.svelte';
+	import ImageIcon from '$components/@icons/editor/ImageIcon.svelte';
 	import Image from '$components/@ui/Image.svelte';
 
 	export let slug: string;

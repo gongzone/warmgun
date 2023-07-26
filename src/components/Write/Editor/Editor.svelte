@@ -41,20 +41,19 @@
 	import FloatingMenu from './_FloatingMenu.svelte';
 	import SeparatorVetical from '$components/@ui/SeparatorVetical.svelte';
 
-	import HeadingOneIcon from '$components/@icons/HeadingOneIcon.svelte';
+	import HeadingOneIcon from '$components/@icons/editor/HeadingOneIcon.svelte';
 	import HeadingTwoIcon from '$components/@icons/HeadingTwoIcon.svelte';
 	import HeadingThreeIcon from '$components/@icons/HeadingThreeIcon.svelte';
-	import BoldIcon from '$components/@icons/BoldIcon.svelte';
-	import ItalicIcon from '$components/@icons/ItalicIcon.svelte';
-	import UnderlineIcon from '$components/@icons/UnderlineIcon.svelte';
-	import StrikeIcon from '$components/@icons/StrikeIcon.svelte';
-	import InlineCodeIcon from '$components/@icons/InlineCodeIcon.svelte';
-	import ImageIcon from '$components/@icons/ImageIcon.svelte';
-	import CodeBoxIcon from '$components/@icons/CodeBoxIcon.svelte';
-	import CodeBlockSelect from './_CodeBlockSelect.svelte';
-	import ListUnorderedIcon from '$components/@icons/ListUnorderedIcon.svelte';
-	import QuoteIcon from '$components/@icons/QuoteIcon.svelte';
-	import LinkIcon from '$components/@icons/LinkIcon.svelte';
+	import BoldIcon from '$components/@icons/editor/BoldIcon.svelte';
+	import ItalicIcon from '$components/@icons/editor/ItalicIcon.svelte';
+	import UnderlineIcon from '$components/@icons/editor/UnderlineIcon.svelte';
+	import StrikeIcon from '$components/@icons/editor/StrikeIcon.svelte';
+	import InlineCodeIcon from '$components/@icons/editor/InlineCodeIcon.svelte';
+	import ImageIcon from '$components/@icons/editor/ImageIcon.svelte';
+	import CodeBoxIcon from '$components/@icons/editor/CodeBoxIcon.svelte';
+	import ListUnorderedIcon from '$components/@icons/editor/ListUnorderedIcon.svelte';
+	import QuoteIcon from '$components/@icons/editor/QuoteIcon.svelte';
+	import LinkIcon from '$components/@icons/editor/LinkIcon.svelte';
 
 	let editor: Readable<Editor>;
 

@@ -43,7 +43,7 @@
 		<button class="btn variant-ringed-tertiary">게시글 작성</button>
 	</div>
 
-	<TabGroup>
+	<TabGroup justify="justify-center">
 		{#each navs.community as commnunity (commnunity.title)}
 			<TabAnchor href={commnunity.href} selected={$page.url.pathname === commnunity.href}>
 				<span>{commnunity.title}</span>
