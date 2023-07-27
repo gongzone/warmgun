@@ -40,7 +40,7 @@
 			</div>
 		</div>
 
-		<button class="btn variant-ringed-tertiary">게시글 작성</button>
+		<a href="/community/write" class="btn variant-ringed-tertiary">게시글 작성</a>
 	</div>
 
 	<TabGroup justify="justify-center">

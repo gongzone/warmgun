@@ -6,7 +6,6 @@ import { nanoid } from 'nanoid';
 import { prisma } from '$lib/server/db';
 import { meilisearch } from '$lib/server/meilisearch';
 import { validate } from '$lib/server/validation';
-import type { Genre } from '@prisma/client';
 import { siteConfig } from '$lib/configs/site';
 import { bodyToString, calculateReadingTime, generateExcerpt } from '$lib/utils/editor-utils';
 import { tagToSlug } from '$lib/utils/format';
@@ -46,7 +45,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 
 async function findDrafts(userId: number) {
 	const drafts = await prisma.draft.findMany({
-		where: { authorId: userId },
+		where: { userId: userId },
 		orderBy: { updatedAt: 'desc' }
 	});
 
@@ -56,7 +55,7 @@ async function findDrafts(userId: number) {
 async function findOneArticle(userId: number, articleId: number) {
 	const article = await prisma.article.findUnique({
 		where: {
-			id_authorId: { id: articleId, authorId: userId }
+			id_userId: { id: articleId, userId: userId }
 		},
 		include: articleInclude
 	});

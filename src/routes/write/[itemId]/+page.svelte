@@ -8,7 +8,7 @@
 	import WriteHeader from './_WriteHeader/WriteHeader.svelte';
 	import FullEditor from './_FullEditor/FullEditor.svelte';
 	import Seo from '$components/@utils/Seo.svelte';
-	import Editor from '$components/Write/Editor/Editor.svelte';
+	import Editor from '$components/@editor/Editor.svelte';
 	import WriteController from '$components/Write/WrtieController/WriteController.svelte';
 	import TitleTextarea from '$components/Write/TitleTextarea/TitleTextarea.svelte';
 	import Separator from '$components/@ui/Separator.svelte';
@@ -19,19 +19,9 @@
 	let getCurrentEditorData: () => Promise<CurrentEditorData>;
 
 	$: isDraftMode = $page.url.searchParams.get('mode') === 'draft';
-	$: articleMeta = isDraftMode
-		? undefined
-		: {
-				coverImage: data.article!.coverImage,
-				tags: data.article!.tags.map((tag) => tag.name),
-				genre: data.article!.genre
-		  };
-	$: if (form?.message) {
-		triggerToast(`${form.isSuccess ? 'success' : 'warning'}`, form.message);
-	}
 </script>
 
-<Seo title={isDraftMode ? '글 작성' : '글 수정'} />
+<!-- <Seo title={isDraftMode ? '글 작성' : '글 수정'} /> -->
 
 <WriteController />
 
