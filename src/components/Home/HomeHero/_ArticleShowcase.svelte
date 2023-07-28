@@ -1,15 +1,39 @@
 <script lang="ts">
-	import ArrowLeftSmall from '$components/@icons/ArrowLeftSmall.svelte';
-	import ArrowRightSmall from '$components/@icons/ArrowRightSmall.svelte';
+	import type { Article } from '$lib/types/article';
+
 	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import ArrowRightIcon from '$components/@icons/ArrowRightIcon.svelte';
-	import Separator from '$components/@ui/Separator.svelte';
+	import ArrowLeftSmall from '$components/@icons/ArrowLeftSmall.svelte';
+	import ArrowRightSmall from '$components/@icons/ArrowRightSmall.svelte';
 
-	export let articles: any;
+	export let articles: Article[];
 
-	let angle: number = 0;
-	let page: number = 0;
-	let transition: boolean = true;
+	const perspective = 1200;
+	const duration = 1000;
+	const currentSize = { w: 270, h: 405 };
+	const otherSize = { w: 200, h: 300 };
+
+	let currentPage = 0;
+	let angle = 0;
+	let isTranslateXEnd = true;
+
+	function calculateTransform(
+		i: number,
+		currentPage: number,
+		angle: number,
+		currentSize: { w: number; h: number },
+		otherSize: { w: number; h: number }
+	) {
+		if (i === currentPage) {
+			return `rotateY(${angle}deg) translateX(0)`;
+		} else if (i < currentPage) {
+			return `translateX(calc(${-(currentPage - i)} * (${otherSize.w}px * 1.1)))`;
+		} else {
+			return `translateX(calc((100% * ${i - currentPage} * 1.1) + ${
+				currentSize.w - otherSize.w
+			}px))`;
+		}
+	}
 
 	function onPointermoveHandler(e: any) {
 		const pageX = e.pageX;
@@ -26,68 +50,56 @@
 		angle = 0;
 	}
 
-	function movePage(p: number) {
-		page = p;
+	function onTransitionHandler(e: any, mode: 'start' | 'end') {
+		const computedStyle = getComputedStyle(e.currentTarget);
+		const transformMatrix = computedStyle.transform.split(', ');
+		const translateXValue = parseFloat(transformMatrix[4]);
+		const initialTranslateX = 0;
+
+		if (e.propertyName === 'transform' && translateXValue !== initialTranslateX) {
+			isTranslateXEnd = mode === 'start' ? false : true;
+		}
 	}
 
-	$: console.log(transition);
+	function movePage(p: number) {
+		currentPage = p;
+	}
 </script>
 
-<div class="relative min-h-[405px] [perspective:1200px]">
-	{#each articles as article, index (article.id)}
+<div class="relative" style:min-height="{currentSize.h}px" style:perspective="{perspective}px">
+	{#each articles as article, i (article.id)}
 		<div
-			class="absolute top-0 left-0 flex-none transition-all duration-[1000ms] ease-in-out border border-surface-900-50-token w-[200px] h-[300px] {page ===
-			index
-				? ''
-				: 'pointer-events-none'}"
-			on:pointermove={index === page && transition ? onPointermoveHandler : undefined}
-			on:pointerout={index === page ? onPointerOutHandler : undefined}
-			on:transitionstart={(e) => {
-				const computedStyle = getComputedStyle(e.currentTarget);
-				const transformMatrix = computedStyle.transform.split(', ');
-				const translateXValue = parseFloat(transformMatrix[4]);
-				const initialTranslateX = 0;
-
-				if (e.propertyName === 'transform' && translateXValue !== initialTranslateX) {
-					transition = false;
-				}
-			}}
-			on:transitionend={(e) => {
-				const computedStyle = getComputedStyle(e.currentTarget);
-				const transformMatrix = computedStyle.transform.split(', ');
-				const translateXValue = parseFloat(transformMatrix[4]);
-				const initialTranslateX = 0;
-
-				if (e.propertyName === 'transform' && translateXValue !== initialTranslateX) {
-					transition = true;
-				}
-			}}
-			style={index === page
-				? `width: 270px; height: 405px; z-index: 10; transform: rotateY(${angle}deg) translateX(0)`
-				: index < page
-				? `transform: translateX(calc(${-(page - index)} * (200px * ${
-						page - index === 1 ? 1.1 : 1.1
-				  })))`
-				: `transform: translateX(calc((100% * ${index - page} * 1.1) + 70px))`}
+			class="absolute top-0 left-0 flex-none transition-all ease-in-out border border-surface-900-50-token overflow-hidden"
+			style:width={i === currentPage ? `${currentSize.w}px` : `${otherSize.w}px`}
+			style:height={i === currentPage ? `${currentSize.h}px` : `${otherSize.h}px`}
+			style:transform={calculateTransform(i, currentPage, angle, currentSize, otherSize)}
+			style:transition-duration="{duration}ms"
+			style:pointer-events={i === currentPage ? 'auto' : 'none'}
+			on:pointermove={i === currentPage && isTranslateXEnd ? onPointermoveHandler : undefined}
+			on:pointerleave={i === currentPage ? onPointerOutHandler : undefined}
+			on:transitionstart={(e) => onTransitionHandler(e, 'start')}
+			on:transitionend={(e) => onTransitionHandler(e, 'end')}
 		>
 			<div
-				class="absolute top-1/2 z-20 -translate-y-1/2 w-[270px] space-y-4 transition-all duration-[1000ms] ease-in-out px-5 {index ===
-				page
+				class="absolute top-1/2 z-20 -translate-y-1/2 space-y-4 px-5 transition-all ease-in-out {i ===
+				currentPage
 					? 'opacity-100'
 					: 'opacity-0'}"
+				style:width="{currentSize.w}px"
+				style:transition-duration="{duration}ms"
 			>
 				<div class="space-y-2">
-					<div class="flex items-center gap-2">
-						<UserAvatar src={article.author.avatar} width="w-7" />
-						<span class="text-sm">{article.author.nickname}</span>
-					</div>
+					<UserAvatar
+						src={article.user.profile?.avatar}
+						name={article.user.profile?.nickname}
+						width="w-7"
+						nameClasses="text-sm"
+					/>
 
-					<h3 class="text-base font-medium break-all line-clamp-3">
-						{article.title} Next.js 보다 더 나은 점이 무엇일까요? 그 궁금증을 풀어드립니다.
-					</h3>
+					<h3 class="font-medium break-all line-clamp-3">{article.title}</h3>
 
 					<div class="flex flex-wrap gap-2">
-						<span class="badge variant-filled-primary">프론트엔드</span>
+						<span class="badge variant-filled-primary">{article.category}</span>
 						<span class="badge variant-filled">{article.tags[0]}</span>
 					</div>
 				</div>
@@ -95,17 +107,18 @@
 				<div class="flex justify-center">
 					<button class="btn variant-filled-surface shadow-lg">
 						<span class="text-sm">View</span>
-						<span class="badge-icon"><ArrowRightIcon /></span>
+						<span><ArrowRightIcon class="w-6 h-6" /></span>
 					</button>
 				</div>
 			</div>
 
 			<img
-				src={`${article.coverImage}?w=270&h=405&q=80&f=webp`}
-				alt="article-cover"
-				class={`flex-initial block aspect-[200/300] transition-all duration-[1000ms] ease-in-out ${
-					index === page ? `brightness-50 opacity-100` : `brightness-90 opacity-[0.65]`
-				}`}
+				src={`${article.coverImage}?w=${currentSize.w}&h=${currentSize.h}&q=80&f=webp`}
+				alt={article.title}
+				class="flex-initial transition-all ease-in-out"
+				style:filter={i === currentPage ? 'brightness(50%)' : 'brightness(90%)'}
+				style:aspect-ratio={currentSize.w / currentSize.h}
+				style:transition-duration="{duration}ms"
 			/>
 		</div>
 	{/each}
@@ -113,25 +126,25 @@
 
 <div class="mt-6 flex items-center justify-center gap-3 xl:absolute xl:right-0 xl:bottom-0">
 	<button
-		disabled={page === 0 ? true : false}
+		disabled={currentPage === 0 ? true : false}
 		class="btn btn-icon btn-icon-sm variant-ringed-tertiary z-20"
-		on:click={() => movePage(page - 1)}
+		on:click={() => movePage(currentPage - 1)}
 	>
 		<ArrowLeftSmall />
 	</button>
 
 	{#each Array.from({ length: articles.length }) as _, i (i)}
 		<div
-			class="w-2 h-2 rounded-full {i === page
+			class="w-2 h-2 rounded-full transition-colors ease-in-out {i === currentPage
 				? 'bg-surface-50'
-				: 'bg-surface-50/25'} transition-colors ease-in-out"
+				: 'bg-surface-50/25'}"
 		/>
 	{/each}
 
 	<button
-		disabled={page === articles.length - 1 ? true : false}
+		disabled={currentPage === articles.length - 1 ? true : false}
 		class="btn btn-icon btn-icon-sm variant-ringed-tertiary z-20"
-		on:click={() => movePage(page + 1)}
+		on:click={() => movePage(currentPage + 1)}
 	>
 		<ArrowRightSmall />
 	</button>

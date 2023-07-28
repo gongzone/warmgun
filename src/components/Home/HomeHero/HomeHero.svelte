@@ -8,9 +8,11 @@
 		id: i + 1,
 		title: `스벨트킷은 훌륭합니다! ${i + 1}`,
 		coverImage: `https://picsum.photos/id/${(i + 1) * 7}/360/580`,
-		author: {
-			nickname: 'Shadcn',
-			avatar: 'https://github.com/shadcn.png'
+		user: {
+			profile: {
+				nickname: 'Shadcn',
+				avatar: 'https://github.com/shadcn.png'
+			}
 		},
 		tags: ['JavaScript', 'TypeScript', '개발 이야기'],
 		category: 'FRONTEND'

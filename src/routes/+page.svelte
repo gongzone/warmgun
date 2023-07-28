@@ -1,27 +1,15 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 
-	import Seo from '$components/@utils/Seo.svelte';
-	import Button from '$components/@ui/Test/Button.svelte';
 	import HomeHero from '$components/Home/HomeHero/HomeHero.svelte';
-	import { categories } from '$lib/constants/categories';
-	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
-	import ArrowRightIcon from '$components/@icons/ArrowRightIcon.svelte';
-	import ArrowRightSmall from '$components/@icons/ArrowRightSmall.svelte';
-	import GenreIcon from '$components/@icons/GenreIcon.svelte';
-	import SearchIcon from '$components/@icons/SearchIcon.svelte';
-	import FeedIcon from '$components/@icons/FeedIcon.svelte';
-	import Avatar from '$components/@ui/Test/Avatar.svelte';
-	import Article from '$components/Article/Article/Article.svelte';
 	import Separator from '$components/@ui/Separator.svelte';
 
 	export let data: PageData;
 
 	$: ({ bestArticles } = data);
-	$: console.log(bestArticles);
 </script>
 
-<Seo />
+<!-- <Seo /> -->
 
 <div class="container py-16">
 	<section>
