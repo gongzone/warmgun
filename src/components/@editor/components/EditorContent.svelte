@@ -3,7 +3,7 @@
 
 	import type { Editor } from '../core/editor';
 
-	export let editor: Editor;
+	export let editor: Editor | undefined;
 	let element: HTMLElement;
 
 	const init = async () => {

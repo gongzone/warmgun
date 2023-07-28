@@ -5,11 +5,15 @@ import { nanoid } from 'nanoid';
 
 import { prisma } from '$lib/server/db';
 import { meilisearch } from '$lib/server/meilisearch';
-import { validate } from '$lib/server/validation';
 import { siteConfig } from '$lib/configs/site';
 import { bodyToString, calculateReadingTime, generateExcerpt } from '$lib/utils/editor-utils';
 import { tagToSlug } from '$lib/utils/format';
 import { articleInclude } from '$lib/types/article';
+
+import { validate, generateFormMessage } from '$lib/server/server-utils';
+
+import { createArticleSchema } from '$lib/server/schema/article';
+import type { JSONContent } from '@tiptap/core';
 
 export const ssr = false;
 
@@ -66,7 +70,7 @@ async function findOneArticle(userId: number, articleId: number) {
 export const actions: Actions = {
 	createDraft: async ({ locals }) => {
 		const draftCount = await prisma.draft.count({
-			where: { authorId: locals.user?.id }
+			where: { userId: locals.user?.id }
 		});
 
 		if (draftCount >= 10) {
@@ -93,7 +97,7 @@ export const actions: Actions = {
 		const currentDraftId = +params.itemId;
 
 		const draftCount = await prisma.draft.count({
-			where: { authorId: locals.user?.id }
+			where: { userId: locals.user?.id }
 		});
 
 		if (draftCount <= 1) {
@@ -105,7 +109,7 @@ export const actions: Actions = {
 		if (draftId === currentDraftId) {
 			const latestDraftId = (
 				await prisma.draft.findFirst({
-					where: { authorId: locals.user?.id },
+					where: { userId: locals.user?.id },
 					select: { id: true },
 					orderBy: { updatedAt: 'desc' }
 				})
@@ -137,75 +141,70 @@ export const actions: Actions = {
 	},
 	createArticle: async ({ request, locals }) => {
 		const formData = await request.formData();
-		const validated = validate(formData, createArticleSchema());
+		const validated = validate(formData, createArticleSchema);
 
 		if (!validated.success) {
-			return fail(400, { isSuccess: false, message: validated.errorMessage });
+			return fail(400, generateFormMessage(false, validated.errorMessage));
 		}
 
-		const { title, body, coverImage, tags, genre } = {
+		console.log(validated.data);
+
+		const { title, body, coverImage, tags, category } = {
 			...validated.data,
+			body: JSON.parse(validated.data.body) as JSONContent,
 			coverImage: validated.data.coverImage ?? null,
-			body: JSON.parse(validated.data.body),
-			tags: validated.data.tags ? validated.data.tags.split(',') : undefined,
-			genre: validated.data.genre as Genre
+			tags: validated.data.tags ? validated.data.tags.split(',') : undefined
 		};
 
-		if (body.blocks.length === 1 && !body.blocks[0].data.text) {
-			return fail(400, { isSuccess: false, message: '본문을 작성하여 주세요.' });
-		}
+		/* TODO: slug, excerpt, readingtime */
 
-		if (siteConfig.genre.filter((g) => g.enum === genre).length === 0) {
-			throw error(400, '장르 설정이 올바르게 되지 않았습니다.');
-		}
+		// const slug = `${title.trim().replace(/\s+/g, '-').toLowerCase()}-${nanoid()}`;
+		// const bodyString = bodyToString(body);
+		// const excerpt = generateExcerpt(bodyString);
+		// const readingTime = calculateReadingTime(bodyString);
 
-		const slug = `${title.trim().replace(/\s+/g, '-').toLowerCase()}-${nanoid()}`;
-		const bodyString = bodyToString(body);
-		const excerpt = generateExcerpt(bodyString);
-		const readingTime = calculateReadingTime(bodyString);
+		// const article = await prisma.article.create({
+		// 	data: {
+		// 		title,
+		// 		excerpt,
+		// 		body,
+		// 		coverImage,
+		// 		readingTime,
+		// 		tags: tags
+		// 			? {
+		// 					connectOrCreate: tags.map((tag: string) => ({
+		// 						where: { name: tag },
+		// 						create: { name: tag, slug: tagToSlug(tag) }
+		// 					}))
+		// 			  }
+		// 			: {},
+		// 		category: genre,
+		// 		slug,
+		// 		user: { connect: { id: locals.user?.id } }
+		// 	},
+		// 	include: { tags: true }
+		// });
 
-		const article = await prisma.article.create({
-			data: {
-				title,
-				excerpt,
-				body,
-				coverImage,
-				readingTime,
-				tags: tags
-					? {
-							connectOrCreate: tags.map((tag: string) => ({
-								where: { name: tag },
-								create: { name: tag, slug: tagToSlug(tag) }
-							}))
-					  }
-					: {},
-				genre,
-				slug,
-				author: { connect: { id: locals.user?.id } }
-			},
-			include: { tags: true }
-		});
+		// await meilisearch.index('articles').addDocuments([
+		// 	{
+		// 		id: article.id,
+		// 		title: article.title,
+		// 		body: bodyString,
+		// 		tags: article.tags.map((tag) => tag.name),
+		// 		createdAt: article.createdAt
+		// 	}
+		// ]);
 
-		await meilisearch.index('articles').addDocuments([
-			{
-				id: article.id,
-				title: article.title,
-				body: bodyString,
-				tags: article.tags.map((tag) => tag.name),
-				createdAt: article.createdAt
-			}
-		]);
+		// if (tags) {
+		// 	await meilisearch.index('tags').addDocuments(
+		// 		article.tags.map((tag) => ({
+		// 			id: tag.id,
+		// 			name: tag.name
+		// 		}))
+		// 	);
+		// }
 
-		if (tags) {
-			await meilisearch.index('tags').addDocuments(
-				article.tags.map((tag) => ({
-					id: tag.id,
-					name: tag.name
-				}))
-			);
-		}
-
-		throw redirect(303, `/@${locals.user?.username}/${article.slug}`);
+		// throw redirect(303, `/@${locals.user?.username}/${article.slug}`);
 	},
 	updateArticle: async ({ request, params, locals }) => {
 		const formData = await request.formData();
@@ -289,16 +288,6 @@ function saveDraftSchema() {
 	return z.object({
 		title: z.string(),
 		body: z.string()
-	});
-}
-
-function createArticleSchema() {
-	return z.object({
-		title: z.string().min(1, '제목 작성은 필수입니다.'),
-		body: z.string(),
-		coverImage: z.string().optional(),
-		tags: z.string().optional(),
-		genre: z.string()
 	});
 }
 

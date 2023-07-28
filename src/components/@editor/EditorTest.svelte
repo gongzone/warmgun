@@ -1,54 +1,18 @@
 <script lang="ts">
-	import 'highlight.js/styles/github-dark.css';
-	import { onMount } from 'svelte';
 	import type { Readable } from 'svelte/store';
-	import { lowlight } from 'lowlight';
 
 	import { uploadImage } from '$lib/client-fetch/upload-image';
 	import { EditorIcons } from '$components/@icons/editor';
 
 	/* Core */
-	import { createEditor, Editor } from './core/editor';
-
-	/* Extensions */
-	import {
-		Document,
-		Text,
-		Paragraph,
-		Heading,
-		ListItem,
-		BulletList,
-		OrderedList,
-		Blockquote,
-		CodeBlockLowlight,
-		Image,
-		Bold,
-		Italic,
-		Strike,
-		InlineCode,
-		TextStyle,
-		Underline,
-		Link,
-		History,
-		Dropcursor,
-		Gapcursor,
-		Placeholder
-	} from './extensions';
+	import type { Editor } from './core/editor';
 
 	/* Components */
 	import EditorContent from './components/EditorContent.svelte';
 	import BubbleMenu from './components/BubbleMenu/BubbleMenu.svelte';
 	import FloatingMenu from './components/FloatingMenu/FloatingMenu.svelte';
 
-	/* NodeViews */
-	import SvelteNodeViewRenderer from './node-views/SvelteNodeViewRenderer';
-
-	/* Customs */
-	import CodeBlockLanguageSelect from './customs/CodeBlockLanguageSelect.svelte.svelte';
-	import type { HTMLContent, JSONContent } from '@tiptap/core';
-
-	export let editor: Readable<Editor> | undefined = undefined;
-	export let body: JSONContent | HTMLContent = '';
+	export let editor: Readable<Editor>;
 
 	let elemFileInput: HTMLElement;
 	let files: FileList | undefined = undefined;
@@ -169,49 +133,6 @@
 			onClick: () => $editor?.chain().focus().toggleCodeBlock().run()
 		}
 	];
-
-	onMount(() => {
-		editor = createEditor({
-			extensions: [
-				Document,
-				Text,
-				Paragraph,
-				Heading.configure({ levels: [1, 2, 3] }),
-				ListItem,
-				BulletList,
-				OrderedList,
-				Blockquote,
-				CodeBlockLowlight.extend({
-					addNodeView() {
-						return SvelteNodeViewRenderer(CodeBlockLanguageSelect);
-					}
-				}).configure({
-					lowlight,
-					languageClassPrefix: 'language-',
-					defaultLanguage: 'plaintext'
-				}),
-				Image,
-				Bold,
-				Italic,
-				Strike,
-				InlineCode,
-				TextStyle,
-				Underline,
-				Link,
-				History,
-				Dropcursor,
-				Gapcursor
-			],
-			editorProps: {
-				attributes: {
-					class: 'prose dark:prose-invert focus:outline-none'
-				}
-			},
-			autofocus: true,
-			editable: true,
-			content: body
-		});
-	});
 </script>
 
 <EditorContent editor={$editor} />

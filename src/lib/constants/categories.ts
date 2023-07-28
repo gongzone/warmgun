@@ -66,3 +66,5 @@ export const categories = {
 		title: '기타'
 	}
 };
+
+export type Category = keyof typeof categories;

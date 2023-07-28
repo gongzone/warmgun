@@ -11,7 +11,7 @@
 
 	import NavSidebar from './NavSidebar/NavSidebar.svelte';
 	import DraftSidebar from './DraftSidebar/DraftSidebar.svelte';
-	import PublishSidebar from './PublishSidebar/PublishSidebar.svelte';
+	import PublishSidebar from '$components/Write/PublishSidebar/PublishSidebar.svelte';
 	import CommentSidebar from './CommentSidebar/CommentSidebar.svelte';
 
 	let publishStorage = new Map();
@@ -34,13 +34,8 @@
 		<NavSidebar />
 	{:else if $drawerStore.id === DRAFT_SIDEBAR_ID}
 		<DraftSidebar />
-	{:else if $drawerStore.id === PUBLISH_SIDEBAR_ID}
-		<PublishSidebar
-			coverImage={publishStorage.get(publishStorageKey)?.coverImage ?? null}
-			tags={publishStorage.get(publishStorageKey)?.tags ?? []}
-			genre={publishStorage.get(publishStorageKey)?.genre ?? 'ETC'}
-			on:close={setPublishStorage}
-		/>
+	{:else if $drawerStore.id === 'publish-sidebar'}
+		<PublishSidebar />
 	{:else if $drawerStore.id === COMMENT_SIDEBAR_ID}
 		<CommentSidebar />
 	{/if}

@@ -3,6 +3,8 @@
 
 	import HomeHero from '$components/Home/HomeHero/HomeHero.svelte';
 	import Separator from '$components/@ui/Separator.svelte';
+	import HomeSectionTitle from '$components/Home/HomeSectionTitle.svelte';
+	import HomePosts from '$components/Home/HomePosts.svelte';
 
 	export let data: PageData;
 
@@ -13,10 +15,30 @@
 
 <div class="container py-16">
 	<section>
-		<HomeHero />
+		<HomeHero articles={bestArticles} />
 	</section>
 
 	<Separator class="my-16" />
+
+	<div class="relative grid grid-cols-12 gap-12">
+		<div class="col-span-8">
+			<section>
+				<HomeSectionTitle
+					title="커뮤니티"
+					subTitle="여러 사람들과 소통해보세요"
+					href="/community"
+				/>
+
+				<div class="grid grid-cols-2 gap-10">
+					<HomePosts title="자유" />
+					<HomePosts title="질문" />
+					<HomePosts title="토론" />
+					<HomePosts title="팀원" />
+				</div>
+			</section>
+		</div>
+		<aside class="col-span-4">ss</aside>
+	</div>
 
 	<!-- Todo: Refactoring -->
 	<!-- <div class="grid grid-cols-12 gap-12 relative">
