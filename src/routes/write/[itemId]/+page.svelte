@@ -8,25 +8,21 @@
 	import WriteHeader from './_WriteHeader/WriteHeader.svelte';
 	import FullEditor from './_FullEditor/FullEditor.svelte';
 	import Seo from '$components/@utils/Seo.svelte';
-	import Editor from '$components/@editor/Editor.svelte';
+	import ArticleEditor, { type ArticleEditorData } from '$components/Write/ArticleEditor.svelte';
 	import WriteController from '$components/Write/WrtieController/WriteController.svelte';
-	import TitleTextarea from '$components/Write/TitleTextarea/TitleTextarea.svelte';
 	import Separator from '$components/@ui/Separator.svelte';
+	import type { Readable } from 'svelte/store';
 
 	export let data: PageData;
 	export let form: ActionData;
 
-	let getCurrentEditorData: () => Promise<CurrentEditorData>;
+	let getEditorData: () => ArticleEditorData;
+
+	/* Init Editor Data */
+	let title = 'sd';
 
 	$: isDraftMode = $page.url.searchParams.get('mode') === 'draft';
 </script>
 
-<!-- <Seo title={isDraftMode ? '글 작성' : '글 수정'} /> -->
-
-<WriteController />
-
-<div class="max-w-[690px] mx-auto my-10 px-4">
-	<TitleTextarea />
-	<Separator class="my-1 mb-8" />
-	<Editor />
-</div>
+<WriteController {getEditorData} />
+<ArticleEditor bind:getEditorData {title} />
