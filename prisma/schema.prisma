@@ -115,7 +115,6 @@ model Article {
   comments ArticleComment[]
 
   @@unique(fields: [id, userId], name: "id_userId")
-  @@unique(fields: [userId, category], name: "userId_category")
 }
 
 enum ArticleCategory {
@@ -187,12 +186,13 @@ model ArticleCommentLike {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  body      Json
-  slug      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            Int      @id @default(autoincrement())
+  title         String
+  body          Json
+  slug          String   @unique
+  trendingScore Float    @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int

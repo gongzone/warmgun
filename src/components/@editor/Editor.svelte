@@ -207,7 +207,7 @@
 					class: 'prose dark:prose-invert focus:outline-none'
 				}
 			},
-			autofocus: true,
+			autofocus: false,
 			editable: true,
 			content: body
 		});

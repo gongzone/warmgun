@@ -4,23 +4,30 @@
 
 	import LikeIcon from '$components/@icons/LikeIcon.svelte';
 	import CommentIcon from '$components/@icons/CommentIcon.svelte';
+
+	import type { Post } from '$lib/types/post';
+	import { formatDate } from '$lib/utils/format';
+
+	export let post: Post;
+
+	$: ({ user, title, _count, createdAt } = post);
 </script>
 
 <div class="py-6 border-b border-b-surface-600 space-y-4">
 	<div class="space-y-2">
 		<div class="flex items-center gap-1">
-			<UserAvatar src="https://github.com/shadcn.png" name="감자예요" width="w-10" />
+			<UserAvatar src={user.profile?.avatar} name={user.profile?.nickname} width="w-10" />
 			<span>·</span>
-			<span class="font-extralight">한달 전</span>
+			<span class="font-extralight">{formatDate(createdAt)}</span>
 		</div>
 
 		<h2 class="text-base font-medium max-w-[700px] line-clamp-1">
-			자바의 정석 며칠만 빠르게 보려고 하는데 어떻게 공부하면 좋을까요?
+			{title}
 		</h2>
 	</div>
 
 	<div class="flex items-center gap-2">
-		<TextWithIcon icon={LikeIcon}>9</TextWithIcon>
-		<TextWithIcon icon={CommentIcon}>36</TextWithIcon>
+		<TextWithIcon icon={LikeIcon}>{_count.likes}</TextWithIcon>
+		<TextWithIcon icon={CommentIcon}>{_count.comments}</TextWithIcon>
 	</div>
 </div>

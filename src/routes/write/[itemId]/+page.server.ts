@@ -3,11 +3,11 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 import { nanoid } from 'nanoid';
 
-import { prisma } from '$lib/server/db';
+import { prisma, db } from '$lib/server/db';
 import { meilisearch } from '$lib/server/meilisearch';
 import { siteConfig } from '$lib/configs/site';
 import { bodyToString, calculateReadingTime, generateExcerpt } from '$lib/utils/editor-utils';
-import { tagToSlug } from '$lib/utils/format';
+import { formatExcerpt, formatReadingTime, formatSlug, formatTagSlug } from '$lib/utils/format';
 import { articleInclude } from '$lib/types/article';
 
 import { validate, generateFormMessage } from '$lib/server/server-utils';
@@ -147,43 +147,37 @@ export const actions: Actions = {
 			return fail(400, generateFormMessage(false, validated.errorMessage));
 		}
 
-		console.log(validated.data);
-
-		const { title, body, coverImage, tags, category } = {
+		const { title, body, plaintext, coverImage, tags, category } = {
 			...validated.data,
 			body: JSON.parse(validated.data.body) as JSONContent,
 			coverImage: validated.data.coverImage ?? null,
 			tags: validated.data.tags ? validated.data.tags.split(',') : undefined
 		};
 
-		/* TODO: slug, excerpt, readingtime */
+		const slug = formatSlug(title);
+		const excerpt = formatExcerpt(plaintext);
+		const readingTime = formatReadingTime(plaintext);
 
-		// const slug = `${title.trim().replace(/\s+/g, '-').toLowerCase()}-${nanoid()}`;
-		// const bodyString = bodyToString(body);
-		// const excerpt = generateExcerpt(bodyString);
-		// const readingTime = calculateReadingTime(bodyString);
-
-		// const article = await prisma.article.create({
-		// 	data: {
-		// 		title,
-		// 		excerpt,
-		// 		body,
-		// 		coverImage,
-		// 		readingTime,
-		// 		tags: tags
-		// 			? {
-		// 					connectOrCreate: tags.map((tag: string) => ({
-		// 						where: { name: tag },
-		// 						create: { name: tag, slug: tagToSlug(tag) }
-		// 					}))
-		// 			  }
-		// 			: {},
-		// 		category: genre,
-		// 		slug,
-		// 		user: { connect: { id: locals.user?.id } }
-		// 	},
-		// 	include: { tags: true }
-		// });
+		await db.article.create({
+			data: {
+				title,
+				body,
+				excerpt,
+				coverImage,
+				category,
+				slug,
+				readingTime,
+				tags: tags
+					? {
+							connectOrCreate: tags.map((tag: string) => ({
+								where: { name: tag },
+								create: { name: tag, slug: formatTagSlug(tag) }
+							}))
+					  }
+					: {},
+				user: { connect: { id: locals.user?.id } }
+			}
+		});
 
 		// await meilisearch.index('articles').addDocuments([
 		// 	{
@@ -246,11 +240,11 @@ export const actions: Actions = {
 					? {
 							connectOrCreate: tags.map((tag: string) => ({
 								where: { name: tag },
-								create: { name: tag, slug: tagToSlug(tag) }
+								create: { name: tag, slug: formatTagSlug(tag) }
 							}))
 					  }
 					: {},
-				genre
+				category: 'BACKEND'
 			},
 			include: { tags: true }
 		});

@@ -2,6 +2,7 @@
 	export interface ArticleEditorData {
 		title: string;
 		body: JSONContent;
+		plaintext: string;
 	}
 </script>
 
@@ -20,7 +21,8 @@
 	export function getEditorData(): ArticleEditorData {
 		return {
 			title,
-			body: $editor.getJSON()
+			body: $editor.getJSON(),
+			plaintext: $editor.getText({ blockSeparator: ' ' })
 		};
 	}
 </script>

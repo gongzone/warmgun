@@ -10,11 +10,12 @@
 	$: mode = $page.url.searchParams.get('mode') as 'draft' | 'edit';
 
 	function onClickPublishHandler() {
-		const { title, body } = getEditorData();
+		const { title, body, plaintext } = getEditorData();
 		openPublishSidebar({
 			mode,
 			title,
 			body,
+			plaintext,
 			coverImage: null,
 			tags: [],
 			category: 'ETC'

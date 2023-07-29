@@ -1,8 +1,6 @@
 <script context="module" lang="ts">
-	export interface PublishSidebarMeta {
+	export interface PublishSidebarMeta extends ArticleEditorData {
 		mode: 'draft' | 'edit';
-		title: string;
-		body: JSONContent;
 		coverImage: string | null;
 		tags: string[];
 		category: Category;
@@ -32,12 +30,13 @@
 	import type { JSONContent } from '@tiptap/core';
 	import type { Category } from '$lib/constants/categories';
 	import { onMount } from 'svelte';
+	import type { ArticleEditorData } from '../ArticleEditor.svelte';
 
 	let coverImage: string | null;
 	let tags: string[] = [];
 	let category: Category = 'ETC';
 
-	$: ({ mode, title, body, ...rest } = $drawerStore.meta as PublishSidebarMeta);
+	$: ({ mode, title, body, plaintext, ...rest } = $drawerStore.meta as PublishSidebarMeta);
 	$: publishAction = mode === 'draft' ? '?/createArticle' : '?/updateArticle';
 
 	onMount(() => {
@@ -66,6 +65,7 @@
 		<button type="submit" class="btn variant-filled-primary">출간하기</button>
 		<input type="hidden" name="title" value={title} />
 		<input type="hidden" name="body" value={JSON.stringify(body)} />
+		<input type="hidden" name="plaintext" value={plaintext} />
 		<input type="hidden" name="coverImage" value={coverImage} />
 		<input type="hidden" name="tags" value={tags.join('')} />
 		<input type="hidden" name="category" value={category} />

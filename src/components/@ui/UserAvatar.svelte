@@ -14,7 +14,7 @@
 </script>
 
 {#if name}
-	<div class="flex items-center gap-2">
+	<div class="flex items-center gap-1">
 		<Avatar
 			src={src ?? '/images/user-avatar.svg'}
 			class={avatarClasses}
