@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { cn } from '$lib/utils/cn';
 	import { Avatar } from '@skeletonlabs/skeleton';
 
 	export let src: string | undefined | null;
 	export let name: string | undefined = undefined;
+	export let subText: string | undefined = undefined;
 	export let width: string = 'w-12';
 	export let rounded: string = 'rounded-full';
 	export let border: string = '';
@@ -11,6 +13,7 @@
 
 	export let avatarClasses = '';
 	export let nameClasses = '';
+	export let subTextClassese = '';
 </script>
 
 {#if name}
@@ -28,7 +31,12 @@
 			on:keyup
 			on:keypress
 		/>
-		<span class={nameClasses}>{name}</span>
+		<div class="flex flex-col">
+			<span class={nameClasses}>{name}</span>
+			{#if subText}
+				<span class={cn('text-sm font-extralight', subTextClassese)}>{subText}</span>
+			{/if}
+		</div>
 	</div>
 {:else}
 	<Avatar

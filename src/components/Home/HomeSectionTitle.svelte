@@ -1,15 +1,15 @@
 <script lang="ts">
-	import ArrowRightSmall from '$components/@icons/ArrowRightSmall.svelte';
+	import { ArrowIcons } from '$components/@icons/arrow';
 
 	export let title: string;
 	export let subTitle: string;
-	export let href: string;
+	export let link: string;
 </script>
 
-<div class="flex flex-col mb-8">
-	<a class="inline-flex items-center" {href}>
+<div class="mb-8">
+	<a class="inline-flex items-center gap-1" href={link}>
 		<span class="text-3xl font-bold">{title}</span>
-		<span><ArrowRightSmall class="w-10 h-10" /></span>
+		<span><ArrowIcons.chevronDoubleRight class="w-7 h-7" /></span>
 	</a>
-	<span class="font-extralight">{subTitle}</span>
+	<span class="block font-extralight">{subTitle}</span>
 </div>

@@ -15,16 +15,16 @@
 	export let article: Article;
 	export let displayUserInfo: boolean = true;
 
-	$: articleSlug = `/@${article.author.username}/${article.slug}`;
+	$: articleSlug = `/@${article.user.username}/${article.slug}`;
 </script>
 
 <div class="flex flex-col gap-4">
 	{#if displayUserInfo}
 		<ArticleItemHeader
-			username={article.author.username}
-			nickname={article.author.profile?.nickname}
-			field={article.author.profile?.field}
-			avatar={article.author.profile?.avatar}
+			username={article.user.username}
+			nickname={article.user.profile?.nickname}
+			field={article.user.profile?.field}
+			avatar={article.user.profile?.avatar}
 			createdAt={article.createdAt}
 			likeCount={article._count.likes}
 			commentCount={article._count.comments}
@@ -52,24 +52,12 @@
 				icon={HeartIcon}
 				size="sm"
 				gap={1}
-				iconClass="text-red-500"
-				textClass="font-thin text-sm">{formatCount(article._count.likes)}</TextWithIcon
+				iconClasses="text-red-500"
+				textClasses="font-extralight text-sm">{formatCount(article._count.likes)}</TextWithIcon
 			>
-			<TextWithIcon icon={CommentIcon} size="sm" gap={1} textClass="font-thin text-sm"
+			<TextWithIcon icon={CommentIcon} size="sm" gap={1} textClasses="font-thin text-sm"
 				>{formatCount(article._count.comments)}</TextWithIcon
 			>
 		</div>
 	</div>
-
-	<!-- {#if displayUserInfo}
-		<ArticleItemFooter
-			createdAt={article.createdAt}
-			likeCount={article._count.likes}
-			commentCount={article._count.comments}
-			username={article.author.username}
-			nickname={article.author.profile?.nickname}
-			field={article.author.profile?.field}
-			avatar={article.author.profile?.avatar}
-		/>
-	{/if} -->
 </div>

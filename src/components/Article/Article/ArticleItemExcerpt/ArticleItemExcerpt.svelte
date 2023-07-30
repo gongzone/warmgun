@@ -4,5 +4,5 @@
 </script>
 
 <a href={slug}>
-	<p class="line-clamp-3 font-thin text-sm">{excerpt}</p>
+	<p class="line-clamp-3 font-extralight text-sm">{excerpt}</p>
 </a>

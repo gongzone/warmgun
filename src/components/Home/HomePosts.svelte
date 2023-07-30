@@ -1,26 +1,41 @@
 <script lang="ts">
-	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
-
-	import LikeIcon from '$components/@icons/LikeIcon.svelte';
-	import CommentIcon from '$components/@icons/CommentIcon.svelte';
+	import UserAvatar from '$components/@ui/UserAvatar.svelte';
+	import type { Post } from '$lib/types/post';
+	import NoDataCard from '$components/@ui/NoDataCard.svelte';
+	import type { ComponentType } from 'svelte';
 
 	export let title: string;
+	export let link: string;
+	export let icon: ComponentType;
+	export let posts: Post[];
 </script>
 
 <div>
-	<span class="font-semibold block text-lg">{title}</span>
+	<div class="flex items-center justify-between">
+		<a href={link}>
+			<TextWithIcon size="lg" {icon}>{title}</TextWithIcon>
+		</a>
+	</div>
 	<ul>
-		{#each { length: 5 } as _, i (i)}
-			<li>
-				<div class="py-3 space-y-2 border-b border-b-surface-600">
-					<UserAvatar name="shadcn" src="https://github.com/shadcn.png" width="w-6" />
-
-					<h2 class="font-bold line-clamp-1">
-						개발자가 사랑하는 프론트엔드 프레임워크1 스벨트[Svelte]의 특징
-					</h2>
-				</div>
-			</li>
-		{/each}
+		{#if posts.length > 0}
+			{#each posts as post (post.id)}
+				{@const { user, title } = post}
+				<li>
+					<div class="py-3 space-y-2 border-b border-b-surface-600">
+						<UserAvatar
+							name={user.profile?.nickname}
+							src="https://github.com/shadcn.png"
+							width="w-6"
+						/>
+						<h2 class="font-semibold line-clamp-1">
+							{title}
+						</h2>
+					</div>
+				</li>
+			{/each}
+		{:else}
+			<NoDataCard />
+		{/if}
 	</ul>
 </div>
