@@ -85,7 +85,7 @@
 				<HomeArticles articles={trendingArticles} />
 			</section>
 
-			<Separator class="my-16" />
+			<div class="my-16" />
 
 			<section>
 				<HomeSectionTitle

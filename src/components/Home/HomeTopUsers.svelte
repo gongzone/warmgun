@@ -8,7 +8,7 @@
 	export let users: BlogUser[];
 </script>
 
-<div>
+<div class="flex flex-col gap-2">
 	{#each users as user (user.id)}
 		<div class="flex items-center justify-between gap-3">
 			<div class="space-y-2">
