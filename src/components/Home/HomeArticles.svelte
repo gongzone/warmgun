@@ -6,7 +6,7 @@
 	export let articles: Article[];
 </script>
 
-<ul class="grid gap-7 grid-cols-1 min-[580px]:grid-cols-2 xl:grid-cols-3">
+<ul class="grid gap-7 grid-cols-1 min-[500px]:grid-cols-2 min-[800px]:grid-cols-3">
 	{#if articles.length > 0}
 		{#each articles as article, index (article.id)}
 			<li>

@@ -34,7 +34,7 @@
 		<div class="flex flex-col">
 			<span class={cn('font-medium', nameClasses)}>{name}</span>
 			{#if subText}
-				<span class={cn('text-sm font-extralight', subTextClassese)}>{subText}</span>
+				<span class={cn('text-sm font-light', subTextClassese)}>{subText}</span>
 			{/if}
 		</div>
 	</div>

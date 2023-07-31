@@ -5,6 +5,9 @@
 	import ArrowRightIcon from '$components/@icons/ArrowRightIcon.svelte';
 	import ArrowLeftSmall from '$components/@icons/ArrowLeftSmall.svelte';
 	import ArrowRightSmall from '$components/@icons/ArrowRightSmall.svelte';
+	import { categories } from '$lib/constants/categories';
+	import Image from '$components/@ui/Image.svelte';
+	import ImageIcon from '$components/@icons/editor/ImageIcon.svelte';
 
 	export let articles: Article[];
 
@@ -16,6 +19,7 @@
 	let currentPage = 0;
 	let angle = 0;
 	let isTranslateXEnd = true;
+	let isLoadFinished: boolean = false;
 
 	function calculateTransform(
 		i: number,
@@ -99,8 +103,17 @@
 					<h3 class="font-medium break-all line-clamp-3">{article.title}</h3>
 
 					<div class="flex flex-wrap gap-2">
-						<span class="badge variant-filled-primary">{article.category}</span>
-						<span class="badge variant-filled">{article.tags[0]}</span>
+						<a
+							href="/article/{categories[article.category].slug}"
+							class="badge variant-filled-primary">{categories[article.category].title}</a
+						>
+						{#if article.tags.length > 0}
+							<a
+								href="/tag/{article.tags[0].slug}"
+								class="block badge variant-filled max-w-[110px] text-ellipsis overflow-hidden"
+								>{article.tags[0].name}</a
+							>
+						{/if}
 					</div>
 				</div>
 
@@ -112,14 +125,28 @@
 				</div>
 			</div>
 
-			<img
-				src={`${article.coverImage}?w=${currentSize.w}&h=${currentSize.h}&q=80&f=webp`}
-				alt={article.title}
-				class="flex-initial transition-all ease-in-out"
+			<div
+				class="w-full h-full"
 				style:filter={i === currentPage ? 'brightness(50%)' : 'brightness(90%)'}
-				style:aspect-ratio={currentSize.w / currentSize.h}
 				style:transition-duration="{duration}ms"
-			/>
+			>
+				{#if article.coverImage}
+					<figure class="w-full h-full">
+						<img
+							src={`${article.coverImage}?w=${currentSize.w}&h=${currentSize.h}&q=80&f=webp`}
+							alt={article.title}
+							width={currentSize.w}
+							height={currentSize.h}
+							class="flex-initial transition-all ease-in-out"
+							style:aspect-ratio={currentSize.w / currentSize.h}
+						/>
+					</figure>
+				{:else}
+					<div class="w-full h-full flex items-center justify-center bg-surface-700">
+						<ImageIcon class="w-20 h-20" />
+					</div>
+				{/if}
+			</div>
 		</div>
 	{/each}
 </div>

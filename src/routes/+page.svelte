@@ -36,8 +36,8 @@
 
 	<Separator class="my-16" />
 
-	<div class="relative lg:grid lg:grid-cols-12 lg:gap-12">
-		<div class="lg:col-span-8">
+	<div class="relative flex gap-10">
+		<div>
 			<section>
 				<HomeSectionTitle
 					title="커뮤니티"
@@ -98,20 +98,24 @@
 			</section>
 		</div>
 
-		<aside class="col-span-4 flex-col gap-8 pl-8 border-l border-l-surface-600 hidden lg:flex">
-			<div>
-				<HomeAsideTitle title="인기태그" />
-				<HomePopularTags tags={popularTags} />
-			</div>
+		<aside
+			class="relatvie min-h-full min-w-[335px] pl-8 border-l border-l-surface-600 hidden min-[1200px]:block"
+		>
+			<div class="space-y-8">
+				<div>
+					<HomeAsideTitle title="인기태그" />
+					<HomePopularTags tags={popularTags} />
+				</div>
 
-			<div>
-				<HomeAsideTitle title="카테고리" />
-				<HomeCategories />
-			</div>
+				<div>
+					<HomeAsideTitle title="카테고리" />
+					<HomeCategories />
+				</div>
 
-			<div>
-				<HomeAsideTitle title="우수 블로거" />
-				<HomeTopUsers users={topUsers} />
+				<div>
+					<HomeAsideTitle title="우수 블로거" />
+					<HomeTopUsers users={topUsers} />
+				</div>
 			</div>
 		</aside>
 	</div>
