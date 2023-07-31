@@ -85,7 +85,7 @@
 	<div class="my-6 md:my-12">
 		<ArticlesTab />
 
-		{#if $articlesQuery.isSuccess && $articlesQuery.data.pages[0].data.length > 0}
+		{#if $articlesQuery.isSuccess}
 			<ul class="grid list-none grid-cols-1 gap-9 sm:grid-cols-2 lg:grid-cols-3">
 				{#each $articlesQuery.data.pages as { data }}
 					{#each data as article (article.id)}

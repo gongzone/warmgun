@@ -17,27 +17,12 @@ export const api = (customFetch = fetch) => ({
 		return data;
 	},
 	findArticles: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
-		const mode = queryKey[1] ?? null;
-		const key = queryKey[2];
-		const filter = queryKey[3] ?? 'trending';
-		const take = queryKey[4] ?? 12;
-		let subPath = '';
-		let addedQueryParams = '';
-
-		if (mode === 'genre') {
-			addedQueryParams = `&genre=${key}`;
-		}
-
-		if (mode === 'tags') {
-			subPath = `/tags/${key}`;
-		}
-
-		if (mode === 'feeds') {
-			subPath = key === 'like' ? `/me/like` : key === 'feed' ? `/me/feed` : '';
-		}
+		const category = ((queryKey[1] as string) ?? 'ALL').toUpperCase().replace('-', '_');
+		const sort = queryKey[2] ?? 'recent';
+		const take = queryKey[3] ?? 10;
 
 		const response = await customFetch(
-			`/api/articles${subPath}?filter=${filter}&take=${take}&cursor=${pageParam}${addedQueryParams}`
+			`/api/articles?category=${category}&sort=${sort}&take=${take}&cursor=${pageParam}`
 		);
 		const data = (await response.json()) as InfiniteData<Article>;
 		return data;

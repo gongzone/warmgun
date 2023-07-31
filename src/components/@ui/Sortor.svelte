@@ -1,17 +1,9 @@
-<script context="module" lang="ts">
-	export interface SortorItem {
-		value: string;
-		title: string;
-	}
-</script>
-
 <script lang="ts">
 	import { popup, ListBox, ListBoxItem, type PopupSettings } from '@skeletonlabs/skeleton';
 	import { createEventDispatcher } from 'svelte';
 
-	export let items: SortorItem[];
-
-	let comboboxValue: string;
+	export let initValue: string | undefined | null;
+	export let items: { [key: string]: string };
 
 	const popupCombobox: PopupSettings = {
 		event: 'click',
@@ -23,25 +15,22 @@
 	const dispatch = createEventDispatcher();
 
 	function onClickItem(e: any) {
-		const target = items.find((item) => item.title === e.target.value)?.value;
-		dispatch('sort', target);
+		dispatch('sort', e.target.name);
 	}
+	$: console.log(initValue);
 </script>
 
 <div class="">
 	<button class="btn variant-filled rounded-md justify-between" use:popup={popupCombobox}>
-		<span class="capitalize">{comboboxValue ?? items[0].title}</span>
+		<span class="capitalize">{initValue}</span>
 		<span>↓</span>
 	</button>
 
 	<div class="card w-28 shadow-xl rounded-md py-2 z-30" data-popup="popupCombobox">
 		<ListBox rounded="rounded-none">
-			{#each items as item, i (i)}
-				<ListBoxItem
-					bind:group={comboboxValue}
-					name={item.value}
-					value={item.title}
-					on:click={onClickItem}>{item.title}</ListBoxItem
+			{#each Object.entries(items) as [key, value], i (i)}
+				<ListBoxItem bind:group={initValue} name={key} {value} on:click={onClickItem}
+					>{value}</ListBoxItem
 				>
 			{/each}
 		</ListBox>

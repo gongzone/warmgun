@@ -32,7 +32,7 @@
 			on:keypress
 		/>
 		<div class="flex flex-col">
-			<span class={nameClasses}>{name}</span>
+			<span class={cn('font-medium', nameClasses)}>{name}</span>
 			{#if subText}
 				<span class={cn('text-sm font-extralight', subTextClassese)}>{subText}</span>
 			{/if}

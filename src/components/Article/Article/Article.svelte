@@ -42,7 +42,7 @@
 		<ul class="flex list-none flex-wrap gap-2">
 			{#each article.tags as tag (tag.id)}
 				<li>
-					<ArticleItemTag name={tag.name} slug={tag.slug} />
+					<a class="btn btn-sm variant-ringed" href={tag.slug}>{tag.name}</a>
 				</li>
 			{/each}
 		</ul>

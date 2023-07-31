@@ -14,7 +14,7 @@
 			observer = new IntersectionObserver(
 				(entries, observer) => {
 					if (!hasNextPage) {
-						observer.unobserve(observable);
+						return;
 					}
 
 					console.log(entries[0], entries[0].isIntersecting);

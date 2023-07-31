@@ -16,7 +16,7 @@
 		<SubWords />
 	</div>
 
-	<div class="relative w-full h-full max-w-[640px] mx-auto">
+	<div class="relative w-full h-full mx-auto">
 		<HeroGradient />
 		{#if articles.length > 0}
 			<ArticleShowcase {articles} />

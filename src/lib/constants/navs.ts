@@ -19,7 +19,7 @@ export const navs = {
 		},
 		{
 			title: '아티클',
-			href: '/articles',
+			href: '/article',
 			icon: ArticleIcon
 		},
 		{

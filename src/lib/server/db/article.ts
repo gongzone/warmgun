@@ -3,8 +3,8 @@ import type { Prisma } from '@prisma/client';
 import { db } from './db';
 import type { categories } from '$lib/constants/categories';
 
-type FindArticlesCategory = 'ALL' | keyof typeof categories;
-type FindArticlesMode = 'recent' | 'trending' | 'best';
+export type FindArticlesCategory = 'ALL' | keyof typeof categories;
+export type FindArticlesSort = 'recent' | 'trending' | 'best';
 
 interface FindArticlesOptions {
 	userId?: number;
@@ -14,7 +14,7 @@ interface FindArticlesOptions {
 
 export async function findArticles(
 	category: FindArticlesCategory = 'ALL',
-	mode: FindArticlesMode = 'recent',
+	mode: FindArticlesSort = 'recent',
 	{ userId, take = 10, cursor = 0 }: FindArticlesOptions
 ) {
 	let orderBy:

@@ -8,8 +8,8 @@ import {
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const boardType = (params.board ?? 'ALL').toUpperCase() as FindPostsCommunity;
-	const cursor = url.searchParams.get('cursor') ?? 0;
 	const sort = (url.searchParams.get('sort') ?? 'recent') as FindPostsSort;
+	const cursor = url.searchParams.get('cursor') ?? 0;
 
 	return {
 		posts: findPosts(boardType, sort, { take: 10, cursor: +cursor }),
