@@ -1,15 +1,19 @@
 export const communities = {
 	FREE: {
-		title: '자유'
+		title: '자유',
+		slug: 'free'
 	},
 	QUESTION: {
-		title: '질문'
+		title: '질문',
+		slug: 'question'
 	},
 	DISCUSSION: {
-		title: '토론'
+		title: '토론',
+		slug: 'discussion'
 	},
 	TEAM: {
-		title: '팀원'
+		title: '팀원',
+		slug: 'team'
 	}
 };
 

@@ -7,12 +7,21 @@ import {
 } from '$lib/server/db/post';
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
-	const boardType = (params.board ?? 'ALL').toUpperCase() as FindPostsCommunity;
-	const sort = (url.searchParams.get('sort') ?? 'recent') as FindPostsSort;
-	const cursor = url.searchParams.get('cursor') ?? 0;
+	const community = (params.board ?? 'ALL').toUpperCase() as FindPostsCommunity | null;
+	const cursor = url.searchParams.get('cursor');
+	const sort = url.searchParams.get('sort') as FindPostsSort | null;
+
+	// const boardType = (params.board ?? 'ALL').toUpperCase() as FindPostsCommunity;
+	// const sort = (url.searchParams.get('sort') ?? 'recent') as FindPostsSort;
+	// const cursor = url.searchParams.get('cursor') ?? 0;
 
 	return {
-		posts: findPosts(boardType, sort, { take: 10, cursor: +cursor }),
-		postsCount: findPostsCount(boardType)
+		posts: findPosts(community ?? 'ALL', sort ?? 'recent', {
+			take: 10,
+			cursor: cursor ? +cursor : 0
+		}),
+		postsCount: findPostsCount(community ?? 'ALL'),
+		cursor: cursor ? +cursor : 0,
+		sort
 	};
 };
