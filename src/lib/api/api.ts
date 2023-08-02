@@ -27,6 +27,17 @@ export const api = (customFetch = fetch) => ({
 		const data = (await response.json()) as InfiniteData<Article>;
 		return data;
 	},
+	findArticlesByTagSlug: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
+		const tagSlug = queryKey[1];
+		const sort = queryKey[2] ?? 'recent';
+		const take = queryKey[3] ?? 10;
+
+		const response = await customFetch(
+			`/api/articles?tagSlug=${tagSlug}&sort=${sort}&take=${take}&cursor=${pageParam}`
+		);
+		const data = (await response.json()) as InfiniteData<Article>;
+		return data;
+	},
 	findFollowingUsers: async ({ pageParam = 0 }: QueryFunctionContext) => {
 		const response = await customFetch(`/api/users/following?take=${12}&cursor=${pageParam}`);
 		const data = (await response.json()) as InfiniteData<BlogUser>;

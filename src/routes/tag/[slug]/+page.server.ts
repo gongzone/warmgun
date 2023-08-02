@@ -1,13 +1,28 @@
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { error, fail } from '@sveltejs/kit';
 import { z } from 'zod';
 
 import { prisma } from '$lib/server/db';
 import { validate } from '$lib/server/validation';
+import { findOneTag } from '$lib/server/db/tag';
+import TagSelector from '$components/Write/PublishSidebar/TagSelector/TagSelector.svelte';
 
 const followTagSchema = z.object({
 	tagId: z.string()
 });
+
+export const load: PageServerLoad = async ({ locals, params }) => {
+	const tag = await findOneTag(params.slug, locals.user?.id);
+
+	if (!tag) {
+		throw error(404, '접근 불가');
+	}
+
+	return {
+		tag,
+		isLiked: !!(tag.tagLikes.length > 0)
+	};
+};
 
 export const actions: Actions = {
 	followTag: async ({ locals, request }) => {

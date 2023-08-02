@@ -54,6 +54,10 @@
 	let files: FileList | undefined = undefined;
 	let isLoading: boolean = false;
 
+	$: if ($editor?.isActive) {
+		$editor.commands.setContent(body);
+	}
+
 	const bubbleMenus = [
 		{
 			name: 'headingOne',
@@ -208,8 +212,8 @@
 				}
 			},
 			autofocus: false,
-			editable: true,
-			content: body
+			editable: true
+			// content: body
 		});
 	});
 </script>

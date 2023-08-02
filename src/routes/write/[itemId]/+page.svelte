@@ -12,17 +12,22 @@
 	import WriteController from '$components/Write/WrtieController/WriteController.svelte';
 	import Separator from '$components/@ui/Separator.svelte';
 	import type { Readable } from 'svelte/store';
+	import type { JSONContent } from '@tiptap/core';
+	import DraftDrawer from '$components/Write/DraftDrawer/DraftDrawer.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
 
 	let getEditorData: () => ArticleEditorData;
 
-	/* Init Editor Data */
-	let title = 'sd';
-
 	$: isDraftMode = $page.url.searchParams.get('mode') === 'draft';
+
+	/* Init Editor Data */
+	$: title = isDraftMode ? data.draft?.title : data.article?.title;
+	$: body = (isDraftMode ? data.draft?.body : data.article?.body) as JSONContent;
 </script>
 
+<DraftDrawer />
+
 <WriteController {getEditorData} />
-<ArticleEditor bind:getEditorData {title} />
+<ArticleEditor bind:getEditorData {title} {body} />

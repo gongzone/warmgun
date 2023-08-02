@@ -1,24 +1,24 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import type { LayoutServerData } from './$types';
+	// import { enhance } from '$app/forms';
+	// import type { LayoutServerData } from './$types';
 
-	import { formatCount } from '$lib/utils/format';
+	// import { formatCount } from '$lib/utils/format';
 
-	import TagIcon from '$components/@icons/TagIcon.svelte';
-	import FollowingIcon from '$components/@icons/FollowingIcon.svelte';
-	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
-	import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
-	import TagTab from './_TagTab/TagTab.svelte';
-	import Seo from '$components/@utils/Seo.svelte';
+	// import TagIcon from '$components/@icons/TagIcon.svelte';
+	// import FollowingIcon from '$components/@icons/FollowingIcon.svelte';
+	// import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
+	// import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
+	// import TagTab from './_TagTab/TagTab.svelte';
+	// import Seo from '$components/@utils/Seo.svelte';
 
-	export let data: LayoutServerData;
+	// export let data: LayoutServerData;
 
-	$: ({ tag, isFollowing } = data);
+	// $: ({ tag, isFollowing } = data);
 
-	$: followTagAction = !isFollowing ? '?/followTag' : '?/unFollowTag';
+	// $: followTagAction = !isFollowing ? '?/followTag' : '?/unFollowTag';
 </script>
 
-<Seo title="태그" />
+<!-- <Seo title="태그" />
 
 <div class="page-container space-y-8">
 	<section class="space-y-3">
@@ -47,4 +47,6 @@
 	<section>
 		<slot />
 	</section>
-</div>
+</div> -->
+
+<slot />

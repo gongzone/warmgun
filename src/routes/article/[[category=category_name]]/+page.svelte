@@ -68,7 +68,7 @@
 	<div class="my-7" />
 
 	{#if $articlesQuery.isSuccess && $articlesQuery.data.pages[0].data.length > 0}
-		<ul class="grid grid-cols-3 gap-7">
+		<ul class="grid grid-cols-3 gap-8">
 			{#each $articlesQuery.data.pages as { data }, i (i)}
 				{#each data as article (article.id)}
 					<li>

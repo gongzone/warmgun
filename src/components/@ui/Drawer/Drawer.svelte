@@ -2,15 +2,9 @@
 	import { page } from '$app/stores';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 
-	import {
-		NAV_SIDEBAR_ID,
-		DRAFT_SIDEBAR_ID,
-		PUBLISH_SIDEBAR_ID,
-		COMMENT_SIDEBAR_ID
-	} from './drawer';
+	import { NAV_SIDEBAR_ID, COMMENT_SIDEBAR_ID } from './drawer';
 
 	import NavSidebar from './NavSidebar/NavSidebar.svelte';
-	import DraftSidebar from './DraftSidebar/DraftSidebar.svelte';
 	import PublishSidebar from '$components/Write/PublishSidebar/PublishSidebar.svelte';
 	import CommentSidebar from './CommentSidebar/CommentSidebar.svelte';
 
@@ -32,8 +26,6 @@
 <Drawer>
 	{#if $drawerStore.id === NAV_SIDEBAR_ID}
 		<NavSidebar />
-	{:else if $drawerStore.id === DRAFT_SIDEBAR_ID}
-		<DraftSidebar />
 	{:else if $drawerStore.id === 'publish-sidebar'}
 		<PublishSidebar />
 	{:else if $drawerStore.id === COMMENT_SIDEBAR_ID}

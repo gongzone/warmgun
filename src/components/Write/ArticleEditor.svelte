@@ -16,7 +16,7 @@
 
 	let editor: Readable<CoreEditor>;
 
-	export let title: string;
+	export let title: string = '';
 	export let body: JSONContent | HTMLContent = '';
 	export function getEditorData(): ArticleEditorData {
 		return {

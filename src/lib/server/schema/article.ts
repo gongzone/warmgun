@@ -5,7 +5,8 @@ const category = Object.keys(categories) as Array<Category>;
 const [firstCategory, ...otherCategory] = category;
 
 export const getArticlesSchema = z.object({
-	category: z.enum(['ALL', firstCategory, ...otherCategory]),
+	category: z.enum(['ALL', firstCategory, ...otherCategory]).optional(),
+	tagSlug: z.string().optional(),
 	sort: z.enum(['trending', 'recent', 'best']),
 	take: z.string({ required_error: '필수 값입니다.' }),
 	cursor: z.string({ required_error: '필수 값입니다.' })

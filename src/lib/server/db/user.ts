@@ -57,3 +57,37 @@ export async function findUsers(
 		}
 	});
 }
+
+export async function findOneUser(username: string, currentUserId: number | undefined) {
+	const blogUser = await db.user.findUnique({
+		where: { username },
+		select: {
+			id: true,
+			username: true,
+			email: true,
+			role: true,
+			createdAt: true,
+			profile: {
+				select: {
+					id: true,
+					nickname: true,
+					avatar: true,
+					blogImage: true,
+					field: true,
+					bio: true,
+					profileLinks: true
+				}
+			},
+			_count: {
+				select: {
+					articles: true,
+					followedBy: true,
+					following: true
+				}
+			},
+			followedBy: currentUserId ? { where: { followerId: currentUserId } } : false
+		}
+	});
+
+	return blogUser;
+}

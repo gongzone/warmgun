@@ -13,12 +13,12 @@ export const GET = (async ({ url }) => {
 		throw error(400, validated.errorMessage);
 	}
 
-	const { category, sort, take, cursor } = {
+	const { category, tagSlug, sort, take, cursor } = {
 		...validated.data,
 		take: +validated.data.take,
 		cursor: +validated.data.cursor
 	};
 
-	const articles = await findArticles(category, sort, { take, cursor });
+	const articles = await findArticles(category, sort, { tagSlug, take, cursor });
 	return json(buildInfinityData(articles, take, cursor));
 }) satisfies RequestHandler;

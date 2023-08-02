@@ -14,6 +14,8 @@ import { validate, generateFormMessage } from '$lib/server/server-utils';
 
 import { createArticleSchema } from '$lib/server/schema/article';
 import type { JSONContent } from '@tiptap/core';
+import { findDrafts } from '$lib/server/db/draft';
+import { findOneArticle } from '$lib/server/db/article';
 
 export const ssr = false;
 
@@ -42,30 +44,10 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 		return {
 			article
 		};
+	} else {
+		throw error(404, '접근 불가능한 페이지입니다.');
 	}
-
-	throw error(404, '접근 불가능한 페이지입니다.');
 };
-
-async function findDrafts(userId: number) {
-	const drafts = await prisma.draft.findMany({
-		where: { userId: userId },
-		orderBy: { updatedAt: 'desc' }
-	});
-
-	return drafts;
-}
-
-async function findOneArticle(userId: number, articleId: number) {
-	const article = await prisma.article.findUnique({
-		where: {
-			id_userId: { id: articleId, userId: userId }
-		},
-		include: articleInclude
-	});
-
-	return article;
-}
 
 export const actions: Actions = {
 	createDraft: async ({ locals }) => {
@@ -79,7 +61,7 @@ export const actions: Actions = {
 
 		const draft = await prisma.draft.create({
 			data: {
-				author: { connect: { id: locals.user?.id } }
+				user: { connect: { id: locals.user?.id } }
 			}
 		});
 

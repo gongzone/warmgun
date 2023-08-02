@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import Seo from '$components/@utils/Seo.svelte';
 	import type { PageData } from './$types';
 
@@ -24,4 +24,4 @@
 			<slot />
 		</div>
 	</main>
-</div>
+</div> -->

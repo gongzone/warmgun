@@ -37,3 +37,19 @@ export async function findTags(
 		}
 	});
 }
+
+export async function findOneTag(slug: string, userId: number | undefined) {
+	const tag = await db.tag.findUnique({
+		where: { slug },
+		include: {
+			_count: {
+				select: { articles: true, tagLikes: true }
+			},
+			tagLikes: {
+				where: { userId }
+			}
+		}
+	});
+
+	return tag;
+}

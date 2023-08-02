@@ -8,6 +8,7 @@ export type FindArticlesSort = 'recent' | 'trending' | 'best';
 
 interface FindArticlesOptions {
 	userId?: number;
+	tagSlug?: string;
 	take?: number;
 	cursor?: number;
 }
@@ -15,7 +16,7 @@ interface FindArticlesOptions {
 export async function findArticles(
 	category: FindArticlesCategory = 'ALL',
 	mode: FindArticlesSort = 'recent',
-	{ userId, take = 10, cursor = 0 }: FindArticlesOptions
+	{ userId, tagSlug = undefined, take = 10, cursor = 0 }: FindArticlesOptions
 ) {
 	let orderBy:
 		| Prisma.ArticleOrderByWithRelationInput
@@ -33,8 +34,15 @@ export async function findArticles(
 			orderBy = { createdAt: 'desc' };
 	}
 
+	console.log(tagSlug);
+
 	return await db.article.findMany({
-		where: category === 'ALL' ? { userId } : { AND: [{ userId }, { category }] },
+		where:
+			category === 'ALL'
+				? { AND: [{ userId }, { tags: tagSlug ? { some: { slug: tagSlug } } : {} }] }
+				: {
+						AND: [{ userId }, { tags: tagSlug ? { some: { slug: tagSlug } } : {} }, { category }]
+				  },
 		take: take,
 		skip: take * cursor,
 		orderBy,
@@ -48,4 +56,23 @@ export async function findArticles(
 			tags: true
 		}
 	});
+}
+
+export async function findOneArticle(userId: number, articleId: number) {
+	const article = await db.article.findUnique({
+		where: {
+			id_userId: { id: articleId, userId: userId }
+		},
+		include: {
+			user: {
+				include: { profile: true }
+			},
+			_count: {
+				select: { likes: true, comments: true }
+			},
+			tags: true
+		}
+	});
+
+	return article;
 }
