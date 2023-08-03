@@ -12,11 +12,11 @@
 	import Toast from '$components/@ui/Toast/Toast.svelte';
 	import Drawer from '$components/@ui/Drawer/Drawer.svelte';
 	import Modal from '$components/@ui/Modal/Modal.svelte';
-	import Layout from '$components/Layout/Layout.svelte';
+	import Layout, { type LayoutMode } from '$components/Layout/Layout.svelte';
 
 	export let data: LayoutData;
 
-	let layoutMode: 'default' | 'write' = 'default';
+	let layoutMode: LayoutMode = 'default';
 
 	$: pathname = $page.url.pathname;
 	$: layoutMode = pathname.startsWith('/write') ? 'write' : 'default';

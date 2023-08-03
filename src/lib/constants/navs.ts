@@ -1,7 +1,6 @@
 import type { ComponentType } from 'svelte';
 
-import HomeIcon from '$components/@icons/HomeIcon.svelte';
-import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
+import { CommonIcons } from '$components/@icons/common';
 
 export interface Nav {
 	title: string;
@@ -15,19 +14,26 @@ export const navs = {
 		{
 			title: 'Home',
 			href: '/',
-			icon: HomeIcon
+			icon: CommonIcons.Home
 		},
 		{
 			title: '아티클',
 			href: '/article',
-			icon: ArticleIcon
+			icon: CommonIcons.Article
 		},
 		{
 			title: '커뮤니티',
 			href: '/community',
-			icon: ArticleIcon
+			icon: CommonIcons.Community
 		}
 	] satisfies Nav[],
+	userNav: (username: string) =>
+		[
+			{ title: '내 블로그', href: `/@${username}`, icon: CommonIcons.Blog },
+			{ title: '글쓰기', href: `/write`, icon: CommonIcons.Draft },
+			{ title: '나의 피드', href: '/feed', icon: CommonIcons.Feed },
+			{ title: '설정', href: '/setting', icon: CommonIcons.Setting }
+		] satisfies Nav[],
 	community: [
 		{ title: '전체', href: '/community' },
 		{ title: '자유', href: '/community/free' },

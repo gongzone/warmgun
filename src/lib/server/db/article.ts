@@ -8,6 +8,7 @@ export type FindArticlesSort = 'recent' | 'trending' | 'best';
 
 interface FindArticlesOptions {
 	userId?: number;
+	username?: string;
 	tagSlug?: string;
 	take?: number;
 	cursor?: number;
@@ -16,7 +17,7 @@ interface FindArticlesOptions {
 export async function findArticles(
 	category: FindArticlesCategory = 'ALL',
 	mode: FindArticlesSort = 'recent',
-	{ userId, tagSlug = undefined, take = 10, cursor = 0 }: FindArticlesOptions
+	{ userId, username, tagSlug = undefined, take = 10, cursor = 0 }: FindArticlesOptions
 ) {
 	let orderBy:
 		| Prisma.ArticleOrderByWithRelationInput
@@ -39,9 +40,20 @@ export async function findArticles(
 	return await db.article.findMany({
 		where:
 			category === 'ALL'
-				? { AND: [{ userId }, { tags: tagSlug ? { some: { slug: tagSlug } } : {} }] }
+				? {
+						AND: [
+							{ userId },
+							{ user: { username } },
+							{ tags: tagSlug ? { some: { slug: tagSlug } } : {} }
+						]
+				  }
 				: {
-						AND: [{ userId }, { tags: tagSlug ? { some: { slug: tagSlug } } : {} }, { category }]
+						AND: [
+							{ userId },
+							{ user: { username } },
+							{ tags: tagSlug ? { some: { slug: tagSlug } } : {} },
+							{ category }
+						]
 				  },
 		take: take,
 		skip: take * cursor,

@@ -24,7 +24,7 @@
 		y?: number;
 	}
 
-	export const clickOutside = (node: HTMLElement, callback: () => void) => {
+	const clickOutside = (node: HTMLElement, callback: () => void) => {
 		const handleClick = (event: MouseEvent) => {
 			if (!event?.target) return;
 			if (node && !node.contains(event.target as Node) && !event.defaultPrevented) {
@@ -43,11 +43,11 @@
 </script>
 
 <script lang="ts">
-	import { twMerge } from 'tailwind-merge';
+	import { cn } from '$lib/utils/cn';
 	import { fly, slide, blur, fade } from 'svelte/transition';
 
 	export let activateClickOutside: boolean = true;
-	export let hidden: boolean = true;
+	export let isOpen: boolean = false;
 	export let position: 'fixed' | 'absolute' = 'fixed';
 	export let leftOffset: string = 'inset-y-0 left-0';
 	export let rightOffset: string = 'inset-y-0 right-0';
@@ -84,10 +84,10 @@
 	};
 
 	const handleDrawer = () => {
-		hidden = !hidden;
+		isOpen = !isOpen;
 	};
 
-	let backdropDivClass = twMerge(
+	let backdropDivClass = cn(
 		'fixed top-0 left-0 z-50 w-full h-full',
 		backdrop && bgColor,
 		backdrop && bgOpacity
@@ -98,23 +98,23 @@
 	}
 </script>
 
-{#if !hidden}
+{#if isOpen}
 	{#if backdrop && activateClickOutside}
-		<div role="presentation" class={backdropDivClass} on:click={() => !hidden && handleDrawer()} />
+		<div role="presentation" class={backdropDivClass} on:click={() => isOpen && handleDrawer()} />
 	{:else if backdrop && !activateClickOutside}
 		<div role="presentation" class={backdropDivClass} />
 	{/if}
 
 	<div
-		use:clickOutsideWrapper={() => !hidden && handleDrawer()}
+		use:clickOutsideWrapper={() => isOpen && handleDrawer()}
 		{id}
 		{...$$restProps}
-		class={twMerge(divClass, width, position, placements[placement], $$props.class)}
+		class={cn(divClass, width, position, placements[placement], $$props.class)}
 		transition:multiple={transitionParams}
 		tabindex="-1"
 		aria-controls={id}
 		aria-labelledby={id}
 	>
-		<slot {hidden} />
+		<slot {isOpen} />
 	</div>
 {/if}

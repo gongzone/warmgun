@@ -1,53 +1,33 @@
 <script lang="ts">
-	// import type { PageData } from './$types';
-	// import { goto } from '$app/navigation';
-	// import { page } from '$app/stores';
-	// import { createInfiniteQuery } from '@tanstack/svelte-query';
-	// import { afterNavigate } from '$app/navigation';
+	import { page } from '$app/stores';
+	import ArticleCard from '$components/@item/Article/ArticleCard.svelte';
+	import { TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
+	import { categories } from '$lib/constants/categories';
+	import Sortor from '$components/@ui/Sortor.svelte';
+	import type { PageData } from './$types';
+	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
+	import { createInfiniteQuery } from '@tanstack/svelte-query';
+	import { api } from '$lib/api/api';
 
-	// import { findBlogArticles } from '$lib/client-fetch/article';
+	export let data: PageData;
 
-	// import ArticleItem from '$components/Article/ArticleItem/ArticleItem.svelte';
-	// import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
-	// import type { Article } from '$lib/types/article';
-
-	// export let data: PageData;
-	// let articles: Article[] = [];
-
-	// $: {
-	// 	articles.push(...data.articles);
-	// 	articles = articles;
-	// }
-
-	// $: nextCursor = data.nextCursor;
-
-	// afterNavigate(({ from, type, to }) => {
-	// 	if (!from && type !== 'goto' && to) {
-	// 		goto(to.url.pathname);
-	// 	}
-	// });
+	$: articlesQuery = createInfiniteQuery({
+		queryKey: ['articles', $page.params.page.slice(1), 'recent', 10],
+		queryFn: api().findArticlesByUsername,
+		getNextPageParam: (lastPage) => lastPage.nextCursor
+	});
 </script>
 
-<!-- {#if articles.length > 0}
-	<ul class="article-grid">
-		{#each articles as article (article.id)}
-			<li>
-				<ArticleItem {article} displayUserInfo={false} />
-			</li>
+{#if $articlesQuery.isSuccess && $articlesQuery.data.pages[0].data.length > 0}
+	<ul class="grid grid-cols-3 gap-8">
+		{#each $articlesQuery.data.pages as { data }, i (i)}
+			{#each data as article (article.id)}
+				<li>
+					<ArticleCard {article} />
+				</li>
+			{/each}
 		{/each}
 	</ul>
 
-	<InfiniteScroll
-		fetchFn={() =>
-			goto(`?cursor=${nextCursor}`, {
-				replaceState: true,
-				noScroll: true
-			})}
-		hasNextPage={!!nextCursor}
-	/>
-	<div class="h-40" />
-{:else}
-	<div>
-		<span>작성된 글이 없습니다.</span>
-	</div>
-{/if} -->
+	<InfiniteScroll fetchFn={$articlesQuery.fetchNextPage} hasNextPage={$articlesQuery.hasNextPage} />
+{/if}
