@@ -1,14 +1,14 @@
 <script context="module" lang="ts">
 	import { writable } from 'svelte/store';
 
-	let hidden = writable(true);
+	let isOpen = writable(false);
 
 	export function openDraftDrawer() {
-		hidden.set(false);
+		isOpen.set(true);
 	}
 
 	export function closeDrafDrawer() {
-		hidden.set(true);
+		isOpen.set(false);
 	}
 </script>
 
@@ -41,7 +41,7 @@
 <Drawer
 	transitionType="fly"
 	{transitionParams}
-	bind:hidden={$hidden}
+	bind:isOpen={$isOpen}
 	id="sidebar1"
 	width="w-[360px]"
 >
@@ -90,7 +90,7 @@
 										bind:this={deleteForms[draft.id]}
 										use:enhance
 									>
-										<input type="hidden" name="draftId" value={draft.id} />
+										<input type="isOpen" name="draftId" value={draft.id} />
 										<button
 											type="button"
 											class="btn-icon btn-icon-sm variant-ringed-tertiary rounded-lg"

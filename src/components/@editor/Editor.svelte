@@ -1,6 +1,6 @@
 <script lang="ts">
 	import 'highlight.js/styles/github-dark.css';
-	import { onMount } from 'svelte';
+	import { onMount, beforeUpdate, tick, afterUpdate } from 'svelte';
 	import type { Readable } from 'svelte/store';
 	import { lowlight } from 'lowlight';
 
@@ -52,10 +52,14 @@
 
 	let elemFileInput: HTMLElement;
 	let files: FileList | undefined = undefined;
-	let isLoading: boolean = false;
+	let isReady: boolean = false;
 
-	$: if ($editor?.isActive) {
-		$editor.commands.setContent(body);
+	function changeBody(body: JSONContent | HTMLContent) {
+		$editor?.commands.setContent(body);
+	}
+
+	$: if (isReady) {
+		changeBody(body);
 	}
 
 	const bubbleMenus = [
@@ -212,7 +216,10 @@
 				}
 			},
 			autofocus: false,
-			editable: true
+			editable: true,
+			onCreate: () => {
+				isReady = true;
+			}
 			// content: body
 		});
 	});
