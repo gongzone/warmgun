@@ -10,7 +10,7 @@
 		sm: 'h-6 text-base',
 		md: 'h-8 text-lg',
 		lg: 'h-10 text-2xl font-bold',
-		xl: 'h-10 text-3xl font-bold'
+		xl: 'h-14 text-3xl font-bold'
 	};
 
 	let textarea: Element;
@@ -19,7 +19,7 @@
 </script>
 
 <textarea
-	class="w-full resize-none border-0 bg-transparent p-0 focus:!outline-none focus:ring-0 {sizeStyles[
+	class="w-full resize-none border-0 bg-transparent px-0 focus:!outline-none focus:ring-0 {sizeStyles[
 		size
 	]}"
 	{name}

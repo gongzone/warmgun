@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ComponentType } from 'svelte';
+	import type { SvelteComponent } from 'svelte';
 
 	export let value: string = '';
 
@@ -9,7 +9,7 @@
 	export let labelText: string = '';
 	export let helperText: string = '';
 	export let required: boolean = true;
-	export let icon: ComponentType | undefined = undefined;
+	export let icon: typeof SvelteComponent | undefined = undefined;
 </script>
 
 <label class="space-y-2" for={name}>

@@ -2,14 +2,14 @@ import type { Prisma, Tag, Article as PrismaArticle, User, Profile } from '@pris
 import { z } from 'zod';
 
 export type Article = PrismaArticle & {
-	user: User & {
+	tags: Tag[];
+	author: User & {
 		profile: Profile | null;
 	};
 	_count: {
 		comments: number;
 		likes: number;
 	};
-	tags: Tag[];
 };
 
 export const articleInclude = {

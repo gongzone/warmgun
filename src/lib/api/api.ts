@@ -17,34 +17,27 @@ export const api = (customFetch = fetch) => ({
 		return data;
 	},
 	findArticles: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
-		const category = ((queryKey[1] as string) ?? 'ALL').toUpperCase().replace('-', '_');
-		const sort = queryKey[2] ?? 'recent';
-		const take = queryKey[3] ?? 10;
+		const mode = queryKey[1] ?? null;
+		const key = queryKey[2];
+		const filter = queryKey[3] ?? 'trending';
+		const take = queryKey[4] ?? 12;
+		let subPath = '';
+		let addedQueryParams = '';
+
+		if (mode === 'genre') {
+			addedQueryParams = `&genre=${key}`;
+		}
+
+		if (mode === 'tags') {
+			subPath = `/tags/${key}`;
+		}
+
+		if (mode === 'feeds') {
+			subPath = key === 'like' ? `/me/like` : key === 'feed' ? `/me/feed` : '';
+		}
 
 		const response = await customFetch(
-			`/api/articles?category=${category}&sort=${sort}&take=${take}&cursor=${pageParam}`
-		);
-		const data = (await response.json()) as InfiniteData<Article>;
-		return data;
-	},
-	findArticlesByTagSlug: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
-		const tagSlug = queryKey[1];
-		const sort = queryKey[2] ?? 'recent';
-		const take = queryKey[3] ?? 10;
-
-		const response = await customFetch(
-			`/api/articles?tagSlug=${tagSlug}&sort=${sort}&take=${take}&cursor=${pageParam}`
-		);
-		const data = (await response.json()) as InfiniteData<Article>;
-		return data;
-	},
-	findArticlesByUsername: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
-		const username = queryKey[1];
-		const sort = queryKey[2] ?? 'recent';
-		const take = queryKey[3] ?? 10;
-
-		const response = await customFetch(
-			`/api/articles/${username}?sort=${sort}&take=${take}&cursor=${pageParam}`
+			`/api/articles${subPath}?filter=${filter}&take=${take}&cursor=${pageParam}${addedQueryParams}`
 		);
 		const data = (await response.json()) as InfiniteData<Article>;
 		return data;

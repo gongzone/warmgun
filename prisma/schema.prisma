@@ -15,21 +15,17 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  role                Role                 @default(USER)
-  profile             Profile?
-  tokens              Token[]
-  drafts              Draft[]
-  articles            Article[]
-  articleLikes        ArticleLike[]
-  tagLikes            TagLike[]
-  articleComments     ArticleComment[]
-  articleCommentLikes ArticleCommentLike[]
-  posts               Post[]
-  postLikes           PostLike[]
-  postComments        PostComment[]
-  postCommentLikes    PostCommentLike[]
-  followedBy          Follows[]            @relation("following")
-  following           Follows[]            @relation("follower")
+  role         Role          @default(USER)
+  profile      Profile?
+  tokens       Token[]
+  drafts       Draft[]
+  articles     Article[]
+  comments     Comment[]
+  likes        Like[]
+  tagLikes     TagLike[]
+  commentLikes CommentLike[]
+  followedBy   Follows[]     @relation("following")
+  following    Follows[]     @relation("follower")
 }
 
 enum Role {
@@ -91,8 +87,8 @@ model Draft {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int
+  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
 }
 
 model Article {
@@ -107,17 +103,17 @@ model Article {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   Int
-  category ArticleCategory  @default(ETC)
-  likes    ArticleLike[]
+  genre    Genre     @default(ETC)
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
+  comments Comment[]
   tags     Tag[]
-  comments ArticleComment[]
+  likes    Like[]
 
-  @@unique(fields: [id, userId], name: "id_userId")
+  @@unique(fields: [id, authorId], name: "id_authorId")
 }
 
-enum ArticleCategory {
+enum Genre {
   FRONTEND
   BACKEND
   DEVOPS
@@ -127,7 +123,7 @@ enum ArticleCategory {
   ETC
 }
 
-model ArticleLike {
+model Like {
   id Int @id @default(autoincrement())
 
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -136,6 +132,33 @@ model ArticleLike {
   articleId Int
 
   @@unique(fields: [userId, articleId], name: "userId_articleId")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  article   Article       @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId Int
+  parent    Comment?      @relation("NestedComments", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  Int?
+  children  Comment[]     @relation("NestedComments")
+  likes     CommentLike[]
+}
+
+model CommentLike {
+  id Int @id @default(autoincrement())
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId Int
+
+  @@unique(fields: [userId, commentId], name: "userId_commentId")
 }
 
 model Tag {
@@ -156,94 +179,4 @@ model TagLike {
   tagId  Int
 
   @@unique(fields: [userId, tagId], name: "userId_tagId")
-}
-
-model ArticleComment {
-  id        Int      @id @default(autoincrement())
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  article   Article              @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  articleId Int
-  parent    ArticleComment?      @relation("NestedArticleComments", fields: [parentId], references: [id], onDelete: Cascade)
-  parentId  Int?
-  children  ArticleComment[]     @relation("NestedArticleComments")
-  likes     ArticleCommentLike[]
-}
-
-model ArticleCommentLike {
-  id Int @id @default(autoincrement())
-
-  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  comment   ArticleComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  commentId Int
-
-  @@unique(fields: [userId, commentId], name: "userId_commentId")
-}
-
-model Post {
-  id            Int      @id @default(autoincrement())
-  title         String
-  body          Json
-  slug          String   @unique
-  trendingScore Float    @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  community Community     @default(FREE)
-  likes     PostLike[]
-  comments  PostComment[]
-
-  @@unique(fields: [id, userId], name: "id_userId")
-}
-
-enum Community {
-  FREE
-  QUESTION
-  DISCUSSION
-  TEAM
-}
-
-model PostLike {
-  id Int @id @default(autoincrement())
-
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int
-  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId Int
-
-  @@unique(fields: [userId, postId], name: "userId_postId")
-}
-
-model PostComment {
-  id        Int      @id @default(autoincrement())
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   Int
-  post     Post              @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId   Int
-  parent   PostComment?      @relation("NestedPostComments", fields: [parentId], references: [id], onDelete: Cascade)
-  parentId Int?
-  children PostComment[]     @relation("NestedPostComments")
-  likes    PostCommentLike[]
-}
-
-model PostCommentLike {
-  id Int @id @default(autoincrement())
-
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  comment   PostComment @relation(fields: [commentId], references: [id])
-  commentId Int
-
-  @@unique(fields: [userId, commentId], name: "userId_commentId")
 }

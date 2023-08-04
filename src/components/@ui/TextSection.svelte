@@ -9,6 +9,6 @@
 </script>
 
 <div>
-	<h3 class="font-heading text-4xl sm:text-5xl">{title}</h3>
+	<h3 class="font-heading-token text-4xl sm:text-5xl">{title}</h3>
 	<TextWithIcon {icon} textClass="opacity-75">{subTitle}</TextWithIcon>
 </div>

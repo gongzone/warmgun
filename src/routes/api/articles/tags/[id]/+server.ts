@@ -26,12 +26,12 @@ export const GET = (async ({ url, params }) => {
 		cursor: +validated.data.cursor
 	};
 
-	const articles = await findArticlesByTagSlug(+params.id, filter, take, cursor);
+	const articles = await findArticlesByTagId(+params.id, filter, take, cursor);
 
 	return json(buildInfinityData(articles, take, cursor));
 }) satisfies RequestHandler;
 
-async function findArticlesByTagSlug(
+async function findArticlesByTagId(
 	tagId: number,
 	filter: ArticlesFilter,
 	take: number,

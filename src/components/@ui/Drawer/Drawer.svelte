@@ -2,10 +2,16 @@
 	import { page } from '$app/stores';
 	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
 
-	import { NAV_SIDEBAR_ID, COMMENT_SIDEBAR_ID } from './drawer';
+	import {
+		NAV_SIDEBAR_ID,
+		DRAFT_SIDEBAR_ID,
+		PUBLISH_SIDEBAR_ID,
+		COMMENT_SIDEBAR_ID
+	} from './drawer';
 
 	import NavSidebar from './NavSidebar/NavSidebar.svelte';
-	import PublishSidebar from '$components/Write/PublishSidebar/PublishSidebar.svelte';
+	import DraftSidebar from './DraftSidebar/DraftSidebar.svelte';
+	import PublishSidebar from './PublishSidebar/PublishSidebar.svelte';
 	import CommentSidebar from './CommentSidebar/CommentSidebar.svelte';
 
 	let publishStorage = new Map();
@@ -26,8 +32,15 @@
 <Drawer>
 	{#if $drawerStore.id === NAV_SIDEBAR_ID}
 		<NavSidebar />
-	{:else if $drawerStore.id === 'publish-sidebar'}
-		<PublishSidebar />
+	{:else if $drawerStore.id === DRAFT_SIDEBAR_ID}
+		<DraftSidebar />
+	{:else if $drawerStore.id === PUBLISH_SIDEBAR_ID}
+		<PublishSidebar
+			coverImage={publishStorage.get(publishStorageKey)?.coverImage ?? null}
+			tags={publishStorage.get(publishStorageKey)?.tags ?? []}
+			genre={publishStorage.get(publishStorageKey)?.genre ?? 'ETC'}
+			on:close={setPublishStorage}
+		/>
 	{:else if $drawerStore.id === COMMENT_SIDEBAR_ID}
 		<CommentSidebar />
 	{/if}

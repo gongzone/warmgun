@@ -40,16 +40,18 @@
 	<div class="card w-52 p-4 shadow-xl z-40" data-popup={popupKey}>
 		<Navigation items={userNav}>
 			<svelte:fragment slot="subItems">
-				{#if user.role === 'ADMIN'}
+				<ul>
+					{#if user.role === 'ADMIN'}
+						<li>
+							<a href="/admin">관리자 페이지</a>
+						</li>
+					{/if}
 					<li>
-						<a href="/admin">관리자 페이지</a>
+						<form method="POST" action="/auth/logout" use:enhance>
+							<button type="submit" class="w-full">로그아웃</button>
+						</form>
 					</li>
-				{/if}
-				<li>
-					<form method="POST" action="/auth/logout" use:enhance>
-						<button type="submit" class="w-full">로그아웃</button>
-					</form>
-				</li>
+				</ul>
 			</svelte:fragment>
 		</Navigation>
 	</div>

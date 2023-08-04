@@ -1,14 +1,24 @@
 <script lang="ts">
-	import { cn } from '$lib/utils/cn';
-	import type { ComponentType } from 'svelte';
+	import type { SvelteComponent } from 'svelte';
 
-	export let icon: ComponentType;
+	export let icon: typeof SvelteComponent;
 	export let size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' = 'md';
-	export let gap: 1 | 2 | 3 | 4 | 5 = 1;
-	export let textClasses: string = '';
-	export let iconClasses: string = '';
+	export let gap: 1 | 2 | 3 | 4 | 5 = 2;
+	export let textClass: string = '';
+	export let iconClass: string = '';
 
-	const iconSizeClass = {
+	$: textSizeClass = {
+		xs: 'text-xs',
+		sm: 'text-sm',
+		md: 'text-base',
+		lg: 'text-lg',
+		xl: 'text-lg',
+		'2xl': 'text-2xl',
+		'3xl': 'text-3xl',
+		'4xl': 'text-4xl'
+	};
+
+	$: iconSizeClass = {
 		xs: 'w-2 h-2',
 		sm: 'w-4 h-4',
 		md: 'w-5 h-5',
@@ -19,18 +29,7 @@
 		'4xl': 'w-9 h-9'
 	};
 
-	const textSizeClass = {
-		xs: 'text-xs',
-		sm: 'text-sm',
-		md: 'text-sm',
-		lg: 'text-lg',
-		xl: 'text-lg',
-		'2xl': 'text-2xl',
-		'3xl': 'text-3xl',
-		'4xl': 'text-4xl'
-	};
-
-	const gapClass = {
+	$: gapClass = {
 		1: 'gap-1',
 		2: 'gap-2',
 		3: 'gap-3',
@@ -39,9 +38,7 @@
 	};
 </script>
 
-<div class={cn('flex items-center', gapClass[gap])}>
-	<svelte:component this={icon} class={cn(iconSizeClass[size], iconClasses)} />
-	<span class={cn(textSizeClass[size], textClasses)}>
-		<slot />
-	</span>
+<div class="flex items-center {gapClass[gap]} {$$props.class}">
+	<svelte:component this={icon} class="{iconSizeClass[size]} {iconClass}" />
+	<span class="{textSizeClass[size]} {textClass}"><slot /></span>
 </div>

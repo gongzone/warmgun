@@ -26,13 +26,13 @@
 
 	<section class="relative w-full h-full max-w-[640px] mx-auto">
 		<HeroGradient />
-		<!-- {#if topUsers.length > 0}
+		{#if topUsers.length > 0}
 			<Carousel items={topUsers} bottomClass="lg:absolute" let:item>
 				<TopBlogerCard topBloger={item} />
 			</Carousel>
 		{:else}
 			<NoDataCard text="유저 데이터가 존재하지 않습니다!" />
-		{/if} -->
+		{/if}
 	</section>
 
 	<section class="space-y-3">

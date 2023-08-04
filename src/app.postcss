@@ -4,41 +4,25 @@
 }
 
 @font-face {
-	font-family: 'Pretendard';
-	src: url('/fonts/Pretendard-Variable.woff2');
-}
-
-@font-face {
 	font-family: 'Tenada';
 	src: url('/fonts/Tenada.ttf');
 }
 
 html,
 body {
-	@apply min-h-screen w-full;
-	font-feature-settings: 'rlig' 1, 'calt' 1;
+	@apply min-h-full;
 }
 
+/* Frame Layout */
 .page-container {
 	@apply container py-12 md:py-20;
 }
 
+/* Item Layout */
 .article-grid {
 	@apply grid grid-cols-1 gap-9 sm:grid-cols-2 lg:grid-cols-3;
 }
 
 .user-grid {
 	@apply grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
-}
-
-.ProseMirror-gapcursor:after {
-	border-top: 1px solid white !important;
-}
-
-.ProseMirror p.is-editor-empty:first-child::before {
-	color: #adb5bd;
-	content: attr(data-placeholder);
-	float: left;
-	height: 0;
-	pointer-events: none;
 }
