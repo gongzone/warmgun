@@ -14,8 +14,9 @@
 @layer base {
   :root {
     --background: 0 0% 97%;
-    --foreground: 0 0% 7%;
-    --border: 0 0% 92%;
+    --foreground: 0 0% 9%;
+    --foreground-light: 0 0% 40%;
+    --border: 0 0% 87%;
 
     --primary: 134 44% 32%;
     --primary-foreground: 0 0% 97%;
