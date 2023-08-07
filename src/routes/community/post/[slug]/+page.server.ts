@@ -10,14 +10,14 @@ import { meilisearch } from '$lib/server/meilisearch';
 export const ssr = false;
 
 export const load: PageServerLoad = async ({ locals, params }) => {
-	const article = await findOneArticle(params.slug);
-	const isLiked = article.likes.find((like) => like.userId === locals.user?.id);
+	const post = await findOnePost(params.slug);
+	const isLiked = post.likes.find((like) => like.userId === locals.user?.id);
 
-	return { article, isLiked: !!isLiked };
+	return { post, isLiked: !!isLiked };
 };
 
-async function findOneArticle(slug: string) {
-	const article = await prisma.article.findUnique({
+async function findOnePost(slug: string) {
+	const post = await prisma.post.findUnique({
 		where: { slug },
 		include: {
 			user: {
@@ -26,16 +26,15 @@ async function findOneArticle(slug: string) {
 			_count: {
 				select: { likes: true, comments: true }
 			},
-			tags: true,
 			likes: true
 		}
 	});
 
-	if (!article) {
+	if (!post) {
 		throw error(404, 'no');
 	}
 
-	return article;
+	return post;
 }
 
 export const actions: Actions = {
@@ -52,32 +51,32 @@ export const actions: Actions = {
 			return fail(400, { message: validated.errorMessage });
 		}
 
-		const { articleId } = { ...validated.data, articleId: +validated.data.articleId };
+		const { postId } = { ...validated.data, postId: +validated.data.postId };
 
-		const foundLike = await prisma.articleLike.findUnique({
+		const foundLike = await prisma.postLike.findUnique({
 			where: {
-				userId_articleId: {
+				userId_postId: {
 					userId: locals.user.id,
-					articleId
+					postId
 				}
 			}
 		});
 
 		if (foundLike) {
-			fail(400, { message: '이미 좋아요한 아티클입니다.' });
+			fail(400, { message: '이미 좋아요한 게시글입니다.' });
 		}
 
-		const like = await prisma.articleLike.create({
+		const like = await prisma.postLike.create({
 			data: {
 				user: {
 					connect: { id: locals.user.id }
 				},
-				article: {
-					connect: { id: articleId }
+				post: {
+					connect: { id: postId }
 				}
 			},
 			include: {
-				article: {
+				post: {
 					select: {
 						createdAt: true,
 						_count: {
@@ -90,11 +89,11 @@ export const actions: Actions = {
 			}
 		});
 
-		const trendingScore = calculateTrendingScore(like.article._count.likes, like.article.createdAt);
+		const trendingScore = calculateTrendingScore(like.post._count.likes, like.post.createdAt);
 
-		await prisma.article.update({
+		await prisma.post.update({
 			where: {
-				id: articleId
+				id: postId
 			},
 			data: {
 				trendingScore
@@ -114,17 +113,17 @@ export const actions: Actions = {
 			return fail(400, { message: validated.errorMessage });
 		}
 
-		const { articleId } = { ...validated.data, articleId: +validated.data.articleId };
+		const { postId } = { ...validated.data, postId: +validated.data.postId };
 
-		const like = await prisma.articleLike.delete({
+		const like = await prisma.postLike.delete({
 			where: {
-				userId_articleId: {
+				userId_postId: {
 					userId: locals.user.id,
-					articleId
+					postId
 				}
 			},
 			include: {
-				article: {
+				post: {
 					select: {
 						createdAt: true,
 						_count: {
@@ -137,14 +136,11 @@ export const actions: Actions = {
 			}
 		});
 
-		const trendingScore = calculateTrendingScore(
-			like.article._count.likes - 1,
-			like.article.createdAt
-		);
+		const trendingScore = calculateTrendingScore(like.post._count.likes - 1, like.post.createdAt);
 
-		await prisma.article.update({
+		await prisma.post.update({
 			where: {
-				id: articleId
+				id: postId
 			},
 			data: {
 				trendingScore
@@ -361,7 +357,7 @@ export const actions: Actions = {
 
 function likesSchema() {
 	return z.object({
-		articleId: z.string()
+		postId: z.string()
 	});
 }
 

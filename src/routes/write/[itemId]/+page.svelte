@@ -25,9 +25,17 @@
 	/* Init Editor Data */
 	$: title = isDraftMode ? data.draft?.title : data.article?.title;
 	$: body = (isDraftMode ? data.draft?.body : data.article?.body) as JSONContent;
+	$: coverImage = isDraftMode ? null : data.article?.coverImage;
+	$: tags = isDraftMode ? [] : data.article!.tags;
+	$: category = isDraftMode ? 'ETC' : data.article?.category;
 </script>
 
 <DraftDrawer />
 
-<WriteController {getEditorData} />
+<WriteController
+	{coverImage}
+	tags={tags.length > 0 ? tags.map((tag) => tag.name) : []}
+	{category}
+	{getEditorData}
+/>
 <ArticleEditor bind:getEditorData {title} {body} />

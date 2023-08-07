@@ -21,9 +21,9 @@
 			<button type="submit" class="btn variant-filled-primary">
 				<TextWithIcon
 					icon={HeartIcon}
-					iconClass={isLiked ? 'text-red-600' : ''}
-					size="xl"
-					textClass="!text-sm"
+					iconClasses={isLiked ? 'text-red-600' : ''}
+					size="md"
+					textClasses="!text-sm"
 					gap={1}>{article._count.likes}</TextWithIcon
 				>
 			</button>
@@ -36,7 +36,7 @@
 					meta: { articleId: article.id, totalCount: article._count.comments }
 				})}
 		>
-			<TextWithIcon icon={CommentIcon} textClass="!text-sm" size="xl" gap={1}
+			<TextWithIcon icon={CommentIcon} textClasses="!text-sm" size="md" gap={1}
 				>댓글 {article._count.comments}</TextWithIcon
 			>
 		</button>

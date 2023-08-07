@@ -48,6 +48,7 @@
 	import type { HTMLContent, JSONContent } from '@tiptap/core';
 
 	export let editor: Readable<Editor> | undefined = undefined;
+	export let editable: boolean = true;
 	export let body: JSONContent | HTMLContent = '';
 
 	let elemFileInput: HTMLElement;
@@ -216,7 +217,7 @@
 				}
 			},
 			autofocus: false,
-			editable: true,
+			editable: editable,
 			onCreate: () => {
 				isReady = true;
 			}

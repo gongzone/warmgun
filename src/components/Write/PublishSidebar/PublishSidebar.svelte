@@ -62,12 +62,14 @@
 			};
 		}}
 	>
-		<button type="submit" class="btn variant-filled-primary">출간하기</button>
+		<button type="submit" class="btn variant-filled-primary"
+			>{mode === 'draft' ? '출간하기' : '수정하기'}</button
+		>
 		<input type="hidden" name="title" value={title} />
 		<input type="hidden" name="body" value={JSON.stringify(body)} />
 		<input type="hidden" name="plaintext" value={plaintext} />
 		<input type="hidden" name="coverImage" value={coverImage} />
-		<input type="hidden" name="tags" value={tags.join('')} />
+		<input type="hidden" name="tags" value={tags.join()} />
 		<input type="hidden" name="category" value={category} />
 	</form>
 </header>

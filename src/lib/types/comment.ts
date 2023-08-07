@@ -1,4 +1,4 @@
-import type { Prisma, Profile, Comment as PrismaComment, User } from '@prisma/client';
+import type { Prisma, Profile, ArticleComment as PrismaComment, User } from '@prisma/client';
 
 export type Comment = PrismaComment & {
 	isLiked: boolean;
@@ -24,4 +24,4 @@ export const commentInclude = {
 			likes: true
 		}
 	}
-} satisfies Prisma.CommentInclude;
+} satisfies Prisma.ArticleCommentInclude;

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
-	import PostItem from '$components/Community/PostItem.svelte';
 
 	import CommunitySortor from '$components/Community/CommunitySortor.svelte';
 	import CommunityPaginator from '$components/Community/CommunityPaginator.svelte';
@@ -11,6 +10,7 @@
 	import { TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
 	import { communities } from '$lib/constants/communities';
 	import Paginator from '$components/@ui/Paginator.svelte';
+	import PostItem from '$components/@item/Post/PostItem.svelte';
 
 	export let data: PageData;
 
@@ -79,7 +79,7 @@
 	<ul>
 		{#each posts as post (post.id)}
 			<li>
-				<PostItem {post} />
+				<PostItem displayCommunity={$page.url.pathname === '/community' ? true : false} {post} />
 			</li>
 		{/each}
 	</ul>

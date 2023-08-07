@@ -22,8 +22,6 @@
 		enabled: !!debouncedInput
 	});
 
-	$: console.log(tags);
-
 	const cleanInput = () => {
 		input = '';
 		debouncedInput = '';

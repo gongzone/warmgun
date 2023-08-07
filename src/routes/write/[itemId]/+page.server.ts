@@ -140,7 +140,7 @@ export const actions: Actions = {
 		const excerpt = formatExcerpt(plaintext);
 		const readingTime = formatReadingTime(plaintext);
 
-		await db.article.create({
+		const article = await db.article.create({
 			data: {
 				title,
 				body,
@@ -180,75 +180,68 @@ export const actions: Actions = {
 		// 	);
 		// }
 
-		// throw redirect(303, `/@${locals.user?.username}/${article.slug}`);
+		throw redirect(303, `/@${locals.user?.username}/${article.slug}`);
 	},
 	updateArticle: async ({ request, params, locals }) => {
 		const formData = await request.formData();
-		const validated = validate(formData, updateArticleSchema());
+		const validated = validate(formData, createArticleSchema);
 
 		if (!validated.success) {
 			return fail(400, { isSuccess: false, message: validated.errorMessage });
 		}
 
-		const { title, body, coverImage, tags, genre } = {
+		const { title, body, plaintext, coverImage, tags, category } = {
 			...validated.data,
+			body: JSON.parse(validated.data.body) as JSONContent,
 			coverImage: validated.data.coverImage ?? null,
-			body: JSON.parse(validated.data.body),
-			tags: validated.data.tags ? validated.data.tags.split(',') : undefined,
-			genre: validated.data.genre as Genre
+			tags: validated.data.tags ? validated.data.tags.split(',') : undefined
 		};
 
-		if (body.blocks.length === 1 && !body.blocks[0].data.text) {
-			return fail(400, { isSuccess: false, message: '본문을 작성하여 주세요.' });
-		}
-
-		if (siteConfig.genre.filter((g) => g.enum === genre).length === 0) {
-			throw error(400, '장르 설정이 올바르게 되지 않았습니다.');
-		}
-
-		const bodyString = bodyToString(body);
-		const excerpt = generateExcerpt(bodyString);
-		const readingTime = calculateReadingTime(bodyString);
+		const slug = formatSlug(title);
+		const excerpt = formatExcerpt(plaintext);
+		const readingTime = formatReadingTime(plaintext);
 
 		const article = await prisma.article.update({
 			where: { id: +params.itemId },
 			data: {
 				title,
-				excerpt,
 				body,
+				excerpt,
 				coverImage,
+				category,
+				slug,
 				readingTime,
 				tags: tags
 					? {
+							set: [],
 							connectOrCreate: tags.map((tag: string) => ({
 								where: { name: tag },
 								create: { name: tag, slug: formatTagSlug(tag) }
 							}))
 					  }
-					: {},
-				category: 'BACKEND'
+					: {}
 			},
 			include: { tags: true }
 		});
 
-		await meilisearch.index('articles').updateDocuments([
-			{
-				id: article.id,
-				title: article.title,
-				body: bodyString,
-				tags: article.tags.map((tag) => tag.name),
-				createdAt: article.createdAt
-			}
-		]);
+		// await meilisearch.index('articles').updateDocuments([
+		// 	{
+		// 		id: article.id,
+		// 		title: article.title,
+		// 		body: bodyString,
+		// 		tags: article.tags.map((tag) => tag.name),
+		// 		createdAt: article.createdAt
+		// 	}
+		// ]);
 
-		if (tags) {
-			await meilisearch.index('tags').updateDocuments(
-				article.tags.map((tag) => ({
-					id: tag.id,
-					name: tag.name
-				}))
-			);
-		}
+		// if (tags) {
+		// 	await meilisearch.index('tags').updateDocuments(
+		// 		article.tags.map((tag) => ({
+		// 			id: tag.id,
+		// 			name: tag.name
+		// 		}))
+		// 	);
+		// }
 
 		throw redirect(303, `/@${locals.user?.username}/${article.slug}`);
 	}

@@ -4,10 +4,14 @@
 	import ArrowLeftIcon from '$components/@icons/ArrowLeftIcon.svelte';
 	import DraftIcon from '$components/@icons/DraftIcon.svelte';
 	import { openPublishSidebar } from '$components/Write/PublishSidebar/PublishSidebar.svelte';
+	import type { Category } from '$lib/constants/categories';
 	import type { ArticleEditorData } from '../ArticleEditor.svelte';
 	import { openDraftDrawer } from '../DraftDrawer/DraftDrawer.svelte';
 
 	export let getEditorData: () => ArticleEditorData;
+	export let coverImage: string | null = null;
+	export let tags: string[] = [];
+	export let category: Category = 'ETC';
 
 	$: mode = $page.url.searchParams.get('mode') as 'draft' | 'edit';
 
@@ -18,9 +22,9 @@
 			title,
 			body,
 			plaintext,
-			coverImage: null,
-			tags: [],
-			category: 'ETC'
+			coverImage,
+			tags,
+			category
 		});
 	}
 </script>
@@ -30,31 +34,35 @@
 		<a href="/" class="btn-icon">
 			<ArrowLeftIcon class="w-6 h-6" />
 		</a>
-		<button
-			type="button"
-			class="btn-icon btn-icon-lg variant-ghost-surface"
-			on:click={() => openDraftDrawer()}
-		>
-			<DraftIcon />
-		</button>
+		{#if mode === 'draft'}
+			<button
+				type="button"
+				class="btn-icon btn-icon-lg variant-ghost-surface"
+				on:click={() => openDraftDrawer()}
+			>
+				<DraftIcon />
+			</button>
+		{/if}
 	</div>
 
 	<div class="flex items-center gap-2">
-		<form
-			method="POST"
-			action="?/saveDraft"
-			use:enhance={({ data }) => {
-				const { title, body } = getEditorData();
-				data.append('title', title);
-				data.append('body', JSON.stringify(body));
+		{#if mode === 'draft'}
+			<form
+				method="POST"
+				action="?/saveDraft"
+				use:enhance={({ data }) => {
+					const { title, body } = getEditorData();
+					data.append('title', title);
+					data.append('body', JSON.stringify(body));
 
-				return async ({ update }) => {
-					update();
-				};
-			}}
-		>
-			<button type="submit" class="btn variant-filled-secondary">저장</button>
-		</form>
+					return async ({ update }) => {
+						update();
+					};
+				}}
+			>
+				<button type="submit" class="btn variant-filled-secondary">저장</button>
+			</form>
+		{/if}
 		<button type="button" class="btn variant-filled-primary" on:click={onClickPublishHandler}
 			>글 등록</button
 		>
