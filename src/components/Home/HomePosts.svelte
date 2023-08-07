@@ -4,6 +4,7 @@
 	import type { Post } from '$lib/types/post';
 	import NoDataCard from '$components/@ui/NoDataCard.svelte';
 	import type { ComponentType } from 'svelte';
+	import PostItem from '$components/@item/Post/PostItem.svelte';
 
 	export let title: string;
 	export let link: string;
@@ -22,16 +23,7 @@
 			{#each posts as post (post.id)}
 				{@const { user, title } = post}
 				<li>
-					<div class="py-3 space-y-2 border-b border-b-surface-600">
-						<UserAvatar
-							name={user.profile?.nickname}
-							src="https://github.com/shadcn.png"
-							width="w-6"
-						/>
-						<h2 class="font-semibold line-clamp-1">
-							{title}
-						</h2>
-					</div>
+					<PostItem displayUserInfo={true} displayCommunity={false} displayCount={false} {post} />
 				</li>
 			{/each}
 		{:else}

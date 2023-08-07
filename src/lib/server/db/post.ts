@@ -8,6 +8,7 @@ export type FindPostsSort = 'recent' | 'trending';
 
 interface FindArticlesOptions {
 	userId?: number;
+	username?: string;
 	take?: number;
 	cursor?: number;
 }
@@ -15,7 +16,7 @@ interface FindArticlesOptions {
 export async function findPosts(
 	community: FindPostsCommunity = 'ALL',
 	sort: FindPostsSort = 'recent',
-	{ userId, take = 10, cursor = 0 }: FindArticlesOptions
+	{ userId, username, take = 10, cursor = 0 }: FindArticlesOptions
 ) {
 	let orderBy:
 		| Prisma.PostOrderByWithRelationInput
@@ -31,7 +32,10 @@ export async function findPosts(
 	}
 
 	return await db.post.findMany({
-		where: community === 'ALL' ? { userId } : { AND: [{ userId }, { community }] },
+		where:
+			community === 'ALL'
+				? { AND: [{ userId }, { user: { username } }] }
+				: { AND: [{ userId }, { user: { username } }, { community }] },
 		take: take,
 		skip: take * cursor,
 		orderBy,

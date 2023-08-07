@@ -8,6 +8,7 @@
 	import { page } from '$app/stores';
 	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
 	import GenreIcon from '$components/@icons/GenreIcon.svelte';
+	import { enhance } from '$app/forms';
 
 	export let data: LayoutData;
 
@@ -16,7 +17,7 @@
 		{ title: '커뮤니티', icon: GenreIcon, slug: '/community' }
 	];
 
-	$: ({ blogUser } = data);
+	$: ({ blogUser, isOwner, isFollowing } = data);
 
 	$: console.log(blogUser);
 </script>
@@ -40,12 +41,27 @@
 			</div>
 		</div>
 
-		<div class="h-[82px]" />
+		<div class="flex justify-end items-center h-[82px] px-6">
+			<div>
+				{#if isOwner}
+					<a href="/settings" class="btn btn-sm variant-filled-primary">설정하기</a>
+				{:else}
+					<form method="POST" action={!isFollowing ? '?/follow' : '?/unFollow'} use:enhance>
+						<button type="submit" class="btn btn-sm variant-filled-primary"
+							>{!isFollowing ? '구독하기' : '구독취소'}</button
+						>
+						<input type="hidden" name="blogUserId" value={blogUser.id} />
+					</form>
+				{/if}
+			</div>
+		</div>
 
 		<div class="px-6">
-			<div class="flex items-center self-end gap-2 ml-1 mb-1">
-				<span class="text-2xl font-semibold">{blogUser.profile?.nickname}</span>
-				<span class="badge variant-filled">{blogUser.profile?.field}</span>
+			<div class="flex items-center gap-8 justify-between">
+				<div class="flex items-center self-end gap-2 ml-1 mb-1">
+					<span class="text-2xl font-semibold">{blogUser.profile?.nickname}</span>
+					<span class="badge variant-filled">{blogUser.profile?.field}</span>
+				</div>
 			</div>
 
 			<div class="flex gap-8">

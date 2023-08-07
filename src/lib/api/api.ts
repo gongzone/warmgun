@@ -3,6 +3,7 @@ import type { QueryFunctionContext } from '@tanstack/svelte-query';
 import type { InfiniteData } from '$lib/types/infinite-data';
 import type { Article } from '$lib/types/article';
 import type { BlogUser } from '$lib/types/user';
+import type { Post } from '$lib/types/post';
 
 export const api = (customFetch = fetch) => ({
 	search: async <T>({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
@@ -47,6 +48,17 @@ export const api = (customFetch = fetch) => ({
 			`/api/articles/${username}?sort=${sort}&take=${take}&cursor=${pageParam}`
 		);
 		const data = (await response.json()) as InfiniteData<Article>;
+		return data;
+	},
+	findPostsByUsername: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
+		const username = queryKey[1];
+		const sort = queryKey[2] ?? 'recent';
+		const take = queryKey[3] ?? '10';
+
+		const response = await customFetch(
+			`/api/posts/${username}?sort=${sort}&take=${take}&cursor=${pageParam}`
+		);
+		const data = (await response.json()) as InfiniteData<Post>;
 		return data;
 	},
 	findFollowingUsers: async ({ pageParam = 0 }: QueryFunctionContext) => {

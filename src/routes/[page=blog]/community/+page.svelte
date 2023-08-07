@@ -9,26 +9,27 @@
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 	import { api } from '$lib/api/api';
 	import ArticleItem from '$components/@item/Article/ArticleItem.svelte';
+	import PostItem from '$components/@item/Post/PostItem.svelte';
 
 	export let data: PageData;
 
-	$: articlesQuery = createInfiniteQuery({
-		queryKey: ['articles', $page.params.page.slice(1), 'recent', 10],
-		queryFn: api().findArticlesByUsername,
+	$: postsQuery = createInfiniteQuery({
+		queryKey: ['posts', $page.params.page.slice(1), 'recent', 10],
+		queryFn: api().findPostsByUsername,
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	});
 </script>
 
-{#if $articlesQuery.isSuccess && $articlesQuery.data.pages[0].data.length > 0}
+{#if $postsQuery.isSuccess && $postsQuery.data.pages[0].data.length > 0}
 	<ul class="flex flex-col">
-		{#each $articlesQuery.data.pages as { data }, i (i)}
-			{#each data as article (article.id)}
+		{#each $postsQuery.data.pages as { data }, i (i)}
+			{#each data as post (post.id)}
 				<li>
-					<ArticleItem {article} />
+					<PostItem displayUserInfo={false} displayCommunity={true} {post} />
 				</li>
 			{/each}
 		{/each}
 	</ul>
 
-	<InfiniteScroll fetchFn={$articlesQuery.fetchNextPage} hasNextPage={$articlesQuery.hasNextPage} />
+	<InfiniteScroll fetchFn={$postsQuery.fetchNextPage} hasNextPage={$postsQuery.hasNextPage} />
 {/if}

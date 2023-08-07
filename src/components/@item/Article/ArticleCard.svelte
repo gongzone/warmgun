@@ -68,17 +68,17 @@
 	<footer class="flex items-center justify-between flex-wrap gap-2">
 		<ul class="flex gap-2">
 			<li>
-				<a class="badge variant-filled-primary" href="/article/${categories[category].slug}"
+				<a class="badge variant-filled-primary" href="/article/{categories[category].slug}"
 					>{categories[category].title}</a
 				>
 			</li>
-			{#each article.tags as tag (tag.id)}
+			{#if article.tags.length > 0}
 				<li>
-					<a class="badge variant-filled xl:max-w-[110px]" href={tag.slug}>
-						<p class="text-ellipsis overflow-hidden">{tag.name}</p>
+					<a class="badge variant-filled xl:max-w-[110px]" href="/tag/{article.tags[0].slug}">
+						<p class="text-ellipsis overflow-hidden">{article.tags[0].name}</p>
 					</a>
 				</li>
-			{/each}
+			{/if}
 		</ul>
 
 		<div class="flex items-center gap-2">
