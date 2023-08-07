@@ -164,20 +164,18 @@ export const actions: Actions = {
 			return fail(400, { message: validated.errorMessage });
 		}
 
-		const { articleId, parentId, content } = {
+		const { id, parentId, content } = {
 			...validated.data,
-			articleId: +validated.data.articleId,
+			id: +validated.data.id,
 			parentId: +validated.data.parentId
 		};
-
-		console.log(content);
 
 		await prisma.articleComment.create({
 			data: {
 				content,
 				parent: parentId ? { connect: { id: parentId } } : undefined,
 				user: { connect: { id: locals.user.id } },
-				article: { connect: { id: articleId } }
+				article: { connect: { id: id } }
 			}
 		});
 	},
@@ -367,7 +365,7 @@ function likesSchema() {
 
 function createCommentSchema() {
 	return z.object({
-		articleId: z.string(),
+		id: z.string(),
 		parentId: z.string(),
 		content: z.string()
 	});

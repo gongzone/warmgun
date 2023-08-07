@@ -15,24 +15,31 @@
 	import CommentIcon from '$components/@icons/CommentIcon.svelte';
 	import HeartIcon from '$components/@icons/HeartIcon.svelte';
 	import { enhance } from '$app/forms';
+	import PostControlPopup from '$components/@ui/Popup/PostControlPopup.svelte';
 
 	export let data: PageData;
 
-	$: ({ post, isLiked } = data);
+	$: ({ post, isLiked, isOwner } = data);
 
 	$: likesAction = isLiked ? '?/unlike' : '?/like';
 </script>
 
 <div class="container">
 	<main class="max-w-prose mx-auto py-12">
-		<div class="flex items-center gap-1">
-			<a href="/community">
-				<TextWithIcon size="lg" icon={CommunityIcon}>커뮤니티</TextWithIcon>
-			</a>
-			<span><ArrowRightSmall class="w-5 h-5" /></span>
-			<a href="/community/{communities[post.community].slug}">
-				<span class="font-medium">{communities[post.community].title}</span>
-			</a>
+		<div class="flex items-center justify-between gap-2">
+			<div class="flex items-center gap-1">
+				<a href="/community">
+					<TextWithIcon size="lg" icon={CommunityIcon}>커뮤니티</TextWithIcon>
+				</a>
+				<span><ArrowRightSmall class="w-5 h-5" /></span>
+				<a href="/community/{communities[post.community].slug}">
+					<span class="font-medium">{communities[post.community].title}</span>
+				</a>
+			</div>
+
+			{#if isOwner}
+				<PostControlPopup postId={post.id} />
+			{/if}
 		</div>
 
 		<Separator class="my-3" width="sm" />
@@ -54,7 +61,7 @@
 		</div>
 
 		<div class="mt-8 space-y-8">
-			<h3 class="text-2xl font-semibold">{post.title}</h3>
+			<h3 class="text-3xl font-semibold">{post.title}</h3>
 			<Editor editable={false} body={post.body} />
 		</div>
 
@@ -77,7 +84,7 @@
 					class="btn variant-filled"
 					on:click={() =>
 						openCommentSidebar({
-							meta: { articleId: post.id, totalCount: post._count.comments }
+							meta: { mode: 'post', id: post.id, totalCount: post._count.comments }
 						})}
 				>
 					<TextWithIcon icon={CommentIcon} textClasses="!text-sm" size="md" gap={1}

@@ -23,7 +23,7 @@
 			{#each posts as post (post.id)}
 				{@const { user, title } = post}
 				<li>
-					<PostItem displayUserInfo={true} displayCommunity={false} displayCount={false} {post} />
+					<PostItem displayUserInfo={true} displayCommunity={false} displayCount={true} {post} />
 				</li>
 			{/each}
 		{:else}

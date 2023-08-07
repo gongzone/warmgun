@@ -79,7 +79,7 @@
 				<HomeSectionTitle
 					title="트렌딩 아티클"
 					subTitle="요즘 뜨는 아티클들을 확인해보세요"
-					link="/articles"
+					link="/article?sort=trending"
 				/>
 
 				<HomeArticles articles={trendingArticles} />
@@ -91,7 +91,7 @@
 				<HomeSectionTitle
 					title="최신 아티클"
 					subTitle="최근 사람들의 생각을 탐색해보세요"
-					link="/articles"
+					link="/article?sort=recent"
 				/>
 
 				<HomeArticles articles={recentArticles} />

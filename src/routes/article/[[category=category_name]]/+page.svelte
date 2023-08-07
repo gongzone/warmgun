@@ -9,6 +9,7 @@
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 	import { api } from '$lib/api/api';
 	import { goto } from '$app/navigation';
+	import NoWriting from '$components/@ui/NoWriting.svelte';
 
 	export let data: PageData;
 
@@ -82,5 +83,7 @@
 			fetchFn={$articlesQuery.fetchNextPage}
 			hasNextPage={$articlesQuery.hasNextPage}
 		/>
+	{:else}
+		<NoWriting />
 	{/if}
 </div>

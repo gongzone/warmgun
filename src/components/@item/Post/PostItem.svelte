@@ -17,8 +17,8 @@
 	$: ({ user, title, _count, createdAt } = post);
 </script>
 
-<div class="py-6 border-b border-b-surface-600 space-y-4">
-	<div class="space-y-2">
+<div class="py-6 border-b border-b-surface-600 space-y-3">
+	<div class="space-y-1">
 		<div class="flex items-center gap-1">
 			{#if displayUserInfo}
 				<a href="/@{post.user.username}">

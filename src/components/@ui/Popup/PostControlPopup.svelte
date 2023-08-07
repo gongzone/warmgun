@@ -6,11 +6,11 @@
 	import MoreIcon from '$components/@icons/MoreIcon.svelte';
 	import { enhance } from '$app/forms';
 
-	export let articleId: number;
+	export let postId: number;
 
 	let deleteForm: HTMLFormElement;
 
-	const popupKey = 'article-control-popup';
+	const popupKey = 'post-control-popup';
 	const popupSettings: PopupSettings = {
 		event: 'click',
 		target: popupKey,
@@ -25,18 +25,18 @@
 <div class="card w-32 p-2 shadow-xl z-40 !rounded-md" data-popup={popupKey}>
 	<ul class="list-nav">
 		<li>
-			<a href={`/write/${articleId}?mode=edit`}>수정하기</a>
+			<a href={`/community/write?id=${postId}`}>수정하기</a>
 		</li>
 		<li>
-			<form method="POST" action="?/deleteArticle" bind:this={deleteForm} use:enhance>
-				<input type="hidden" name="articleId" value={articleId} />
+			<form method="POST" action="?/deletePost" bind:this={deleteForm} use:enhance>
+				<input type="hidden" name="postId" value={postId} />
 				<button
 					type="button"
 					class="w-full"
 					on:click={() =>
 						triggerConfirmModal(
-							'아티클 삭제',
-							'정말로 해당 아티클을 삭제하시겠습니까?',
+							'게시글 삭제',
+							'정말로 해당 게시글을 삭제하시겠습니까?',
 							(confirm) => {
 								if (confirm) deleteForm.requestSubmit();
 							}

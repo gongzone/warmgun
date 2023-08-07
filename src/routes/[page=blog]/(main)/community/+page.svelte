@@ -10,6 +10,7 @@
 	import { api } from '$lib/api/api';
 	import ArticleItem from '$components/@item/Article/ArticleItem.svelte';
 	import PostItem from '$components/@item/Post/PostItem.svelte';
+	import NoWriting from '$components/@ui/NoWriting.svelte';
 
 	export let data: PageData;
 
@@ -32,4 +33,8 @@
 	</ul>
 
 	<InfiniteScroll fetchFn={$postsQuery.fetchNextPage} hasNextPage={$postsQuery.hasNextPage} />
+{:else}
+	<div class="my-4">
+		<NoWriting />
+	</div>
 {/if}

@@ -4,6 +4,7 @@ import type { InfiniteData } from '$lib/types/infinite-data';
 import type { Article } from '$lib/types/article';
 import type { BlogUser } from '$lib/types/user';
 import type { Post } from '$lib/types/post';
+import type { ArticleComment, Comment, PostComment } from '$lib/types/comment';
 
 export const api = (customFetch = fetch) => ({
 	search: async <T>({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
@@ -64,6 +65,17 @@ export const api = (customFetch = fetch) => ({
 	findFollowingUsers: async ({ pageParam = 0 }: QueryFunctionContext) => {
 		const response = await customFetch(`/api/users/following?take=${12}&cursor=${pageParam}`);
 		const data = (await response.json()) as InfiniteData<BlogUser>;
+		return data;
+	},
+	findComments: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
+		const mode = queryKey[1] ?? 'article';
+		const id = queryKey[2];
+		const parentId = queryKey[3] ?? null;
+
+		const response = await customFetch(
+			`/api/comments?mode=${mode}&take=${10}&cursor=${pageParam}&id=${id}&parentId=${parentId}`
+		);
+		const data = (await response.json()) as InfiniteData<ArticleComment | PostComment>;
 		return data;
 	}
 });

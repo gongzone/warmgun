@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Comment } from '$lib/types/comment';
+	import type { ArticleComment, PostComment } from '$lib/types/comment';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	import { formatCount, formatDate } from '$lib/utils/format';
@@ -14,8 +14,9 @@
 	import { goto } from '$app/navigation';
 	import CommentTextarea from '../CommentTextarea/CommentTextarea.svelte';
 
-	export let articleId: number;
-	export let comment: Comment;
+	export let mode: 'article' | 'post' = 'article';
+	export let id: number;
+	export let comment: ArticleComment | PostComment;
 	export let isChildCommentOpen: boolean = false;
 
 	let isEditing: boolean = false;
@@ -32,7 +33,7 @@
 				return await update();
 			}
 
-			await queryClient.invalidateQueries({ queryKey: ['comments', articleId, comment.parentId] });
+			await queryClient.invalidateQueries({ queryKey: ['comments', mode, id, comment.parentId] });
 			await update();
 		};
 	};
@@ -53,7 +54,8 @@
 				<CommentControlPopup
 					commentId={comment.id}
 					parentId={comment.parentId}
-					{articleId}
+					{mode}
+					{id}
 					on:click={() => {
 						isEditing = true;
 						isChildCommentOpen = false;
@@ -114,8 +116,9 @@
 {:else}
 	<CommentTextarea
 		isEditingMode={true}
+		{mode}
 		commentId={comment.id}
-		{articleId}
+		{id}
 		parentId={comment.parentId}
 		userDisplay={false}
 		content={comment.content}
@@ -131,11 +134,12 @@
 {#if isReplyTextareaOpen}
 	<div class="pl-4 ml-4 py-3 border-l-4 border-l-secondary-700">
 		<CommentTextarea
-			{articleId}
+			{mode}
+			{id}
 			parentId={comment.id}
 			userDisplay={false}
 			cb={async () => {
-				await queryClient.invalidateQueries({ queryKey: ['comments', articleId, comment.id] });
+				await queryClient.invalidateQueries({ queryKey: ['comments', mode, id, comment.id] });
 				isChildCommentOpen = true;
 				isReplyTextareaOpen = false;
 			}}

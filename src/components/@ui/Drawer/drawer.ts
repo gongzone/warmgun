@@ -47,7 +47,8 @@ export function openPublishSidebar({ meta }: { meta: PublishMeta }) {
 }
 
 export type CommentMeta = {
-	articleId: number;
+	mode: 'article' | 'post';
+	id: number;
 	totalCount: number;
 };
 

@@ -12,12 +12,14 @@
 	import { communities, type Community } from '$lib/constants/communities';
 
 	import type { Readable } from 'svelte/store';
-	import type { JSONContent } from '@tiptap/core';
+	import type { HTMLContent, JSONContent } from '@tiptap/core';
 
 	let editor: Readable<CoreEditor>;
 
-	let community: Community = 'FREE';
-	let title: string = '';
+	export let title: string = '';
+	export let community: Community = 'FREE';
+	export let body: JSONContent | HTMLContent = '';
+
 	export function getEditorData(): PostEditorData {
 		return {
 			title,
@@ -44,5 +46,5 @@
 </div>
 
 <div class="min-h-[300px] border border-surface-600 p-4 rounded-lg">
-	<Editor bind:editor />
+	<Editor bind:editor {body} />
 </div>

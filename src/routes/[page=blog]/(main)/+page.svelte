@@ -9,6 +9,7 @@
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 	import { api } from '$lib/api/api';
 	import ArticleItem from '$components/@item/Article/ArticleItem.svelte';
+	import NoWriting from '$components/@ui/NoWriting.svelte';
 
 	export let data: PageData;
 
@@ -31,4 +32,8 @@
 	</ul>
 
 	<InfiniteScroll fetchFn={$articlesQuery.fetchNextPage} hasNextPage={$articlesQuery.hasNextPage} />
+{:else}
+	<div class="my-4">
+		<NoWriting />
+	</div>
 {/if}

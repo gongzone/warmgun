@@ -11,6 +11,7 @@
 	import { communities } from '$lib/constants/communities';
 	import Paginator from '$components/@ui/Paginator.svelte';
 	import PostItem from '$components/@item/Post/PostItem.svelte';
+	import NoWriting from '$components/@ui/NoWriting.svelte';
 
 	export let data: PageData;
 
@@ -76,13 +77,19 @@
 		</TabGroup>
 	</div>
 
-	<ul>
-		{#each posts as post (post.id)}
-			<li>
-				<PostItem displayCommunity={$page.url.pathname === '/community' ? true : false} {post} />
-			</li>
-		{/each}
-	</ul>
+	{#if posts.length > 0}
+		<ul>
+			{#each posts as post (post.id)}
+				<li>
+					<PostItem displayCommunity={$page.url.pathname === '/community' ? true : false} {post} />
+				</li>
+			{/each}
+		</ul>
+	{:else}
+		<div>
+			<NoWriting />
+		</div>
+	{/if}
 
 	<div class="my-12">
 		<Paginator

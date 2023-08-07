@@ -13,7 +13,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const post = await findOnePost(params.slug);
 	const isLiked = post.likes.find((like) => like.userId === locals.user?.id);
 
-	return { post, isLiked: !!isLiked };
+	return { post, isLiked: !!isLiked, isOwner: post.userId === locals.user?.id };
 };
 
 async function findOnePost(slug: string) {
@@ -160,92 +160,18 @@ export const actions: Actions = {
 			return fail(400, { message: validated.errorMessage });
 		}
 
-		const { articleId, parentId, content } = {
+		const { id, parentId, content } = {
 			...validated.data,
-			articleId: +validated.data.articleId,
+			id: +validated.data.id,
 			parentId: +validated.data.parentId
 		};
 
-		console.log(content);
-
-		await prisma.articleComment.create({
+		await prisma.postComment.create({
 			data: {
 				content,
 				parent: parentId ? { connect: { id: parentId } } : undefined,
 				user: { connect: { id: locals.user.id } },
-				article: { connect: { id: articleId } }
-			}
-		});
-	},
-	deleteArticle: async ({ locals, request }) => {
-		if (!locals.user) {
-			throw error(401, '수행할 수 없습니다.');
-		}
-
-		const formData = await request.formData();
-
-		const validated = validate(formData, deleteArticleSchema());
-
-		if (!validated.success) {
-			return fail(400, { message: validated.errorMessage });
-		}
-
-		const { articleId } = {
-			...validated.data,
-			articleId: +validated.data.articleId
-		};
-
-		await prisma.article.delete({
-			where: { id: articleId }
-		});
-
-		// await meilisearch.index('articles').deleteDocument(articleId);
-
-		throw redirect(301, `/@${locals.user.username}`);
-	},
-	follow: async ({ locals, request }) => {
-		if (!locals.user) {
-			throw redirect(302, '/auth/login');
-		}
-
-		const formData = await request.formData();
-
-		const validated = validate(formData, followsSchema());
-
-		if (!validated.success) {
-			return fail(400, { message: validated.errorMessage });
-		}
-
-		const { blogUserId } = { ...validated.data, blogUserId: +validated.data.blogUserId };
-
-		await prisma.follows.create({
-			data: {
-				followerId: locals.user.id,
-				followingId: blogUserId
-			}
-		});
-	},
-	unFollow: async ({ locals, request }) => {
-		if (!locals.user) {
-			throw redirect(302, '/auth/login');
-		}
-
-		const formData = await request.formData();
-
-		const validated = validate(formData, followsSchema());
-
-		if (!validated.success) {
-			return fail(400, { message: validated.errorMessage });
-		}
-
-		const { blogUserId } = { ...validated.data, blogUserId: +validated.data.blogUserId };
-
-		await prisma.follows.delete({
-			where: {
-				followerId_followingId: {
-					followerId: locals.user.id,
-					followingId: blogUserId
-				}
+				post: { connect: { id: id } }
 			}
 		});
 	},
@@ -277,7 +203,7 @@ export const actions: Actions = {
 			fail(400, { message: '이미 좋아요한 댓글입니다.' });
 		}
 
-		await prisma.articleCommentLike.create({
+		await prisma.postCommentLike.create({
 			data: {
 				user: {
 					connect: { id: locals.user.id }
@@ -303,7 +229,7 @@ export const actions: Actions = {
 
 		const { commentId } = { ...validated.data, commentId: +validated.data.commentId };
 
-		await prisma.articleCommentLike.delete({
+		await prisma.postCommentLike.delete({
 			where: {
 				userId_commentId: {
 					userId: locals.user.id,
@@ -327,7 +253,7 @@ export const actions: Actions = {
 
 		const { commentId, content } = { ...validated.data, commentId: +validated.data.commentId };
 
-		await prisma.articleComment.update({
+		await prisma.postComment.update({
 			where: { id: commentId },
 			data: {
 				content: content
@@ -349,9 +275,35 @@ export const actions: Actions = {
 
 		const { commentId } = { ...validated.data, commentId: +validated.data.commentId };
 
-		await prisma.articleComment.delete({
+		await prisma.postComment.delete({
 			where: { id: commentId }
 		});
+	},
+	deletePost: async ({ locals, request }) => {
+		if (!locals.user) {
+			throw error(401, '수행할 수 없습니다.');
+		}
+
+		const formData = await request.formData();
+
+		const validated = validate(formData, deletePostSchema());
+
+		if (!validated.success) {
+			return fail(400, { message: validated.errorMessage });
+		}
+
+		const { postId } = {
+			...validated.data,
+			postId: +validated.data.postId
+		};
+
+		await prisma.post.delete({
+			where: { id: postId }
+		});
+
+		// await meilisearch.index('articles').deleteDocument(articleId);
+
+		throw redirect(301, `/@${locals.user.username}/community`);
 	}
 };
 
@@ -363,21 +315,15 @@ function likesSchema() {
 
 function createCommentSchema() {
 	return z.object({
-		articleId: z.string(),
+		id: z.string(),
 		parentId: z.string(),
 		content: z.string()
 	});
 }
 
-function deleteArticleSchema() {
+function deletePostSchema() {
 	return z.object({
-		articleId: z.string()
-	});
-}
-
-function followsSchema() {
-	return z.object({
-		blogUserId: z.string()
+		postId: z.string()
 	});
 }
 

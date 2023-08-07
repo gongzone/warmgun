@@ -33,7 +33,7 @@
 			class="btn variant-filled"
 			on:click={() =>
 				openCommentSidebar({
-					meta: { articleId: article.id, totalCount: article._count.comments }
+					meta: { mode: 'article', id: article.id, totalCount: article._count.comments }
 				})}
 		>
 			<TextWithIcon icon={CommentIcon} textClasses="!text-sm" size="md" gap={1}

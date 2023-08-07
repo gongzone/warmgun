@@ -3,7 +3,7 @@
 </script>
 
 <div class="flex flex-wrap gap-2">
-	{#each Object.entries(categories) as [categoryEnum, { title }] (title)}
-		<button class="btn btn-sm variant-outline">{title}</button>
+	{#each Object.entries(categories) as [categoryEnum, { title, slug }] (title)}
+		<a href="/article/{slug}" class="btn btn-sm variant-outline">{title}</a>
 	{/each}
 </div>
