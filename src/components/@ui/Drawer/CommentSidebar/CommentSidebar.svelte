@@ -6,15 +6,15 @@
 	import CommentHeader from './CommentHeader/CommentHeader.svelte';
 	import InfiniteScroll from '$components/@utils/InfiniteScroll.svelte';
 	import CommentTextarea from './CommentTextarea/CommentTextarea.svelte';
-	import { findComments } from '$lib/client-fetch/comment';
 	import type { CommentMeta } from '../drawer';
 	import CommentItem from './CommentItem/CommentItem.svelte';
+	import { api } from '$lib/api/api';
 
-	$: ({ articleId, totalCount } = $drawerStore.meta as CommentMeta);
+	$: ({ mode, id, totalCount } = $drawerStore.meta as CommentMeta);
 
 	$: parentCommentsQuery = createInfiniteQuery({
-		queryKey: ['comments', articleId, null],
-		queryFn: findComments,
+		queryKey: ['comments', mode, id, null],
+		queryFn: api().findComments,
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
 		keepPreviousData: true
 	});
@@ -24,8 +24,10 @@
 
 <div id="comment-sidebar" class="px-8 py-8" bind:this={root}>
 	<div class="space-y-4">
-		<CommentHeader totalCount={$page.data?.article?._count.comments} />
-		<CommentTextarea {articleId} parentId={null} />
+		<CommentHeader
+			totalCount={$page.data?.article?._count.comments ?? $page.data?.post._count.comments}
+		/>
+		<CommentTextarea {mode} {id} parentId={null} />
 	</div>
 
 	<hr class="my-8" />
@@ -35,7 +37,7 @@
 			{#each $parentCommentsQuery.data.pages as { data }}
 				{#each data as comment (comment.id)}
 					<li>
-						<CommentItem {articleId} {comment} />
+						<CommentItem {mode} {id} {comment} />
 						<hr />
 					</li>
 				{/each}

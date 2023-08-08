@@ -22,7 +22,7 @@
 	<MoreIcon class="w-5 h-5" />
 </button>
 
-<div class="card w-40 p-4 shadow-xl z-40 !rounded-md" data-popup={popupKey}>
+<div class="card w-32 p-2 shadow-xl z-40 !rounded-md" data-popup={popupKey}>
 	<ul class="list-nav">
 		<li>
 			<a href={`/write/${articleId}?mode=edit`}>수정하기</a>

@@ -1,6 +1,14 @@
-<svg class={$$props.class ?? 'w-6 h-6 '} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-	<path
-		fill="currentColor"
-		d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"
-	/>
+<script>
+	import { cn } from '$lib/utils/cn';
+</script>
+
+<svg
+	class={cn('w-6 h-6', $$props.class)}
+	xmlns="http://www.w3.org/2000/svg"
+	fill="none"
+	viewBox="0 0 24 24"
+	stroke-width="1.5"
+	stroke="currentColor"
+>
+	<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
 </svg>

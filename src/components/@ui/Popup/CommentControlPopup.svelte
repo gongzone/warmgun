@@ -7,7 +7,8 @@
 	import { enhance } from '$app/forms';
 	import { useQueryClient } from '@tanstack/svelte-query';
 
-	export let articleId: number;
+	export let mode: 'article' | 'post' = 'article';
+	export let id: number;
 	export let commentId: number | null;
 	export let parentId: number | null;
 
@@ -40,9 +41,9 @@
 				use:enhance={() => {
 					return async ({ result, update }) => {
 						if (parentId) {
-							await queryClient.invalidateQueries({ queryKey: ['comments', articleId, null] });
+							await queryClient.invalidateQueries({ queryKey: ['comments', mode, id, null] });
 						}
-						await queryClient.invalidateQueries({ queryKey: ['comments', articleId, parentId] });
+						await queryClient.invalidateQueries({ queryKey: ['comments', mode, id, parentId] });
 
 						await update();
 					};

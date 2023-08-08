@@ -10,13 +10,12 @@
 	import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
 	import ArticleStats from '../_ArticleStats/ArticleStats.svelte';
 	import Image from '$components/@ui/Image.svelte';
+	import { categories } from '$lib/constants/categories';
 
 	export let blogUser: BlogUser;
 	export let article: Article;
 	export let isOwner: boolean;
 	export let isLiked: boolean;
-
-	$: genre = siteConfig.genre.find((genre) => genre.enum === article.genre);
 </script>
 
 <div class="mb-4 space-y-4">
@@ -31,11 +30,11 @@
 
 		<span class="opacity-70 font-thin">|</span>
 
-		<TextWithIcon icon={TimeIcon} textClass="!text-sm">{article.readingTime} Min</TextWithIcon>
+		<TextWithIcon icon={TimeIcon} textClasses="!text-sm">{article.readingTime} Min</TextWithIcon>
 
 		<span class="opacity-70 font-thin">|</span>
 
-		<TextWithIcon icon={CalendarIcon} textClass="!text-sm"
+		<TextWithIcon icon={CalendarIcon} textClasses="!text-sm"
 			>{formatDate(article.createdAt)}</TextWithIcon
 		>
 	</div>
@@ -47,13 +46,13 @@
 	<div>
 		<ul class="flex flex-wrap gap-2">
 			<li>
-				<a href={genre?.href} class="badge variant-filled-primary">
-					{genre?.title}
+				<a href="/article/{categories[article.category].slug}" class="badge variant-filled-primary">
+					{categories[article.category].title}
 				</a>
 			</li>
 			{#each article.tags as tag (tag.id)}
 				<li>
-					<a href={`/tags/${tag.slug}`} class="badge variant-filled">
+					<a href={`/tag/${tag.slug}`} class="badge variant-filled">
 						{tag.name}
 					</a>
 				</li>

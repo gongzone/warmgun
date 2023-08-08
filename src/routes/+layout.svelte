@@ -4,6 +4,7 @@
 	import '../app.postcss';
 
 	import type { LayoutData } from './$types';
+	import { page } from '$app/stores';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
@@ -11,8 +12,14 @@
 	import Toast from '$components/@ui/Toast/Toast.svelte';
 	import Drawer from '$components/@ui/Drawer/Drawer.svelte';
 	import Modal from '$components/@ui/Modal/Modal.svelte';
+	import Layout, { type LayoutMode } from '$components/Layout/Layout.svelte';
 
 	export let data: LayoutData;
+
+	let layoutMode: LayoutMode = 'default';
+
+	$: pathname = $page.url.pathname;
+	$: layoutMode = pathname.startsWith('/write') ? 'write' : 'default';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 </script>
@@ -21,5 +28,7 @@
 	<Toast />
 	<Drawer />
 	<Modal />
-	<slot />
+	<Layout mode={layoutMode}>
+		<slot />
+	</Layout>
 </QueryClientProvider>

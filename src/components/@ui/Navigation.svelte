@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { NavItem } from '$lib/types/nav';
+	import type { Nav } from '$lib/constants/navs';
 
-	export let items: NavItem[];
+	export let items: Nav[];
 
 	$: classesActive = (href: string) =>
-		href === $page.url.pathname ? '!bg-primary-600 !text-surface-900' : '';
+		href === $page.url.pathname ? '!bg-primary-700 !text-surface-900' : '';
 </script>
 
 <nav class="list-nav">
@@ -22,10 +22,10 @@
 				</a>
 			</li>
 		{/each}
-	</ul>
 
-	{#if $$slots.subItems}
-		<hr class="my-2" />
-		<slot name="subItems" />
-	{/if}
+		{#if $$slots.subItems}
+			<hr class="my-2" />
+			<slot name="subItems" />
+		{/if}
+	</ul>
 </nav>

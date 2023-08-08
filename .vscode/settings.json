@@ -93,5 +93,6 @@
 		"text",
 		"track",
 		"width"
-	]
+	],
+	"tailwindCSS.experimental.classRegex": [["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]]
 }

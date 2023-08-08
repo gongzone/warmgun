@@ -1,6 +1,7 @@
 import type { ArticleMeta } from '$lib/types/editor';
 import type { OutputData } from '@editorjs/editorjs';
 import { drawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
+import type { JSONContent } from '@tiptap/core';
 
 export const NAV_SIDEBAR_ID = 'nav-sidebar';
 export const DRAFT_SIDEBAR_ID = 'draft-sidebar';
@@ -30,7 +31,7 @@ export function openDraftSidebar() {
 export type PublishMeta = {
 	mode: 'draft' | 'edit';
 	title: string;
-	body: OutputData;
+	body: JSONContent;
 	articleMeta: ArticleMeta | undefined;
 };
 
@@ -46,7 +47,8 @@ export function openPublishSidebar({ meta }: { meta: PublishMeta }) {
 }
 
 export type CommentMeta = {
-	articleId: number;
+	mode: 'article' | 'post';
+	id: number;
 	totalCount: number;
 };
 

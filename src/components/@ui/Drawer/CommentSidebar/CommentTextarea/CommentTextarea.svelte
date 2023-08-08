@@ -9,7 +9,8 @@
 
 	export let isEditingMode: boolean = false;
 	export let commentId: number | null = null;
-	export let articleId: number;
+	export let mode: 'article' | 'post' = 'article';
+	export let id: number;
 	export let parentId: number | null;
 	export let userDisplay: boolean = true;
 	export let cb: any = undefined;
@@ -47,13 +48,14 @@
 						}
 
 						return async ({ result, update }) => {
-							await queryClient.invalidateQueries({ queryKey: ['comments', articleId, null] });
+							await queryClient.invalidateQueries({ queryKey: ['comments', mode, id, null] });
 							cb && cb();
 							update();
 						};
 					}}
 				>
-					<input type="hidden" name="articleId" value={articleId} />
+					<input type="hidden" name="mode" value={mode} />
+					<input type="hidden" name="id" value={id} />
 					<input type="hidden" name="parentId" value={parentId} />
 					<input type="hidden" name="content" value={content} />
 					<button type="submit" class="btn variant-filled-primary text-sm">댓글 달기</button>
@@ -71,7 +73,7 @@
 						}
 
 						return async ({ result, update }) => {
-							await queryClient.invalidateQueries({ queryKey: ['comments', articleId, parentId] });
+							await queryClient.invalidateQueries({ queryKey: ['comments', mode, id, parentId] });
 							cb && cb();
 							update();
 						};

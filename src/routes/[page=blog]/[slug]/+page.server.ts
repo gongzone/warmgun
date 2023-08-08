@@ -4,7 +4,6 @@ import { z } from 'zod';
 
 import { prisma } from '$lib/server/db';
 import { validate } from '$lib/server/validation';
-import { articleInclude } from '$lib/types/article';
 import { calculateTrendingScore } from '$lib/utils/calculate-trending-score';
 import { meilisearch } from '$lib/server/meilisearch';
 
@@ -21,7 +20,13 @@ async function findOneArticle(slug: string) {
 	const article = await prisma.article.findUnique({
 		where: { slug },
 		include: {
-			...articleInclude,
+			user: {
+				include: { profile: true }
+			},
+			_count: {
+				select: { likes: true, comments: true }
+			},
+			tags: true,
 			likes: true
 		}
 	});
@@ -49,7 +54,7 @@ export const actions: Actions = {
 
 		const { articleId } = { ...validated.data, articleId: +validated.data.articleId };
 
-		const foundLike = await prisma.like.findUnique({
+		const foundLike = await prisma.articleLike.findUnique({
 			where: {
 				userId_articleId: {
 					userId: locals.user.id,
@@ -62,7 +67,7 @@ export const actions: Actions = {
 			fail(400, { message: '이미 좋아요한 아티클입니다.' });
 		}
 
-		const like = await prisma.like.create({
+		const like = await prisma.articleLike.create({
 			data: {
 				user: {
 					connect: { id: locals.user.id }
@@ -111,7 +116,7 @@ export const actions: Actions = {
 
 		const { articleId } = { ...validated.data, articleId: +validated.data.articleId };
 
-		const like = await prisma.like.delete({
+		const like = await prisma.articleLike.delete({
 			where: {
 				userId_articleId: {
 					userId: locals.user.id,
@@ -159,20 +164,18 @@ export const actions: Actions = {
 			return fail(400, { message: validated.errorMessage });
 		}
 
-		const { articleId, parentId, content } = {
+		const { id, parentId, content } = {
 			...validated.data,
-			articleId: +validated.data.articleId,
+			id: +validated.data.id,
 			parentId: +validated.data.parentId
 		};
 
-		console.log(content);
-
-		await prisma.comment.create({
+		await prisma.articleComment.create({
 			data: {
 				content,
 				parent: parentId ? { connect: { id: parentId } } : undefined,
 				user: { connect: { id: locals.user.id } },
-				article: { connect: { id: articleId } }
+				article: { connect: { id: id } }
 			}
 		});
 	},
@@ -263,7 +266,7 @@ export const actions: Actions = {
 
 		const { commentId } = { ...validated.data, commentId: +validated.data.commentId };
 
-		const foundLike = await prisma.commentLike.findUnique({
+		const foundLike = await prisma.articleCommentLike.findUnique({
 			where: {
 				userId_commentId: {
 					userId: locals.user.id,
@@ -276,7 +279,7 @@ export const actions: Actions = {
 			fail(400, { message: '이미 좋아요한 댓글입니다.' });
 		}
 
-		await prisma.commentLike.create({
+		await prisma.articleCommentLike.create({
 			data: {
 				user: {
 					connect: { id: locals.user.id }
@@ -302,7 +305,7 @@ export const actions: Actions = {
 
 		const { commentId } = { ...validated.data, commentId: +validated.data.commentId };
 
-		await prisma.commentLike.delete({
+		await prisma.articleCommentLike.delete({
 			where: {
 				userId_commentId: {
 					userId: locals.user.id,
@@ -326,7 +329,7 @@ export const actions: Actions = {
 
 		const { commentId, content } = { ...validated.data, commentId: +validated.data.commentId };
 
-		await prisma.comment.update({
+		await prisma.articleComment.update({
 			where: { id: commentId },
 			data: {
 				content: content
@@ -348,7 +351,7 @@ export const actions: Actions = {
 
 		const { commentId } = { ...validated.data, commentId: +validated.data.commentId };
 
-		await prisma.comment.delete({
+		await prisma.articleComment.delete({
 			where: { id: commentId }
 		});
 	}
@@ -362,7 +365,7 @@ function likesSchema() {
 
 function createCommentSchema() {
 	return z.object({
-		articleId: z.string(),
+		id: z.string(),
 		parentId: z.string(),
 		content: z.string()
 	});

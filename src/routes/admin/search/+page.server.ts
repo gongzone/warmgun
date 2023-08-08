@@ -1,10 +1,14 @@
 import type { PageServerLoad } from './$types';
 import { z } from 'zod';
-import { type Actions, fail } from '@sveltejs/kit';
+import { type Actions, fail, error } from '@sveltejs/kit';
 import { meilisearch } from '$lib/server/meilisearch';
 import { validate } from '$lib/server/validation';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ locals }) => {
+	if (!locals.user || locals.user?.role !== 'ADMIN') {
+		throw error(404, '접근할 수 없는 페이지입니다.');
+	}
+
 	try {
 		const [indexes, articles, tags, users] = await Promise.all([
 			getAllIndexes(),
@@ -73,6 +77,18 @@ export const actions: Actions = {
 		const { uid } = validated.data;
 
 		await meilisearch.deleteIndex(uid);
+	},
+	deleteDocument: async ({ request }) => {
+		const formData = await request.formData();
+		const validated = validate(formData, deleteSchema());
+
+		if (!validated.success) {
+			return fail(400, { isSuccess: false, message: validated.errorMessage });
+		}
+
+		const { indexName, id } = validated.data;
+
+		await meilisearch.index(indexName).deleteDocument(id);
 	},
 	updateArticleSettings: async () => {
 		await meilisearch.index('articles').updateSettings({
@@ -147,5 +163,12 @@ function createIndexSchema() {
 function deleteIndexSchema() {
 	return z.object({
 		uid: z.string()
+	});
+}
+
+function deleteSchema() {
+	return z.object({
+		indexName: z.string(),
+		id: z.string()
 	});
 }

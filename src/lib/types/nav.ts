@@ -1,8 +1,8 @@
-import type { SvelteComponent } from 'svelte';
+import type { ComponentType } from 'svelte';
 
 export interface NavItem {
 	title: string;
 	href: string;
-	icon?: typeof SvelteComponent;
+	icon?: ComponentType;
 	enum?: string;
 }

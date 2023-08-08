@@ -1,6 +1,24 @@
-import type { Prisma, Profile, Comment as PrismaComment, User } from '@prisma/client';
+import type {
+	Prisma,
+	Profile,
+	ArticleComment as PrismaArticleComment,
+	PostComment as PrismaPostComment,
+	User
+} from '@prisma/client';
 
-export type Comment = PrismaComment & {
+export type ArticleComment = PrismaArticleComment & {
+	isLiked: boolean;
+	isOwned: boolean;
+	user: User & {
+		profile: Profile | null;
+	};
+	_count: {
+		children: number;
+		likes: number;
+	};
+};
+
+export type PostComment = PrismaPostComment & {
 	isLiked: boolean;
 	isOwned: boolean;
 	user: User & {
@@ -24,4 +42,4 @@ export const commentInclude = {
 			likes: true
 		}
 	}
-} satisfies Prisma.CommentInclude;
+} satisfies Prisma.ArticleCommentInclude;

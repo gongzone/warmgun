@@ -32,7 +32,7 @@ async function findComments(
 	cursor: number,
 	userId: number | undefined
 ) {
-	const comments = await prisma.comment.findMany({
+	const comments = await prisma.articleComment.findMany({
 		take: take,
 		skip: take * cursor,
 		where: {

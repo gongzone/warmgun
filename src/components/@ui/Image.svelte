@@ -6,7 +6,7 @@
 	let isLoadFinished: boolean = false;
 </script>
 
-<figure class="w-full h-full {!isLoadFinished ? 'placeholder animate-pulse' : ''}">
+<figure class="relative w-full h-full {!isLoadFinished ? 'placeholder animate-pulse' : ''}">
 	<img
 		{loading}
 		{src}

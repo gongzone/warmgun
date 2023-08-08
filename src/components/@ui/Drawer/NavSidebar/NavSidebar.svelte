@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { drawerStore } from '@skeletonlabs/skeleton';
 
-	import { navs } from '$lib/configs/nav';
+	import { navs } from '$lib/constants/navs';
+	import { meta } from '$lib/constants/meta';
 
 	import LogoIcon from '$components/@icons/LogoIcon.svelte';
 	import CloseIcon from '$components/@icons/CloseIcon.svelte';
@@ -11,7 +12,7 @@
 <header class="flex justify-between items-center border-b border-b-surface-600 p-3">
 	<a href="/" class="flex items-center gap-2 ml-3" on:click={() => drawerStore.close()}>
 		<LogoIcon class="w-6 h-6" />
-		<h2 class="font-bold">Warmgun</h2>
+		<h2 class="font-bold">{meta.title}</h2>
 	</a>
 
 	<button class="btn-icon" on:click={() => drawerStore.close()}>

@@ -36,7 +36,8 @@
 		<ul class="flex flex-wrap items-center gap-2">
 			{#each data.articles as article (article.id)}
 				<li>
-					<form method="POST" action="?/deleteArticle" use:enhance>
+					<form method="POST" action="?/deleteDocument" use:enhance>
+						<input type="hidden" name="indexName" value="articles" />
 						<input type="hidden" name="id" value={article.id} />
 						<button type="submit" class="badge variant-filled">{article.title}</button>
 					</form>
@@ -51,7 +52,8 @@
 		<ul class="flex flex-wrap items-center gap-2">
 			{#each data.tags as tag (tag.id)}
 				<li>
-					<form method="POST" action="?/deleteTag" use:enhance>
+					<form method="POST" action="?/deleteDocument" use:enhance>
+						<input type="hidden" name="indexName" value="tags" />
 						<input type="hidden" name="id" value={tag.id} />
 						<button type="submit" class="badge variant-filled">{tag.name}</button>
 					</form>
@@ -66,7 +68,8 @@
 		<ul class="flex flex-wrap items-center gap-2">
 			{#each data.users as user (user.id)}
 				<li>
-					<form method="POST" action="?/deleteArticle" use:enhance>
+					<form method="POST" action="?/deleteDocument" use:enhance>
+						<input type="hidden" name="indexName" value="users" />
 						<input type="hidden" name="id" value={user.id} />
 						<button type="submit" class="badge variant-filled">{user.nickname}</button>
 					</form>
