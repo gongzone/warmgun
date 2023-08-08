@@ -5,7 +5,6 @@ import { error, json, redirect } from '@sveltejs/kit';
 import { prisma } from '$lib/server/db';
 import { validate } from '$lib/server/validation';
 import { buildInfinityData } from '$lib/utils/infinity-data';
-import { articleInclude } from '$lib/types/article';
 
 const schema = z.object({
 	take: z.string({ required_error: '필수 값입니다.' }),
@@ -49,14 +48,22 @@ async function findFeedArticles(userId: number, take: number, cursor: number) {
 		skip: take * cursor,
 		where: {
 			OR: [
-				{ authorId: { in: follows.map((follow) => follow.followingId) } },
+				{ userId: { in: follows.map((follow) => follow.followingId) } },
 				{ tags: { some: { id: { in: tagLikes.map((like) => like.id) } } } }
 			],
 			NOT: {
-				authorId: userId
+				userId: userId
 			}
 		},
-		include: articleInclude,
+		include: {
+			user: {
+				include: { profile: true }
+			},
+			_count: {
+				select: { likes: true, comments: true }
+			},
+			tags: true
+		},
 		orderBy: { createdAt: 'desc' }
 	});
 

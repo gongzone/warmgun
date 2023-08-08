@@ -1,7 +1,5 @@
 import type { LayoutServerLoad } from './$types';
 
-import { prisma } from '$lib/server/db';
-import { blogUserSelect } from '$lib/types/user';
 import { error } from '@sveltejs/kit';
 import { findOneUser } from '$lib/server/db/user';
 

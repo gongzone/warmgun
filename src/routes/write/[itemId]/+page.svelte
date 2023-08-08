@@ -2,16 +2,11 @@
 	import { page } from '$app/stores';
 	import type { ActionData, PageData } from './$types';
 
-	import type { CurrentEditorData } from '$lib/types/editor';
 	import { triggerToast } from '$components/@ui/Toast/toast';
 
-	import WriteHeader from './_WriteHeader/WriteHeader.svelte';
-	import FullEditor from './_FullEditor/FullEditor.svelte';
 	import Seo from '$components/@utils/Seo.svelte';
 	import ArticleEditor, { type ArticleEditorData } from '$components/Write/ArticleEditor.svelte';
 	import WriteController from '$components/Write/WrtieController/WriteController.svelte';
-	import Separator from '$components/@ui/Separator.svelte';
-	import type { Readable } from 'svelte/store';
 	import type { JSONContent } from '@tiptap/core';
 	import DraftDrawer from '$components/Write/DraftDrawer/DraftDrawer.svelte';
 
@@ -28,7 +23,13 @@
 	$: coverImage = isDraftMode ? null : data.article?.coverImage;
 	$: tags = isDraftMode ? [] : data.article!.tags;
 	$: category = isDraftMode ? 'ETC' : data.article?.category;
+
+	$: if (form?.message) {
+		triggerToast(`${form.isSuccess ? 'success' : 'warning'}`, form.message);
+	}
 </script>
+
+<Seo title={isDraftMode ? '글 작성' : '글 수정'} />
 
 <DraftDrawer />
 

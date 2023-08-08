@@ -24,6 +24,16 @@
 	$: likesAction = isLiked ? '?/unlike' : '?/like';
 </script>
 
+<Seo
+	title={post.title}
+	author={post.user.profile?.nickname}
+	article={{
+		author: post.user.profile?.nickname,
+		publishTime: post.createdAt,
+		modifiedTime: post.updatedAt
+	}}
+/>
+
 <div class="container">
 	<main class="max-w-prose mx-auto py-12">
 		<div class="flex items-center justify-between gap-2">

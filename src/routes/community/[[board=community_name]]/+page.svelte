@@ -2,9 +2,6 @@
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
 
-	import CommunitySortor from '$components/Community/CommunitySortor.svelte';
-	import CommunityPaginator from '$components/Community/CommunityPaginator.svelte';
-	import CommunityTab from '$components/Community/CommunityTab.svelte';
 	import { goto } from '$app/navigation';
 	import Sortor from '$components/@ui/Sortor.svelte';
 	import { TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
@@ -12,6 +9,7 @@
 	import Paginator from '$components/@ui/Paginator.svelte';
 	import PostItem from '$components/@item/Post/PostItem.svelte';
 	import NoWriting from '$components/@ui/NoWriting.svelte';
+	import Seo from '$components/@utils/Seo.svelte';
 
 	export let data: PageData;
 
@@ -44,6 +42,8 @@
 		goto(`${$page.url.pathname}?cursor=${e.detail}` + `${sort ? `&sort=${sort}` : ''}`);
 	}
 </script>
+
+<Seo title="커뮤니티" />
 
 <div class="container max-w-[800px] mx-auto py-16 md:py-20">
 	<div class="space-y-6">

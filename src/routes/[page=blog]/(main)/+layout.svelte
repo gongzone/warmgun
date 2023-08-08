@@ -9,6 +9,7 @@
 	import ArticleIcon from '$components/@icons/ArticleIcon.svelte';
 	import GenreIcon from '$components/@icons/GenreIcon.svelte';
 	import { enhance } from '$app/forms';
+	import Seo from '$components/@utils/Seo.svelte';
 
 	export let data: LayoutData;
 
@@ -22,11 +23,24 @@
 	$: console.log(blogUser);
 </script>
 
+<Seo
+	title={blogUser.profile?.nickname}
+	description={blogUser.profile?.bio}
+	image={blogUser.profile?.blogImage}
+	author={blogUser.profile?.nickname}
+/>
+
 <div class="max-w-[700px] mx-auto">
 	<div class="border-l border-r border-l-surface-600 border-r-surface-600">
 		<div class="relative w-full h-[200px]">
 			{#if blogUser.profile?.blogImage}
-				<Image src={blogUser.profile.blogImage} alt="blog-cover" />
+				<div class="w-full h-[200px] overflow-hidden">
+					<Image
+						src="{blogUser.profile.blogImage}?w=700&h=200&q=80&f=webp"
+						class="object-cover"
+						alt="blog-cover"
+					/>
+				</div>
 			{:else}
 				<div class="w-full h-full bg-surface-800" />
 			{/if}
@@ -44,7 +58,7 @@
 		<div class="flex justify-end items-center h-[82px] px-6">
 			<div>
 				{#if isOwner}
-					<a href="/settings" class="btn btn-sm variant-filled-primary">설정하기</a>
+					<a href="/setting" class="btn btn-sm variant-filled-primary">설정하기</a>
 				{:else}
 					<form method="POST" action={!isFollowing ? '?/follow' : '?/unFollow'} use:enhance>
 						<button type="submit" class="btn btn-sm variant-filled-primary"

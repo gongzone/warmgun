@@ -51,6 +51,20 @@ export const api = (customFetch = fetch) => ({
 		const data = (await response.json()) as InfiniteData<Article>;
 		return data;
 	},
+	findFeedArticles: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
+		const take = queryKey[2] ?? 10;
+
+		const response = await customFetch(`/api/articles/me/feed?take=${take}&cursor=${pageParam}`);
+		const data = (await response.json()) as InfiniteData<Article>;
+		return data;
+	},
+	findLikeArticles: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
+		const take = queryKey[3] ?? 10;
+
+		const response = await customFetch(`/api/articles/me/like?take=${take}&cursor=${pageParam}`);
+		const data = (await response.json()) as InfiniteData<Article>;
+		return data;
+	},
 	findPostsByUsername: async ({ queryKey, pageParam = 0 }: QueryFunctionContext) => {
 		const username = queryKey[1];
 		const sort = queryKey[2] ?? 'recent';

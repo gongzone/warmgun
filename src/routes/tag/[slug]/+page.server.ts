@@ -5,7 +5,6 @@ import { z } from 'zod';
 import { prisma } from '$lib/server/db';
 import { validate } from '$lib/server/validation';
 import { findOneTag } from '$lib/server/db/tag';
-import TagSelector from '$components/Write/PublishSidebar/TagSelector/TagSelector.svelte';
 
 const followTagSchema = z.object({
 	tagId: z.string()

@@ -10,6 +10,7 @@
 	import { api } from '$lib/api/api';
 	import { goto } from '$app/navigation';
 	import NoWriting from '$components/@ui/NoWriting.svelte';
+	import Seo from '$components/@utils/Seo.svelte';
 
 	export let data: PageData;
 
@@ -30,9 +31,9 @@
 		}
 		return `${path}`;
 	}
-
-	$: console.log($articlesQuery.hasNextPage, sort, category);
 </script>
+
+<Seo title="아티클" />
 
 <div class="container max-w-[1024px] py-16 md:py-20">
 	<div class="space-y-6">
@@ -46,8 +47,8 @@
 				}}
 			/>
 			<div class="hidden items-center gap-4 sm:flex">
-				<a href="/community/write" class="btn variant-filled-secondary">마이 피드</a>
-				<a href="/community/write" class="btn variant-filled-primary">아티클 작성</a>
+				<a href="/feed" class="btn variant-filled-secondary">나의 피드</a>
+				<a href="/write" class="btn variant-filled-primary">아티클 작성</a>
 			</div>
 		</div>
 
@@ -66,10 +67,8 @@
 		</TabGroup>
 	</div>
 
-	<div class="my-7" />
-
 	{#if $articlesQuery.isSuccess && $articlesQuery.data.pages[0].data.length > 0}
-		<ul class="grid grid-cols-3 gap-8">
+		<ul class="grid grid-cols-3 gap-8 mt-8">
 			{#each $articlesQuery.data.pages as { data }, i (i)}
 				{#each data as article (article.id)}
 					<li>

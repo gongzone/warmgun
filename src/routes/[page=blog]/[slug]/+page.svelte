@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 
-	import TextEditor from '$components/Editor/TextEditor.svelte';
 	import ArticleDetail from './_ArticleDetail/ArticleDetail.svelte';
 	import UserDisplay from '$components/User/UserDisplay/UserDisplay.svelte';
 	import ArticleStatsTwo from './_ArticleStatsTwo/_ArticleStatsTwo.svelte';
@@ -11,7 +10,7 @@
 	export let data: PageData;
 </script>
 
-<!-- <Seo
+<Seo
 	title={data.article.title}
 	description={data.article.excerpt}
 	image={data.blogUser.profile?.blogImage}
@@ -21,7 +20,7 @@
 		publishTime: data.article.createdAt,
 		modifiedTime: data.article.updatedAt
 	}}
-/> -->
+/>
 
 <div class="container">
 	<main class="max-w-prose mx-auto py-12 space-y-16">

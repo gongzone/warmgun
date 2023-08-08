@@ -90,7 +90,7 @@
 										bind:this={deleteForms[draft.id]}
 										use:enhance
 									>
-										<input type="isOpen" name="draftId" value={draft.id} />
+										<input type="hidden" name="draftId" value={draft.id} />
 										<button
 											type="button"
 											class="btn-icon btn-icon-sm variant-ringed-tertiary rounded-lg"

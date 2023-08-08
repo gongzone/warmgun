@@ -201,7 +201,7 @@ export const actions: Actions = {
 			where: { id: articleId }
 		});
 
-		// await meilisearch.index('articles').deleteDocument(articleId);
+		await meilisearch.index('articles').deleteDocument(articleId);
 
 		throw redirect(301, `/@${locals.user.username}`);
 	},

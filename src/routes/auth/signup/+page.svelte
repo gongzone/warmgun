@@ -26,9 +26,8 @@
 
 {#if visible}
 	<aside class="alert variant-filled-error">
-		<!-- Icon -->
 		<div class="text-3xl">⚠️</div>
-		<!-- Message -->
+
 		<div class="alert-message">
 			<h3 class="h3">현재 Warmgun은 공식 배포 버전이 아닙니다.</h3>
 			<p>
@@ -36,7 +35,7 @@
 				사용자 계정과 작성된 글들은 언제라도 삭제가 이뤄질 수 있습니다.
 			</p>
 		</div>
-		<!-- Actions -->
+
 		<div class="alert-actions">
 			<button
 				type="button"

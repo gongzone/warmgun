@@ -6,6 +6,7 @@
 	import type { Community } from '$lib/constants/communities';
 	import { onMount } from 'svelte';
 	import type { HTMLContent, JSONContent } from '@tiptap/core';
+	import Seo from '$components/@utils/Seo.svelte';
 
 	export let data: PageData;
 
@@ -23,6 +24,8 @@
 		}
 	});
 </script>
+
+<Seo title={data.isEditMode ? '게시글 수정' : '게시글 등록'} />
 
 <div class="max-w-prose mx-auto py-16 md:py-20 space-y-4">
 	<span class="text-3xl font-bold">커뮤니티 글쓰기</span>

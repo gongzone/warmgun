@@ -1,14 +1,10 @@
 import type { PageServerLoad, Actions } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
-import { nanoid } from 'nanoid';
 
 import { prisma, db } from '$lib/server/db';
 import { meilisearch } from '$lib/server/meilisearch';
-import { siteConfig } from '$lib/configs/site';
-import { bodyToString, calculateReadingTime, generateExcerpt } from '$lib/utils/editor-utils';
 import { formatExcerpt, formatReadingTime, formatSlug, formatTagSlug } from '$lib/utils/format';
-import { articleInclude } from '$lib/types/article';
 
 import { validate, generateFormMessage } from '$lib/server/server-utils';
 
@@ -158,27 +154,28 @@ export const actions: Actions = {
 					  }
 					: {},
 				user: { connect: { id: locals.user?.id } }
-			}
+			},
+			include: { tags: true }
 		});
 
-		// await meilisearch.index('articles').addDocuments([
-		// 	{
-		// 		id: article.id,
-		// 		title: article.title,
-		// 		body: bodyString,
-		// 		tags: article.tags.map((tag) => tag.name),
-		// 		createdAt: article.createdAt
-		// 	}
-		// ]);
+		await meilisearch.index('articles').addDocuments([
+			{
+				id: article.id,
+				title: article.title,
+				excerpt: article.excerpt,
+				tags: article.tags.map((tag) => tag.name),
+				createdAt: article.createdAt
+			}
+		]);
 
-		// if (tags) {
-		// 	await meilisearch.index('tags').addDocuments(
-		// 		article.tags.map((tag) => ({
-		// 			id: tag.id,
-		// 			name: tag.name
-		// 		}))
-		// 	);
-		// }
+		if (tags) {
+			await meilisearch.index('tags').addDocuments(
+				article.tags.map((tag) => ({
+					id: tag.id,
+					name: tag.name
+				}))
+			);
+		}
 
 		throw redirect(303, `/@${locals.user?.username}/${article.slug}`);
 	},
@@ -224,24 +221,24 @@ export const actions: Actions = {
 			include: { tags: true }
 		});
 
-		// await meilisearch.index('articles').updateDocuments([
-		// 	{
-		// 		id: article.id,
-		// 		title: article.title,
-		// 		body: bodyString,
-		// 		tags: article.tags.map((tag) => tag.name),
-		// 		createdAt: article.createdAt
-		// 	}
-		// ]);
+		await meilisearch.index('articles').updateDocuments([
+			{
+				id: article.id,
+				title: article.title,
+				excerpt: article.excerpt,
+				tags: article.tags.map((tag) => tag.name),
+				createdAt: article.createdAt
+			}
+		]);
 
-		// if (tags) {
-		// 	await meilisearch.index('tags').updateDocuments(
-		// 		article.tags.map((tag) => ({
-		// 			id: tag.id,
-		// 			name: tag.name
-		// 		}))
-		// 	);
-		// }
+		if (tags) {
+			await meilisearch.index('tags').updateDocuments(
+				article.tags.map((tag) => ({
+					id: tag.id,
+					name: tag.name
+				}))
+			);
+		}
 
 		throw redirect(303, `/@${locals.user?.username}/${article.slug}`);
 	}
@@ -257,15 +254,5 @@ function saveDraftSchema() {
 	return z.object({
 		title: z.string(),
 		body: z.string()
-	});
-}
-
-function updateArticleSchema() {
-	return z.object({
-		title: z.string().min(1, '제목 작성은 필수입니다.'),
-		body: z.string(),
-		coverImage: z.string().optional(),
-		tags: z.string().optional(),
-		genre: z.string()
 	});
 }

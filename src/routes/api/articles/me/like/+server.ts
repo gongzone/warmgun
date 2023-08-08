@@ -6,7 +6,6 @@ import { prisma } from '$lib/server/db';
 import { meilisearch } from '$lib/server/meilisearch';
 import { validate } from '$lib/server/validation';
 import { buildInfinityData } from '$lib/utils/infinity-data';
-import { articleInclude } from '$lib/types/article';
 
 export const GET = (async ({ locals, url, params }) => {
 	if (!locals.user) {
@@ -40,7 +39,15 @@ async function findLikeArticles(userId: number, take: number, cursor: number) {
 				}
 			}
 		},
-		include: articleInclude,
+		include: {
+			user: {
+				include: { profile: true }
+			},
+			_count: {
+				select: { likes: true, comments: true }
+			},
+			tags: true
+		},
 		orderBy: {
 			createdAt: 'desc'
 		}

@@ -11,6 +11,7 @@
 	import HomePopularTags from '$components/Home/HomePopularTags.svelte';
 	import HomeCategories from '$components/Home/HomeCategories.svelte';
 	import HomeTopUsers from '$components/Home/HomeTopUsers.svelte';
+	import Seo from '$components/@utils/Seo.svelte';
 
 	export let data: PageData;
 
@@ -27,7 +28,7 @@
 	} = data);
 </script>
 
-<!-- <Seo /> -->
+<Seo />
 
 <div class="container py-16">
 	<section>
