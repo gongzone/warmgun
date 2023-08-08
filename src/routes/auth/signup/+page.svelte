@@ -5,7 +5,6 @@
 	import { triggerToast } from '$components/@ui/Toast/toast';
 	import CloseIcon from '$components/@icons/CloseIcon.svelte';
 	import UserIcon from '$components/@icons/UserIcon.svelte';
-	import KeyIcon from '$components/@icons/KeyIcon.svelte';
 	import PasswordIcon from '$components/@icons/PasswordIcon.svelte';
 	import CheckIcon from '$components/@icons/CheckIcon.svelte';
 	import EmailIcon from '$components/@icons/EmailIcon.svelte';
@@ -30,10 +29,12 @@
 
 		<div class="alert-message">
 			<h3 class="h3">현재 Warmgun은 공식 배포 버전이 아닙니다.</h3>
-			<p>
-				관리자에게 회원가입 키를 받은 일부 사용자에 한해 가입이 가능합니다. 공식 배포 전 생성된
-				사용자 계정과 작성된 글들은 언제라도 삭제가 이뤄질 수 있습니다.
-			</p>
+			<ul class="flex flex-col gap-1">
+				<li>
+					- 공식 배포 전 생성된 사용자 계정과 작성된 글들은 언제라도 삭제가 이뤄질 수 있습니다.
+				</li>
+				<li>- 자유롭게 해당 사이트의 기능들을 이용해보세요.</li>
+			</ul>
 		</div>
 
 		<div class="alert-actions">
@@ -82,13 +83,6 @@
 			labelText="이메일"
 			placeholder="이메일을 입력하세요."
 			icon={EmailIcon}
-		/>
-		<FormInput
-			type="text"
-			name="secret"
-			labelText="회원가입 키"
-			placeholder="관리자에게 부여받은 회원가입 키를 입력하세요."
-			icon={KeyIcon}
 		/>
 	</div>
 

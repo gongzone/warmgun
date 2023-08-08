@@ -17,10 +17,7 @@
 						return;
 					}
 
-					console.log(entries[0], entries[0].isIntersecting);
-
 					if (entries[0].isIntersecting && hasNextPage) {
-						console.log('Infinite fetch!');
 						fetchFn();
 					}
 				},
