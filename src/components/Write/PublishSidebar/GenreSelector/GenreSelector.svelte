@@ -6,8 +6,8 @@
 	export let category: Category = 'ETC';
 
 	const popupCombobox: PopupSettings = {
-		event: 'focus-click',
-		target: 'popupCombobox',
+		event: 'click',
+		target: 'category-selector',
 		placement: 'bottom',
 		closeQuery: '.listbox-item'
 	};
@@ -18,11 +18,11 @@
 	<span>↓</span>
 </button>
 
-<div class="card w-48 shadow-xl py-2" data-popup="popupCombobox">
+<div class="card w-48 shadow-xl py-2" data-popup="category-selector">
 	<ListBox rounded="rounded-none">
-		{#each Object.entries(categories) as [categoryEnum, categoryTitle] (categoryEnum)}
+		{#each Object.entries(categories) as [categoryEnum, { title, slug }] (categoryEnum)}
 			<ListBoxItem bind:group={category} name={categoryEnum} value={categoryEnum}
-				>{categoryTitle}</ListBoxItem
+				>{title}</ListBoxItem
 			>
 		{/each}
 	</ListBox>

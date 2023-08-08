@@ -10,7 +10,7 @@
 		const settings: DrawerSettings = {
 			id: 'publish-sidebar',
 			position: 'right',
-			width: 'w-full min-[520px]:w-[420px]',
+			width: 'w-full min-[420px]:w-[420px]',
 			duration: 200,
 			meta
 		};
@@ -76,7 +76,7 @@
 
 <hr />
 
-<ul class="space-y-10 px-8 py-8 sm:px-12">
+<ul class="space-y-10 mx-auto px-12 py-8">
 	<li>
 		<PublishTitle text="커버 이미지" />
 		<CoverImagePreview bind:coverImage />

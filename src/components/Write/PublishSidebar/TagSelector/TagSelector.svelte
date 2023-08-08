@@ -83,7 +83,7 @@
 		type="text"
 		disabled={tags.length >= 5}
 		placeholder={tags.length >= 5 ? '태그 선택은 5개까지만 가능합니다.' : '태그를 선택해주세요'}
-		class="input rounded-md"
+		class="input rounded-md max-w-[320px]"
 	/>
 
 	{#if $searchTagQuery.isSuccess}

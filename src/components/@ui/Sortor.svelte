@@ -21,7 +21,10 @@
 </script>
 
 <div class="">
-	<button class="btn variant-filled rounded-md justify-between" use:popup={popupCombobox}>
+	<button
+		class="btn btn-sm variant-filled !rounded-md justify-between sm:btn"
+		use:popup={popupCombobox}
+	>
 		<span class="capitalize">{initValue}</span>
 		<span>↓</span>
 	</button>

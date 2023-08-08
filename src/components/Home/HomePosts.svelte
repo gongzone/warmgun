@@ -15,7 +15,7 @@
 <div>
 	<div class="flex items-center justify-between">
 		<a href={link}>
-			<TextWithIcon size="lg" {icon}>{title}</TextWithIcon>
+			<TextWithIcon size="lg" textClasses="font-semibold" {icon}>{title}</TextWithIcon>
 		</a>
 	</div>
 	<ul>
@@ -23,7 +23,13 @@
 			{#each posts as post (post.id)}
 				{@const { user, title } = post}
 				<li>
-					<PostItem displayUserInfo={true} displayCommunity={false} displayCount={true} {post} />
+					<PostItem
+						displayUserInfo={true}
+						displayCommunity={false}
+						displayCount={true}
+						{post}
+						py="py-3 sm:py-4"
+					/>
 				</li>
 			{/each}
 		{:else}

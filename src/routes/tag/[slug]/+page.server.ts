@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
 	return {
 		tag,
-		isLiked: !!(tag.tagLikes.length > 0)
+		isFollowing: !!(tag.tagLikes.length > 0)
 	};
 };
 

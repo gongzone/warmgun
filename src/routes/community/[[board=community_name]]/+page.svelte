@@ -10,6 +10,7 @@
 	import PostItem from '$components/@item/Post/PostItem.svelte';
 	import NoWriting from '$components/@ui/NoWriting.svelte';
 	import Seo from '$components/@utils/Seo.svelte';
+	import PencilIcon from '$components/@icons/PencilIcon.svelte';
 
 	export let data: PageData;
 
@@ -47,7 +48,7 @@
 
 <div class="container max-w-[800px] mx-auto py-16 md:py-20">
 	<div class="space-y-6">
-		<h3 class="text-7xl font-bold text-center">Community</h3>
+		<h3 class="text-5xl sm:text-7xl font-bold text-center">Community</h3>
 		<div class="flex items-center justify-between">
 			<Sortor
 				initValue={sort ? postSortings[sort] : postSortings['recent']}
@@ -60,9 +61,15 @@
 					}
 				}}
 			/>
-			<a href="/community/write" class="btn variant-ringed-tertiary">게시글 작성</a>
+			<a href="/community/write" class="btn-icon variant-ringed-tertiary sm:hidden">
+				<PencilIcon class="w-5 h-5" /></a
+			>
+			<a href="/community/write" class="hidden variant-ringed-tertiary sm:btn">
+				<span>게시글 작성</span>
+				<span><PencilIcon class="w-5 h-5" /></span>
+			</a>
 		</div>
-		<TabGroup justify="justify-center">
+		<TabGroup justify="justify-start md:justify-center">
 			<TabAnchor href={tabHref('/community', sort)} selected={$page.url.pathname === `/community`}>
 				<span>전체</span>
 			</TabAnchor>

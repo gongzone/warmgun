@@ -26,7 +26,7 @@
 		{#each $postsQuery.data.pages as { data }, i (i)}
 			{#each data as post (post.id)}
 				<li>
-					<PostItem displayUserInfo={false} displayCommunity={true} {post} />
+					<PostItem displayUserInfo={false} displayCommunity={true} {post} py="py-6" />
 				</li>
 			{/each}
 		{/each}

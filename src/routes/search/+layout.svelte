@@ -13,7 +13,7 @@
 
 <Seo title="검색" />
 
-<div class="max-w-[700px] mx-auto py-16 md:py-20 space-y-8">
+<div class="container max-w-[700px] mx-auto py-16 md:py-20 space-y-8">
 	<div class="max-w-[720px] mx-auto space-y-8">
 		<SearchInput {q} />
 		<SearchWords {q} />

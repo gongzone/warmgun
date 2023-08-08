@@ -8,19 +8,9 @@
 
 <footer class="container mt-32 border-t border-t-surface-500 py-12">
 	<div class="grid grid-cols-4 gap-2 sm:grid-cols-7 lg:grid-cols-8">
-		<section class="col-span-3 hidden sm:block">
+		<section class="col-span-3">
 			<FooterWords description="개발 커뮤니티 & 블로그 서비스" />
 		</section>
-
-		<!-- <section class="col-span-2 space-y-4">
-			<span class="text-lg font-bold">Site</span>
-			<FooterNav items={navs.mainNav} />
-		</section>
-
-		<section class="col-span-2 space-y-4">
-			<span class="text-lg font-bold">Genre</span>
-			<FooterNav items={genre} />
-		</section> -->
 	</div>
 
 	<div class="py-12">

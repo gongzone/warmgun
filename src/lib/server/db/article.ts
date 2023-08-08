@@ -35,8 +35,6 @@ export async function findArticles(
 			orderBy = { createdAt: 'desc' };
 	}
 
-	console.log(tagSlug);
-
 	return await db.article.findMany({
 		where:
 			category === 'ALL'

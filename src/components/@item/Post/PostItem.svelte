@@ -13,16 +13,17 @@
 	export let displayUserInfo: boolean = true;
 	export let displayCommunity: boolean = true;
 	export let displayCount: boolean = true;
+	export let py = 'py-4';
 
 	$: ({ user, title, _count, createdAt } = post);
 </script>
 
-<div class="py-6 border-b border-b-surface-600 space-y-3">
+<div class="{py} border-b border-b-surface-600 space-y-3">
 	<div class="space-y-1">
 		<div class="flex items-center gap-1">
 			{#if displayUserInfo}
 				<a href="/@{post.user.username}">
-					<UserAvatar src={user.profile?.avatar} name={user.profile?.nickname} width="w-10" />
+					<UserAvatar src={user.profile?.avatar} name={user.profile?.nickname} width="w-6 md:w-8" />
 				</a>
 				<span class="opacity-75">·</span>
 			{/if}

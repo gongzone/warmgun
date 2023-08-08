@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid';
+import { customAlphabet } from 'nanoid';
 import { dateClient } from './date';
 
 export function formatDate(date: Date) {
@@ -14,7 +14,13 @@ export function formatCount(count: number) {
 }
 
 export function formatSlug(title: string) {
-	return `${title.trim().replace(/\s+/g, '-').toLowerCase()}-${nanoid()}`;
+	const nanoid = customAlphabet('1234567890abcdef', 10);
+
+	return `${title
+		.trim()
+		.replace(/[^가-힣a-zA-Z0-9\s]/g, '')
+		.replace(/\s+/g, '-')
+		.toLowerCase()}-${nanoid()}`;
 }
 
 export function formatTagSlug(tag: string) {

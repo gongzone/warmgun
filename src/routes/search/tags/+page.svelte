@@ -21,7 +21,7 @@
 </script>
 
 {#if $searchTagsQuery.isSuccess && $searchTagsQuery.data.pages[0].data.length > 0}
-	<ul class="flex flex-wrap gap-3">
+	<ul class="flex flex-wrap gap-3 mt-8">
 		{#each $searchTagsQuery.data.pages as { data }}
 			{#each data as tag (tag.id)}
 				<li>

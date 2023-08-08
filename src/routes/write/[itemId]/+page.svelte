@@ -39,4 +39,6 @@
 	{category}
 	{getEditorData}
 />
-<ArticleEditor bind:getEditorData {title} {body} />
+<div class="mx-4">
+	<ArticleEditor bind:getEditorData {title} {body} />
+</div>

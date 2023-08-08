@@ -301,8 +301,6 @@ export const actions: Actions = {
 			where: { id: postId }
 		});
 
-		// await meilisearch.index('articles').deleteDocument(articleId);
-
 		throw redirect(301, `/@${locals.user.username}/community`);
 	}
 };

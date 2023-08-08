@@ -37,10 +37,10 @@
 		{#if mode === 'draft'}
 			<button
 				type="button"
-				class="btn-icon btn-icon-lg variant-ghost-surface"
+				class="btn-icon sm:btn-icon-lg variant-ghost-surface"
 				on:click={() => openDraftDrawer()}
 			>
-				<DraftIcon />
+				<DraftIcon class="w-5 h-5 sm:w-6 sm:h-6" />
 			</button>
 		{/if}
 	</div>

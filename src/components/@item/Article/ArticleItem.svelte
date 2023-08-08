@@ -17,39 +17,41 @@
 	<header class="flex items-center justify-between gap-6">
 		<div>
 			<a href={articleSlug}>
-				<h3 class="line-clamp-2 text-xl font-medium">{article.title}</h3>
+				<h3 class="line-clamp-2 text-base sm:text-xl font-medium">{article.title}</h3>
 			</a>
 
 			<a href={articleSlug}>
-				<p class="line-clamp-3 font-extralight">{article.excerpt}</p>
+				<p class="line-clamp-2 sm:line-clamp-3 text-sm sm:text-base font-light">
+					{article.excerpt}
+				</p>
 			</a>
 		</div>
 
 		<div>
 			<a href={articleSlug}>
 				{#if article.coverImage}
-					<div class="w-[200px] h-full rounded-2xl shadow-xl overflow-hidden">
+					<div class="w-[80px] sm:w-[156px] h-full rounded-2xl shadow-xl overflow-hidden">
 						<Image
 							loading="lazy"
-							src={`${article.coverImage}?w=560&h=420&q=80&f=webp`}
+							src={`${article.coverImage}?w=400&h=300&q=80&f=webp`}
 							alt="cover"
-							class="aspect-[560/420] transition-all duration-500 ease-in-out hover:saturate-150 hover:scale-105"
-							width={560}
-							height={420}
+							class="aspect-[400/300] transition-all duration-500 ease-in-out hover:saturate-150 hover:scale-105"
+							width={400}
+							height={300}
 						/>
 					</div>
 				{:else}
 					<div
-						class="flex w-[200px] items-center justify-center aspect-[560/420] rounded-2xl shadow-xl bg-surface-700"
+						class="flex w-[80px] sm:w-[156px] items-center justify-center aspect-[560/420] rounded-2xl shadow-xl bg-surface-700"
 					>
-						<ImageIcon class="w-20 h-20" />
+						<ImageIcon class="w-10 h-10 sm:w-20 sm:h-20" />
 					</div>
 				{/if}
 			</a>
 		</div>
 	</header>
 
-	<footer class="flex items-center flex-wrap gap-2">
+	<footer class="flex items-center flex-wrap gap-2 mt-2">
 		<ul class="flex gap-2">
 			<li>
 				<a class="badge variant-filled-primary" href="/article/${categories[article.category].slug}"

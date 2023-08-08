@@ -11,10 +11,6 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const cursor = url.searchParams.get('cursor');
 	const sort = url.searchParams.get('sort') as FindPostsSort | null;
 
-	// const boardType = (params.board ?? 'ALL').toUpperCase() as FindPostsCommunity;
-	// const sort = (url.searchParams.get('sort') ?? 'recent') as FindPostsSort;
-	// const cursor = url.searchParams.get('cursor') ?? 0;
-
 	return {
 		posts: findPosts(community ?? 'ALL', sort ?? 'recent', {
 			take: 10,

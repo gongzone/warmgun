@@ -110,25 +110,6 @@ export const actions: Actions = {
 			}
 		});
 
-		// await meilisearch.index('articles').updateDocuments([
-		// 	{
-		// 		id: article.id,
-		// 		title: article.title,
-		// 		body: bodyString,
-		// 		tags: article.tags.map((tag) => tag.name),
-		// 		createdAt: article.createdAt
-		// 	}
-		// ]);
-
-		// if (tags) {
-		// 	await meilisearch.index('tags').updateDocuments(
-		// 		article.tags.map((tag) => ({
-		// 			id: tag.id,
-		// 			name: tag.name
-		// 		}))
-		// 	);
-		// }
-
 		throw redirect(303, `/community/post/${post.slug}`);
 	}
 };

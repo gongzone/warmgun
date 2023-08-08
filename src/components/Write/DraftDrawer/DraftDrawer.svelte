@@ -43,7 +43,7 @@
 	{transitionParams}
 	bind:isOpen={$isOpen}
 	id="sidebar1"
-	width="w-[360px]"
+	width="w-full min-[420px]:w-[360px]"
 >
 	<header class="flex justify-end p-5">
 		<button type="button" class="btn-icon btn-ringed-tertiary" on:click={() => closeDrafDrawer()}>

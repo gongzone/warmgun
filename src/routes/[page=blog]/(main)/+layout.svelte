@@ -19,8 +19,6 @@
 	];
 
 	$: ({ blogUser, isOwner, isFollowing } = data);
-
-	$: console.log(blogUser);
 </script>
 
 <Seo
@@ -32,20 +30,20 @@
 
 <div class="max-w-[700px] mx-auto">
 	<div class="border-l border-r border-l-surface-600 border-r-surface-600">
-		<div class="relative w-full h-[200px]">
+		<div class="relative w-full">
 			{#if blogUser.profile?.blogImage}
-				<div class="w-full h-[200px] overflow-hidden">
-					<Image
+				<div class="relative w-full h-[138px] sm:h-[200px] overflow-hidden">
+					<img
 						src="{blogUser.profile.blogImage}?w=700&h=200&q=80&f=webp"
-						class="object-cover"
+						class="object-cover w-full h-[138px] sm:h-[200px]"
 						alt="blog-cover"
 					/>
 				</div>
 			{:else}
-				<div class="w-full h-full bg-surface-800" />
+				<div class="w-full h-[138px] sm:h-[200px] bg-surface-800" />
 			{/if}
 			<div class="flex items-center justify-center">
-				<div class="absolute flex left-6 bottom-0 translate-y-1/2">
+				<div class="absolute flex left-6 sm:left-10 bottom-0 translate-y-1/2">
 					<UserAvatar
 						src={blogUser.profile?.avatar}
 						width="w-32"
@@ -70,7 +68,7 @@
 			</div>
 		</div>
 
-		<div class="px-6">
+		<div class="px-6 sm:px-10">
 			<div class="flex items-center gap-8 justify-between">
 				<div class="flex items-center self-end gap-2 ml-1 mb-1">
 					<span class="text-2xl font-semibold">{blogUser.profile?.nickname}</span>
@@ -79,7 +77,7 @@
 			</div>
 
 			<div class="flex gap-8">
-				<p class="font-light">{blogUser.profile?.bio}</p>
+				<p class="font-light text-sm sm:text-base">{blogUser.profile?.bio}</p>
 			</div>
 
 			<div class="flex items-center gap-2 text-sm mt-3">
@@ -99,7 +97,7 @@
 				</div>
 			</div>
 
-			<div class="flex items-center gap-2 justify-end">
+			<div class="flex items-center gap-2 justify-end mt-4">
 				{#each siteConfig.socials as social (social.title)}
 					{#if blogUser.profile?.profileLinks?.[social.enum]}
 						<a href={blogUser.profile?.profileLinks?.[social.enum]}>
@@ -127,5 +125,7 @@
 		</TabGroup>
 	</div>
 
-	<slot />
+	<div class="px-4 md:px-0">
+		<slot />
+	</div>
 </div>

@@ -6,7 +6,6 @@
 	import ArrowLeftSmall from '$components/@icons/ArrowLeftSmall.svelte';
 	import ArrowRightSmall from '$components/@icons/ArrowRightSmall.svelte';
 	import { categories } from '$lib/constants/categories';
-	import Image from '$components/@ui/Image.svelte';
 	import ImageIcon from '$components/@icons/editor/ImageIcon.svelte';
 
 	export let articles: Article[];
@@ -93,12 +92,14 @@
 				style:transition-duration="{duration}ms"
 			>
 				<div class="space-y-2">
-					<UserAvatar
-						src={article.user.profile?.avatar}
-						name={article.user.profile?.nickname}
-						width="w-7"
-						nameClasses="text-sm"
-					/>
+					<a href="/@{article.user.username}">
+						<UserAvatar
+							src={article.user.profile?.avatar}
+							name={article.user.profile?.nickname}
+							width="w-7"
+							nameClasses="text-sm"
+						/>
+					</a>
 
 					<h3 class="font-medium break-all line-clamp-3">{article.title}</h3>
 
@@ -118,10 +119,13 @@
 				</div>
 
 				<div class="flex justify-center">
-					<button class="btn variant-filled-surface shadow-lg">
+					<a
+						href="/@{article.user.username}/{article.slug}"
+						class="btn variant-filled-surface shadow-lg"
+					>
 						<span class="text-sm">View</span>
 						<span><ArrowRightIcon class="w-6 h-6" /></span>
-					</button>
+					</a>
 				</div>
 			</div>
 

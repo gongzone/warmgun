@@ -6,28 +6,22 @@
 	export let user: BlogUser;
 </script>
 
-<div class="flex items-center py-6 border-b border-b-surface-600 gap-8">
+<div class="flex items-center py-6 border-b border-b-surface-600 gap-4 sm:gap-8">
 	<header class="flex items-center gap-3">
 		<a href={`/@${user.username}`}>
-			<UserAvatar src={user.profile?.avatar} width="w-20" />
+			<UserAvatar src={user.profile?.avatar} width="w-12 sm:w-20" />
 		</a>
-		<div class="space-y-1">
+		<div class="">
 			<div class="flex items-center">
 				<a href={`/@${user.username}`}>
-					<span class="block font-semibold text-xl">{user.profile?.nickname}</span>
+					<span class="block font-semibold text-lg sm:text-xl">{user.profile?.nickname}</span>
 				</a>
 			</div>
 			<span class="badge variant-filled-primary">{user.profile?.field}</span>
-
-			<div class="text-right">
-				<span class="text-xs font-light">구독자 {user._count.followedBy}</span>
-				<span class="text-xs font-light">/</span>
-				<span class="text-xs font-light">아티클 {user._count.articles}</span>
-			</div>
 		</div>
 	</header>
 
-	<div class="bg-surface-600 p-4 rounded-lg max-w-[450px]">
-		<p class="text-sm font-extralight line-clamp-3">{user.profile?.bio}</p>
+	<div class="max-w-[450px]">
+		<p class="text-sm line-clamp-3">{user.profile?.bio}</p>
 	</div>
 </div>

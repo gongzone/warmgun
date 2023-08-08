@@ -17,10 +17,11 @@
 	import ArticleCard from '$components/@item/Article/ArticleCard.svelte';
 	import NoWriting from '$components/@ui/NoWriting.svelte';
 	import Seo from '$components/@utils/Seo.svelte';
+	import { enhance } from '$app/forms';
 
 	export let data: PageData;
 
-	$: ({ tag, isLiked } = data);
+	$: ({ tag, isFollowing } = data);
 
 	const articleSortings = { recent: '최신순', trending: '트렌딩', best: '베스트' };
 
@@ -55,14 +56,19 @@
 					goto(`?sort=${e.detail}`);
 				}}
 			/>
-			<button class="btn variant-filled-primary">구독하기</button>
+			<form method="POST" action={!isFollowing ? '?/followTag' : '?/unFollowTag'} use:enhance>
+				<button type="submit" class="btn btn-sm variant-ringed-tertiary sm:btn"
+					>{!isFollowing ? '구독하기' : '구독취소'}</button
+				>
+				<input type="hidden" name="tagId" value={tag.id} />
+			</form>
 		</div>
 
 		<Separator class="my-2" width="sm" />
 	</div>
 
 	{#if $articlesQuery.isSuccess && $articlesQuery.data.pages[0].data.length > 0}
-		<ul class="grid grid-cols-3 gap-8 mt-8">
+		<ul class="grid gap-7 min-[550px]:grid-cols-2 md:grid-cols-3 mt-8">
 			{#each $articlesQuery.data.pages as { data }, i (i)}
 				{#each data as article (article.id)}
 					<li>
