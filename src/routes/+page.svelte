@@ -37,7 +37,7 @@
 
 	<Separator class="my-16" />
 
-	<div class="relative flex gap-10">
+	<div class="relative flex justify-between gap-10">
 		<div>
 			<section>
 				<HomeSectionTitle
@@ -100,7 +100,7 @@
 		</div>
 
 		<aside
-			class="relatvie min-h-full min-w-[335px] pl-8 border-l border-l-surface-600 hidden min-[1200px]:block"
+			class="relatvie min-h-full w-[335px] pl-8 border-l border-l-surface-600 hidden min-[1200px]:block"
 		>
 			<div class="space-y-8">
 				<div>
