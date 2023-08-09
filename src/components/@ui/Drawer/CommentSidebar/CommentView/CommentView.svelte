@@ -43,11 +43,11 @@
 	<div class="flex flex-col gap-2">
 		<div class="flex items-center justify-between">
 			<div class="flex items-center gap-2">
-				<a href="/@{comment.user.username}">
+				<a href="/@{comment.user.username}" on:click={() => drawerStore.close()}>
 					<UserAvatar src={comment.user.profile?.avatar} width="w-10" />
 				</a>
 				<div class="flex flex-col gap-1">
-					<a href="/@{comment.user.username}">
+					<a href="/@{comment.user.username}" on:click={() => drawerStore.close()}>
 						<p class="text-sm font-bold">{comment.user.profile?.nickname}</p>
 					</a>
 					<p class="opacity-50 text-xs">{formatDate(comment.createdAt)}</p>
