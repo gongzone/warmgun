@@ -83,20 +83,19 @@ export const actions: Actions = {
 	updatePost: async ({ request, params, locals, url }) => {
 		const formData = await request.formData();
 		const validated = validate(formData, createPostSchema);
-		const postId = url.searchParams.get('id');
-
-		if (!postId) {
-			throw error(404, '접근 불가');
-		}
 
 		if (!validated.success) {
 			return fail(400, { isSuccess: false, message: validated.errorMessage });
 		}
 
-		const { title, body, community } = {
+		const { postId, title, body, community } = {
 			...validated.data,
 			body: JSON.parse(validated.data.body) as JSONContent
 		};
+
+		if (!postId) {
+			throw error(404, '접근 불가');
+		}
 
 		const slug = formatSlug(title);
 

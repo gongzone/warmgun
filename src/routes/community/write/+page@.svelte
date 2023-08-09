@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 	import type { HTMLContent, JSONContent } from '@tiptap/core';
 	import Seo from '$components/@utils/Seo.svelte';
+	import { page } from '$app/stores';
 
 	export let data: PageData;
 
@@ -23,6 +24,8 @@
 			body = data.post.body as JSONContent;
 		}
 	});
+
+	$: postId = $page.url.searchParams.get('id');
 </script>
 
 <Seo title={data.isEditMode ? '게시글 수정' : '게시글 등록'} />
@@ -36,9 +39,12 @@
 
 		<form
 			method="POST"
-			action={data.isEditMode ? '?/updatePost' : '?/createPost'}
+			action={data.isEditMode ? `?/updatePost` : '?/createPost'}
 			use:enhance={({ formData }) => {
 				const { title, body, community } = getEditorData();
+				if (postId) {
+					formData.append('postId', postId);
+				}
 				formData.append('title', title);
 				formData.append('body', JSON.stringify(body));
 				formData.append('community', community);

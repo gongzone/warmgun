@@ -11,6 +11,7 @@ export const getPostSchema = z.object({
 });
 
 export const createPostSchema = z.object({
+	postId: z.string().optional(),
 	title: z.string().min(1, '제목 작성은 필수입니다.'),
 	body: z.string(),
 	community: z.enum([firstCommunity, ...otherCommunity])
