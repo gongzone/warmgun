@@ -168,7 +168,7 @@ export const actions: Actions = {
 
 		await prisma.postComment.create({
 			data: {
-				content,
+				content: content,
 				parent: parentId ? { connect: { id: parentId } } : undefined,
 				user: { connect: { id: locals.user.id } },
 				post: { connect: { id: id } }

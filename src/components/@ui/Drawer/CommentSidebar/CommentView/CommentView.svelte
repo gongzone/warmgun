@@ -70,7 +70,7 @@
 		</div>
 
 		<div class="pb-2 space-y-4">
-			<p class="font-extralight">{comment.content}</p>
+			<p class="font-extralight whitespace-pre-line break-words">{comment.content}</p>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center gap-4">
 					<form method="POST" action={likesAction} use:enhance={likesHandler}>
