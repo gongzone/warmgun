@@ -199,7 +199,11 @@
 					languageClassPrefix: 'language-',
 					defaultLanguage: 'plaintext'
 				}),
-				Image,
+				Image.configure({
+					HTMLAttributes: {
+						class: 'mx-auto'
+					}
+				}),
 				Bold,
 				Italic,
 				Strike,
@@ -259,10 +263,8 @@
 			bind:files
 			on:change={async () => {
 				if (!files) return;
-				isLoading = true;
 				const image = await uploadImage(files[0]);
 				$editor?.chain().focus().setImage({ src: image }).run();
-				isLoading = false;
 			}}
 		/>
 	</div>
