@@ -36,12 +36,12 @@
 
 		<form
 			method="POST"
-			action="?/createPost"
-			use:enhance={({ data }) => {
+			action={data.isEditMode ? '?/updatePost' : '?/createPost'}
+			use:enhance={({ formData }) => {
 				const { title, body, community } = getEditorData();
-				data.append('title', title);
-				data.append('body', JSON.stringify(body));
-				data.append('community', community);
+				formData.append('title', title);
+				formData.append('body', JSON.stringify(body));
+				formData.append('community', community);
 
 				return async ({ update, result }) => {
 					update();
