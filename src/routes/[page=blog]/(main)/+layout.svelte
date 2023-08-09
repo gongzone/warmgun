@@ -70,7 +70,7 @@
 
 		<div class="px-6 sm:px-10">
 			<div class="flex items-center gap-8 justify-between">
-				<div class="flex items-center self-end gap-2 ml-1 mb-1">
+				<div class="flex items-center self-end gap-2 mb-1">
 					<span class="text-2xl font-semibold">{blogUser.profile?.nickname}</span>
 					<span class="badge variant-filled">{blogUser.profile?.field}</span>
 				</div>
