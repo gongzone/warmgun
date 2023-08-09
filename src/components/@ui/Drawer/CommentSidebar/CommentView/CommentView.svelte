@@ -43,9 +43,13 @@
 	<div class="flex flex-col gap-2">
 		<div class="flex items-center justify-between">
 			<div class="flex items-center gap-2">
-				<UserAvatar src={comment.user.profile?.avatar} width="w-10" />
+				<a href="/@{comment.user.username}">
+					<UserAvatar src={comment.user.profile?.avatar} width="w-10" />
+				</a>
 				<div class="flex flex-col gap-1">
-					<p class="text-sm font-bold">{comment.user.profile?.nickname}</p>
+					<a href="/@{comment.user.username}">
+						<p class="text-sm font-bold">{comment.user.profile?.nickname}</p>
+					</a>
 					<p class="opacity-50 text-xs">{formatDate(comment.createdAt)}</p>
 				</div>
 			</div>
