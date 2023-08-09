@@ -21,8 +21,6 @@
 	});
 
 	let root: Element;
-
-	$: console.log($childrenCommentQuery);
 </script>
 
 <div>

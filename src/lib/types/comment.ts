@@ -33,6 +33,7 @@ export type PostComment = PrismaPostComment & {
 export const commentInclude = {
 	user: {
 		select: {
+			username: true,
 			profile: true
 		}
 	},
