@@ -17,7 +17,6 @@
 	function onClickItem(e: any) {
 		dispatch('sort', e.target.name);
 	}
-	$: console.log(initValue);
 </script>
 
 <div class="">
