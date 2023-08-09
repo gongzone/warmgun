@@ -8,7 +8,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	if (!locals.user) {
-		throw error(404, '접근 불가 페이지');
+		throw redirect(302, '/auth/login');
 	}
 
 	const postId = url.searchParams.get('id');
