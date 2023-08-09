@@ -10,7 +10,9 @@
 	import CommentItem from './CommentItem/CommentItem.svelte';
 	import { api } from '$lib/api/api';
 
-	$: ({ mode, id, totalCount } = $drawerStore.meta as CommentMeta);
+	$: ({ mode, id } = $drawerStore.meta as CommentMeta);
+
+	let totalCount: number = 0;
 
 	$: parentCommentsQuery = createInfiniteQuery({
 		queryKey: ['comments', mode, id, null],
@@ -19,14 +21,16 @@
 		keepPreviousData: true
 	});
 
+	$: if ($page.data.article || $page.data.post) {
+		totalCount = $page.data?.article?._count.comments ?? $page.data?.post._count.comments;
+	}
+
 	let root: Element;
 </script>
 
 <div id="comment-sidebar" class="px-8 py-8" bind:this={root}>
 	<div class="space-y-4">
-		<CommentHeader
-			totalCount={$page.data?.article?._count.comments ?? $page.data?.post._count.comments}
-		/>
+		<CommentHeader {totalCount} />
 		<CommentTextarea {mode} {id} parentId={null} />
 	</div>
 
