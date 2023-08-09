@@ -59,7 +59,7 @@ Warmgun은 개발자들을 위한 커뮤니티 및 블로그 서비스 플랫폼
 - PostgreSQL & Prisma
 - Meilisearch
 - TanStack Query
-- Editor.js
+- Tiptap
 - TypeScript
 - AWS(S3, CloudFront, Lambda@Edge, EC2, RDS) & Vercel
 
@@ -88,6 +88,8 @@ Warmgun은 개발자들을 위한 커뮤니티 및 블로그 서비스 플랫폼
 ## 구조화된 스타일링
 
 - Tailwind CSS & Skeleton 라이브러리를 사용하여 디자인 theme 구축
+
+## 에디터 설계
 
 ## SEO 작업 
 
