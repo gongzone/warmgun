@@ -92,7 +92,7 @@
 			name: 'italic',
 			icon: EditorIcons.italic,
 			isActive: () => $editor?.isActive('italic'),
-			onClick: () => $editor?.chain().focus().toggleItalic().run
+			onClick: () => $editor?.chain().focus().toggleItalic().run()
 		},
 		{
 			name: 'underline',
