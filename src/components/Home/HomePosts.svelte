@@ -1,6 +1,5 @@
 <script lang="ts">
 	import TextWithIcon from '$components/@ui/TextWithIcon.svelte';
-	import UserAvatar from '$components/@ui/UserAvatar.svelte';
 	import type { Post } from '$lib/types/post';
 	import NoDataCard from '$components/@ui/NoDataCard.svelte';
 	import type { ComponentType } from 'svelte';

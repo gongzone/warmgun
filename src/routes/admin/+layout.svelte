@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { derived } from 'svelte/store';
-	import { AppShell, AppBar, AppRail, AppRailTile, AppRailAnchor } from '@skeletonlabs/skeleton';
+	import { AppShell } from '@skeletonlabs/skeleton';
 
-	import AdminHeader from '$components/Header/AdminHeader/AdminHeader.svelte';
-	import AdminRail from '$components/Rail/AdminRail/AdminRail.svelte';
+	import AdminHeader from './AdminHeader/AdminHeader.svelte';
+	import AdminRail from './AdminRail/AdminRail.svelte';
 </script>
 
 <AppShell>
