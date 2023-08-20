@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base Colors */
+    --background: 0 0% 97%;
+    --foreground: 0 0% 9%;
+    --foreground-light: 0 0% 40%;
+    --border: 0 0% 87%;
+
+    /* Primary Colors */
+    --primary-100: 140 60% 98%;
+    --primary-200: 140 67% 96%;
+    --primary-300: 148 58% 94%;
+    --primary-400: 154 45% 90%;
+    --primary-500: 159 39% 85%;
+    --primary-600: 165 31% 68%;
+    --primary-700: 171 27% 53%;
+    --primary-800: 177 35% 39%;
+    --primary-900: 183 49% 29%;
+    --primary-foreground: 0 0% 9%;
+
+    /* Success Colors */
+    --success-100: 78 81% 92%;
+    --success-200: 81 83% 84%;
+    --success-300: 84 72% 73%;
+    --success-400: 87 60% 63%;
+    --success-500: 90 53% 50%;
+    --success-600: 93 59% 41%;
+    --success-700: 96 64% 33%;
+    --success-800: 99 71% 25%;
+    --success-900: 102 79% 20%;
+    --success-foreground: 0 0% 9%;
+
+    /* Warning Colors */
+    --warning-100: 59 91% 91%;
+    --warning-200: 59 91% 82%;
+    --warning-300: 59 85% 72%;
+    --warning-400: 59 77% 63%;
+    --warning-500: 59 72% 50%;
+    --warning-600: 59 75% 42%;
+    --warning-700: 59 79% 34%;
+    --warning-800: 58 84% 27%;
+    --warning-900: 58 87% 22%;
+    --warning-foreground: 0 0% 9%;
+
+    /* Danger Colors */
+    --danger-100: 15 100% 95%;
+    --danger-200: 9 100% 91%;
+    --danger-300: 3 100% 86%;
+    --danger-400: 359 100% 82%;
+    --danger-500: 353 100% 76%;
+    --danger-600: 348 63% 62%;
+    --danger-700: 342 46% 49%;
+    --danger-800: 336 55% 37%;
+    --danger-900: 331 66% 29%;
+    --danger-foreground: 0 0% 9%;
+
+    /* Layout */
+    --radius: 8px;
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 87%;
+  }
+}
+
+@layer base {
+  body {
+    @apply min-h-screen bg-background font-sans text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
