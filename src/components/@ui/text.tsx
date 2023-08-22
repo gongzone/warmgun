@@ -9,10 +9,10 @@ const textVariants = tv(
         default: "text-foreground",
         light: "text-foreground-light",
         invert: "text-background",
-        primary: "text-primary-500",
-        success: "text-success-500",
-        warning: "text-warning-500",
-        danger: "text-danger-500",
+        primary: "text-primary-600",
+        success: "text-success-600",
+        warning: "text-warning-600",
+        danger: "text-danger-600",
       },
       size: {
         xs: "text-xs",
@@ -148,4 +148,4 @@ const Text = React.forwardRef<TextElement, TextProps>(
 )
 Text.displayName = "Text"
 
-export { Text }
+export { Text, textVariants }

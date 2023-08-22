@@ -20,7 +20,7 @@
     --primary-700: 171 27% 53%;
     --primary-800: 177 35% 39%;
     --primary-900: 183 49% 29%;
-    --primary-foreground: 0 0% 9%;
+    --primary-foreground: 0 0% 20%;
 
     /* Success Colors */
     --success-100: 78 81% 92%;
@@ -32,7 +32,7 @@
     --success-700: 96 64% 33%;
     --success-800: 99 71% 25%;
     --success-900: 102 79% 20%;
-    --success-foreground: 0 0% 9%;
+    --success-foreground: 0 0% 20%;
 
     /* Warning Colors */
     --warning-100: 59 91% 91%;
@@ -44,7 +44,7 @@
     --warning-700: 59 79% 34%;
     --warning-800: 58 84% 27%;
     --warning-900: 58 87% 22%;
-    --warning-foreground: 0 0% 9%;
+    --warning-foreground: 0 0% 20%;
 
     /* Danger Colors */
     --danger-100: 15 100% 95%;
@@ -56,7 +56,7 @@
     --danger-700: 342 46% 49%;
     --danger-800: 336 55% 37%;
     --danger-900: 331 66% 29%;
-    --danger-foreground: 0 0% 9%;
+    --danger-foreground: 0 0% 20%;
 
     /* Layout */
     --radius: 8px;
@@ -71,6 +71,8 @@
 @layer base {
   body {
     @apply min-h-screen bg-background font-sans text-foreground antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
