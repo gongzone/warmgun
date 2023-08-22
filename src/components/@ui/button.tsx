@@ -6,7 +6,7 @@ import { tv, type VariantProps } from "tailwind-variants"
 
 const buttonVariants = tv(
   {
-    base: "inline-flex items-center justify-center ring-offset-background transition-colors duration-[250ms] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    base: "inline-flex items-center justify-center gap-2 ring-offset-background transition-colors duration-[250ms] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     variants: {
       variant: {
         default:
@@ -40,13 +40,11 @@ const buttonVariants = tv(
           "bg-danger text-danger-foreground border border-danger hover:bg-background hover:text-danger-700",
         "danger-ghost":
           "bg-background text-danger-700 border border-danger hover:bg-danger hover:text-danger-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
         sm: "text-sm h-9 px-3",
-        md: "text-base h-10 px-4 py-2",
-        lg: "text-base h-11 px-8",
-        icon: "h-10 w-10",
+        md: "text-base h-10 px-4",
+        lg: "text-base h-12 px-6",
       },
       radius: {
         default: "rounded",
@@ -58,11 +56,39 @@ const buttonVariants = tv(
         "3xl": "rounded-3xl",
         full: "rounded-full",
       },
+      onlyIcon: {
+        true: "px-0",
+      },
+      fullWidth: {
+        true: "w-full",
+      },
     },
+    compoundVariants: [
+      {
+        size: "sm",
+        onlyIcon: true,
+        fullWidth: false,
+        className: "w-9 min-w-9",
+      },
+      {
+        size: "md",
+        onlyIcon: true,
+        fullWidth: false,
+        className: "w-10 min-w-10",
+      },
+      {
+        size: "lg",
+        onlyIcon: true,
+        fullWidth: false,
+        className: "w-12 min-w-12",
+      },
+    ],
     defaultVariants: {
       variant: "default",
       size: "md",
       radius: "default",
+      onlyIcon: false,
+      fullWidth: false,
     },
   },
   {
@@ -79,14 +105,30 @@ interface ButtonProps
 
 const Button = React.forwardRef<ButtonElement, ButtonProps>(
   (
-    { className, asChild = false, variant, size, radius, ...props },
+    {
+      className,
+      asChild = false,
+      variant,
+      size,
+      radius,
+      onlyIcon,
+      fullWidth,
+      ...props
+    },
     forwardedRef
   ) => {
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
         ref={forwardedRef}
-        className={buttonVariants({ variant, size, radius, className })}
+        className={buttonVariants({
+          variant,
+          size,
+          radius,
+          onlyIcon,
+          fullWidth,
+          className,
+        })}
         {...props}
       />
     )
