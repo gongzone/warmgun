@@ -115,4 +115,4 @@ const Avatar = React.forwardRef<AvatarElementType, AvatarProps>(
 )
 Avatar.displayName = AvatarPrimitive.Root.displayName
 
-export { Avatar }
+export { Avatar, avatarVariants }
