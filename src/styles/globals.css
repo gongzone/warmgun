@@ -10,6 +10,9 @@
     --foreground-light: 0 0% 40%;
     --border: 0 0% 87%;
 
+    --muted: 70 4% 82%;
+    --muted-foreground: 0 0% 28%;
+
     /* Primary Colors */
     --primary-100: 140 60% 98%;
     --primary-200: 140 67% 96%;
