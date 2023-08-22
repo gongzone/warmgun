@@ -1,6 +1,6 @@
-import type { Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme";
-import { withTV } from "tailwind-variants/transformer";
+import { withTV } from "tailwind-variants/transformer"
+import type { Config } from "tailwindcss"
+import { fontFamily } from "tailwindcss/defaultTheme"
 
 const config: Config = withTV({
   darkMode: ["class"],
@@ -18,6 +18,10 @@ const config: Config = withTV({
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         "foreground-light": "hsl(var(--foreground-light))",
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
         primary: {
           100: "hsl(var(--primary-100))",
           200: "hsl(var(--primary-200))",
@@ -80,6 +84,6 @@ const config: Config = withTV({
     },
   },
   plugins: [],
-});
+})
 
-export default config;
+export default config
