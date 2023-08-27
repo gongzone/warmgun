@@ -2,6 +2,8 @@ import { withTV } from "tailwind-variants/transformer"
 import type { Config } from "tailwindcss"
 import { fontFamily } from "tailwindcss/defaultTheme"
 
+import { tailwindAnimate } from "./src/styles/tailwind-animate"
+
 const config: Config = withTV({
   darkMode: ["class"],
   content: [
@@ -84,7 +86,7 @@ const config: Config = withTV({
       },
     },
   },
-  plugins: [],
+  plugins: [tailwindAnimate],
 })
 
 export default config
