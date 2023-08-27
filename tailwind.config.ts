@@ -22,6 +22,7 @@ const config: Config = withTV({
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
+        ring: "hsl(var(--ring))",
         primary: {
           100: "hsl(var(--primary-100))",
           200: "hsl(var(--primary-200))",

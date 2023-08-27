@@ -1,9 +1,8 @@
 import Link from "next/link"
 
 import { site } from "@/lib/constants/site"
-
-import { Icons } from "../@ui/icons"
-import { Text } from "../@ui/text"
+import { Icons } from "@/components/@ui/icons"
+import { Text } from "@/components/@ui/text"
 
 const HeaderLogo = () => {
   return (

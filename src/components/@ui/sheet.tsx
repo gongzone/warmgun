@@ -83,7 +83,7 @@ const SheetContent = React.forwardRef<
             d="M6 18L18 6M6 6l12 12"
           />
         </svg>
-        <span className="sr-only">Close</span>
+        <span className="sr-only">닫기</span>
       </SheetPrimitive.Close>
     </SheetPrimitive.Content>
   </SheetPortal>
