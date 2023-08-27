@@ -13,31 +13,9 @@ const containerVariants = tv(
       center: {
         true: "mx-auto",
       },
-      ySpacing: {
-        0: "py-0",
-        1: "py-1",
-        2: "py-2",
-        3: "py-3",
-        4: "py-4",
-        5: "py-5",
-        6: "py-6",
-        7: "py-7",
-        8: "py-8",
-        9: "py-9",
-        10: "py-10",
-        11: "py-11",
-        12: "py-12",
-        14: "py-14",
-        16: "py-16",
-        20: "py-20",
-        24: "py-24",
-        28: "py-28",
-        32: "py-32",
-      },
     },
     defaultVariants: {
       variant: "wide",
-      ySpacing: 0,
     },
   },
   {
@@ -53,14 +31,11 @@ interface ContainerProps
 }
 
 const Container = React.forwardRef<ContainerElement, ContainerProps>(
-  (
-    { className, variant, center, ySpacing, asChild = false, ...props },
-    forwardedRef
-  ) => {
+  ({ className, variant, center, asChild = false, ...props }, forwardedRef) => {
     const Comp = asChild ? Slot : "div"
     return (
       <Comp
-        className={containerVariants({ variant, center, ySpacing, className })}
+        className={containerVariants({ variant, center, className })}
         ref={forwardedRef}
         {...props}
       />

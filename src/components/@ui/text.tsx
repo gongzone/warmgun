@@ -64,12 +64,23 @@ const textVariants = tv(
         all: "break-all",
         keep: "break-keep",
       },
+      hover: {
+        true: "transition-colors cursor-pointer",
+      },
     },
+    compoundVariants: [
+      {
+        color: "light",
+        hover: true,
+        className: "hover:text-foreground",
+      },
+    ],
     defaultVariants: {
       color: "default",
       size: "md",
       weight: 400,
       italic: false,
+      hover: false,
     },
   },
   {
@@ -122,6 +133,7 @@ const Text = React.forwardRef<TextElement, TextProps>(
       align,
       clamp,
       breaking,
+      hover,
       ...props
     },
     forwardedRef
@@ -137,6 +149,7 @@ const Text = React.forwardRef<TextElement, TextProps>(
           align,
           clamp,
           breaking,
+          hover,
           className,
         })}
         {...props}
