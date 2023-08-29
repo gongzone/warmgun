@@ -1,4 +1,4 @@
-import { useState, type PointerEvent } from "react"
+import { useState, type ComponentProps, type PointerEvent } from "react"
 
 import { useShowcase } from "./showcase-context"
 
@@ -7,12 +7,15 @@ const MIN_W = 200
 const MAX_H = 405
 const MIN_H = 300
 
-interface ShowcaseAnimationProps {
-  children: React.ReactNode
+interface ShowcaseAnimationProps extends ComponentProps<"div"> {
   index: number
 }
 
-const ShowcaseAnimation = ({ children, index }: ShowcaseAnimationProps) => {
+const ShowcaseAnimation = ({
+  children,
+  index,
+  ...props
+}: ShowcaseAnimationProps) => {
   const [currentIndex] = useShowcase()
   const [angle, setAngle] = useState(0)
 
@@ -38,7 +41,6 @@ const ShowcaseAnimation = ({ children, index }: ShowcaseAnimationProps) => {
     if (index !== currentIndex) {
       return undefined
     }
-    console.log(e)
 
     const target = e.currentTarget
 
@@ -72,28 +74,21 @@ const ShowcaseAnimation = ({ children, index }: ShowcaseAnimationProps) => {
 
   return (
     <div
-      className={
-        index === currentIndex
-          ? `inline-block h-[405px] w-[270px] [perspective:1200px]`
-          : ""
-      }
+      className="absolute left-0 top-0 overflow-hidden border border-foreground shadow-xl transition-all duration-1000 ease-in-out"
+      style={{
+        width: `${calculateWidth(currentIndex, index)}px`,
+        height: `${calculateHeight(currentIndex, index)}px`,
+        transform: `rotateY(${angle}deg) translateX(${calculateX(
+          currentIndex,
+          index
+        )}px)`,
+        pointerEvents: index === currentIndex ? "auto" : "none",
+      }}
+      onPointerMove={handlePointerMove}
+      onPointerOut={handlePointerOut}
+      {...props}
     >
-      <div
-        className="absolute left-0 top-0 overflow-hidden border border-foreground shadow-lg transition-all duration-1000 ease-in-out"
-        style={{
-          width: `${calculateWidth(currentIndex, index)}px`,
-          height: `${calculateHeight(currentIndex, index)}px`,
-          transform: `rotateY(${angle}deg) translateX(${calculateX(
-            currentIndex,
-            index
-          )}px)`,
-          pointerEvents: index === currentIndex ? "auto" : "none",
-        }}
-        onPointerMove={handlePointerMove}
-        onPointerOut={handlePointerOut}
-      >
-        {children}
-      </div>
+      {children}
     </div>
   )
 }

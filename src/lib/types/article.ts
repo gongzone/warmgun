@@ -7,6 +7,8 @@ interface Article {
     nickname: string
     avatar: string | null
   }
+  category: string
+  tags: string[]
 }
 
 export { type Article }

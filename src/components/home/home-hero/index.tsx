@@ -6,7 +6,7 @@ import { HeroSubWords } from "./hero-sub-words"
 const articles = Array.from({ length: 10 }, (_, i) => {
   return {
     id: i + 1,
-    title: `테스트용 아티클 - ${i + 1}`,
+    title: `테스트용 아티클입니다. 굉장히 재미있는 개발이군요.. - ${i + 1}`,
     excerpt:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum modi pariatur alias. Natus animi in officiis nesciunt laborum reiciendis est voluptatibus nihil sunt! Sit optio inventore laudantium eveniet aperiam non.",
     thumbnail: `https://picsum.photos/id/${(i + 1) * 27}/${270 * 2}/${405 * 2}`,
@@ -14,6 +14,8 @@ const articles = Array.from({ length: 10 }, (_, i) => {
       nickname: `테스트용 계정 ${i + 1}`,
       avatar: "https://i.pravatar.cc/300",
     },
+    category: "프론트엔드",
+    tags: ["Svelte", "Typescript"],
   }
 })
 
