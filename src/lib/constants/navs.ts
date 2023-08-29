@@ -6,7 +6,10 @@ interface Nav {
 }
 
 const navs = {
-  main: [{ title: "아티클", href: "/story" }] satisfies Nav[],
+  main: [
+    { title: "아티클", href: "/article" },
+    { title: "커뮤니티", href: "/community" },
+  ] satisfies Nav[],
 }
 
 export { type Nav, navs }

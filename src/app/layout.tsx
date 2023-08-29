@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${fonts.pretendard.variable}`}>
+      <body className={`${fonts.pretendard.variable} ${fonts.tenada.variable}`}>
         <Shell>{children}</Shell>
       </body>
     </html>

@@ -15,6 +15,7 @@ const config: Config = withTV({
     extend: {
       fontFamily: {
         sans: ["var(--font-pretendard)", ...fontFamily.sans],
+        heading: ["var(--font-tenada)", ...fontFamily.sans],
       },
       colors: {
         background: "hsl(var(--background))",

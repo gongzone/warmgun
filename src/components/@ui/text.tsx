@@ -5,6 +5,10 @@ import { tv, type VariantProps } from "tailwind-variants"
 const textVariants = tv(
   {
     variants: {
+      family: {
+        default: "font-sans",
+        heading: "font-heading",
+      },
       color: {
         default: "text-foreground",
         light: "text-foreground-light",
@@ -76,6 +80,7 @@ const textVariants = tv(
       },
     ],
     defaultVariants: {
+      family: "default",
       color: "default",
       size: "md",
       weight: 400,
@@ -126,6 +131,7 @@ const Text = React.forwardRef<TextElement, TextProps>(
       className,
       as: Tag = "span",
       asChild = false,
+      family,
       color,
       size,
       weight,
@@ -142,6 +148,7 @@ const Text = React.forwardRef<TextElement, TextProps>(
       <Slot
         ref={forwardedRef}
         className={textVariants({
+          family,
           color,
           size,
           weight,

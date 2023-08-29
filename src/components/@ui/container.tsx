@@ -4,7 +4,7 @@ import { tv, type VariantProps } from "tailwind-variants"
 
 const containerVariants = tv(
   {
-    base: "px-4",
+    base: "px-4 sm:px-8",
     variants: {
       variant: {
         wide: "max-w-[1400px]",
@@ -16,6 +16,7 @@ const containerVariants = tv(
     },
     defaultVariants: {
       variant: "wide",
+      center: true,
     },
   },
   {
