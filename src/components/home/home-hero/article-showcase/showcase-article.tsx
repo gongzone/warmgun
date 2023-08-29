@@ -25,7 +25,7 @@ const ShowcaseArticle = ({ article, index }: ShowcaseArticle) => {
             index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className="rounded-lg bg-foreground/80 p-4">
+          <div className="rounded-lg bg-foreground/90 p-4">
             <div className="mb-3 flex items-center gap-3">
               <Avatar
                 src={article.user.avatar}

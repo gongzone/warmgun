@@ -38,10 +38,6 @@ const ShowcaseAnimation = ({
   }
 
   const handlePointerMove = (e: PointerEvent<HTMLDivElement>) => {
-    if (index !== currentIndex) {
-      return undefined
-    }
-
     const target = e.currentTarget
 
     const computedStyle = getComputedStyle(target)
@@ -65,11 +61,9 @@ const ShowcaseAnimation = ({
   }
 
   const handlePointerOut = (e: PointerEvent<HTMLDivElement>) => {
-    if (index !== currentIndex) {
-      return undefined
-    }
-
-    setAngle(0)
+    requestAnimationFrame(() => {
+      setAngle(0)
+    })
   }
 
   return (
@@ -84,8 +78,8 @@ const ShowcaseAnimation = ({
         )}px)`,
         pointerEvents: index === currentIndex ? "auto" : "none",
       }}
-      onPointerMove={handlePointerMove}
-      onPointerOut={handlePointerOut}
+      onPointerMove={index === currentIndex ? handlePointerMove : undefined}
+      onPointerOut={index === currentIndex ? handlePointerOut : undefined}
       {...props}
     >
       {children}
