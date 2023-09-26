@@ -1,4 +1,6 @@
-import { Button } from "@/components/@ui/button"
+import Link from "next/link"
+
+import { Button, buttonVariants } from "@/components/@ui/button"
 import { Container } from "@/components/@ui/container"
 
 import { AuthModal } from "./auth-modal"
@@ -21,7 +23,9 @@ const DefaultHeader = () => {
           <MainNav />
         </section>
         <section>
-          <AuthModal triggerButton={<Button>로그인</Button>} />
+          <Link className={buttonVariants()} href="/login">
+            로그인
+          </Link>
         </section>
       </Container>
     </header>

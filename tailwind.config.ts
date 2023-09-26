@@ -21,6 +21,7 @@ const config: Config = withTV({
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         "foreground-light": "hsl(var(--foreground-light))",
+        border: "hsl(var(--border))",
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
