@@ -1,11 +1,14 @@
 import type { AdapterAccount } from "@auth/core/adapters"
 import {
   integer,
+  pgEnum,
   pgTable,
   primaryKey,
   text,
   timestamp,
 } from "drizzle-orm/pg-core"
+
+export const roleEnum = pgEnum("role", ["USER", "ADMIN"])
 
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
@@ -13,6 +16,7 @@ export const users = pgTable("user", {
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  role: roleEnum("role"),
 })
 
 export const accounts = pgTable(
@@ -26,6 +30,7 @@ export const accounts = pgTable(
     providerAccountId: text("providerAccountId").notNull(),
     access_token: text("access_token"),
     refresh_token: text("refresh_token"),
+    // refresh_token_expires_in: integer("refresh_token_expires_in"),
     expires_at: integer("expires_at"),
     token_type: text("token_type"),
     scope: text("scope"),

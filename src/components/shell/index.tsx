@@ -1,7 +1,3 @@
-"use client"
-
-import { usePathname } from "next/navigation"
-
 import { DefaultHeader } from "./default-header"
 
 interface ShellProps {
@@ -9,11 +5,9 @@ interface ShellProps {
 }
 
 const Shell = ({ children }: ShellProps) => {
-  const pathname = usePathname()
-
   return (
     <>
-      {pathname === "/login" ? undefined : <DefaultHeader />}
+      <DefaultHeader />
       {children}
     </>
   )

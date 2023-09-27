@@ -18,7 +18,7 @@ const avatarVariants = tv(
         xl: "w-20 h-20",
       },
       border: {
-        true: "ring-2 ring-muted ring-offset-1 outline-none",
+        true: "ring-2 ring-muted ring-offset-2 ring-offset-background outline-none",
       },
       radius: {
         sm: "rounded-sm",

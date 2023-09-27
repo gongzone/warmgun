@@ -1,6 +1,7 @@
 "use client"
 
-import { login } from "@/lib/auth/handle"
+import { signIn } from "next-auth/react"
+
 import { Button } from "@/components/@ui/button"
 
 interface OaithLoginButtonProps {
@@ -20,7 +21,7 @@ export const OauthLoginButton = ({
       fullWidth
       radius="full"
       size="md"
-      onClick={() => login(provider)}
+      onClick={() => signIn(provider, { callbackUrl: "/" })}
     >
       {icon} {name}
     </Button>
