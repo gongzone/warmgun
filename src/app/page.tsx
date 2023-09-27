@@ -6,7 +6,7 @@ import { HomeHero } from "@/components/home/home-hero"
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
-  console.log("세션!", session)
+
   return (
     <main className="py-16">
       <section>
