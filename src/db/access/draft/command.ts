@@ -1,8 +1,8 @@
 import { db } from "@/db"
-import { drafts } from "@/db/schema"
+import { draft } from "@/db/schema"
 
 function createDraft(userId: string) {
-  return db.insert(drafts).values({
+  return db.insert(draft).values({
     authorId: userId,
   })
 }

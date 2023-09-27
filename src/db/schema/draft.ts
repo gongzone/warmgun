@@ -8,7 +8,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core"
 
-export const drafts = pgTable("draft", {
+export const draft = pgTable("draft", {
   id: serial("id").primaryKey(),
   title: text("title"),
   body: jsonb("body"),

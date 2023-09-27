@@ -1,10 +1,8 @@
 import "../styles/globals.css"
 
 import type { Metadata } from "next"
-import { getServerSession } from "next-auth"
 
 import { fonts } from "@/lib/fonts"
-import { SessionProvider } from "@/components/@provider/session-provider"
 import { Shell } from "@/components/shell"
 
 export const metadata: Metadata = {
@@ -17,14 +15,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession()
-
   return (
     <html lang="en">
       <body className={`${fonts.pretendard.variable} ${fonts.tenada.variable}`}>
-        <SessionProvider session={session}>
-          <Shell>{children}</Shell>
-        </SessionProvider>
+        <Shell>{children}</Shell>
       </body>
     </html>
   )

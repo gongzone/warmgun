@@ -1,8 +1,6 @@
-"use client"
-
 import Link from "next/link"
-import { signOut } from "next-auth/react"
 
+import { logout } from "@/lib/query-action/auth/action"
 import { Avatar } from "@/components/@ui/avatar"
 import { buttonVariants } from "@/components/@ui/button"
 import {
@@ -64,12 +62,16 @@ export const UserMenu = ({ name, image }: UserMenuProps) => {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => signOut()}>
-            <Icons.LogoutIcon className="mr-2 h-4 w-4" />
-            <Text>로그아웃</Text>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+        <form className="h-full w-full" action={logout}>
+          <DropdownMenuGroup>
+            <DropdownMenuItem asChild>
+              <button className="h-full w-full" type="submit">
+                <Icons.LogoutIcon className="mr-2 h-4 w-4" />
+                <Text>로그아웃</Text>
+              </button>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   )

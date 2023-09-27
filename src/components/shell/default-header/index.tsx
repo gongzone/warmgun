@@ -1,7 +1,6 @@
 import Link from "next/link"
-import { getServerSession } from "next-auth"
 
-import { authOptions } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
 import { buttonVariants } from "@/components/@ui/button"
 import { Container } from "@/components/@ui/container"
 
@@ -10,8 +9,8 @@ import { MainNav } from "./main-nav"
 import { UserMenu } from "./user-menu"
 
 const DefaultHeader = async () => {
-  const session = await getServerSession(authOptions)
-  console.log("헤더 세션", session)
+  const session = await getServerSession()
+
   return (
     <header className="sticky top-0 z-30 w-full border-b bg-background">
       <Container
@@ -28,7 +27,10 @@ const DefaultHeader = async () => {
         </section>
         <section>
           {session?.user ? (
-            <UserMenu name={session.user.name!} image={session.user.image!} />
+            <UserMenu
+              name={session.user.username}
+              image={session.user.avatar}
+            />
           ) : (
             <Link className={buttonVariants()} href="/login">
               로그인

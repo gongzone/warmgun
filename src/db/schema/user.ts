@@ -1,63 +1,39 @@
-import type { AdapterAccount } from "@auth/core/adapters"
 import {
+  bigint,
   integer,
   pgEnum,
   pgTable,
   primaryKey,
   text,
   timestamp,
+  varchar,
 } from "drizzle-orm/pg-core"
 
 export const roleEnum = pgEnum("role", ["USER", "ADMIN"])
 
-export const users = pgTable("user", {
-  id: text("id").notNull().primaryKey(),
-  name: text("name"),
-  email: text("email").notNull(),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
-  image: text("image"),
-  role: text("role").notNull().default("USER"),
+export const user = pgTable("user", {
+  id: varchar("id", { length: 15 }).primaryKey(),
+  username: text("username").notNull(),
+  email: text("email"),
+  avatar: text("avatar"),
+  role: roleEnum("role").notNull().default("USER"),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
 })
 
-export const accounts = pgTable(
-  "account",
-  {
-    userId: text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    type: text("type").$type<AdapterAccount["type"]>().notNull(),
-    provider: text("provider").notNull(),
-    providerAccountId: text("providerAccountId").notNull(),
-    access_token: text("access_token"),
-    refresh_token: text("refresh_token"),
-    // refresh_token_expires_in: integer("refresh_token_expires_in"),
-    expires_at: integer("expires_at"),
-    token_type: text("token_type"),
-    scope: text("scope"),
-    id_token: text("id_token"),
-    session_state: text("session_state"),
-  },
-  (account) => ({
-    compoundKey: primaryKey(account.provider, account.providerAccountId),
-  })
-)
-
-export const sessions = pgTable("session", {
-  sessionToken: text("sessionToken").notNull().primaryKey(),
-  userId: text("userId")
+export const session = pgTable("session", {
+  id: varchar("id", { length: 128 }).primaryKey(),
+  activeExpires: bigint("active_expires", { mode: "number" }).notNull(),
+  idleExpires: bigint("idle_expires", { mode: "number" }).notNull(),
+  userId: varchar("user_id", { length: 15 })
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  expires: timestamp("expires", { mode: "date" }).notNull(),
+    .references(() => user.id),
 })
 
-export const verificationTokens = pgTable(
-  "verificationToken",
-  {
-    identifier: text("identifier").notNull(),
-    token: text("token").notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  },
-  (vt) => ({
-    compoundKey: primaryKey(vt.identifier, vt.token),
-  })
-)
+export const key = pgTable("key", {
+  id: varchar("id", { length: 255 }).primaryKey(),
+  hashedPassword: varchar("hashed_password", { length: 255 }),
+  userId: varchar("user_id", { length: 15 })
+    .notNull()
+    .references(() => user.id),
+})
