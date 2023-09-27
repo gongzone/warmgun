@@ -3,7 +3,6 @@ import "../styles/globals.css"
 import type { Metadata } from "next"
 
 import { fonts } from "@/lib/fonts"
-import { Shell } from "@/components/shell"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +17,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${fonts.pretendard.variable} ${fonts.tenada.variable}`}>
-        <Shell>{children}</Shell>
+        {children}
       </body>
     </html>
   )

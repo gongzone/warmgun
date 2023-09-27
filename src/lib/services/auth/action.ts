@@ -4,7 +4,7 @@ import { redirect } from "next/navigation"
 
 import { auth, getAuthRequest } from "@/lib/auth"
 
-export async function logout() {
+export async function logoutAction() {
   const authRequest = getAuthRequest("POST")
   const session = await authRequest.validate()
 

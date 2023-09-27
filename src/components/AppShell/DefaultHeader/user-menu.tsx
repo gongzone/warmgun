@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { logout } from "@/lib/query-action/auth/action"
+import { logoutAction } from "@/lib/services/auth/action"
 import { Avatar } from "@/components/@ui/avatar"
 import { buttonVariants } from "@/components/@ui/button"
 import {
@@ -62,7 +62,7 @@ export const UserMenu = ({ name, image }: UserMenuProps) => {
 
         <DropdownMenuSeparator />
 
-        <form className="h-full w-full" action={logout}>
+        <form className="h-full w-full" action={logoutAction}>
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
               <button className="h-full w-full" type="submit">

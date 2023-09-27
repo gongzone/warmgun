@@ -30,12 +30,6 @@ const HomeHero = () => {
       <div className="relative mx-auto h-full w-full">
         <HeroGradient />
         <ArticleShowcase articles={articles} />
-        {/* <HeroGradient />
-		{#if articles.length > 0}
-			<ArticleShowcase {articles} />
-		{:else}
-			<NoDataCard />
-		{/if} */}
       </div>
     </div>
   )

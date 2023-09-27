@@ -1,8 +1,11 @@
 import { db } from "@/db"
 import { draft } from "@/db/schema"
 
-function createDraft(userId: string) {
-  return db.insert(draft).values({
-    authorId: userId,
-  })
+export const createDraft = async (userId: string) => {
+  return await db
+    .insert(draft)
+    .values({
+      authorId: userId,
+    })
+    .returning()
 }

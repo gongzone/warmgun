@@ -1,23 +1,22 @@
 import { redirect } from "next/navigation"
-import { NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
+import { createDraft } from "@/db/access/draft/command"
 
-import { authOptions } from "@/lib/auth"
+import { getServerSession } from "@/lib/auth"
+import { fetchDrafts } from "@/lib/services/draft/fetch"
 
-export async function GET(request: Request) {
-  const session = await getServerSession(authOptions)
-
-  console.log(session)
+export async function GET() {
+  const session = await getServerSession()
 
   if (!session || !session.user) {
-    redirect("/")
+    return // TODO: Add 401 error
+  }
+  const drafts = await fetchDrafts(session.user.userId)
+  let latestDraftId = drafts[0]?.id
+
+  if (!latestDraftId) {
+    const newDraft = await createDraft(session.user.userId)
+    latestDraftId = newDraft[0].id
   }
 
-  // TODO: solve authOptions type problem
-
-  // check whether user has at least one drafts
-
-  // no -> create new draft to user
-
-  // redirect to latest draft
+  redirect(`/write/${latestDraftId}?mode=create`)
 }
