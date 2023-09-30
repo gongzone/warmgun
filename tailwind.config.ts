@@ -1,3 +1,4 @@
+import tailwindTypography from "@tailwindcss/typography"
 import { withTV } from "tailwind-variants/transformer"
 import type { Config } from "tailwindcss"
 import { fontFamily } from "tailwindcss/defaultTheme"
@@ -99,9 +100,23 @@ const config: Config = withTV({
       borderRadius: {
         DEFAULT: "var(--radius)",
       },
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
   },
-  plugins: [tailwindAnimate],
+  plugins: [tailwindTypography, tailwindAnimate],
 })
 
 export default config

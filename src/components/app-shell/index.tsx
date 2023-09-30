@@ -1,6 +1,6 @@
 import React from "react"
 
-import { DefaultHeader } from "./DefaultHeader"
+import { DefaultHeader } from "./default-header"
 
 type AppShellProps = {
   header?: "default" | "none" | React.ReactNode
