@@ -40,6 +40,7 @@ const buttonVariants = tv(
           "bg-background text-danger-700 border border-danger hover:bg-danger hover:text-danger-foreground",
       },
       size: {
+        xs: "text-sm h-8 px-2",
         sm: "text-sm h-9 px-3",
         md: "text-base h-10 px-4",
         lg: "text-base h-12 px-6",
@@ -62,6 +63,12 @@ const buttonVariants = tv(
       },
     },
     compoundVariants: [
+      {
+        size: "xs",
+        onlyIcon: true,
+        fullWidth: false,
+        className: "w-8 min-w-8",
+      },
       {
         size: "sm",
         onlyIcon: true,

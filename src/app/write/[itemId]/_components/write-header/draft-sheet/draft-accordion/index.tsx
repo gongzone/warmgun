@@ -8,6 +8,8 @@ import {
 import { Icons } from "@/components/@ui/icons"
 import { Text } from "@/components/@ui/text"
 
+import { DraftListItem } from "./draft-list-item"
+
 type DraftAccoridonProps = {
   userId: string
 }
@@ -27,11 +29,8 @@ export const DraftAccorion = async ({ userId }: DraftAccoridonProps) => {
         <AccordionContent>
           <ul className="flex flex-col">
             {drafts.map((draft) => (
-              <li key={draft.id} className="px-3">
-                <div className="flex items-center gap-2">
-                  <Icons.DocumentText className="h-4 w-4" />
-                  <Text>{draft.title ?? "제목 없음"}</Text>
-                </div>
+              <li key={draft.id}>
+                <DraftListItem draft={draft} />
               </li>
             ))}
           </ul>

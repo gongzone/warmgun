@@ -16,3 +16,6 @@ export const draft = pgTable("draft", {
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
   authorId: text("author_id"),
 })
+
+export type Draft = typeof draft.$inferSelect
+export type NewDraft = typeof draft.$inferInsert

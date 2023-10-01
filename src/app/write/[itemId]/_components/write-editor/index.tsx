@@ -4,7 +4,7 @@ import { TitleTextarea } from "./title-textarea"
 
 export const WriteEditor = () => {
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       <TitleTextarea />
       <Editor />
     </div>
