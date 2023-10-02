@@ -3,12 +3,12 @@ import Link from "next/link"
 import { navs } from "@/lib/constants/navs"
 import { textVariants } from "@/components/@ui/text"
 
-const MainNav = () => {
+export const MainNav = () => {
   return (
     <nav>
       <ul className="hidden md:flex md:items-center md:gap-6">
         {navs.main.map((nav) => (
-          <li key={nav.title}>
+          <li key={nav.name}>
             <Link
               href={nav.href}
               className={textVariants({
@@ -18,7 +18,7 @@ const MainNav = () => {
                 hover: true,
               })}
             >
-              {nav.title}
+              {nav.name}
             </Link>
           </li>
         ))}
@@ -26,5 +26,3 @@ const MainNav = () => {
     </nav>
   )
 }
-
-export { MainNav }

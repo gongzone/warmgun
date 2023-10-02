@@ -12,12 +12,14 @@ type DraftListItemProps = {
 
 export const DraftListItem = ({ draft }: DraftListItemProps) => {
   return (
-    <DraftWrapper currentDraftId={draft.id}>
-      <div className="flex items-center gap-2">
-        <Icons.DocumentText className="h-4 w-4" />
-        <Text>{draft.title ?? "제목 없음"}</Text>
-      </div>
-      <DraftMenu />
-    </DraftWrapper>
+    <div className="flex items-center justify-between gap-4">
+      <DraftWrapper draftId={draft.id}>
+        <div className="flex items-center gap-2">
+          <Icons.DocumentText className="h-4 w-4" />
+          <Text>{draft.title ?? "제목 없음"}</Text>
+        </div>
+      </DraftWrapper>
+      <DraftMenu draftId={draft.id} />
+    </div>
   )
 }

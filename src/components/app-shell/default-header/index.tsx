@@ -6,6 +6,7 @@ import { Container } from "@/components/@ui/container"
 
 import { HeaderLogo } from "./header-logo"
 import { MainNav } from "./main-nav"
+import { MobileNav } from "./mobile-nav"
 import { UserMenu } from "./user-menu"
 
 const DefaultHeader = async () => {
@@ -15,17 +16,17 @@ const DefaultHeader = async () => {
     <header className="sticky top-0 z-30 w-full border-b bg-background">
       <Container
         variant="wide"
-        center={true}
+        center
         className="flex h-16 items-center justify-between"
       >
-        <section className="flex items-center gap-10">
-          <div className="space-x-2">
-            {/* TODO: HambergurSheet */}
+        <div className="flex items-center gap-10">
+          <div className="flex items-center gap-4">
+            <MobileNav />
             <HeaderLogo />
           </div>
           <MainNav />
-        </section>
-        <section>
+        </div>
+        <div>
           {session?.user ? (
             <UserMenu
               name={session.user.username}
@@ -36,7 +37,7 @@ const DefaultHeader = async () => {
               로그인
             </Link>
           )}
-        </section>
+        </div>
       </Container>
     </header>
   )

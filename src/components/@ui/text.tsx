@@ -4,12 +4,15 @@ import { tv, type VariantProps } from "tailwind-variants"
 
 const textVariants = tv(
   {
+    base: "transition-colors",
     variants: {
       family: {
         default: "font-sans",
         heading: "font-heading",
       },
       color: {
+        inherit: "text-inherit",
+        current: "text-current",
         default: "text-foreground",
         light: "text-foreground-light",
         invert: "text-background",
@@ -69,7 +72,7 @@ const textVariants = tv(
         keep: "break-keep",
       },
       hover: {
-        true: "transition-colors cursor-pointer",
+        true: "cursor-pointer",
       },
     },
     compoundVariants: [
@@ -89,7 +92,7 @@ const textVariants = tv(
     },
   },
   {
-    responsiveVariants: ["sm", "md", "lg", "xl", "2xl"],
+    responsiveVariants: true,
   }
 )
 
@@ -140,6 +143,7 @@ const Text = React.forwardRef<TextElement, TextProps>(
       clamp,
       breaking,
       hover,
+      hidden,
       ...props
     },
     forwardedRef

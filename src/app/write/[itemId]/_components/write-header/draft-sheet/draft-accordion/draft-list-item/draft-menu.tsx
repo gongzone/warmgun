@@ -1,3 +1,8 @@
+"use client"
+
+import { useParams } from "next/navigation"
+
+import { deleteDraftAction } from "@/lib/services/draft/action"
 import { Button } from "@/components/@ui/button"
 import {
   DropdownMenu,
@@ -16,7 +21,14 @@ import {
 import { Icons } from "@/components/@ui/icons"
 import { Text } from "@/components/@ui/text"
 
-export const DraftMenu = () => {
+type DraftMenuProps = {
+  draftId: number
+}
+
+export const DraftMenu = ({ draftId }: DraftMenuProps) => {
+  const currentDraftId = Number(useParams().itemId)
+  const action = deleteDraftAction.bind(null, { currentDraftId, draftId })
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,12 +37,16 @@ export const DraftMenu = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-32">
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Icons.Trash className="mr-2 h-4 w-4" />
-            <Text>삭제하기</Text>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+        <form action={action}>
+          <DropdownMenuGroup>
+            <DropdownMenuItem asChild>
+              <button className="flex h-full w-full items-center" type="submit">
+                <Icons.Trash className="mr-2 h-4 w-4" />
+                <Text>삭제하기</Text>
+              </button>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -5,7 +5,7 @@ import * as SeparatorPrimitive from "@radix-ui/react-separator"
 
 import { cn } from "@/lib/utils"
 
-export const Divider = React.forwardRef<
+export const Separator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
 >(
@@ -18,7 +18,7 @@ export const Divider = React.forwardRef<
       decorative={decorative}
       orientation={orientation}
       className={cn(
-        "bg-border shrink-0",
+        "shrink-0 bg-border",
         orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
         className
       )}
@@ -26,4 +26,4 @@ export const Divider = React.forwardRef<
     />
   )
 )
-Divider.displayName = SeparatorPrimitive.Root.displayName
+Separator.displayName = SeparatorPrimitive.Root.displayName

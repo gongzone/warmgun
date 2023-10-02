@@ -3,16 +3,19 @@ import Link from "next/link"
 import { site } from "@/lib/constants/site"
 import { Icons } from "@/components/@ui/icons"
 import { Text } from "@/components/@ui/text"
+import { TextWithIcon } from "@/components/@ui/text-with-icon"
 
-const HeaderLogo = () => {
+export const HeaderLogo = () => {
   return (
-    <Link href="/" className="flex items-center gap-1">
-      <Icons.Logo className="h-5 w-5" />
-      <Text as="span" size="lg" weight={600}>
-        {site.title}
-      </Text>
+    <Link href="/">
+      <TextWithIcon
+        icon={<Icons.Logo className="h-7 w-7" />}
+        text={
+          <Text as="span" size="lg" weight={600} className="hidden md:inline">
+            {site.title}
+          </Text>
+        }
+      />
     </Link>
   )
 }
-
-export { HeaderLogo }

@@ -12,13 +12,16 @@ export const AppShell = ({
   header = "default",
   ...props
 }: AppShellProps) => {
+  const HeaderComp =
+    header === "default" ? (
+      <DefaultHeader />
+    ) : header === "none" ? undefined : (
+      header
+    )
+
   return (
     <>
-      {header === "default" ? (
-        <DefaultHeader />
-      ) : header === "none" ? undefined : (
-        header
-      )}
+      {HeaderComp}
       <main className={className} {...props}>
         {children}
       </main>

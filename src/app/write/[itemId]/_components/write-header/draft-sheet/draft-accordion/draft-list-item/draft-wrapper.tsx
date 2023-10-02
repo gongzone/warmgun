@@ -1,29 +1,28 @@
 "use client"
 
 import React from "react"
+import Link from "next/link"
 import { useParams } from "next/navigation"
 
 import { cn } from "@/lib/utils"
 
 type DraftWrapperProps = {
   children: React.ReactNode
-  currentDraftId: number
+  draftId: number
 }
 
-export const DraftWrapper = ({
-  children,
-  currentDraftId,
-}: DraftWrapperProps) => {
-  const draftId = Number(useParams().itemId)
+export const DraftWrapper = ({ children, draftId }: DraftWrapperProps) => {
+  const currentDraftId = Number(useParams().itemId)
 
   return (
-    <div
+    <Link
+      href={`/write/${draftId}?mode=create`}
       className={cn(
-        "flex h-full w-full cursor-pointer items-center justify-between px-3 py-1 transition-colors hover:bg-accent",
+        "flex h-full w-full items-center justify-between px-3 py-1.5 transition-colors hover:bg-accent",
         draftId === currentDraftId && "bg-accent"
       )}
     >
       {children}
-    </div>
+    </Link>
   )
 }
