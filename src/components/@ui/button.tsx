@@ -102,7 +102,7 @@ const buttonVariants = tv(
 )
 
 type ButtonElement = React.ElementRef<"button">
-interface ButtonProps
+export interface ButtonProps
   extends React.ComponentPropsWithoutRef<"button">,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean

@@ -13,9 +13,6 @@ import {
   SheetTrigger,
 } from "@/components/@ui/sheet"
 
-import { CreateDraftForm } from "./create-draft-form"
-import { DraftAccorion } from "./draft-accordion"
-
 export const DraftSheet = async () => {
   const session = await getServerSession()
 
@@ -37,9 +34,10 @@ export const DraftSheet = async () => {
             쓰고있는 글들을 임시 저장하고 관리하세요.
           </SheetDescription>
         </SheetHeader>
-        <DraftAccorion userId={session.user.userId} />
+        {/* <DraftAccorion userId={session.user.userId} /> */}
         <SheetFooter className="mt-8">
-          <CreateDraftForm />
+          {/* <CreateDraftForm /> */}
+          <form></form>
         </SheetFooter>
       </SheetContent>
     </Sheet>

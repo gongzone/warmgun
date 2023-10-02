@@ -11,8 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/@ui/card"
-import { Divider } from "@/components/@ui/divider"
 import { Icons } from "@/components/@ui/icons"
+import { Separator } from "@/components/@ui/separator"
 import { Text } from "@/components/@ui/text"
 
 import { OauthButton } from "./_components/oauth-button"
@@ -45,7 +45,7 @@ export default async function LoginPage() {
           </ul>
         </CardBody>
         <div className="my-6 px-6">
-          <Divider />
+          <Separator />
         </div>
         <CardFooter className="justify-center">
           <Link

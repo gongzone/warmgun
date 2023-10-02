@@ -2,6 +2,16 @@ import { db } from "@/db"
 import { draft } from "@/db/schema/draft"
 import { sql } from "drizzle-orm"
 
+export const findOneDraft = async (draftId: number) => {
+  const prepared = db
+    .select()
+    .from(draft)
+    .where(sql`${draft.id} = ${sql.placeholder("draftId")}`)
+    .prepare("find_one_draft")
+
+  return (await prepared.execute({ draftId }))[0]
+}
+
 export const findDrafts = async (userId: string) => {
   const prepared = db.query.draft
     .findMany({

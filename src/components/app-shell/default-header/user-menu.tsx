@@ -2,23 +2,19 @@ import Link from "next/link"
 
 import { logoutAction } from "@/lib/services/auth/action"
 import { Avatar } from "@/components/@ui/avatar"
-import { buttonVariants } from "@/components/@ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/@ui/dropdown-menu"
 import { Icons } from "@/components/@ui/icons"
+import { SubmitButton } from "@/components/@ui/submit-button"
 import { Text } from "@/components/@ui/text"
+import { TextWithIcon } from "@/components/@ui/text-with-icon"
 
 interface UserMenuProps {
   name: string
@@ -31,12 +27,9 @@ export const UserMenu = ({ name, image }: UserMenuProps) => {
       <DropdownMenuTrigger className="cursor-pointer" asChild>
         <Avatar src={image} border />
       </DropdownMenuTrigger>
-
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>{name}</DropdownMenuLabel>
-
         <DropdownMenuSeparator />
-
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link href={`/@${name}`}>
@@ -59,19 +52,23 @@ export const UserMenu = ({ name, image }: UserMenuProps) => {
             <Text>설정</Text>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-
         <DropdownMenuSeparator />
-
-        <form className="h-full w-full" action={logoutAction}>
-          <DropdownMenuGroup>
+        <DropdownMenuGroup>
+          <form action={logoutAction}>
             <DropdownMenuItem asChild>
-              <button className="h-full w-full" type="submit">
-                <Icons.LogoutIcon className="mr-2 h-4 w-4" />
-                <Text>로그아웃</Text>
-              </button>
+              <SubmitButton
+                uiButton={false}
+                className="h-full w-full"
+                type="submit"
+              >
+                <TextWithIcon
+                  icon={<Icons.LogoutIcon className="h-4 w-4" />}
+                  text={<Text>로그아웃</Text>}
+                />
+              </SubmitButton>
             </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </form>
+          </form>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   )

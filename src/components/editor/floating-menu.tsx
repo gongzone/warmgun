@@ -1,16 +1,24 @@
 import { useRef } from "react"
-import { FloatingMenu as TiptapFloatingMenu, type Editor } from "@tiptap/react"
+import {
+  FloatingMenu as TiptapFloatingMenu,
+  useCurrentEditor,
+  type Editor,
+} from "@tiptap/react"
 
 import { HiddenFileInput } from "@/components/@ui/hidden-file-input"
 import { Icons, type IconType } from "@/components/@ui/icons"
 import { Toggle } from "@/components/@ui/toggle"
 
 type FloatingMenuProps = {
-  editor: Editor
+  editor: Editor | null
 }
 
 export const FloatingMenu = ({ editor }: FloatingMenuProps) => {
   const fileRef = useRef<HTMLInputElement>(null)
+
+  if (!editor) {
+    return null
+  }
 
   const floatingMenus = [
     {

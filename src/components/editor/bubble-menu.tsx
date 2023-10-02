@@ -5,10 +5,14 @@ import { Icons, type IconType } from "@/components/@ui/icons"
 import { Toggle } from "@/components/@ui/toggle"
 
 type BubbleMenuProps = {
-  editor: Editor
+  editor: Editor | null
 }
 
 export const BubbleMenu = ({ editor }: BubbleMenuProps) => {
+  if (!editor) {
+    return null
+  }
+
   const bubbleMenus = [
     {
       name: "headingOne",
