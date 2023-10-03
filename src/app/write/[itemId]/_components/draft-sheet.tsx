@@ -12,6 +12,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/@ui/sheet"
+import { SubmitButton } from "@/components/@ui/submit-button"
+
+import { DraftAccordion } from "./draft-accordion"
 
 export const DraftSheet = async () => {
   const session = await getServerSession()
@@ -34,10 +37,13 @@ export const DraftSheet = async () => {
             쓰고있는 글들을 임시 저장하고 관리하세요.
           </SheetDescription>
         </SheetHeader>
-        {/* <DraftAccorion userId={session.user.userId} /> */}
+        <DraftAccordion userId={session.user.userId} />
         <SheetFooter className="mt-8">
-          {/* <CreateDraftForm /> */}
-          <form></form>
+          <form action={createDraftAction}>
+            <SubmitButton variant="base" type="submit">
+              새 초고 만들기
+            </SubmitButton>
+          </form>
         </SheetFooter>
       </SheetContent>
     </Sheet>

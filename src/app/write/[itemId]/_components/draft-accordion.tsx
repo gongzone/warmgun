@@ -14,7 +14,7 @@ type DraftAccoridonProps = {
   userId: string
 }
 
-export const DraftAccorion = async ({ userId }: DraftAccoridonProps) => {
+export const DraftAccordion = async ({ userId }: DraftAccoridonProps) => {
   const drafts = await fetchDrafts(userId)
 
   return (

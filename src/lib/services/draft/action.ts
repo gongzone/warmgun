@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { permanentRedirect, redirect } from "next/navigation"
+import { redirect } from "next/navigation"
 import { createDraft, deleteDraft } from "@/db/access/draft/command"
 import { findDraftsCount, findOneLatestDraft } from "@/db/access/draft/query"
 
@@ -20,11 +20,11 @@ export async function createDraftAction() {
 }
 
 export async function deleteDraftAction({
-  currentDraftId,
   draftId,
+  pageDraftId,
 }: {
-  currentDraftId: number
   draftId: number
+  pageDraftId: number
 }) {
   const session = await getServerSession("POST")
 
@@ -42,7 +42,7 @@ export async function deleteDraftAction({
 
   revalidatePath(`/write/[itemId]/@create`, "page")
 
-  if (currentDraftId === draftId) {
+  if (pageDraftId === draftId) {
     const latestDraftId = (await findOneLatestDraft(session.user.userId)).id
     redirect(`/write/${latestDraftId}?mode=create`)
   }

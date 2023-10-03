@@ -6,11 +6,11 @@ import { experimental_useFormStatus as useFormStatus } from "react-dom"
 import { Button, type ButtonProps } from "./button"
 
 type SubmitUIButtonProps = {
-  uiButton: true
+  uiButton?: true
 } & ButtonProps
 
 type SubmitNomalButtonProps = {
-  uiButton: false
+  uiButton?: false
 } & React.ComponentPropsWithoutRef<"button">
 
 type SubmitButtonProps = SubmitUIButtonProps | SubmitNomalButtonProps

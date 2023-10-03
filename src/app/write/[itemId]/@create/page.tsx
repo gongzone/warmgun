@@ -13,8 +13,8 @@ type CreateDraftPageProps = {
 export default async function CreateDraftPage({
   params,
 }: CreateDraftPageProps) {
-  const draftId = Number(params.itemId)
-  const draft = await fetchOneDraft(draftId)
+  const pageDraftId = Number(params.itemId)
+  const draft = await fetchOneDraft(pageDraftId)
 
   return (
     <EditorProvider body={draft.body}>

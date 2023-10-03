@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Button, buttonVariants } from "@/components/@ui/button"
 import { Icons } from "@/components/@ui/icons"
 
-import { DraftSheet } from "./write-header/draft-sheet"
+import { DraftSheet } from "./draft-sheet"
 
 type WriteHeaderProps = {
   mode: "create" | "edit"
