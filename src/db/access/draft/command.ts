@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { draft } from "@/db/schema"
+import { draft, type NewDraft } from "@/db/schema"
 import { sql } from "drizzle-orm"
 
 export const createDraft = async (userId: string) => {
@@ -9,6 +9,16 @@ export const createDraft = async (userId: string) => {
       authorId: userId,
     })
     .returning()
+}
+
+export const updateDraft = async (draftId: number, data: NewDraft) => {
+  return (
+    await db
+      .update(draft)
+      .set(data)
+      .where(sql`${draft.id} = ${draftId}`)
+      .returning()
+  )[0]
 }
 
 export const deleteDraft = async (draftId: number) => {

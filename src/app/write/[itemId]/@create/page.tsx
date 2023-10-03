@@ -3,7 +3,10 @@ import { Container } from "@/components/@ui/container"
 import { AppShell } from "@/components/app-shell"
 import { Editor, EditorProvider } from "@/components/editor"
 
-import { TitleTextarea } from "../_components/title-textarea"
+import {
+  TitleTextarea,
+  TitleTextareaProvider,
+} from "../_components/title-textarea"
 import { WriteHeader } from "../_components/write-header"
 
 type CreateDraftPageProps = {
@@ -18,12 +21,14 @@ export default async function CreateDraftPage({
 
   return (
     <EditorProvider body={draft.body}>
-      <AppShell header={<WriteHeader mode="create" />}>
-        <Container variant="prose" className="my-10 space-y-4">
-          <TitleTextarea title={draft.title} />
-          <Editor />
-        </Container>
-      </AppShell>
+      <TitleTextareaProvider>
+        <AppShell header={<WriteHeader mode="create" />}>
+          <Container variant="prose" className="my-10 space-y-4">
+            <TitleTextarea title={draft.title} />
+            <Editor />
+          </Container>
+        </AppShell>
+      </TitleTextareaProvider>
     </EditorProvider>
   )
 }

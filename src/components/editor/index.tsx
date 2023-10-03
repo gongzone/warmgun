@@ -30,7 +30,7 @@ export const EditorConsumer = EditorContext.Consumer
 
 export const useCurrentEditor = () => useContext(EditorContext)
 
-type EditorProviderProps = {
+export type EditorProviderProps = {
   children: React.ReactNode
   body?: unknown
 }

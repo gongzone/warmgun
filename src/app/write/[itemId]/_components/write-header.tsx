@@ -4,6 +4,7 @@ import { Button, buttonVariants } from "@/components/@ui/button"
 import { Icons } from "@/components/@ui/icons"
 
 import { DraftSheet } from "./draft-sheet"
+import { SaveDraftForm } from "./save-draft-form"
 
 type WriteHeaderProps = {
   mode: "create" | "edit"
@@ -19,7 +20,7 @@ export const WriteHeader = ({ mode }: WriteHeaderProps) => {
         <DraftSheet />
       </div>
       <div className="flex items-center gap-3">
-        <Button radius="full">저장</Button>
+        <SaveDraftForm />
         <Button radius="full">글 등록</Button>
       </div>
     </header>

@@ -5,6 +5,7 @@ import type { Metadata } from "next"
 
 import { site } from "@/lib/constants/site"
 import { fonts } from "@/lib/fonts"
+import { Toaster } from "@/components/@ui/toaster"
 
 export const metadata: Metadata = {
   title: site.title,
@@ -20,6 +21,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html lang="ko">
       <body className={`${fonts.pretendard.variable} ${fonts.tenada.variable}`}>
         {children}
+        <Toaster />
       </body>
     </html>
   )
