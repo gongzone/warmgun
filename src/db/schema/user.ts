@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm"
 import {
   bigint,
   integer,
@@ -9,6 +10,12 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 
+import { article } from "./article"
+import { articleComment } from "./article-comment"
+import { articleLike } from "./article-like"
+import { draft } from "./draft"
+import { userFollow } from "./user-follow"
+
 export const roleEnum = pgEnum("role", ["USER", "ADMIN"])
 
 export const user = pgTable("user", {
@@ -16,10 +23,19 @@ export const user = pgTable("user", {
   username: text("username").notNull(),
   email: text("email"),
   avatar: text("avatar"),
-  role: roleEnum("role").notNull().default("USER"),
+  role: roleEnum("role").default("USER").notNull(),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
 })
+
+export const usersRelations = relations(user, ({ many }) => ({
+  drafts: many(draft),
+  articles: many(article),
+  articleLikes: many(articleLike),
+  articleComments: many(articleComment),
+  followers: many(userFollow, { relationName: "follower" }),
+  followees: many(userFollow, { relationName: "followee" }),
+}))
 
 export const session = pgTable("session", {
   id: varchar("id", { length: 128 }).primaryKey(),

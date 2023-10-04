@@ -2,40 +2,28 @@
 
 import "highlight.js/styles/stackoverflow-dark.css"
 
-import React, { createContext, useContext } from "react"
+import React from "react"
+import { type Editor as TiptapEditor } from "@tiptap/core"
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight"
 import Image from "@tiptap/extension-image"
 import Link from "@tiptap/extension-link"
 import Underline from "@tiptap/extension-underline"
-import {
-  EditorContent,
-  useEditor,
-  type Editor as TiptapEditor,
-} from "@tiptap/react"
+import { EditorContent, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
+import { atom, useSetAtom } from "jotai"
 import { common, createLowlight } from "lowlight"
 
 import { BubbleMenu } from "./bubble-menu"
 import { FloatingMenu } from "./floating-menu"
 
-export type EditorContextValue = {
-  editor: TiptapEditor | null
-}
+export const editorAtom = atom<TiptapEditor | null>(null)
 
-export const EditorContext = createContext<EditorContextValue>({
-  editor: null,
-})
-
-export const EditorConsumer = EditorContext.Consumer
-
-export const useCurrentEditor = () => useContext(EditorContext)
-
-export type EditorProviderProps = {
-  children: React.ReactNode
+type EditorProps = {
   body?: unknown
 }
 
-export const EditorProvider = ({ children, body }: EditorProviderProps) => {
+export const Editor = ({ body }: EditorProps) => {
+  const setEditor = useSetAtom(editorAtom)
   const editor = useEditor({
     content: body ?? ``,
     extensions: [
@@ -65,6 +53,9 @@ export const EditorProvider = ({ children, body }: EditorProviderProps) => {
       },
     },
     autofocus: true,
+    onCreate: ({ editor }) => {
+      setEditor(editor)
+    },
   })
 
   if (!editor) {
@@ -72,24 +63,10 @@ export const EditorProvider = ({ children, body }: EditorProviderProps) => {
   }
 
   return (
-    <EditorContext.Provider value={{ editor }}>
-      {children}
-    </EditorContext.Provider>
-  )
-}
-
-export const Editor = () => {
-  return (
     <>
-      <EditorConsumer>
-        {({ editor: currentEditor }) => (
-          <>
-            <EditorContent editor={currentEditor} />
-            <BubbleMenu editor={currentEditor} />
-            <FloatingMenu editor={currentEditor} />
-          </>
-        )}
-      </EditorConsumer>
+      <EditorContent editor={editor} />
+      <BubbleMenu editor={editor} />
+      <FloatingMenu editor={editor} />
     </>
   )
 }
