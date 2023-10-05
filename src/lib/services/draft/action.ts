@@ -10,12 +10,16 @@ import {
 import { findDraftsCount, findOneLatestDraft } from "@/db/access/draft/query"
 
 import { getServerSession } from "@/lib/auth"
+import { actionMessage } from "@/lib/form-action"
 
 export async function createDraftAction() {
   const session = await getServerSession("POST")
 
   if (!session?.user) {
-    return // TODO: send 401 error or redirect login page
+    return actionMessage(
+      "UNAUTHORIZED",
+      "사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요."
+    )
   }
 
   const newDraft = await createDraft(session.user.userId)
@@ -29,7 +33,7 @@ export async function saveDraftAction({
   body,
 }: {
   draftId: number
-  title: string | undefined
+  title: string | null
   body: unknown
 }) {
   const session = await getServerSession("POST")
@@ -38,7 +42,7 @@ export async function saveDraftAction({
     return // TODO: send 401 error or redirect login page
   }
 
-  console.log(title, body)
+  console.log("서버!", title, body)
 
   await updateDraft(draftId, { title, body })
 

@@ -33,7 +33,6 @@ export const DraftListItem = ({ draft }: DraftListItemProps) => {
           gap={2}
         />
       </Link>
-
       <DraftListItemMenu draftId={draft.id} pageDraftId={pageDraftId} />
     </div>
   )

@@ -5,41 +5,26 @@ import { useParams } from "next/navigation"
 import { experimental_useFormState as useFormState } from "react-dom"
 
 import { saveDraftAction } from "@/lib/services/draft/action"
+import { useStore } from "@/lib/store"
 import { SubmitButton } from "@/components/@ui/submit-button"
 import { useToast } from "@/components/@ui/use-toast"
-import { useCurrentEditor } from "@/components/editor"
-
-import { useTitleTextarea } from "./title-textarea"
 
 export const SaveDraftForm = () => {
   const pageDraftId = Number(useParams().itemId)
-  const { editor } = useCurrentEditor()
-  const { titleTextarea } = useTitleTextarea()
-  const [state, formAction] = useFormState(
-    saveDraftAction.bind(null, {
-      draftId: pageDraftId,
-      title: titleTextarea?.current?.value,
-      body: editor?.getJSON(),
-    }),
-    { isSuccess: false, message: null }
-  )
-  const { toast } = useToast()
+  const title = useStore((state) => state.title)
+  const body = useStore((state) => state.body)
+
+  const formAction = saveDraftAction.bind(null, {
+    draftId: pageDraftId,
+    title,
+    body,
+  })
+
+  // const { toast } = useToast()
 
   return (
     <form action={formAction}>
-      <SubmitButton
-        radius="full"
-        afterAction={() => {
-          if (state.isSuccess) {
-            toast({
-              title: "Warmgun 글쓰기",
-              description: state.message,
-            })
-          }
-        }}
-      >
-        저장
-      </SubmitButton>
+      <SubmitButton radius="full">저장</SubmitButton>
     </form>
   )
 }

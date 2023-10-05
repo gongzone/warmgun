@@ -1,10 +1,8 @@
 import { getServerSession } from "@/lib/auth"
-import { createDraftAction } from "@/lib/services/draft/action"
 import { Button } from "@/components/@ui/button"
 import { Icons } from "@/components/@ui/icons"
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -12,8 +10,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/@ui/sheet"
-import { SubmitButton } from "@/components/@ui/submit-button"
 
+import { CreateDraftForm } from "./create-draft-form"
 import { DraftAccordion } from "./draft-accordion"
 
 export const DraftSheet = async () => {
@@ -39,11 +37,7 @@ export const DraftSheet = async () => {
         </SheetHeader>
         <DraftAccordion userId={session.user.userId} />
         <SheetFooter className="mt-8">
-          <form action={createDraftAction}>
-            <SubmitButton variant="base" type="submit">
-              새 초고 만들기
-            </SubmitButton>
-          </form>
+          <CreateDraftForm />
         </SheetFooter>
       </SheetContent>
     </Sheet>
