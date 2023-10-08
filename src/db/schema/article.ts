@@ -17,7 +17,7 @@ export const article = pgTable("article", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   body: jsonb("body").notNull(),
-  excerpt: text("title").notNull(),
+  excerpt: text("excerpt").notNull(),
   thumbnail: text("thumbnail"),
   slug: text("slug").unique().notNull(),
   readingTime: integer("reading_time").default(0).notNull(),

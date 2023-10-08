@@ -7,7 +7,7 @@ import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight"
 import Image from "@tiptap/extension-image"
 import Link from "@tiptap/extension-link"
 import Underline from "@tiptap/extension-underline"
-import { EditorContent, useEditor } from "@tiptap/react"
+import { EditorContent, EditorOptions, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import { common, createLowlight } from "lowlight"
 
@@ -16,10 +16,9 @@ import { FloatingMenu } from "./floating-menu"
 
 type EditorProps = {
   body?: unknown
-  setBody?: (body: unknown) => void
-}
+} & Partial<Pick<EditorOptions, "onCreate" | "onUpdate">>
 
-export const Editor = ({ body, setBody }: EditorProps) => {
+export const Editor = ({ body, ...props }: EditorProps) => {
   const editor = useEditor({
     content: body ?? ``,
     extensions: [
@@ -49,16 +48,7 @@ export const Editor = ({ body, setBody }: EditorProps) => {
       },
     },
     autofocus: true,
-    onCreate: (editor) => {
-      if (setBody) {
-        setBody(editor.editor.getJSON())
-      }
-    },
-    onUpdate: (editor) => {
-      if (setBody) {
-        setBody(editor.editor.getJSON())
-      }
-    },
+    ...props,
   })
 
   if (!editor) {

@@ -23,7 +23,8 @@ export const articleCommentRelations = relations(
     parent: one(articleComment, {
       fields: [articleComment.parentId],
       references: [articleComment.id],
+      relationName: "children",
     }),
-    children: many(articleComment),
+    children: many(articleComment, { relationName: "children" }),
   })
 )

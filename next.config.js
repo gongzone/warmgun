@@ -13,6 +13,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "pravatar.cc",
       },
+      {
+        protocol: "https",
+        hostname: "d3tjehezuc3qys.cloudfront.net",
+        port: "",
+        pathname: "/upload/**",
+      },
     ],
   },
 }

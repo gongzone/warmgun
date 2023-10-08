@@ -5,14 +5,15 @@ import { useParams } from "next/navigation"
 import { experimental_useFormState as useFormState } from "react-dom"
 
 import { saveDraftAction } from "@/lib/services/draft/action"
-import { useStore } from "@/lib/store"
 import { SubmitButton } from "@/components/@ui/submit-button"
 import { useToast } from "@/components/@ui/use-toast"
 
+import { useWriteContext } from "../_lib/store"
+
 export const SaveDraftForm = () => {
   const pageDraftId = Number(useParams().itemId)
-  const title = useStore((state) => state.title)
-  const body = useStore((state) => state.body)
+  const title = useWriteContext((state) => state.title)
+  const body = useWriteContext((state) => state.body)
 
   const formAction = saveDraftAction.bind(null, {
     draftId: pageDraftId,

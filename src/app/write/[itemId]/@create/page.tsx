@@ -4,6 +4,7 @@ import { AppShell } from "@/components/app-shell"
 
 import { WriteEditor } from "../_components/write-editor"
 import { WriteHeader } from "../_components/write-header"
+import { WriteProvider } from "../_lib/store"
 
 type CreateDraftPageProps = {
   params: { itemId: string }
@@ -16,10 +17,12 @@ export default async function CreateDraftPage({
   const draft = await fetchOneDraft(pageDraftId)
 
   return (
-    <AppShell header={<WriteHeader mode="create" />}>
-      <Container variant="prose" className="my-10">
-        <WriteEditor title={draft.title} body={draft.body} />
-      </Container>
-    </AppShell>
+    <WriteProvider title={draft.title} body={draft.body}>
+      <AppShell header={<WriteHeader mode="create" />}>
+        <Container variant="prose" className="my-10">
+          <WriteEditor />
+        </Container>
+      </AppShell>
+    </WriteProvider>
   )
 }

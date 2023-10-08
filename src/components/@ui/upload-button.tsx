@@ -1,12 +1,13 @@
 "use client"
 
 import React, { useRef, useTransition } from "react"
+import { Loader2 } from "lucide-react"
 
 import { Button, type ButtonProps } from "./button"
 import { uploadImageAction } from "./upload-button-action"
 
 type UploadButtonProps = {
-  afterUploadImage: (image: string) => void
+  afterUploadImage?: (image: string) => void
 } & ButtonProps
 
 export const UploadButton = React.forwardRef<
@@ -37,9 +38,11 @@ export const UploadButton = React.forwardRef<
         body: formData,
       })
 
-      afterUploadImage(
-        `${process.env.NEXT_PUBLIC_CDN_DOMAIN}/${presignedData.fields["key"]}`
-      )
+      if (afterUploadImage) {
+        afterUploadImage(
+          `${process.env.NEXT_PUBLIC_CDN_DOMAIN}/${presignedData.fields["key"]}`
+        )
+      }
     })
   }
 
@@ -57,6 +60,7 @@ export const UploadButton = React.forwardRef<
         aria-disabled={isPending}
         {...props}
       >
+        {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
         {children}
       </Button>
       <div className="h-0 w-0 overflow-hidden">

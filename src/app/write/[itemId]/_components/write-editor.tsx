@@ -1,22 +1,31 @@
 "use client"
 
-import { useStore } from "@/lib/store"
 import { Editor } from "@/components/editor/editor"
 import { TitleTextarea } from "@/components/editor/title-textarea"
 
-type WriteEditorProps = {
-  title: string | null
-  body: unknown
-}
+import { useWriteContext } from "../_lib/store"
 
-export const WriteEditor = ({ title, body }: WriteEditorProps) => {
-  const updateTitle = useStore((state) => state.updateTitle)
-  const updateBody = useStore((state) => state.updateBody)
+export const WriteEditor = () => {
+  const title = useWriteContext((state) => state.title)
+  const body = useWriteContext((state) => state.body)
+  const updateTitle = useWriteContext((state) => state.updateTitle)
+  const updateBody = useWriteContext((state) => state.updateBody)
+  const updateText = useWriteContext((state) => state.updateText)
 
   return (
     <div className="space-y-4">
       <TitleTextarea title={title} setTitle={(title) => updateTitle(title)} />
-      <Editor body={body} setBody={(body) => updateBody(body)} />
+      <Editor
+        body={body}
+        onCreate={({ editor }) => {
+          updateBody(editor.getJSON())
+          updateText(editor.getText({ blockSeparator: " " }))
+        }}
+        onUpdate={({ editor }) => {
+          updateBody(editor.getJSON())
+          updateText(editor.getText({ blockSeparator: " " }))
+        }}
+      />
     </div>
   )
 }
