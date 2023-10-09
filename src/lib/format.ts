@@ -1,5 +1,11 @@
 import { customAlphabet } from "nanoid"
 
+import { dateClient } from "./date"
+
+export function formatDate(date: Date) {
+  return dateClient(date).fromNow()
+}
+
 export function formatArticleSlug(title: string) {
   const nanoid = customAlphabet("1234567890abcdef", 10)
 

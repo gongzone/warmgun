@@ -5,6 +5,7 @@ const textWithIconVariants = tv({
   base: "inline-flex items-center",
   variants: {
     gap: {
+      0.5: "gap-0.5",
       1: "gap-1",
       2: "gap-2",
       3: "gap-3",
