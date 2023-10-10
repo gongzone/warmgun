@@ -1,3 +1,5 @@
+import { Button } from "@/components/@ui/button"
+
 import { ArticleShowcase } from "./article-showcase"
 import { HeroGradient } from "./hero-gradient"
 import { HeroMainWords } from "./hero-main-words"
@@ -21,14 +23,14 @@ const articles = Array.from({ length: 10 }, (_, i) => {
 
 const HomeHero = () => {
   return (
-    <div className="grid grid-cols-1 items-center gap-8 md:gap-10 lg:grid-cols-2">
-      <div className="relative z-20 mx-auto space-y-4 md:space-y-6 lg:mx-0">
+    <div className="grid grid-cols-1 items-center justify-center gap-8 md:gap-10 lg:grid-cols-2">
+      <div className="relative z-20 mx-auto  space-y-4 md:space-y-6 lg:mx-0">
         <HeroMainWords />
         <HeroSubWords />
       </div>
 
       <div className="relative mx-auto h-full w-full">
-        <HeroGradient />
+        {/* <HeroGradient /> */}
         <ArticleShowcase articles={articles} />
       </div>
     </div>

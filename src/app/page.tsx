@@ -50,23 +50,30 @@ const users = Array.from({ length: 10 }, (_, i) => {
 export default async function Home() {
   return (
     <AppShell className="">
-      <section className="border-b py-12">
+      <section className="border-b bg-[#f8f7f4] py-20">
         <Container variant="wide" center={true}>
           <HomeHero />
         </Container>
       </section>
 
-      <section className="py-12">
+      <section className="border-b py-20">
         <Container variant="wide" center={true}>
-          <div className="flex flex-col ">
-            <Text size="3xl" weight={500}>
-              트렌딩 아티클
-            </Text>
-            <Text size="md" weight={300}>
-              요즘 뜨는 글들을 만나보세요
-            </Text>
+          <div className="flex flex-col items-center">
+            <div className="mb-8 flex flex-col">
+              <Text
+                family="heading"
+                size="4xl"
+                weight={600}
+                className="text-center"
+              >
+                트렌딩 아티클
+              </Text>
+              <Text size="md" weight={300} className="text-center">
+                요즘 시대를 살아가는 어떤 이들의 이야기
+              </Text>
+            </div>
           </div>
-          <ul className="my-8 grid grid-cols-4 gap-9">
+          <ul className="grid grid-cols-4 gap-9">
             {articles.map((article) => (
               <li key={article.id}>
                 <ArticleItem article={article} />
@@ -76,18 +83,23 @@ export default async function Home() {
         </Container>
       </section>
 
-      <section className="pb-12">
+      <section className="pt-20">
         <Container variant="wide" center={true}>
-          <div className="flex flex-col">
-            <Text size="3xl" weight={500}>
+          <div className="mb-8 flex flex-col">
+            <Text
+              family="heading"
+              size="4xl"
+              weight={600}
+              className="text-center"
+            >
               베스트 블로거
             </Text>
-            <Text size="md" weight={300}>
-              멋진 이들을 만나보세요
+            <Text size="md" weight={300} className="text-center">
+              참 멋지고 다정한 친구들이군요!
             </Text>
           </div>
 
-          <ul className="mt-4 flex gap-7">
+          <ul className="flex gap-7">
             {users.map((user) => (
               <li key={user.username}>
                 <BloggerItem avatar={user.avatar} username={user.username} />
@@ -97,19 +109,24 @@ export default async function Home() {
         </Container>
       </section>
 
-      <section className="pb-12">
+      <section className="border-b py-20">
         <Container variant="wide" center={true}>
-          <div className="flex flex-col">
-            <Text size="3xl" weight={500}>
+          <div className="mb-8 flex flex-col">
+            <Text
+              family="heading"
+              size="4xl"
+              weight={600}
+              className="text-center"
+            >
               인기 태그
             </Text>
-            <Text size="md" weight={300}>
+            <Text size="md" weight={300} className="text-center">
               다양한 주제의 글들을 만나보세요
             </Text>
           </div>
 
-          <div className="mt-4">
-            <ul className="flex flex-wrap gap-2">
+          <div className="">
+            <ul className="flex flex-wrap justify-center gap-2">
               {tags.map((tag) => (
                 <li key={tag}>
                   <Button size="sm" radius="full">
@@ -123,25 +140,30 @@ export default async function Home() {
             </div>
           </div>
         </Container>
-      </section>
 
-      <section className="py-12">
-        <Container variant="wide" center={true}>
-          <div className="flex flex-col">
-            <Text size="3xl" weight={500}>
-              최신 아티클
-            </Text>
-            <Text size="md" weight={300}>
-              최신 소식을 들어보세요
-            </Text>
-          </div>
-
-          <div className="">
-            <div className="relative h-[450px]">
-              <Carousel slides={[1, 2, 3, 4, 5, 6, 7, 8]} />
+        <section className="pt-20">
+          <Container variant="wide" center={true}>
+            <div className="flex flex-col">
+              <Text
+                family="heading"
+                size="4xl"
+                weight={600}
+                className="text-center"
+              >
+                최신 아티클
+              </Text>
+              <Text size="md" weight={300} className="text-center">
+                최신 소식을 들어보세요
+              </Text>
             </div>
-          </div>
-        </Container>
+
+            <div className="">
+              <div className="relative h-[450px]">
+                <Carousel slides={[1, 2, 3, 4, 5, 6, 7, 8]} />
+              </div>
+            </div>
+          </Container>
+        </section>
       </section>
     </AppShell>
   )

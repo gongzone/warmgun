@@ -13,7 +13,7 @@ const DefaultHeader = async () => {
   const session = await getServerSession()
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b bg-background">
+    <header className="sticky top-0 z-30 w-full border-b bg-[#f8f7f4] ">
       <Container
         variant="wide"
         center

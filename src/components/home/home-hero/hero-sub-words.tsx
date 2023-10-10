@@ -2,11 +2,11 @@ import { Text } from "@/components/@ui/text"
 
 const HeroSubWords = () => {
   return (
-    <div>
-      <Text as="p" size="lg" weight={400}>
+    <div className="">
+      <Text as="p" size="lg" weight={300}>
         Bring, Discover, Share
       </Text>
-      <Text as="p" size="lg" weight={400}>
+      <Text as="p" size="lg" weight={300}>
         Ideas & Stories
       </Text>
     </div>

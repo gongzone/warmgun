@@ -11,7 +11,7 @@ const HeroMainWords = () => {
           sm: "6xl",
         }}
       >
-        당신의 개발 이야기
+        당신의 삶의 이야기
       </Text>
       <Text
         as="h2"
