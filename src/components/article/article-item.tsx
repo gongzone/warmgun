@@ -27,7 +27,7 @@ type ArticleItemProps = {
 export const ArticleItem = ({ article }: ArticleItemProps) => {
   return (
     <div>
-      <header className="flex items-center gap-2 pb-2">
+      <header className="flex items-center gap-1.5 pb-1.5">
         <Avatar src={article.user.avatar} size="sm" border={true} />
         <Text size="sm" weight={500}>
           {article.user.username}
@@ -49,10 +49,22 @@ export const ArticleItem = ({ article }: ArticleItemProps) => {
           </AspectRatio>
 
           <div className="flex flex-col gap-1 px-6">
-            <Text as="h3" size="md" weight={600} clamp={2}>
+            <Text
+              as="h3"
+              size="md"
+              weight={500}
+              clamp={2}
+              className="text-foreground/90"
+            >
               {article.title}
             </Text>
-            <Text as="p" weight={300} clamp={3} breaking="all">
+            <Text
+              as="p"
+              weight={300}
+              clamp={3}
+              breaking="all"
+              className="text-sm text-foreground/75"
+            >
               {article.excerpt}
             </Text>
           </div>
