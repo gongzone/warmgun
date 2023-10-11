@@ -12,7 +12,7 @@ import {
 import { articleComment } from "./article-comment"
 import { articleLike } from "./article-like"
 import { articleToTag } from "./article-to-tag"
-import { user } from "./user"
+import { user, type User } from "./user"
 
 export const article = pgTable("article", {
   id: serial("id").primaryKey(),

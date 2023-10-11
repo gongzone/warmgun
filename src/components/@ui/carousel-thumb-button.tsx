@@ -19,7 +19,7 @@ export const Thumb: React.FC<PropType> = (props) => {
     >
       <button
         onClick={onClick}
-        className="embla-thumbs__slide__button"
+        className="embla-thumbs__slide__button overflow-hidden rounded-lg"
         type="button"
       >
         <div className="embla-thumbs__slide__number items-center justify-center">

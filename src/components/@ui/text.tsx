@@ -84,7 +84,7 @@ const textVariants = tv(
     ],
     defaultVariants: {
       family: "default",
-      color: "default",
+      color: "inherit",
       size: "md",
       weight: 400,
       italic: false,

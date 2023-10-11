@@ -99,26 +99,26 @@ export const Carousel: React.FC<PropType> = (props) => {
   } = usePrevNextButtons(emblaMainApi)
 
   return (
-    <div className="embla rounded-md border">
+    <div className="rounded-md border bg-muted p-4">
       <div className="embla__viewport" ref={emblaMainRef}>
         <div className="embla__container ">
           {items.map(({ article, user }, index) => (
             <div className="embla__slide" key={article.id}>
-              <div className="relative h-[215px] w-full">
+              <div className="relative h-[215px] w-full overflow-hidden rounded-lg shadow-lg">
                 <div className="absolute top-1 z-10 w-full p-3"></div>
                 <AspectRatio ratio={16 / 12} className="h-[215px] w-full">
                   <Image
-                    className="object-cover"
+                    className="object-cover contrast-75"
                     src={article.thumbnail ?? ""}
                     alt={article.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </AspectRatio>
-                <div className="absolute bottom-0 w-full border-t border-t-black/50 bg-black/40 p-3 text-white/75 backdrop-blur backdrop-saturate-150">
+                <div className="absolute bottom-0 w-full border-t border-t-black/10 bg-black/40 p-3 text-white/90 backdrop-blur backdrop-saturate-150">
                   <div className="mb-1 flex items-center gap-1.5">
                     <Avatar src={user.avatar} size="xs" />
-                    <span className="text-sm text-white/75">
+                    <span className="text-sm text-white/90">
                       {user.username}
                     </span>
                   </div>
@@ -136,9 +136,9 @@ export const Carousel: React.FC<PropType> = (props) => {
         </div>
       </div>
 
-      <div className="embla-thumbs">
-        <div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
-          <div className="embla-thumbs__container">
+      <div className="mt-4">
+        <div className="overflow-hidden" ref={emblaThumbsRef}>
+          <div className="flex">
             {images?.map((image, index) => (
               <Thumb
                 onClick={() => onThumbClick(index)}

@@ -1,45 +1,80 @@
-import Image from "next/image"
+"use client"
+
+import React, { useCallback, useEffect, useState } from "react"
 import { type Article } from "@/db/schema/article"
+import { type User } from "@/db/schema/user"
+import useEmblaCarousel from "embla-carousel-react"
 
-import { fetchPickedArticles } from "@/lib/services/article/fetch"
-import { AspectRatio } from "@/components/@ui/aspect-ratio"
-import { Carousel } from "@/components/@ui/carousel"
+import { ShowcaseItem } from "./showcase-item"
+import { ShowcaseThumb } from "./showcase-thumb"
 
-export const ArticleShowcase = async () => {
-  const pickedArticles = await fetchPickedArticles()
+type ArticleShowcaseProps = {
+  articles: (Article & { author: User | null })[]
+}
 
-  return (
-    <div className="w-full">
-      <Carousel
-        images={pickedArticles.map(({ article }) => article.thumbnail!)}
-        items={pickedArticles}
-      >
-        {pickedArticles.map((article) => (
-          <div className="embla__slide" key={article.id}>
-            <ArticleShowcaseItem article={article} />
-          </div>
-        ))}
-      </Carousel>
-    </div>
+export const ArticleShowcase = ({ articles }: ArticleShowcaseProps) => {
+  const [emblaMainRef, emblaMainApi] = useEmblaCarousel({ align: "center" })
+  const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
+    containScroll: "keepSnaps",
+    dragFree: true,
+  })
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const onThumbClick = useCallback(
+    (index: number) => {
+      if (!emblaMainApi || !emblaThumbsApi) return
+      emblaMainApi.scrollTo(index)
+    },
+    [emblaMainApi, emblaThumbsApi]
   )
-}
 
-type ArticleShowcaseItemProps = {
-  article: Article & User
-}
+  const onSelect = useCallback(() => {
+    if (!emblaMainApi || !emblaThumbsApi) return
+    setSelectedIndex(emblaMainApi.selectedScrollSnap())
+    emblaThumbsApi.scrollTo(emblaMainApi.selectedScrollSnap())
+  }, [emblaMainApi, emblaThumbsApi, setSelectedIndex])
 
-const ArticleShowcaseItem = ({ article }: ArticleShowcaseItemProps) => {
+  useEffect(() => {
+    if (!emblaMainApi) return
+    onSelect()
+    emblaMainApi.on("select", onSelect)
+    emblaMainApi.on("reInit", onSelect)
+  }, [emblaMainApi, onSelect])
+
   return (
-    <div className="h-[180px] w-full">
-      <AspectRatio ratio={16 / 12} className="h-[180px] w-full">
-        <Image
-          className="object-cover"
-          src={article.thumbnail ?? ""}
-          alt={article.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-      </AspectRatio>
+    <div className="rounded-md border bg-muted p-4">
+      <div className="overflow-hidden" ref={emblaMainRef}>
+        <ul className="flex [backface-visibility:hidden] [touch-action:pan-y]">
+          {articles.map((article) => (
+            <li
+              className="mr-6 min-w-0 flex-[0_0_77%] min-[540px]:flex-[0_0_61%] md:flex-[0_0_40%] lg:flex-[0_0_70%]"
+              key={article.id}
+            >
+              <ShowcaseItem article={article} />
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mt-4">
+        <div className="overflow-hidden" ref={emblaThumbsRef}>
+          <ul className="flex">
+            {articles.map(({ id, thumbnail }, i) => (
+              <li
+                className="mr-4 min-w-0 flex-[0_0_32%] min-[540px]:flex-[0_0_20%] md:flex-[0_0_13%] lg:flex-[0_0_17%]"
+                key={id}
+              >
+                <ShowcaseThumb
+                  thumbnail={thumbnail}
+                  selected={i === selectedIndex}
+                  index={i}
+                  onClick={() => onThumbClick(i)}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   )
 }
