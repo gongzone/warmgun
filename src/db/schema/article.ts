@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm"
 import {
+  boolean,
   integer,
   jsonb,
   pgTable,
@@ -22,6 +23,7 @@ export const article = pgTable("article", {
   slug: text("slug").unique().notNull(),
   readingTime: integer("reading_time").default(0).notNull(),
   trendingScore: integer("trending_score").default(0).notNull(),
+  picked: boolean("picked").default(false),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
   authorId: text("author_id"),

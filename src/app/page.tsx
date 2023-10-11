@@ -6,8 +6,9 @@ import { Text } from "@/components/@ui/text"
 import { AppShell } from "@/components/app-shell"
 import { ArticleItem } from "@/components/article/article-item"
 import { BigArticleItem } from "@/components/article/big-article-item"
-import { HomeHero } from "@/components/home/home-hero"
 import { BloggerItem } from "@/components/user/blogger-item"
+
+import { HomeHero } from "./_components/home-hero"
 
 const articles = Array.from({ length: 12 }, (_, i) => {
   return {
@@ -136,7 +137,7 @@ export default async function Home() {
               ))}
             </ul>
             <div className="relative h-[450px]">
-              <Carousel slides={[1, 2, 3, 4, 5, 6, 7, 8]} />
+              {/* <Carousel slides={[1, 2, 3, 4, 5, 6, 7, 8]} /> */}
             </div>
           </div>
         </Container>
@@ -159,7 +160,7 @@ export default async function Home() {
 
             <div className="">
               <div className="relative h-[450px]">
-                <Carousel slides={[1, 2, 3, 4, 5, 6, 7, 8]} />
+                {/* <Carousel slides={[1, 2, 3, 4, 5, 6, 7, 8]} /> */}
               </div>
             </div>
           </Container>
