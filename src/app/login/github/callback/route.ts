@@ -9,12 +9,13 @@ export const GET = async (request: NextRequest) => {
   const url = new URL(request.url)
   const state = url.searchParams.get("state")
   const code = url.searchParams.get("code")
-  // validate state
+
   if (!storedState || !state || storedState !== state || !code) {
     return new NextResponse(null, {
       status: 400,
     })
   }
+
   try {
     const { getExistingUser, githubUser, createUser } =
       await githubAuth.validateCallback(code)
@@ -25,9 +26,15 @@ export const GET = async (request: NextRequest) => {
       const user = await createUser({
         attributes: {
           username: githubUser.login,
-          email: githubUser.email,
-          avatar: githubUser.avatar_url,
+          email: githubUser.email ?? null,
           role: "USER",
+          //@ts-ignore
+          profile: {
+            displayName: githubUser.login,
+            avatar: githubUser.avatar_url,
+            who: "블로거",
+            bio: `반갑습니다. ${githubUser.login}입니다.`,
+          },
         },
       })
       return user
@@ -43,15 +50,15 @@ export const GET = async (request: NextRequest) => {
       headers,
     })
     authRequest.setSession(session)
+
     return new NextResponse(null, {
       status: 302,
       headers: {
-        Location: "/", // redirect to profile page
+        Location: "/",
       },
     })
   } catch (e) {
     if (e instanceof OAuthRequestError) {
-      // invalid code
       return new NextResponse(null, {
         status: 400,
       })

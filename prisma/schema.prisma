@@ -14,7 +14,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  authSession         Session[]
+  auth_session        Session[]
   key                 Key[]
   role                UserRole             @default(USER)
   profile             UserProfile?
@@ -29,24 +29,22 @@ model User {
 }
 
 model Session {
-  id            String @id @unique
-  userId        String
-  activeExpires BigInt
-  idleExpires   BigInt
+  id             String @id @unique
+  user_id        String
+  active_expires BigInt
+  idle_expires   BigInt
+  user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
-  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
-
-  @@index([userId])
+  @@index([user_id])
 }
 
 model Key {
-  id             String  @id @unique
-  hashedPassword String?
-  userId         String
+  id              String  @id @unique
+  hashed_password String?
+  user_id         String
+  user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
-  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
-
-  @@index([userId])
+  @@index([user_id])
 }
 
 enum UserRole {
@@ -55,17 +53,32 @@ enum UserRole {
 }
 
 model UserProfile {
-  id           Int      @id @default(autoincrement())
-  displayName  String   @unique
-  avatar       String?
-  who          String?
-  bio          String?
-  profileLinks Json?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  displayName String   @unique
+  avatar      String?
+  who         String?
+  bio         String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
+  profileLinks UserProfileLinks?
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String            @unique
+}
+
+model UserProfileLinks {
+  id        Int      @id @default(autoincrement())
+  website   String?
+  github    String?
+  instagram String?
+  facebook  String?
+  x         String?
+  youtube   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile   UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId Int         @unique
 }
 
 model UserFollow {

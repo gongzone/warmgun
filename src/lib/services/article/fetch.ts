@@ -1,6 +1,6 @@
 import { cache } from "react"
 import { db } from "@/db"
-import { articleComment, articleLike } from "@/db/schema"
+import { article, articleComment, articleLike } from "@/db/schema"
 import { sql } from "drizzle-orm"
 
 export const fetchPickedArticles = cache(async () => {
@@ -19,6 +19,8 @@ export const fetchPickedArticles = cache(async () => {
 })
 
 export const fetchTrendingArticles = cache(async () => {
+  const trendingArticles = await db.select().from(article)
+
   await db.transaction(async (tx) => {
     const preparedTrendingArticles = tx.query.article
       .findMany({
@@ -36,9 +38,8 @@ export const fetchTrendingArticles = cache(async () => {
       .prepare("fetch_trending_articles")
 
     const preparedArticleLikeCount = tx
-      .select({ count: sql<number>`count(*)`, articleId: articleLike.id })
+      .select({ count: sql<number>`count(*)` })
       .from(articleLike)
-      .groupBy(({ articleId }) => articleId)
       .where(sql`${articleLike.articleId} = ${sql.placeholder("articleId")}`)
       .prepare("fetch_article_like_count")
     const preparedArticleCommentCount = tx
