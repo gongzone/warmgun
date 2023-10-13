@@ -5,7 +5,7 @@ import Image from "next/image"
 import useEmblaCarousel, { EmblaOptionsType } from "embla-carousel-react"
 import { flushSync } from "react-dom"
 
-import { ArticleItem } from "../article/article-item"
+import { ArticleItem } from "../article/article-card-item"
 import {
   NextButton,
   PrevButton,

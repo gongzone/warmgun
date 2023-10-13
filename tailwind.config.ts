@@ -20,6 +20,7 @@ const config: Config = withTV({
       },
       colors: {
         background: "hsl(var(--background))",
+        "background-naive": "hsl(var(--background-naive))",
         foreground: "hsl(var(--foreground))",
         "foreground-light": "hsl(var(--foreground-light))",
         border: "hsl(var(--border))",

@@ -33,7 +33,7 @@ export const articleRelations = relations(article, ({ one, many }) => ({
   author: one(user, { fields: [article.authorId], references: [user.id] }),
   likes: many(articleLike),
   comments: many(articleComment),
-  tags: many(articleToTag, { relationName: "tag" }),
+  articleToTag: many(articleToTag, { relationName: "tag" }),
 }))
 
 export type Article = typeof article.$inferSelect

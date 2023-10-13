@@ -1,14 +1,12 @@
 import { Button } from "@/components/@ui/button"
-import { Carousel } from "@/components/@ui/carousel"
 import { Container } from "@/components/@ui/container"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/@ui/tabs"
 import { Text } from "@/components/@ui/text"
 import { AppShell } from "@/components/app-shell"
-import { ArticleItem } from "@/components/article/article-item"
-import { BigArticleItem } from "@/components/article/big-article-item"
+import { ArticleCardItem } from "@/components/article/article-card-item"
 import { BloggerItem } from "@/components/user/blogger-item"
 
 import { HomeHero } from "./_components/home-hero"
+import { HomeSectionText } from "./_components/home-section-text"
 
 const articles = Array.from({ length: 12 }, (_, i) => {
   return {
@@ -50,8 +48,8 @@ const users = Array.from({ length: 10 }, (_, i) => {
 
 export default async function Home() {
   return (
-    <AppShell className="">
-      <section className="border-b bg-[#f8f7f4] py-20">
+    <AppShell>
+      <section className="bg-background-naive border-b py-20">
         <Container variant="wide" center={true}>
           <HomeHero />
         </Container>
@@ -59,25 +57,15 @@ export default async function Home() {
 
       <section className="border-b py-20">
         <Container variant="wide" center={true}>
-          <div className="flex flex-col items-center">
-            <div className="mb-8 flex flex-col">
-              <Text
-                family="heading"
-                size="4xl"
-                weight={600}
-                className="text-center"
-              >
-                트렌딩 아티클
-              </Text>
-              <Text size="md" weight={300} className="text-center">
-                요즘 시대를 살아가는 어떤 이들의 이야기
-              </Text>
-            </div>
-          </div>
+          <HomeSectionText
+            title="트렌딩 아티클"
+            description="요즘 시대를 살아가는 어떤 이들의 이야기"
+          />
+
           <ul className="grid grid-cols-4 gap-9">
             {articles.map((article) => (
               <li key={article.id}>
-                <ArticleItem article={article} />
+                <ArticleCardItem article={article} />
               </li>
             ))}
           </ul>

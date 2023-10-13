@@ -6,6 +6,7 @@
   :root {
     /* Base Colors */
     --background: 0 0% 97%;
+    --background-naive: 45 22% 96%;
     --foreground: 0 0% 9%;
     --foreground-light: 0 0% 40%;
     --border: 0 0% 87%;

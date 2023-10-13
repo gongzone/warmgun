@@ -24,7 +24,7 @@ type ArticleItemProps = {
   }
 }
 
-export const ArticleItem = ({ article }: ArticleItemProps) => {
+export const ArticleCardItem = ({ article }: ArticleItemProps) => {
   return (
     <div>
       <header className="flex items-center gap-1.5 pb-1.5">
