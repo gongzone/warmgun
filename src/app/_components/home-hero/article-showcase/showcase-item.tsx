@@ -1,14 +1,13 @@
 import Image from "next/image"
 import Link from "next/link"
-import { type Article } from "@/db/schema/article"
-import { type User } from "@/db/schema/user"
 
 import imageFallback from "@/lib/assets/image-fallback.png"
+import { type PickedArticle } from "@/lib/services/article/fetch"
 import { Avatar } from "@/components/@ui/avatar"
 import { Text } from "@/components/@ui/text"
 
 type ShowcaseItemProps = {
-  article: Article & { author: User | null }
+  article: PickedArticle
 }
 
 export const ShowcaseItem = ({ article }: ShowcaseItemProps) => {
@@ -23,19 +22,19 @@ export const ShowcaseItem = ({ article }: ShowcaseItemProps) => {
       />
       <div className="absolute bottom-0 w-full border-t border-t-black/50 bg-black/40 p-3 text-white/90 backdrop-blur backdrop-saturate-150">
         <Link
-          href={`/@${article.author?.username}`}
+          href={`/@${article.user.username}`}
           className="inline-flex items-center gap-1.5"
         >
           <Avatar
-            src={article.author?.avatar}
-            alt={article.author?.username}
+            src={article.user.profile?.avatar}
+            alt={article.user.profile?.displayName}
             size="xs"
           />
-          <Text size="sm">{article.author?.username}</Text>
+          <Text size="sm">{article.user.profile?.displayName}</Text>
         </Link>
         <div>
           <Link
-            href={`/@${article.author?.username}/${article.slug}`}
+            href={`/@${article.user.username}/${article.slug}`}
             className="inline-flex"
           >
             <Text weight={500} clamp={1}>
@@ -43,7 +42,7 @@ export const ShowcaseItem = ({ article }: ShowcaseItemProps) => {
             </Text>
           </Link>
           <Link
-            href={`/@${article.author?.username}/${article.slug}`}
+            href={`/@${article.user.username}/${article.slug}`}
             className="inline-flex"
           >
             <Text size="sm" weight={300} clamp={2}>

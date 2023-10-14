@@ -1,6 +1,6 @@
 import * as context from "next/headers"
 import { prisma as prismaAdapter } from "@lucia-auth/adapter-prisma"
-import { github } from "@lucia-auth/oauth/providers"
+import { github, google } from "@lucia-auth/oauth/providers"
 import { lucia, LuciaError } from "lucia"
 import { nextjs_future } from "lucia/middleware"
 import { __experimental_joinAdapters as joinAdapters } from "lucia/utils"
@@ -95,9 +95,17 @@ export const auth = lucia({
 
 export type Auth = typeof auth
 
+export const googleAuth = google(auth, {
+  clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+  redirectUri: process.env.GOOGLE_REDIRECT_URI ?? "",
+  scope: ["email", "profile"],
+})
+
 export const githubAuth = github(auth, {
   clientId: process.env.GITHUB_CLIENT_ID ?? "",
   clientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
+  redirectUri: process.env.GITHUB_REDIRECT_URI ?? "",
 })
 
 export const getAuthRequest = (method?: string) => {

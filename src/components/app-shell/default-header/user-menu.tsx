@@ -18,7 +18,7 @@ import { TextWithIcon } from "@/components/@ui/text-with-icon"
 
 interface UserMenuProps {
   name: string
-  image: string
+  image: string | null | undefined
 }
 
 export const UserMenu = ({ name, image }: UserMenuProps) => {

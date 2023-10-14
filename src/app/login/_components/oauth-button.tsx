@@ -15,6 +15,7 @@ export const OauthButton = ({ social }: OauthButtonProps) => {
     <Link
       className={buttonVariants({
         variant: "base-ghost",
+
         fullWidth: true,
         radius: "full",
       })}

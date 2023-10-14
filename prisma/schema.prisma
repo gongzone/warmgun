@@ -112,6 +112,7 @@ model Article {
   slug          String   @unique
   readingTime   Int      @default(0)
   trendingScore Float    @default(0)
+  picked        Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

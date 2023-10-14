@@ -13,7 +13,7 @@ const DefaultHeader = async () => {
   const session = await getServerSession()
 
   return (
-    <header className="bg-background-naive sticky top-0 z-30 w-full border-b">
+    <header className="sticky top-0 z-30 w-full border-b bg-background-naive">
       <Container
         variant="wide"
         center
@@ -30,7 +30,7 @@ const DefaultHeader = async () => {
           {session?.user ? (
             <UserMenu
               name={session.user.username}
-              image={session.user.avatar}
+              image={session.user.profile?.avatar}
             />
           ) : (
             <Link className={buttonVariants()} href="/login">

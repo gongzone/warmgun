@@ -36,7 +36,7 @@ export default async function LoginPage() {
         </CardHeader>
         <CardBody className="pb-0">
           <Text size="sm">소셜 로그인 or 회원가입</Text>
-          <ul className="mt-2 grid grid-cols-2 gap-4">
+          <ul className="mt-2 flex flex-col gap-4">
             {socials.map((social) => (
               <li key={social.provider}>
                 <OauthButton social={social} />

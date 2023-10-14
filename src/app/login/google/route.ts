@@ -1,12 +1,12 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 
-import { githubAuth } from "@/lib/auth"
+import { googleAuth } from "@/lib/auth"
 
 export const GET = async () => {
-  const [url, state] = await githubAuth.getAuthorizationUrl()
+  const [url, state] = await googleAuth.getAuthorizationUrl()
 
-  cookies().set("github_oauth_state", state, {
+  cookies().set("google_oauth_state", state, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     path: "/",

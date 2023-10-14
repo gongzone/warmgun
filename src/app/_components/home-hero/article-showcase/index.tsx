@@ -1,15 +1,15 @@
 "use client"
 
 import React, { useCallback, useEffect, useState } from "react"
-import { type Article } from "@/db/schema/article"
-import { type User } from "@/db/schema/user"
 import useEmblaCarousel from "embla-carousel-react"
+
+import { type PickedArticle } from "@/lib/services/article/fetch"
 
 import { ShowcaseItem } from "./showcase-item"
 import { ShowcaseThumb } from "./showcase-thumb"
 
 type ArticleShowcaseProps = {
-  articles: (Article & { author: User | null })[]
+  articles: PickedArticle[]
 }
 
 export const ArticleShowcase = ({ articles }: ArticleShowcaseProps) => {

@@ -13,11 +13,7 @@ export const AppShell = ({
   ...props
 }: AppShellProps) => {
   const HeaderComp =
-    header === "default" ? (
-      <DefaultHeader />
-    ) : header === "none" ? undefined : (
-      header
-    )
+    header === "default" ? <DefaultHeader /> : header === "none" ? null : header
 
   return (
     <>

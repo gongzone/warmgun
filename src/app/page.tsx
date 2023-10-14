@@ -11,13 +11,13 @@ import { HomeSectionText } from "./_components/home-section-text"
 export default async function Home() {
   return (
     <AppShell>
-      {/* <section className="bg-background-naive border-b py-20">
+      <section className="border-b bg-background-naive py-20">
         <Container variant="wide" center={true}>
           <HomeHero />
         </Container>
       </section>
 
-      <section className="border-b py-20">
+      {/* <section className="border-b py-20">
         <Container variant="wide" center={true}>
           <HomeSectionText
             title="트렌딩 아티클"
