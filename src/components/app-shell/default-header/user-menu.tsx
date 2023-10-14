@@ -62,8 +62,8 @@ export const UserMenu = ({ name, image }: UserMenuProps) => {
                 type="submit"
               >
                 <TextWithIcon
-                  icon={<Icons.LogoutIcon className="h-4 w-4" />}
-                  text={<Text>로그아웃</Text>}
+                  icon={(Icons) => <Icons.LogoutIcon className="h-4 w-4" />}
+                  text={(Text) => <Text>로그아웃</Text>}
                 />
               </SubmitButton>
             </DropdownMenuItem>

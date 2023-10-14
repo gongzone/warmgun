@@ -47,12 +47,12 @@ export const MobileNav = () => {
               <SheetClose asChild>
                 <Link href={nav.href}>
                   <TextWithIcon
-                    icon={<nav.icon className="h-5 w-5" />}
-                    text={
+                    icon={() => <nav.icon className="h-5 w-5" />}
+                    text={(Text) => (
                       <Text color="inherit" weight={500}>
                         {nav.name}
                       </Text>
-                    }
+                    )}
                     gap={2}
                     className={cn(
                       "flex py-1.5 text-foreground-light hover:text-foreground",

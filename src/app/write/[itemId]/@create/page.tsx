@@ -16,6 +16,10 @@ export default async function CreateDraftPage({
   const pageDraftId = Number(params.itemId)
   const draft = await fetchOneDraft(pageDraftId)
 
+  if (!draft) {
+    return // TODO: 404 PAGE
+  }
+
   return (
     <WriteProvider title={draft.title} body={draft.body}>
       <AppShell header={<WriteHeader mode="create" />}>

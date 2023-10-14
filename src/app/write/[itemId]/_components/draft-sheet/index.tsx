@@ -36,7 +36,7 @@ export const DraftSheet = async () => {
           </SheetDescription>
         </SheetHeader>
         <DraftAccordion userId={session.user.userId} />
-        <SheetFooter className="mt-8">
+        <SheetFooter className="my-8">
           <CreateDraftForm />
         </SheetFooter>
       </SheetContent>

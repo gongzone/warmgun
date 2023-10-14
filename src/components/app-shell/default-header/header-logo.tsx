@@ -9,12 +9,12 @@ export const HeaderLogo = () => {
   return (
     <Link href="/">
       <TextWithIcon
-        icon={<Icons.Logo className="h-7 w-7 md:h-5 md:w-5" />}
-        text={
+        icon={(Icons) => <Icons.Logo className="h-7 w-7 md:h-5 md:w-5" />}
+        text={(Text) => (
           <Text as="span" size="lg" weight={600} className="hidden md:inline">
             {site.title}
           </Text>
-        }
+        )}
       />
     </Link>
   )

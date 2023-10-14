@@ -1,33 +1,24 @@
 "use client"
 
-//@ts-ignore
-import { experimental_useFormState as useFormState } from "react-dom"
-
+import { useFormAction } from "@/lib/form-action"
 import { createDraftAction } from "@/lib/services/draft/action"
 import { SubmitButton } from "@/components/@ui/submit-button"
 import { useToast } from "@/components/@ui/use-toast"
 
 export const CreateDraftForm = () => {
-  const [state, formAction] = useFormState(createDraftAction, {
-    type: null,
-    message: null,
-  })
   const { toast } = useToast()
+  const { formAction } = useFormAction(createDraftAction, {
+    onError: (state) => {
+      toast({
+        title: "초고 생성 중 문제가 발생하였습니다.",
+        description: state.message,
+      })
+    },
+  })
 
   return (
     <form action={formAction}>
-      <SubmitButton
-        variant="base"
-        type="submit"
-        afterAction={() => {
-          if (state.type) {
-            toast({
-              title: "Warmgun 글쓰기",
-              description: state.message,
-            })
-          }
-        }}
-      >
+      <SubmitButton variant="base" type="submit">
         새 초고 만들기
       </SubmitButton>
     </form>

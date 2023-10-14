@@ -2,29 +2,31 @@
 
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
-import {
-  createDraft,
-  deleteDraft,
-  updateDraft,
-} from "@/db/access/draft/command"
+import { deleteDraft, updateDraft } from "@/db/access/draft/command"
 import { findDraftsCount, findOneLatestDraft } from "@/db/access/draft/query"
 
 import { getServerSession } from "@/lib/auth"
-import { actionMessage } from "@/lib/form-action"
+import { db } from "@/lib/db"
+import { actionResponse, errorMessages } from "@/lib/form-action"
 
 export async function createDraftAction() {
   const session = await getServerSession("POST")
 
   if (!session?.user) {
-    return actionMessage(
-      "UNAUTHORIZED",
-      "사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요."
-    )
+    return actionResponse({
+      type: "error",
+      message: errorMessages.AUTHENTICATED_FAIL,
+    })
   }
 
-  const newDraft = await createDraft(session.user.userId)
+  const newDraft = await db.draft.create({
+    data: {
+      userId: session.user.userId,
+    },
+  })
+
   revalidatePath(`/write/[itemId]/@create`, "page")
-  redirect(`/write/${newDraft[0].id}?mode=create`)
+  redirect(`/write/${newDraft.id}?mode=create`)
 }
 
 export async function saveDraftAction({

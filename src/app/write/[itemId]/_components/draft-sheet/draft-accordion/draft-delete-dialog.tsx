@@ -13,7 +13,7 @@ import {
 } from "@/components/@ui/alert-dialog"
 import { DropdownMenuItem } from "@/components/@ui/dropdown-menu"
 
-export const DeleteAlertDialog = () => {
+export const DraftDeleteDialog = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

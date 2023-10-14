@@ -1,18 +1,18 @@
 "use client"
 
-import React, { useCallback, useEffect, useMemo } from "react"
+import React, { useEffect } from "react"
 import { experimental_useFormStatus as useFormStatus } from "react-dom"
 
 import { Button, type ButtonProps } from "./button"
 
 type SubmitUIButtonProps = {
   uiButton?: true
-  afterAction?: () => void
+  onPending: () => void
 } & ButtonProps
 
 type SubmitNomalButtonProps = {
   uiButton?: false
-  afterAction?: () => void
+  onPending?: () => void
 } & React.ComponentPropsWithoutRef<"button">
 
 type SubmitButtonProps = SubmitUIButtonProps | SubmitNomalButtonProps
@@ -24,7 +24,7 @@ export const SubmitButton = React.forwardRef<
   (
     {
       uiButton = true,
-      afterAction,
+      onPending,
       children,
       className,
       type = "submit",
@@ -35,9 +35,8 @@ export const SubmitButton = React.forwardRef<
     const { pending } = useFormStatus()
 
     useEffect(() => {
-      console.log(pending)
-      if (!pending && afterAction) {
-        afterAction()
+      if (pending && onPending && typeof onPending === "function") {
+        onPending()
       }
     }, [pending])
 
