@@ -5,8 +5,6 @@ import { useParams } from "next/navigation"
 
 import { type FetchDraftsReturn } from "@/lib/services/draft/fetch"
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/@ui/icons"
-import { Text } from "@/components/@ui/text"
 import { TextWithIcon } from "@/components/@ui/text-with-icon"
 
 type DraftListItemProps = {

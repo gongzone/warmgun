@@ -1,38 +1,33 @@
 "use client"
 
-import { useParams } from "next/navigation"
-
 import { useFormAction } from "@/lib/form-action/hook"
-import { saveDraftAction } from "@/lib/services/draft/action"
+import { createArticleAction } from "@/lib/services/article/action"
 import { SubmitButton } from "@/components/@ui/submit-button"
 import { useToast } from "@/components/@ui/use-toast"
 
-import { useWriteContext } from "../_lib/store"
+import { useWriteContext } from "../../_lib/store"
 
-export const SaveDraftForm = () => {
-  const pageDraftId = Number(useParams().itemId)
-
+export const CreateArticleForm = () => {
   const title = useWriteContext((state) => state.title)
   const body = useWriteContext((state) => state.body)
+  const text = useWriteContext((state) => state.text)
+  const thumbnail = useWriteContext((state) => state.thumbnail)
+  const tags = useWriteContext((state) => state.tags)
 
   const { toast } = useToast()
 
   const { formAction } = useFormAction(
-    saveDraftAction.bind(null, {
-      draftId: pageDraftId,
+    createArticleAction.bind(null, {
       title,
       body,
+      text,
+      thumbnail,
+      tags,
     }),
     {
       onError: (state) => {
         toast({
-          title: "초고 수정 중 문제가 발생하였습니다.",
-          description: state.message,
-        })
-      },
-      onSuccess: (state) => {
-        toast({
-          title: "Warmgun 초고 성공 메세지 🎉",
+          title: "아티클 생성 중 문제가 발생하였습니다.",
           description: state.message,
         })
       },
@@ -41,8 +36,8 @@ export const SaveDraftForm = () => {
 
   return (
     <form action={formAction}>
-      <SubmitButton radius="full" type="submit">
-        저장
+      <SubmitButton variant="base" fullWidth>
+        아티클 출간하기
       </SubmitButton>
     </form>
   )

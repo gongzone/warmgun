@@ -1,6 +1,6 @@
 "use client"
 
-import { useFormAction } from "@/lib/form-action"
+import { useFormAction } from "@/lib/form-action/hook"
 import { createDraftAction } from "@/lib/services/draft/action"
 import { SubmitButton } from "@/components/@ui/submit-button"
 import { useToast } from "@/components/@ui/use-toast"

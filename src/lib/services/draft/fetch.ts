@@ -30,3 +30,11 @@ export const fetchOneLatestDraft = cache(async (userId: string) => {
 
   return latestDraft
 })
+
+export const fetchDraftCount = cache(async (userId: string) => {
+  const draftCount = await db.draft.count({
+    where: { userId },
+  })
+
+  return draftCount
+})

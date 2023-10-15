@@ -37,7 +37,7 @@ export const DraftAccordion = async ({ userId }: DraftAccoridonProps) => {
             {drafts.map((draft) => (
               <li className="flex items-center gap-4" key={draft.id}>
                 <DraftListItem draft={draft} />
-                <DraftListItemMenu />
+                <DraftListItemMenu draftId={draft.id} />
               </li>
             ))}
           </ul>

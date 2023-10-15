@@ -44,7 +44,8 @@ export const Editor = ({ body, ...props }: EditorProps) => {
     ],
     editorProps: {
       attributes: {
-        class: "prose dark:prose-invert focus:outline-none",
+        class:
+          "prose prose-a:cursor-pointer prose-a:no-underline prose-a:text-blue-600 hover:prose-a:underline dark:prose-invert focus:outline-none",
       },
     },
     autofocus: true,

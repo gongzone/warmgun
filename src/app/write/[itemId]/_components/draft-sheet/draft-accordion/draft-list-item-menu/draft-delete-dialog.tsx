@@ -13,7 +13,13 @@ import {
 } from "@/components/@ui/alert-dialog"
 import { DropdownMenuItem } from "@/components/@ui/dropdown-menu"
 
-export const DraftDeleteDialog = () => {
+import { DeleteDraftForm } from "./delete-draft-form"
+
+type DraftDeleteDialogProps = {
+  draftId: number
+}
+
+export const DraftDeleteDialog = ({ draftId }: DraftDeleteDialogProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -34,7 +40,9 @@ export const DraftDeleteDialog = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
-          <AlertDialogAction>삭제하기</AlertDialogAction>
+          <AlertDialogAction asChild>
+            <DeleteDraftForm draftId={draftId} />
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

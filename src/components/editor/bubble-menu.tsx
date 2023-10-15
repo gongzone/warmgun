@@ -1,5 +1,9 @@
 import React from "react"
-import { BubbleMenu as TiptapBubbleMenu, type Editor } from "@tiptap/react"
+import {
+  isTextSelection,
+  BubbleMenu as TiptapBubbleMenu,
+  type Editor,
+} from "@tiptap/react"
 
 import { Icons, type IconType } from "@/components/@ui/icons"
 import { Toggle } from "@/components/@ui/toggle"
@@ -88,8 +92,39 @@ export const BubbleMenu = ({ editor }: BubbleMenuProps) => {
     <TiptapBubbleMenu
       editor={editor}
       tippyOptions={{ maxWidth: 350, duration: 100 }}
+      shouldShow={({ editor, view, state, oldState, from, to }) => {
+        const { doc, selection } = state
+        const { empty } = selection
+
+        // Sometime check for `empty` is not enough.
+        // Doubleclick an empty paragraph returns a node size of 2.
+        // So we check also for an empty text size.
+        const isEmptyTextBlock =
+          !doc.textBetween(from, to).length && isTextSelection(state.selection)
+
+        // When clicking on a element inside the bubble menu the editor "blur" event
+        // is called and the bubble menu item is focussed. In this case we should
+        // consider the menu as part of the editor and keep showing the menu
+        const isChildOfMenu = editor.options.element.contains(
+          document.activeElement
+        )
+
+        const hasEditorFocus = view.hasFocus() || isChildOfMenu
+
+        if (
+          !hasEditorFocus ||
+          empty ||
+          isEmptyTextBlock ||
+          editor.isEditable ||
+          editor.isActive("image")
+        ) {
+          return false
+        }
+
+        return true
+      }}
     >
-      <ul className="flex items-center gap-0.5 rounded-md bg-foreground p-0.5 text-background shadow-xl">
+      <ul className="flex items-center gap-0.5 rounded-md bg-foreground p-1 text-background shadow-xl">
         {bubbleMenus.map((menu) => (
           <li key={menu.name}>
             <BubbleMenuToggle
@@ -116,7 +151,7 @@ const BubbleMenuToggle = ({
   onClick,
 }: BubbleMenuToggleProps) => {
   return (
-    <Toggle size="sm" radius="full" onClick={onClick} pressed={isActive}>
+    <Toggle size="xs" radius="full" onClick={onClick} pressed={isActive}>
       <Icon className="h-4 w-4" />
     </Toggle>
   )

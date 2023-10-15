@@ -1,9 +1,11 @@
 "use server"
 
-import { db } from "@/db"
-import { article, articleToTag, tag } from "@/db/schema"
+import { redirect } from "next/navigation"
+import { Prisma } from "@prisma/client"
 
 import { getServerSession } from "@/lib/auth"
+import { db } from "@/lib/db"
+import { actionResponse, errorMessages } from "@/lib/form-action/utils"
 import {
   formatArticleSlug,
   formatExcerpt,
@@ -11,7 +13,7 @@ import {
   formatTagSlug,
 } from "@/lib/format"
 
-type CreateArticleData = {
+type CreateArticleParams = {
   title: string | null
   body: unknown
   text: string | null
@@ -25,53 +27,54 @@ export const createArticleAction = async ({
   text,
   thumbnail,
   tags,
-}: CreateArticleData) => {
+}: CreateArticleParams) => {
   const session = await getServerSession("POST")
 
   if (!session?.user) {
-    return // TODO: send 401 error or redirect login page
+    return actionResponse({
+      type: "error",
+      message: errorMessages.AUTHENTICATED_FAIL,
+    })
   }
 
-  if (!title) {
-    return
+  if (!title || title.trim().length === 0) {
+    return actionResponse({
+      type: "error",
+      message: "제목을 입력해주세요.",
+    })
   }
 
-  if (!text) {
-    return
+  if (!text || text.trim().length === 0) {
+    return actionResponse({
+      type: "error",
+      message: "본문을 입력해주세요.",
+    })
   }
 
+  const bodyValue = body as Prisma.JsonObject
   const slug = formatArticleSlug(title)
   const excerpt = formatExcerpt(text)
   const readingTime = formatReadingTime(text)
 
-  await db.transaction(async (tx) => {
-    const newArticle = (
-      await tx
-        .insert(article)
-        .values({
-          title,
-          body,
-          thumbnail,
-          excerpt,
-          slug,
-          readingTime,
-          authorId: session.user.userId,
-        })
-        .returning({ id: article.id })
-    )[0]
-
-    if (tags) {
-      const newTags = await tx
-        .insert(tag)
-        .values(tags.map((tag) => ({ name: tag, slug: formatTagSlug(tag) })))
-        .onConflictDoNothing({ target: tag.name })
-        .returning({ id: tag.id })
-
-      await tx
-        .insert(articleToTag)
-        .values(newTags.map((t) => ({ articleId: newArticle.id, tagId: t.id })))
-    }
+  const newArticle = await db.article.create({
+    data: {
+      title,
+      body: bodyValue,
+      excerpt,
+      thumbnail,
+      slug,
+      readingTime,
+      tags: tags
+        ? {
+            connectOrCreate: tags.map((tag: string) => ({
+              where: { name: tag },
+              create: { name: tag, slug: formatTagSlug(tag) },
+            })),
+          }
+        : {},
+      userId: session.user.userId,
+    },
   })
 
-  // TODO: Redirect To Article Page
+  redirect(`/@${session.user.username}/${newArticle.slug}`)
 }

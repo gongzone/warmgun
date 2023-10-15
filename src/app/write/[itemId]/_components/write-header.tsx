@@ -21,8 +21,8 @@ export const WriteHeader = ({ mode }: WriteHeaderProps) => {
         <DraftSheet />
       </div>
       <div className="flex items-center gap-3">
-        {/* <SaveDraftForm />
-        <PublishSheet /> */}
+        <SaveDraftForm />
+        <PublishSheet />
       </div>
     </header>
   )

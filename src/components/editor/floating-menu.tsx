@@ -1,20 +1,16 @@
 import { useRef } from "react"
-import {
-  FloatingMenu as TiptapFloatingMenu,
-  useCurrentEditor,
-  type Editor,
-} from "@tiptap/react"
+import { FloatingMenu as TiptapFloatingMenu, type Editor } from "@tiptap/react"
 
-import { HiddenFileInput } from "@/components/@ui/hidden-file-input"
 import { Icons, type IconType } from "@/components/@ui/icons"
 import { Toggle } from "@/components/@ui/toggle"
+import { UploadButton } from "@/components/@ui/upload-button"
 
 type FloatingMenuProps = {
   editor: Editor | null
 }
 
 export const FloatingMenu = ({ editor }: FloatingMenuProps) => {
-  const fileRef = useRef<HTMLInputElement>(null)
+  const uploadButtonRef = useRef<HTMLButtonElement>(null)
 
   if (!editor) {
     return null
@@ -43,7 +39,7 @@ export const FloatingMenu = ({ editor }: FloatingMenuProps) => {
       name: "image",
       Icon: Icons.Image,
       isActive: () => editor.isActive("image"),
-      onClick: () => fileRef.current?.click(),
+      onClick: () => uploadButtonRef.current?.click(),
     },
     {
       name: "bulletList",
@@ -80,7 +76,13 @@ export const FloatingMenu = ({ editor }: FloatingMenuProps) => {
           ))}
         </ul>
       </TiptapFloatingMenu>
-      <HiddenFileInput ref={fileRef} />
+      <UploadButton
+        ref={uploadButtonRef}
+        hidden
+        afterUploadImage={(image) =>
+          editor.chain().focus().setImage({ src: image }).run()
+        }
+      />
     </>
   )
 }

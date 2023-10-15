@@ -2,12 +2,13 @@
 
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
-import { deleteDraft, updateDraft } from "@/db/access/draft/command"
-import { findDraftsCount, findOneLatestDraft } from "@/db/access/draft/query"
+import { Prisma } from "@prisma/client"
 
 import { getServerSession } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { actionResponse, errorMessages } from "@/lib/form-action"
+import { actionResponse, errorMessages } from "@/lib/form-action/utils"
+
+import { fetchDraftCount, fetchOneLatestDraft } from "./fetch"
 
 export async function createDraftAction() {
   const session = await getServerSession("POST")
@@ -16,6 +17,15 @@ export async function createDraftAction() {
     return actionResponse({
       type: "error",
       message: errorMessages.AUTHENTICATED_FAIL,
+    })
+  }
+
+  const draftCount = await fetchDraftCount(session.user.userId)
+
+  if (draftCount > 15) {
+    return actionResponse({
+      type: "error",
+      message: "초고는 15개 이상 생성하실 수 없습니다.",
     })
   }
 
@@ -29,55 +39,75 @@ export async function createDraftAction() {
   redirect(`/write/${newDraft.id}?mode=create`)
 }
 
+type SaveDraftActionParmas = {
+  draftId: number
+  title: string | null
+  body: unknown
+}
+
 export async function saveDraftAction({
   draftId,
   title,
   body,
-}: {
-  draftId: number
-  title: string | null
-  body: unknown
-}) {
+}: SaveDraftActionParmas) {
   const session = await getServerSession("POST")
 
   if (!session?.user) {
-    return // TODO: send 401 error or redirect login page
+    return actionResponse({
+      type: "error",
+      message: errorMessages.AUTHENTICATED_FAIL,
+    })
   }
 
-  console.log("서버!", title, body)
+  const bodyValue = body as Prisma.JsonObject
 
-  await updateDraft(draftId, { title, body })
+  await db.draft.update({
+    where: { id: draftId },
+    data: { title, body: bodyValue },
+  })
 
   revalidatePath(`/write/[itemId]/@create`, "page")
+  return actionResponse({
+    type: "success",
+    message: "초고 수정에 성공했습니다.",
+  })
+}
 
-  return { isSuccess: true, message: "초고를 성공적으로 저장했습니다. 🎉" }
+type DeleteDraftActionParmas = {
+  draftId: number
+  pageDraftId: number
 }
 
 export async function deleteDraftAction({
   draftId,
   pageDraftId,
-}: {
-  draftId: number
-  pageDraftId: number
-}) {
+}: DeleteDraftActionParmas) {
   const session = await getServerSession("POST")
 
   if (!session?.user) {
-    return // TODO: send 401 error or redirect login page
+    return actionResponse({
+      type: "error",
+      message: errorMessages.AUTHENTICATED_FAIL,
+    })
   }
 
-  const draftsCount = await findDraftsCount(session.user.userId)
+  const draftsCount = await fetchDraftCount(session.user.userId)
 
   if (draftsCount <= 1) {
-    return // TODO: send message to user
+    return actionResponse({
+      type: "error",
+      message: "마지막 초고는 삭제하실 수 없습니다.",
+    })
   }
 
-  await deleteDraft(draftId)
+  await db.draft.delete({
+    where: { id: draftId },
+  })
 
   revalidatePath(`/write/[itemId]/@create`, "page")
 
   if (pageDraftId === draftId) {
-    const latestDraftId = (await findOneLatestDraft(session.user.userId)).id
-    redirect(`/write/${latestDraftId}?mode=create`)
+    const latestDraft = await fetchOneLatestDraft(session.user.userId)
+    redirect(`/write/${latestDraft?.id}?mode=create`)
   }
 }

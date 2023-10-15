@@ -1,15 +1,11 @@
 import { useEffect } from "react"
 import { experimental_useFormState as useFormState } from "react-dom"
 
-export type FormActionState = {
-  type: "success" | "error" | null
-  message: string | null
-  data: unknown
-}
+import { type FormActionState } from "./types"
 
 export type FormActionCallback = {
-  onSuccess: (state: FormActionState) => void
-  onError: (state: FormActionState) => void
+  onSuccess?: (state: FormActionState) => void
+  onError?: (state: FormActionState) => void
 }
 
 const initialState = {
@@ -36,5 +32,5 @@ export const useFormAction = (
     }
   }, [state])
 
-  return [state, formAction]
+  return { state, formAction }
 }

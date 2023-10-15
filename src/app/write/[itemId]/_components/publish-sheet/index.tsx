@@ -1,5 +1,4 @@
 import { Button } from "@/components/@ui/button"
-import { Icons } from "@/components/@ui/icons"
 import {
   Sheet,
   SheetContent,
@@ -9,10 +8,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/@ui/sheet"
-import { Text } from "@/components/@ui/text"
-import { TextWithIcon } from "@/components/@ui/text-with-icon"
 
-import { PublishArticleForm } from "./publish-article-form"
+import { CreateArticleForm } from "./create-article-form"
+import { PublishSheetTitle } from "./publish-sheet-title"
 import { TagSelector } from "./tag-selector"
 import { ThumbnailPreview } from "./thumbnail-preview"
 
@@ -30,31 +28,17 @@ export const PublishSheet = () => {
           </SheetDescription>
         </SheetHeader>
         <ul className="my-6 space-y-6">
-          <li className="space-y-1">
-            <TextWithIcon
-              icon={<Icons.Contrast className="h-4 w-4" />}
-              text={
-                <Text size="sm" weight={500}>
-                  아티클 썸네일
-                </Text>
-              }
-            />
+          <li>
+            <PublishSheetTitle title="아티클 썸네일" />
             <ThumbnailPreview />
           </li>
-          <li className="space-y-1">
-            <TextWithIcon
-              icon={<Icons.Contrast className="h-4 w-4" />}
-              text={
-                <Text size="sm" weight={500}>
-                  태그 설정
-                </Text>
-              }
-            />
+          <li>
+            <PublishSheetTitle title="태그 설정" />
             <TagSelector />
           </li>
         </ul>
         <SheetFooter>
-          <PublishArticleForm />
+          <CreateArticleForm />
         </SheetFooter>
       </SheetContent>
     </Sheet>

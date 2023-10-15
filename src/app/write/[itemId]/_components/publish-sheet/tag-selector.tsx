@@ -3,12 +3,12 @@
 import { InputChip } from "@/components/@ui/input-chip"
 import { useToast } from "@/components/@ui/use-toast"
 
-import { useWriteContext } from "../_lib/store"
+import { useWriteContext } from "../../_lib/store"
 
 export const TagSelector = () => {
+  const { toast } = useToast()
   const addToTags = useWriteContext((state) => state.addToTags)
   const removeToTags = useWriteContext((state) => state.removeFromTags)
-  const { toast } = useToast()
 
   const triggerToast = (message: string) => {
     toast({
