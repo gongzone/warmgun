@@ -1,12 +1,9 @@
-import { Button } from "@/components/@ui/button"
 import { Container } from "@/components/@ui/container"
-import { Text } from "@/components/@ui/text"
 import { AppShell } from "@/components/app-shell"
-import { ArticleCardItem } from "@/components/article/article-card-item"
-import { BloggerItem } from "@/components/user/blogger-item"
 
 import { HomeHero } from "./_components/home-hero"
 import { HomeSectionText } from "./_components/home-section-text"
+import { TrendingArticles } from "./_components/trending-articles"
 
 export default async function Home() {
   return (
@@ -17,50 +14,34 @@ export default async function Home() {
         </Container>
       </section>
 
-      {/* <section className="border-b py-20">
+      <section className="border-b py-20">
         <Container variant="wide" center={true}>
           <HomeSectionText
             title="트렌딩 아티클"
             description="요즘 시대를 살아가는 어떤 이들의 이야기"
           />
-
-          <ul className="grid grid-cols-4 gap-9">
-            {articles.map((article) => (
-              <li key={article.id}>
-                <ArticleCardItem article={article} />
-              </li>
-            ))}
-          </ul>
+          <TrendingArticles />
         </Container>
       </section>
 
-      <section className="pt-20">
+      <section className="py-20">
         <Container variant="wide" center={true}>
-          <div className="mb-8 flex flex-col">
-            <Text
-              family="heading"
-              size="4xl"
-              weight={600}
-              className="text-center"
-            >
-              베스트 블로거
-            </Text>
-            <Text size="md" weight={300} className="text-center">
-              참 멋지고 다정한 친구들이군요!
-            </Text>
-          </div>
+          <HomeSectionText
+            title="베스트 블로거"
+            description="참 멋지고 다정한 친구들이군요!"
+          />
 
-          <ul className="flex gap-7">
+          {/* <ul className="flex gap-7">
             {users.map((user) => (
               <li key={user.username}>
                 <BloggerItem avatar={user.avatar} username={user.username} />
               </li>
             ))}
-          </ul>
+          </ul> */}
         </Container>
       </section>
 
-      <section className="border-b py-20">
+      {/* <section className="border-b py-20">
         <Container variant="wide" center={true}>
           <div className="mb-8 flex flex-col">
             <Text

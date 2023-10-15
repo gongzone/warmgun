@@ -1,34 +1,26 @@
 import Image from "next/image"
+import Link from "next/link"
 
+import imageFallback from "@/lib/assets/image-fallback.png"
 import { formatDate } from "@/lib/format"
+import { type TrendingArticle } from "@/lib/services/article/fetch"
 import { AspectRatio } from "@/components/@ui/aspect-ratio"
 
 import { Avatar } from "../@ui/avatar"
 import { Badge } from "../@ui/badge"
-import { Card, CardBody, CardFooter, CardHeader } from "../@ui/card"
-import { Icons } from "../@ui/icons"
+import { Card } from "../@ui/card"
 import { Text } from "../@ui/text"
 import { TextWithIcon } from "../@ui/text-with-icon"
 
 type ArticleItemProps = {
-  article: {
-    title: string
-    excerpt: string
-    thumbnail: string
-    user: {
-      username: string
-      avatar: string
-    }
-    tags: string[]
-    createdAt: Date
-  }
+  article: TrendingArticle
 }
 
 export const ArticleCardItem = ({ article }: ArticleItemProps) => {
   return (
-    <div>
+    <div className="h-full w-full">
       <header className="flex items-center gap-1.5 pb-1.5">
-        <Avatar src={article.user.avatar} size="sm" border={true} />
+        <Avatar src={article.user?.profile?.avatar} size="sm" border={true} />
         <Text size="sm" weight={500}>
           {article.user.username}
         </Text>
@@ -37,57 +29,51 @@ export const ArticleCardItem = ({ article }: ArticleItemProps) => {
           {formatDate(article.createdAt)}
         </Text>
       </header>
-      <Card className="space-y-2.5 overflow-hidden rounded-t-none">
-        <div className="space-y-6">
-          <AspectRatio ratio={16 / 10}>
+      <Card className="overflow-hidden rounded-t-none">
+        <Link href={`/@${article.user.username}/${article.slug}`}>
+          <AspectRatio
+            ratio={16 / 9}
+            className="flex items-center justify-center bg-muted"
+          >
             <Image
-              src={article.thumbnail}
-              alt="Photo by Drew Beamer"
-              fill
-              className="object-cover"
+              src={article.thumbnail ?? imageFallback}
+              alt={article.title}
+              fill={article.thumbnail ? true : false}
+              sizes={article.thumbnail ? "100%" : "50%"}
+              className={article.thumbnail ? "object-cover" : "w-1/3"}
             />
           </AspectRatio>
+        </Link>
 
-          <div className="flex flex-col gap-1 px-6">
-            <Text
-              as="h3"
-              size="md"
-              weight={500}
-              clamp={2}
-              className="text-foreground/90"
-            >
+        <div className="flex flex-col gap-0.5 px-5 py-4">
+          <Link href={`/@${article.user.username}/${article.slug}`}>
+            <Text as="h3" size="md" weight={500} clamp={1}>
               {article.title}
             </Text>
-            <Text
-              as="p"
-              weight={300}
-              clamp={3}
-              breaking="all"
-              className="text-sm text-foreground/75"
-            >
+          </Link>
+          <Link href={`/@${article.user.username}/${article.slug}`}>
+            <Text as="p" size="sm" weight={400} clamp={3} breaking="all">
               {article.excerpt}
             </Text>
-          </div>
+          </Link>
         </div>
 
-        <footer className="flex items-center justify-between px-6 pb-6">
-          <ul className="flex items-center gap-1.5">
-            {article.tags.map((tag) => (
-              <li key={tag}>
-                <Badge variant="base-invert">{tag}</Badge>
-              </li>
-            ))}
-          </ul>
+        <footer className="flex items-center justify-between px-5 pb-4">
+          <div>
+            {article.tags.length > 0 ? (
+              <Badge>{article.tags[0].name}</Badge>
+            ) : null}
+          </div>
 
           <div className="flex items-center gap-2">
             <TextWithIcon
-              icon={<Icons.Heart className="h-4 w-4 text-red-500" />}
-              text={<Text size="sm">12</Text>}
+              icon={(Icons) => <Icons.Heart className="h-4 w-4 text-red-500" />}
+              text={(Text) => <Text size="sm">{article._count.likedBy}</Text>}
               gap={0.5}
             />
             <TextWithIcon
-              icon={<Icons.Comment className="h-4 w-4" />}
-              text={<Text size="sm">112</Text>}
+              icon={(Icons) => <Icons.Comment className="h-4 w-4" />}
+              text={(Text) => <Text size="sm">{article._count.comments}</Text>}
               gap={0.5}
             />
           </div>
