@@ -3,7 +3,7 @@ import Link from "next/link"
 
 import imageFallback from "@/lib/assets/image-fallback.png"
 import { formatDate } from "@/lib/format"
-import { type TrendingArticle } from "@/lib/services/article/fetch"
+import { type ArticleDisplay } from "@/lib/services/article/fetch"
 import { AspectRatio } from "@/components/@ui/aspect-ratio"
 
 import { Avatar } from "../@ui/avatar"
@@ -13,7 +13,7 @@ import { Text } from "../@ui/text"
 import { TextWithIcon } from "../@ui/text-with-icon"
 
 type ArticleItemProps = {
-  article: TrendingArticle
+  article: ArticleDisplay
 }
 
 export const ArticleCardItem = ({ article }: ArticleItemProps) => {

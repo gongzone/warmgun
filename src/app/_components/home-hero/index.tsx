@@ -1,11 +1,11 @@
-import { fetchPickedArticles } from "@/lib/services/article/fetch"
+import { fetchArticles } from "@/lib/services/article/fetch"
 import { DataFallback } from "@/components/@ui/data-fallback"
 
 import { ArticleShowcase } from "./article-showcase"
 import { SiteWords } from "./site-words"
 
 export const HomeHero = async () => {
-  const pickedArticles = await fetchPickedArticles()
+  const pickedArticles = await fetchArticles({ filter: "picked" })
 
   return (
     <div className="grid grid-cols-1 items-center gap-8 md:gap-10 lg:grid-cols-2">

@@ -2,15 +2,15 @@ import Image from "next/image"
 import Link from "next/link"
 
 import imageFallback from "@/lib/assets/image-fallback.png"
-import { type PickedArticle } from "@/lib/services/article/fetch"
+import { type ArticleDisplay } from "@/lib/services/article/fetch"
 import { Avatar } from "@/components/@ui/avatar"
 import { Text } from "@/components/@ui/text"
 
 type ShowcaseItemProps = {
-  article: PickedArticle
+  article: ArticleDisplay
 }
 
-export const ShowcaseItem = ({ article }: ShowcaseItemProps) => {
+export const ArticleShowcaseItem = ({ article }: ShowcaseItemProps) => {
   return (
     <div className="relative overflow-hidden rounded-lg shadow-lg">
       <Image
@@ -32,7 +32,7 @@ export const ShowcaseItem = ({ article }: ShowcaseItemProps) => {
           />
           <Text size="sm">{article.user.profile?.displayName}</Text>
         </Link>
-        <div>
+        <div className="flex flex-col">
           <Link
             href={`/@${article.user.username}/${article.slug}`}
             className="inline-flex"

@@ -51,6 +51,13 @@ export const createArticleAction = async ({
     })
   }
 
+  if (!thumbnail) {
+    return actionResponse({
+      type: "error",
+      message: "썸네일은 필수 사항입니다.",
+    })
+  }
+
   const bodyValue = body as Prisma.JsonObject
   const slug = formatArticleSlug(title)
   const excerpt = formatExcerpt(text)
@@ -76,5 +83,5 @@ export const createArticleAction = async ({
     },
   })
 
-  redirect(`/@${session.user.username}/${newArticle.slug}`)
+  redirect(`/@${session.user.username}/${encodeURI(newArticle.slug)}`)
 }

@@ -108,7 +108,7 @@ model Article {
   title         String
   body          Json
   excerpt       String
-  thumbnail     String?
+  thumbnail     String
   slug          String   @unique
   readingTime   Int      @default(0)
   trendingScore Float    @default(0)

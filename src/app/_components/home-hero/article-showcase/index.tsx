@@ -3,13 +3,13 @@
 import React, { useCallback, useEffect, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 
-import { type PickedArticle } from "@/lib/services/article/fetch"
+import { type ArticleDisplay } from "@/lib/services/article/fetch"
 
-import { ShowcaseItem } from "./showcase-item"
-import { ShowcaseThumb } from "./showcase-thumb"
+import { ArticleShowcaseItem } from "./article-showcase-item"
+import { ArticleShowcaseThumb } from "./article-showcase-thumb"
 
 type ArticleShowcaseProps = {
-  articles: PickedArticle[]
+  articles: ArticleDisplay[]
 }
 
 export const ArticleShowcase = ({ articles }: ArticleShowcaseProps) => {
@@ -50,7 +50,7 @@ export const ArticleShowcase = ({ articles }: ArticleShowcaseProps) => {
               className="mr-6 min-w-0 flex-[0_0_77%] min-[540px]:flex-[0_0_61%] md:flex-[0_0_40%] lg:flex-[0_0_70%]"
               key={article.id}
             >
-              <ShowcaseItem article={article} />
+              <ArticleShowcaseItem article={article} />
             </li>
           ))}
         </ul>
@@ -64,10 +64,9 @@ export const ArticleShowcase = ({ articles }: ArticleShowcaseProps) => {
                 className="mr-4 min-w-0 flex-[0_0_32%] min-[540px]:flex-[0_0_20%] md:flex-[0_0_13%] lg:flex-[0_0_17%]"
                 key={id}
               >
-                <ShowcaseThumb
+                <ArticleShowcaseThumb
                   thumbnail={thumbnail}
                   selected={i === selectedIndex}
-                  index={i}
                   onClick={() => onThumbClick(i)}
                 />
               </li>

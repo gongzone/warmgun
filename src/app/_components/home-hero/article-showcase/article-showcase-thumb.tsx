@@ -1,19 +1,16 @@
 import Image from "next/image"
 
-import imageFallback from "@/lib/assets/image-fallback.png"
 import { cn } from "@/lib/utils"
 
 type ShowcaseThumbProps = {
-  thumbnail: string | null
+  thumbnail: string
   selected: boolean
-  index: number
   onClick: () => void
 }
 
-export const ShowcaseThumb = ({
+export const ArticleShowcaseThumb = ({
   thumbnail,
   selected,
-  index,
   onClick,
 }: ShowcaseThumbProps) => {
   return (
@@ -27,7 +24,7 @@ export const ShowcaseThumb = ({
     >
       <Image
         className="h-[85px] w-full"
-        src={thumbnail ?? imageFallback}
+        src={thumbnail}
         alt="thumb"
         width={200}
         height={200}

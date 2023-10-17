@@ -18,11 +18,11 @@ export const WriteEditor = () => {
       <Editor
         body={body}
         onCreate={({ editor }) => {
-          updateBody(editor.getJSON())
+          updateBody(JSON.parse(JSON.stringify(editor.getJSON())))
           updateText(editor.getText({ blockSeparator: " " }))
         }}
         onUpdate={({ editor }) => {
-          updateBody(editor.getJSON())
+          updateBody(JSON.parse(JSON.stringify(editor.getJSON())))
           updateText(editor.getText({ blockSeparator: " " }))
         }}
       />

@@ -1,8 +1,11 @@
 import { Container } from "@/components/@ui/container"
 import { AppShell } from "@/components/app-shell"
 
+import { BestBlogers } from "./_components/best-blogers"
 import { HomeHero } from "./_components/home-hero"
 import { HomeSectionText } from "./_components/home-section-text"
+import { PopularTags } from "./_components/popular-tags"
+import { RecentArticles } from "./_components/recent-articles"
 import { TrendingArticles } from "./_components/trending-articles"
 
 export default async function Home() {
@@ -31,68 +34,29 @@ export default async function Home() {
             description="참 멋지고 다정한 친구들이군요!"
           />
 
-          {/* <ul className="flex gap-7">
-            {users.map((user) => (
-              <li key={user.username}>
-                <BloggerItem avatar={user.avatar} username={user.username} />
-              </li>
-            ))}
-          </ul> */}
+          <BestBlogers />
         </Container>
       </section>
 
-      {/* <section className="border-b py-20">
+      <section className="pb-20">
         <Container variant="wide" center={true}>
-          <div className="mb-8 flex flex-col">
-            <Text
-              family="heading"
-              size="4xl"
-              weight={600}
-              className="text-center"
-            >
-              인기 태그
-            </Text>
-            <Text size="md" weight={300} className="text-center">
-              다양한 주제의 글들을 만나보세요
-            </Text>
-          </div>
-
-          <div className="">
-            <ul className="flex flex-wrap justify-center gap-2">
-              {tags.map((tag) => (
-                <li key={tag}>
-                  <Button size="sm" radius="full">
-                    {tag}
-                  </Button>
-                </li>
-              ))}
-            </ul>
-            <div className="relative h-[450px]"></div>
-          </div>
+          <HomeSectionText
+            title="인기 태그"
+            description="다양한 주제의 글들을 만나보세요"
+          />
+          <PopularTags />
         </Container>
+      </section>
 
-        <section className="pt-20">
-          <Container variant="wide" center={true}>
-            <div className="flex flex-col">
-              <Text
-                family="heading"
-                size="4xl"
-                weight={600}
-                className="text-center"
-              >
-                최신 아티클
-              </Text>
-              <Text size="md" weight={300} className="text-center">
-                최신 소식을 들어보세요
-              </Text>
-            </div>
-
-            <div className="">
-              <div className="relative h-[450px]"></div>
-            </div>
-          </Container>
-        </section>
-      </section> */}
+      <section className="pb-20">
+        <Container variant="wide" center={true}>
+          <HomeSectionText
+            title="최신 아티클"
+            description="최신 이야기를 확인해보세요"
+          />
+          <RecentArticles />
+        </Container>
+      </section>
     </AppShell>
   )
 }

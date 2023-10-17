@@ -15,28 +15,26 @@ export const CreateArticleForm = () => {
   const tags = useWriteContext((state) => state.tags)
 
   const { toast } = useToast()
+  const action = createArticleAction.bind(null, {
+    title,
+    body,
+    text,
+    thumbnail,
+    tags,
+  })
 
-  const { formAction } = useFormAction(
-    createArticleAction.bind(null, {
-      title,
-      body,
-      text,
-      thumbnail,
-      tags,
-    }),
-    {
-      onError: (state) => {
-        toast({
-          title: "아티클 생성 중 문제가 발생하였습니다.",
-          description: state.message,
-        })
-      },
-    }
-  )
+  const { formAction } = useFormAction(action, {
+    onError: (state) => {
+      toast({
+        title: "아티클 생성 중 문제가 발생하였습니다.",
+        description: state.message,
+      })
+    },
+  })
 
   return (
     <form action={formAction}>
-      <SubmitButton variant="base" fullWidth>
+      <SubmitButton variant="base" fullWidth type="submit">
         아티클 출간하기
       </SubmitButton>
     </form>
