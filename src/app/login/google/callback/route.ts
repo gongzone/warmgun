@@ -41,6 +41,7 @@ export const GET = async (request: NextRequest) => {
             avatar: googleUser.picture,
             who: "블로거",
             bio: `반갑습니다. ${googleUser.given_name}입니다.`,
+            blogName: `${googleUser.given_name}의 블로그`,
           },
         },
       })

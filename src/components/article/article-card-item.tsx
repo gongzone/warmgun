@@ -26,7 +26,7 @@ export const ArticleCardItem = ({ article }: ArticleItemProps) => {
         </Text>
         <span>·</span>
         <Text size="sm" color="light" weight={300}>
-          {formatDate(article.createdAt)}
+          {formatDate(article.createdAt, "fromNow")}
         </Text>
       </header>
       <Card className="overflow-hidden rounded-t-none">

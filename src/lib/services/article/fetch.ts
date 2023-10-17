@@ -3,10 +3,37 @@ import { Prisma } from "@prisma/client"
 
 import { db } from "@/lib/db"
 
-export const articleArgs = Prisma.validator<Prisma.ArticleDefaultArgs>()({
+export const articleDisplayArgs = Prisma.validator<Prisma.ArticleDefaultArgs>()(
+  {
+    select: {
+      id: true,
+      title: true,
+      excerpt: true,
+      thumbnail: true,
+      slug: true,
+      readingTime: true,
+      picked: true,
+      createdAt: true,
+      updatedAt: true,
+      user: {
+        include: { profile: true },
+      },
+      tags: true,
+      _count: {
+        select: {
+          likedBy: true,
+          comments: true,
+        },
+      },
+    },
+  }
+)
+
+export const articleDetailArgs = Prisma.validator<Prisma.ArticleDefaultArgs>()({
   select: {
     id: true,
     title: true,
+    body: true,
     excerpt: true,
     thumbnail: true,
     slug: true,
@@ -15,7 +42,10 @@ export const articleArgs = Prisma.validator<Prisma.ArticleDefaultArgs>()({
     createdAt: true,
     updatedAt: true,
     user: {
-      include: { profile: true },
+      include: {
+        profile: true,
+        _count: { select: { articles: true, followees: true } },
+      },
     },
     tags: true,
     _count: {
@@ -27,7 +57,8 @@ export const articleArgs = Prisma.validator<Prisma.ArticleDefaultArgs>()({
   },
 })
 
-export type ArticleDisplay = Prisma.ArticleGetPayload<typeof articleArgs>
+export type ArticleDisplay = Prisma.ArticleGetPayload<typeof articleDisplayArgs>
+export type ArticleDetail = Prisma.ArticleGetPayload<typeof articleDetailArgs>
 
 type FetchArticlesOptions = {
   filter?: "recent" | "trending" | "picked"
@@ -36,16 +67,25 @@ type FetchArticlesOptions = {
 
 export const fetchArticles = cache(
   async ({ filter = "recent", take = 12 }: FetchArticlesOptions) => {
-    const pickedArticles = await db.article.findMany({
+    const articles = await db.article.findMany({
       take,
       where: filter === "picked" ? { picked: true } : {},
-      select: articleArgs.select,
+      select: articleDisplayArgs.select,
       orderBy:
         filter === "trending"
           ? { trendingScore: "desc" }
           : { createdAt: "desc" },
     })
 
-    return pickedArticles
+    return articles
   }
 )
+
+export const fetchOneArticle = async (slug: string) => {
+  const article = await db.article.findUnique({
+    where: { slug },
+    select: articleDetailArgs.select,
+  })
+
+  return article
+}

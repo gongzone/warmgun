@@ -76,9 +76,8 @@ export const BlogerShowcase = ({ users }: BlogerShowcaseProps) => {
         <PrevButton onClick={scrollPrev} disabled={prevBtnDisabled} />
         <ul className="flex items-center gap-2">
           {scrollSnaps.map((_, index) => (
-            <li className="">
+            <li key={index}>
               <DotButton
-                key={index}
                 selected={index === selectedIndex}
                 onClick={() => scrollTo(index)}
               />

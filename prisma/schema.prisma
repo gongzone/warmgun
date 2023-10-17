@@ -58,6 +58,8 @@ model UserProfile {
   avatar      String?
   who         String?
   bio         String?
+  blogName    String
+  blogImage   String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

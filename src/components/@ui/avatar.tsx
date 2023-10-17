@@ -14,8 +14,10 @@ const avatarVariants = tv(
         xs: "w-6 h-6",
         sm: "w-8 h-8",
         md: "w-10 h-10",
-        lg: "w-14 h-14",
-        xl: "w-20 h-20",
+        lg: "w-12 h-12",
+        xl: "w-16 h-16",
+        "2xl": "w-20 h-20",
+        "3xl": "w-24 h-24",
       },
       border: {
         true: "ring-2 ring-muted ring-offset-2 ring-offset-background outline-none",

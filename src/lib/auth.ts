@@ -50,6 +50,7 @@ export const auth = lucia({
               avatar: user.profile!.avatar,
               who: user.profile!.who,
               bio: user.profile!.bio,
+              blogName: user.profile!.blogName,
               profileLinks: { create: {} },
             },
           },

@@ -1,8 +1,6 @@
 import Link from "next/link"
 
 import { site } from "@/lib/constants/site"
-import { Icons } from "@/components/@ui/icons"
-import { Text } from "@/components/@ui/text"
 import { TextWithIcon } from "@/components/@ui/text-with-icon"
 
 export const HeaderLogo = () => {

@@ -34,6 +34,7 @@ export const GET = async (request: NextRequest) => {
             avatar: githubUser.avatar_url,
             who: "블로거",
             bio: `반갑습니다. ${githubUser.login}입니다.`,
+            blogName: `${githubUser.login}의 블로그`,
           },
         },
       })

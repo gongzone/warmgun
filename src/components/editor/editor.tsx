@@ -16,7 +16,7 @@ import { FloatingMenu } from "./floating-menu"
 
 type EditorProps = {
   body?: unknown
-} & Partial<Pick<EditorOptions, "onCreate" | "onUpdate">>
+} & Partial<Pick<EditorOptions, "onCreate" | "onUpdate" | "editable">>
 
 export const Editor = ({ body, ...props }: EditorProps) => {
   const editor = useEditor({
