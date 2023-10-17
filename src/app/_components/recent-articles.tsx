@@ -3,7 +3,7 @@ import { DataFallback } from "@/components/@ui/data-fallback"
 import { ArticleCardItem } from "@/components/article/article-card-item"
 
 export const RecentArticles = async () => {
-  const recentArticles = await fetchArticles({ filter: "recent" })
+  const recentArticles = await fetchArticles({ filter: "recent", take: 8 })
 
   if (recentArticles.length === 0) {
     return <DataFallback />

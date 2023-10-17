@@ -31,12 +31,13 @@ export type ArticleDisplay = Prisma.ArticleGetPayload<typeof articleArgs>
 
 type FetchArticlesOptions = {
   filter?: "recent" | "trending" | "picked"
+  take?: number
 }
 
 export const fetchArticles = cache(
-  async ({ filter = "recent" }: FetchArticlesOptions) => {
+  async ({ filter = "recent", take = 12 }: FetchArticlesOptions) => {
     const pickedArticles = await db.article.findMany({
-      take: 12,
+      take,
       where: filter === "picked" ? { picked: true } : {},
       select: articleArgs.select,
       orderBy:
