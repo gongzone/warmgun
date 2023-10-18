@@ -9,8 +9,7 @@ interface Nav {
 
 const navs = {
   main: [
-    { name: "아티클", href: "/article", icon: Icons.DocumentList },
-    { name: "커뮤니티", href: "/community", icon: Icons.Users },
+    { name: "아티클", href: "/articles", icon: Icons.DocumentList },
   ] satisfies Nav[],
 }
 

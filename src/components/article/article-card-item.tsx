@@ -20,7 +20,7 @@ export const ArticleCardItem = ({ article }: ArticleItemProps) => {
   return (
     <div className="h-full w-full">
       <header className="flex items-center gap-1.5 pb-1.5">
-        <Avatar src={article.user?.profile?.avatar} size="sm" border={true} />
+        <Avatar src={article.user?.profile?.avatar} size="sm" />
         <Text size="sm" weight={500}>
           {article.user.username}
         </Text>

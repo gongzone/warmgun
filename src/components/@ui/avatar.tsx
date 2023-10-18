@@ -35,6 +35,7 @@ const avatarVariants = tv(
     defaultVariants: {
       size: "md",
       radius: "full",
+      border: false,
     },
   },
   {
