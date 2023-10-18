@@ -8,6 +8,7 @@ const containerVariants = tv(
     variants: {
       variant: {
         wide: "max-w-[1400px]",
+        medium: "max-w-[800px]",
         prose: "max-w-prose",
       },
       center: {

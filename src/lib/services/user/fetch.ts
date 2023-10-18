@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client"
 
 import { db } from "@/lib/db"
 
-export const userArgs = Prisma.validator<Prisma.UserDefaultArgs>()({
+export const userDisplayArgs = Prisma.validator<Prisma.UserDefaultArgs>()({
   select: {
     id: true,
     username: true,
@@ -20,7 +20,25 @@ export const userArgs = Prisma.validator<Prisma.UserDefaultArgs>()({
   },
 })
 
-export type UserDisplay = Prisma.UserGetPayload<typeof userArgs>
+export const userDetailArgs = Prisma.validator<Prisma.UserDefaultArgs>()({
+  select: {
+    id: true,
+    username: true,
+    email: true,
+    createdAt: true,
+    profile: { include: { profileLinks: true } },
+    _count: {
+      select: {
+        articles: true,
+        followers: true,
+        followees: true,
+      },
+    },
+  },
+})
+
+export type UserDisplay = Prisma.UserGetPayload<typeof userDisplayArgs>
+export type UserDetail = Prisma.UserGetPayload<typeof userDetailArgs>
 
 type FetchUsersOptions = {
   filter?: "recent" | "best"
@@ -30,7 +48,7 @@ export const fetchUsers = cache(
   async ({ filter = "recent" }: FetchUsersOptions) => {
     const users = await db.user.findMany({
       take: 10,
-      select: userArgs.select,
+      select: userDisplayArgs.select,
       orderBy:
         filter === "best"
           ? { followees: { _count: "desc" } }
@@ -40,3 +58,12 @@ export const fetchUsers = cache(
     return users
   }
 )
+
+export const fetchOneUser = cache(async (username: string) => {
+  const user = await db.user.findUnique({
+    where: { username },
+    select: userDetailArgs.select,
+  })
+
+  return user
+})
