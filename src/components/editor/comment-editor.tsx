@@ -2,29 +2,24 @@
 
 import React from "react"
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight"
-import Image from "@tiptap/extension-image"
 import Link from "@tiptap/extension-link"
 import Underline from "@tiptap/extension-underline"
 import { EditorContent, EditorOptions, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import { common, createLowlight } from "lowlight"
 
-import { BubbleMenu } from "./bubble-menu"
-import { FloatingMenu } from "./floating-menu"
+import { CommentEditorMenu } from "./comment-editor-menu"
 
-type EditorProps = {
-  body?: unknown
-} & Partial<Pick<EditorOptions, "onCreate" | "onUpdate" | "editable">>
+type CommentEditorProps = {
+  text?: unknown
+} & Partial<EditorOptions>
 
-export const Editor = ({ body, ...props }: EditorProps) => {
+export const CommentEditor = ({ text, ...props }: CommentEditorProps) => {
   const editor = useEditor({
-    content: body ?? ``,
+    content: text ?? ``,
     extensions: [
       StarterKit.configure({
         codeBlock: false,
-        heading: {
-          levels: [1, 2, 3],
-        },
       }),
       Underline,
       Link,
@@ -34,11 +29,6 @@ export const Editor = ({ body, ...props }: EditorProps) => {
           class: "hljs",
         },
       }),
-      Image.configure({
-        HTMLAttributes: {
-          class: "mx-auto",
-        },
-      }),
     ],
     editorProps: {
       attributes: {
@@ -46,7 +36,7 @@ export const Editor = ({ body, ...props }: EditorProps) => {
           "prose prose-a:cursor-pointer prose-a:no-underline prose-a:text-blue-600 hover:prose-a:underline dark:prose-invert focus:outline-none",
       },
     },
-    autofocus: true,
+    autofocus: false,
     ...props,
   })
 
@@ -55,10 +45,11 @@ export const Editor = ({ body, ...props }: EditorProps) => {
   }
 
   return (
-    <>
-      <EditorContent editor={editor} />
-      <BubbleMenu editor={editor} />
-      <FloatingMenu editor={editor} />
-    </>
+    <div className="border">
+      {!props.editable ? <CommentEditorMenu editor={editor} /> : null}
+      <div className="min-h-[125px] p-3">
+        <EditorContent editor={editor} />
+      </div>
+    </div>
   )
 }

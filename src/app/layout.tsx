@@ -1,4 +1,5 @@
 import "../styles/globals.css"
+import "highlight.js/styles/stackoverflow-dark.css"
 
 import React from "react"
 import type { Metadata } from "next"

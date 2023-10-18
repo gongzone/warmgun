@@ -6,6 +6,7 @@ import { Editor } from "@/components/editor/editor"
 import { ArticleDetailHeader } from "./_components/article-detail-header"
 import { ArticleEnd } from "./_components/article-end"
 import { ArticleInfo } from "./_components/article-info"
+import { CommentArea } from "./_components/comment-area"
 import { UserInfo } from "./_components/user-info"
 
 type ArticleDetailPageProps = {
@@ -44,8 +45,12 @@ export default async function ArticleDetailPage({
             <ArticleEnd article={article} />
           </section>
 
-          <section>
+          <section className="pb-24">
             <UserInfo user={article.user} />
+          </section>
+
+          <section>
+            <CommentArea />
           </section>
         </div>
       </Container>
