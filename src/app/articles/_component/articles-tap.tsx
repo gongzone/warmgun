@@ -1,13 +1,31 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/@ui/tabs"
+"use client"
+
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+
+import { Tabs, TabsList, TabsTrigger } from "@/components/@ui/tabs"
 
 export const ArticlesTab = () => {
+  const pathname = usePathname()
+
   return (
-    <Tabs defaultValue="account" className="w-[280px]">
+    <Tabs
+      defaultValue={pathname.split("/")[2] ?? "recent"}
+      className="w-[280px]"
+    >
       <TabsList className="grid w-full grid-cols-4">
-        <TabsTrigger value="account">최신순</TabsTrigger>
-        <TabsTrigger value="password">트렌딩</TabsTrigger>
-        <TabsTrigger value="sad">베스트</TabsTrigger>
-        <TabsTrigger value="dsfds">픽</TabsTrigger>
+        <TabsTrigger value="recent" asChild>
+          <Link href="/articles">최신순</Link>
+        </TabsTrigger>
+        <TabsTrigger value="trending" asChild>
+          <Link href="/articles/trending">트렌딩</Link>
+        </TabsTrigger>
+        <TabsTrigger value="best" asChild>
+          <Link href="/articles/best">베스트</Link>
+        </TabsTrigger>
+        <TabsTrigger value="picked" asChild>
+          <Link href="/articles/picked">픽</Link>
+        </TabsTrigger>
       </TabsList>
     </Tabs>
   )

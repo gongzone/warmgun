@@ -1,10 +1,9 @@
 import Image from "next/image"
 
 import { formatDate } from "@/lib/format"
-import { type ArticleDisplay } from "@/lib/services/article/fetch"
+import { type ArticleDisplay } from "@/lib/services/article/types"
 import { Text } from "@/components/@ui/text"
 
-import { AspectRatio } from "../@ui/aspect-ratio"
 import { Avatar } from "../@ui/avatar"
 import { Badge } from "../@ui/badge"
 import { TextWithIcon } from "../@ui/text-with-icon"
@@ -48,7 +47,7 @@ export const ArticleListItem = ({ article }: ArticleListItemProps) => {
             </div>
           </div>
           <div className="flex flex-col gap-0.5">
-            <Text clamp={2} size="lg" as="h3" weight={600}>
+            <Text clamp={2} size="xl" as="h3" weight={600}>
               {article.title}
             </Text>
             <Text clamp={3} as="p">
