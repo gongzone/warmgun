@@ -1,7 +1,7 @@
 import * as context from "next/headers"
 import { prisma as prismaAdapter } from "@lucia-auth/adapter-prisma"
 import { github, google } from "@lucia-auth/oauth/providers"
-import { lucia, LuciaError } from "lucia"
+import { lucia, LuciaError, type User } from "lucia"
 import { nextjs_future } from "lucia/middleware"
 import { __experimental_joinAdapters as joinAdapters } from "lucia/utils"
 
@@ -10,8 +10,7 @@ import { db } from "@/lib/db"
 import "lucia/polyfill/node"
 
 import { cache } from "react"
-
-import { NewUser } from "./db/types/user"
+import { Prisma } from "@prisma/client"
 
 type PossiblePrismaError = {
   code: string
@@ -39,7 +38,7 @@ export const auth = lucia({
         })
       },
       setUser: async (user, key) => {
-        const userInput: NewUser = {
+        const userInput: Prisma.UserCreateInput = {
           id: user.id,
           username: user.username,
           email: user.email,
@@ -95,6 +94,7 @@ export const auth = lucia({
 })
 
 export type Auth = typeof auth
+export type SessionUser = User
 
 export const googleAuth = google(auth, {
   clientId: process.env.GOOGLE_CLIENT_ID ?? "",

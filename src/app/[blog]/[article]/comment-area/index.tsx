@@ -1,8 +1,9 @@
 import { getServerSession } from "@/lib/auth"
+import { fetchComments } from "@/lib/services/comment/fetch"
 import { TextWithIcon } from "@/components/@ui/text-with-icon"
 
+import { CommentInfiniteList } from "./comment-infinite-list"
 import { CommentWriting } from "./comment-writing"
-import { Comments } from "./comments"
 
 export type CommentAreaProps = {
   articleId: number
@@ -14,6 +15,12 @@ export const CommentArea = async ({
   commentCount,
 }: CommentAreaProps) => {
   const session = await getServerSession()
+  const comments = await fetchComments({
+    articleId,
+    parentCommentId: null,
+    take: 10,
+    cursor: null,
+  })
 
   return (
     <div>
@@ -31,7 +38,12 @@ export const CommentArea = async ({
         articleId={articleId}
         parentCommnetId={null}
       />
-      <Comments user={session?.user} articleId={articleId} />
+      <div className="mt-6 ">
+        <CommentInfiniteList
+          init={comments}
+          options={{ articleId, parentCommentId: null, take: 10 }}
+        />
+      </div>
     </div>
   )
 }

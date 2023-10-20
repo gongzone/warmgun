@@ -138,7 +138,7 @@ model ArticleLike {
 
 model ArticleComment {
   id        Int      @id @default(autoincrement())
-  text      Json
+  content   Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

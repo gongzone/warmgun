@@ -7,6 +7,7 @@ import type { Metadata } from "next"
 import { site } from "@/lib/constants/site"
 import { fonts } from "@/lib/fonts"
 import { Toaster } from "@/components/@ui/toaster"
+import { TanstackProvider } from "@/components/@util/tanstack-provider"
 
 export const metadata: Metadata = {
   title: site.title,
@@ -21,8 +22,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ko">
       <body className={`${fonts.pretendard.variable} ${fonts.tenada.variable}`}>
-        {children}
-        <Toaster />
+        <TanstackProvider>
+          {children}
+          <Toaster />
+        </TanstackProvider>
       </body>
     </html>
   )

@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect } from "react"
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight"
 import Link from "@tiptap/extension-link"
 import Underline from "@tiptap/extension-underline"
@@ -8,15 +8,22 @@ import { EditorContent, EditorOptions, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import { common, createLowlight } from "lowlight"
 
+import { cn } from "@/lib/utils"
+
 import { CommentEditorMenu } from "./comment-editor-menu"
 
 type CommentEditorProps = {
-  text?: unknown
-} & Partial<EditorOptions>
+  content?: unknown
+  wrapperClassName?: string
+} & Partial<Omit<EditorOptions, "content">>
 
-export const CommentEditor = ({ text, ...props }: CommentEditorProps) => {
+export const CommentEditor = ({
+  content,
+  wrapperClassName = "",
+  ...props
+}: CommentEditorProps) => {
   const editor = useEditor({
-    content: text ?? ``,
+    // content: content ?? ``,
     extensions: [
       StarterKit.configure({
         codeBlock: false,
@@ -40,16 +47,22 @@ export const CommentEditor = ({ text, ...props }: CommentEditorProps) => {
     ...props,
   })
 
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(content ?? "")
+    }
+  }, [editor, content])
+
   if (!editor) {
     return null
   }
 
   return (
-    <div className="border">
-      {!props.editable ? <CommentEditorMenu editor={editor} /> : null}
-      <div className="min-h-[125px] p-3">
+    <>
+      {editor.isEditable ? <CommentEditorMenu editor={editor} /> : null}
+      <div className={cn("min-h-[75px] p-3", wrapperClassName)}>
         <EditorContent editor={editor} />
       </div>
-    </div>
+    </>
   )
 }

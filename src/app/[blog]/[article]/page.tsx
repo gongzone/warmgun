@@ -40,7 +40,10 @@ export default async function ArticleDetailPage({
         </section>
 
         <section>
-          <CommentArea />
+          <CommentArea
+            articleId={article.id}
+            commentCount={article._count.comments}
+          />
         </section>
       </div>
     </Container>
