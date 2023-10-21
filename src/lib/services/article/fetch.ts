@@ -12,6 +12,7 @@ import {
 
 export const fetchArticles = cache(
   async ({
+    where = {},
     filter = "recent",
     take = 12,
     cursor = null,
@@ -24,7 +25,7 @@ export const fetchArticles = cache(
             id: cursor,
           }
         : undefined,
-      where: filter === "picked" ? { picked: true } : {},
+      where: filter === "picked" ? { ...where, picked: true } : { ...where },
       select: articleDisplayArgs.select,
       orderBy:
         filter === "trending"

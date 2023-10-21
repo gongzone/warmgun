@@ -1,27 +1,14 @@
 import { cache } from "react"
-import { Prisma } from "@prisma/client"
 
 import { db } from "@/lib/db"
 
-export const tagArgs = Prisma.validator<Prisma.ArticleTagDefaultArgs>()({
-  select: {
-    id: true,
-    name: true,
-    slug: true,
-    createdAt: true,
-  },
-})
-
-export type TagDisplay = Prisma.ArticleTagGetPayload<typeof tagArgs>
-
-type FetchTagsOptions = {
-  filter?: "recent" | "popular"
-}
+import { FetchTagsOptions, tagDetailArgs, tagDisplayArgs } from "./types"
 
 export const fetchTags = cache(
   async ({ filter = "recent" }: FetchTagsOptions) => {
     const tags = await db.articleTag.findMany({
       take: 12,
+      select: tagDisplayArgs.select,
       orderBy:
         filter === "popular"
           ? { followedBy: { _count: "desc" } }
@@ -31,3 +18,12 @@ export const fetchTags = cache(
     return tags
   }
 )
+
+export const fetchOneTag = cache(async (slug: string) => {
+  const tag = await db.articleTag.findUnique({
+    where: { slug },
+    select: tagDetailArgs.select,
+  })
+
+  return tag
+})

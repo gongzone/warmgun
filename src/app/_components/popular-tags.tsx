@@ -1,5 +1,7 @@
+import Link from "next/link"
+
 import { fetchTags } from "@/lib/services/tag/fetch"
-import { Button } from "@/components/@ui/button"
+import { Button, buttonVariants } from "@/components/@ui/button"
 import { DataFallback } from "@/components/@ui/data-fallback"
 
 export const PopularTags = async () => {
@@ -13,9 +15,12 @@ export const PopularTags = async () => {
     <ul className="flex flex-wrap justify-center gap-2">
       {popularTags.map((tag) => (
         <li key={tag.name}>
-          <Button size="sm" radius="full">
+          <Link
+            href={`tags/${tag.slug}`}
+            className={buttonVariants({ size: "sm", radius: "full" })}
+          >
             {tag.name}
-          </Button>
+          </Link>
         </li>
       ))}
     </ul>

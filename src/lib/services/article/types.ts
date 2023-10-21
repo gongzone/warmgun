@@ -58,6 +58,7 @@ export type ArticleDisplay = Prisma.ArticleGetPayload<typeof articleDisplayArgs>
 export type ArticleDetail = Prisma.ArticleGetPayload<typeof articleDetailArgs>
 
 export type FetchArticlesOptions = {
+  where?: Prisma.ArticleWhereInput
   filter?: "recent" | "trending" | "best" | "picked"
   take?: number
   cursor?: number | null
