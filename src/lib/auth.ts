@@ -7,8 +7,6 @@ import { __experimental_joinAdapters as joinAdapters } from "lucia/utils"
 
 import { db } from "@/lib/db"
 
-import "lucia/polyfill/node"
-
 import { cache } from "react"
 import { Prisma } from "@prisma/client"
 
